@@ -1,0 +1,24 @@
+/* Font */
+
+@mixin Font($size: null, $weight: null, $line-height: null) {
+	font: {
+		size: $size;
+		weight: $weight;
+	}
+
+	line-height: $line-height;
+}
+
+/* Adaptive */
+
+@mixin Mobile {
+	@media screen and (max-width: #{$width-sm}) {
+		@content;
+	}
+}
+
+@mixin Tablet {
+	@media screen and (max-width: #{$width-md}) {
+		@content
+	}
+}
