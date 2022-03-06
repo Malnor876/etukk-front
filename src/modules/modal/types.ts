@@ -16,8 +16,19 @@ copies or substantial portions of the Software.
 
 */
 
-import { createContext } from "react"
+import { ReactNode } from "react"
 
-import { ModalWindow } from "./types"
+export type ModalComponent<P> = (props: P) => JSX.Element
 
-export const modalContext = createContext<ModalWindow | null>(null)
+export interface ModalParams {
+  id: string | number
+  title: ReactNode
+  desc: ReactNode
+  closable: boolean
+}
+
+export interface ModalWindow<P = unknown> {
+  component: ModalComponent<Partial<ModalParams> & P>
+  params?: Partial<ModalParams> & P
+  close: () => void
+}
