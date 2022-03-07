@@ -1,51 +1,78 @@
 * {
-  position: relative;
-  box-sizing: border-box;
+	position: relative;
+	box-sizing: border-box;
 }
 
 body {
-  font: 1/16px "Arial", sans-serif;
+	font: 1/16px "Inter", "Arial", sans-serif;
+	color: $color-main-text;
+}
+
+/* Typography */
+
+.heading {
+	@include Typography;
+}
+
+h1.heading {
+	font-size: $font-size-1;
+	font-weight: 700;
+}
+
+h2.heading {
+	font-size: $font-size-1;
+	font-weight: 700;
+}
+
+h3.heading {
+	font-size: $font-size-1;
+	font-weight: 700;
+}
+
+p.paragraph {
+	font-size: $font-size-5;
+	font-weight: 400;
 }
 
 /* Headings */
 
 h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
+	font-size: $font-size-1;
+	font-weight: 700;
 }
 
 h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
+	font-size: $font-size-2;
+	font-weight: 600;
 }
 
 h3 {
-  font-size: 1.125rem;
-  font-weight: 600;
+	font-size: $font-size-3;
+	font-weight: 600;
 }
 
 h4,
 h5 {
-  font-size: 1rem;
-  font-weight: 600;
+	font-size: $font-size-4;
+	font-weight: 600;
 }
 
 /* Text */
 
 p {
-  line-height: 1.25;
+	line-height: 1.25;
 }
 
 /* Anchor */
 
 a {
-  text-decoration: none;
-  cursor: pointer;
+	text-decoration: none;
+	cursor: pointer;
 
-  &.ghost {
-    position: absolute;
-    inset: 0;
-  }
+	&.ghost {
+		position: absolute;
+		inset: 0;
+	}
 }
 
 /* UX */
@@ -53,6 +80,6 @@ a {
 input,
 button,
 textarea {
-  all: unset;
-  outline: initial;
+	all: unset;
+	outline: initial;
 }

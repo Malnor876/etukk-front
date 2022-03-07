@@ -1,12 +1,19 @@
 /* Font */
 
-@mixin Font($size: null, $weight: null, $line-height: null) {
-	font: {
-		size: $size;
-		weight: $weight;
-	}
+@mixin Typography($size: null, $weight: null) {
+	font-size: $size;
+	font-weight: $weight;
 
-	line-height: $line-height;
+	white-space: pre-line;
+	line-height: 1.25;
+
+	@include Mobile() {
+		white-space: normal;
+
+		br {
+			display: none;
+		}
+	}
 }
 
 /* Adaptive */
