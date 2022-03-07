@@ -1,3 +1,5 @@
+@import "vars";
+
 /* Font */
 
 @mixin Typography($size: null, $weight: null) {
@@ -19,13 +21,13 @@
 /* Adaptive */
 
 @mixin Mobile {
-	@media screen and (max-width: #{$width-sm}) {
+	@media screen and (max-width: #{$width-main}) {
 		@content;
 	}
 }
 
 @mixin Tablet {
-	@media screen and (max-width: #{$width-md}) {
+	@media screen and (max-width: #{$width-main}) {
 		@content
 	}
 }

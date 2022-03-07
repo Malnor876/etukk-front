@@ -1,5 +1,4 @@
 import "app/assets/scss/base.scss"
-import "app/assets/scss/app.scss"
 
 import ClientAPI from "api/client"
 import { ModalContainer } from "modules/modal/container"
