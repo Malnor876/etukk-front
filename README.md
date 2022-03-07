@@ -1,5 +1,7 @@
 # Template of Typescript React App
 
+[![Lighthouse CI](https://github.com/codepandoradev/etukk-frontend/actions/workflows/Lighthouse.yml/badge.svg?event=deployment_status)](https://github.com/codepandoradev/etukk-frontend/actions/workflows/Lighthouse.yml)
+
 ## Guidelines
 
 [Issue guidelines](https://github.com/FrameMuse/issue-guidelines)
