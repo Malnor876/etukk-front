@@ -1,7 +1,5 @@
 name: Lighthouse CI
-on: 
-  deployment_status:
-    state: success
+on: [deployment_status, workflow_dispatch]
 env:
     ACC_MIN: 0.90
     BPR_MIN: 0.90
