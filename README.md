@@ -1,6 +1,8 @@
 # Template of Typescript React App
 
 [![Lighthouse CI](https://github.com/codepandoradev/etukk-frontend/actions/workflows/Lighthouse.yml/badge.svg?event=deployment_status)](https://github.com/codepandoradev/etukk-frontend/actions/workflows/Lighthouse.yml)
+[![Eslint CI](https://github.com/codepandoradev/etukk-frontend/actions/workflows/Eslint.yml/badge.svg?event=push)](https://github.com/codepandoradev/etukk-frontend/actions/workflows/Eslint.yml)
+[![CodeQL](https://github.com/codepandoradev/etukk-frontend/actions/workflows/codeql-analysis.yml/badge.svg?event=push)](https://github.com/codepandoradev/etukk-frontend/actions/workflows/codeql-analysis.yml)
 
 ## Guidelines
 
