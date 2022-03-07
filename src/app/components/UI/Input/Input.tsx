@@ -1,6 +1,6 @@
 import "./Input.scss"
 
-import Icon from "app/components/common/Icon/Icon"
+import Icon from "app/components/UI/Icon/Icon"
 import useClickAway from "hooks/useClickAway"
 import { ChangeEvent, DetailedHTMLProps, Dispatch, InputHTMLAttributes, useRef, useState } from "react"
 import { classWithModifiers } from "utils/common"

@@ -11,7 +11,8 @@ export interface APIResponseError {
   error: {
     type: "error" | "warning"
     code: string | number
-    detail: unknown // For development
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    detail: any // For development
   }
 }
 

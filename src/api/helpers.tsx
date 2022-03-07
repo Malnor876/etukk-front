@@ -1,6 +1,6 @@
 import { HTMLAttributes } from "react"
 
-import { Action } from "./client"
+import { Action } from "./client.types"
 import { endpointTransform } from "./interceptors"
 
 

@@ -45,7 +45,7 @@ export class ModalContainer extends Component<ModalContainerProps, ModalContaine
 
   render() {
     const { isActive, queue } = this.state
-    const lastModal = queue[queue.length - 1] as ModalWindow<{}> | undefined
+    const lastModal = queue[queue.length - 1] as ModalWindow | undefined
     const { component: ModalWindowComponent, params = {}, close } = lastModal || {}
 
     const className = this.props.className || "modal"

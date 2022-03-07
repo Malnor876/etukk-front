@@ -5,7 +5,7 @@ import { updateUser } from "redux/reducers/user"
 import store from "redux/store"
 import { createQuery } from "utils/common"
 
-import { Action, APIResponseError } from "./client"
+import { Action, APIResponseError } from "./client.types"
 
 
 type Response<T = unknown> = QueryResponse<T & APIResponseError>

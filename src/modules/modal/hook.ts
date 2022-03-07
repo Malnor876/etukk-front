@@ -18,10 +18,10 @@ copies or substantial portions of the Software.
 
 import { useContext } from "react"
 
-import { ModalContext } from "./context"
+import { modalContext } from "./context"
 
 export function useModal() {
-  const context = useContext(ModalContext)
+  const context = useContext(modalContext)
   if (!context) throw new Error("ModalError: Out of Modal context")
   return context
 }
