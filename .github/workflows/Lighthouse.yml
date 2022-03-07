@@ -20,4 +20,4 @@ jobs:
           uploadArtifacts: true # save results as an action artifacts
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
       - name: test
-        run: ${{github.event.deployment_status}}
+        run: echo ${{toJSON(github.event.deployment_status)}}
