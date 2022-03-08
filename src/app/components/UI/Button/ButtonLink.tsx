@@ -4,8 +4,7 @@ import { MouseEventHandler } from "react"
 import { Link } from "react-router-dom"
 import { classMerge, classWithModifiers } from "utils/common"
 
-import { ButtonBaseProps } from "./Button"
-
+import { ButtonBaseProps } from "./Button.types"
 
 interface ButtonLinkProps extends ButtonBaseProps {
   to: string
@@ -21,6 +20,5 @@ function ButtonLink(props: ButtonLinkProps) {
     </Link>
   )
 }
-
 
 export default ButtonLink

@@ -1,21 +1,10 @@
 import "./Button.scss"
 
-import { MouseEvent, MouseEventHandler, ReactNode } from "react"
+import { MouseEvent, MouseEventHandler } from "react"
 import ReactGA from "react-ga"
 import { classMerge, classWithModifiers } from "utils/common"
 
-export interface ButtonBaseProps {
-  size?: "small" | "big"
-  style?: "outline"
-  color?: "white" | "dark" | "green" | "violet"
-
-  className?: string
-
-  iconLeft?: ReactNode
-  iconRight?: ReactNode
-
-  children: ReactNode
-}
+import { ButtonBaseProps } from "./Button.types"
 
 interface ButtonProps extends ButtonBaseProps {
   type?: "reset" | "submit"
@@ -37,13 +26,12 @@ function Button(props: ButtonProps) {
     }
   }
   return (
-    <button className={classMerge(classWithModifiers("button", props.style, props.size, props.color), props.className)} type={props.type || "button"} disabled={props.disabled} onClick={onClick}>
+    <button className={classMerge(classWithModifiers("button", ...props.modifiers?.split(" ") || []), props.className)} type={props.type || "button"} disabled={props.disabled} onClick={onClick}>
       <div className="button__icon">{props.iconLeft}</div>
       <div className="button__text">{props.children}</div>
       <div className="button__icon">{props.iconRight}</div>
     </button>
   )
 }
-
 
 export default Button
