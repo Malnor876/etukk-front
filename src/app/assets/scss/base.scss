@@ -68,9 +68,6 @@ p {
 /* Anchor */
 
 a {
-	text-decoration: none;
-	cursor: pointer;
-
 	&.ghost {
 		position: absolute;
 		inset: 0;
@@ -83,7 +80,10 @@ input,
 button,
 textarea {
 	all: unset;
-	outline: initial;
+
+	&:focus-visible {
+		outline: 3px solid rgba($color-gray-3, 0.25);
+	}
 }
 
 /* Extensions */
