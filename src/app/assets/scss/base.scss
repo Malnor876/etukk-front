@@ -85,3 +85,9 @@ textarea {
 	all: unset;
 	outline: initial;
 }
+
+/* Extensions */
+
+.clamp-2-lines {
+	@include line-clamp(2);
+}
