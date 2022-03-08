@@ -1,3 +1,5 @@
+import "./Icon.scss"
+
 import { SVGAttributes } from "react"
 import { classMerge, classWithModifiers } from "utils/common"
 
