@@ -1,39 +1,36 @@
 import { SVGAttributes } from "react"
 import { classMerge, classWithModifiers } from "utils/common"
 
-
 export type IconName = (
-  "language"
-  | "drop-down-triangle"
-  | "arrow-left"
-  | "arrow-right"
+  | "rub"
+  | "attention"
+  | "bell"
+  | "bookmark"
+  | "building"
+  | "calendar"
+  | "camera"
   | "chevron"
-  | "star-union"
-  | "flag-ru"
-  | "yandex-logo"
-  | "telegram"
-  | "messenger"
-  | "whatsapp"
-  | "refresh"
+  | "clip"
+  | "copy"
   | "cross"
+  | "filter"
+  | "google"
+  | "apple"
+  | "facebook"
+  | "vk"
+  | "yandex"
+  | "odnoklassniki"
+  | "like"
+  | "dislike"
+  | "line"
   | "menu"
-  | "location"
-  | "face"
-  | "r-square"
-  | "touch"
-  // Topics
-  | "architecture"
-  | "design"
-  | "art"
-  | "craft-jewellery"
-  | "games-animation"
-  | "movies-tv-photos"
-  | "fashion-design"
-  | "music-and-sound"
-  | "theater-scene-art"
-  | "digital-design"
-  | "art-management"
-  | "journalism-writing"
+  | "play"
+  | "rectangle"
+  | "star"
+  | "truck"
+  | "check"
+  | "not-allowed"
+  | "pending"
 ) | (string & {})
 
 interface IconProps extends SVGAttributes<SVGElement> {
@@ -52,12 +49,17 @@ interface IconProps extends SVGAttributes<SVGElement> {
  */
 
 function Icon(props: IconProps) {
+  if (props.href) {
+    return (
+      <img src={props.href} className={classMerge("icon", props.className && classWithModifiers(props.className, ...props.modifiers || []))} />
+    )
+  }
+
   return (
     <svg {...props} className={classMerge("icon", props.className && classWithModifiers(classWithModifiers(props.className, props.name), ...props.modifiers || []))}>
-      <use href={props.name ? `/static/icons.svg#${props.name}` : props.href} />
+      <use href={`/static/icons.svg#${props.name}`} />
     </svg>
   )
 }
-
 
 export default Icon
