@@ -29,6 +29,7 @@ export type IconName = (
   | "play"
   | "rectangle"
   | "star"
+  | "star-empty"
   | "truck"
   | "check"
   | "not-allowed"
