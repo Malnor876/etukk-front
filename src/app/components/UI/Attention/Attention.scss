@@ -1,0 +1,19 @@
+@import "~app/assets/scss/bundle.scss";
+
+.attention {
+	display: flex;
+	align-items: center;
+
+	padding: 1em;
+	background: rgba($color-raspberry-1, 0.2);
+}
+
+.attention__icon {
+	--icon-size: 1.75em;
+}
+
+.attention__text {
+	margin-left: 2rem;
+	@include Typography($font-size-6);
+	color: $color-main-text;
+}
