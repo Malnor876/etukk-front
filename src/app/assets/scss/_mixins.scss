@@ -58,7 +58,3 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-
-@function transition($prop) {
-	@return "200ms linear #{$prop}"
-}
