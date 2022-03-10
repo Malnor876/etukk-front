@@ -8,6 +8,10 @@
 	border-radius: 0.375em;
 }
 
+@mixin Outline {
+	outline: 3px solid rgba($color-gray-3, 0.25);
+}
+
 /* Font */
 
 @mixin Typography($size: null, $weight: null) {

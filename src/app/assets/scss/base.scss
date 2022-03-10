@@ -80,9 +80,25 @@ input,
 button,
 textarea {
 	all: unset;
+}
 
+input {
+	cursor: revert;
+}
+
+button,
+textarea {
 	&:focus-visible {
-		outline: 3px solid rgba($color-gray-3, 0.25);
+		@include Outline;
+	}
+}
+
+button {
+	cursor: pointer;
+	transition: 100ms ease opacity;
+
+	&:active {
+		opacity: 0.75;
 	}
 }
 
