@@ -1,0 +1,35 @@
+@import "~app/assets/scss/bundle.scss";
+
+.textarea {
+	max-width: 100%;
+	max-height: 50vh;
+
+	padding: 1em;
+	border: 1px solid $color-gray-3;
+	border-radius: $border-radius-1;
+
+	font-size: $font-size-5;
+
+	&::placeholder {
+		color: $color-gray-3;
+	}
+}
+
+
+/* Attachments */
+
+.textarea-attachments {
+	display: flex;
+	align-items: center;
+}
+
+.textarea-attachments__attach {
+	--icon-size: 2em;
+	margin-left: 1em;
+	color: $color-gray-3;
+	cursor: pointer;
+}
+
+.textarea-attachments__input {
+	display: none;
+}
