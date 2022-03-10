@@ -8,6 +8,7 @@
 - LotOrderEdit
 - LotInfo
 - LotPretension
+- LotPreview
 
 ---
 

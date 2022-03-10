@@ -38,7 +38,7 @@ export type IconName = (
   | "smile"
 ) | (string & {})
 
-interface IconProps extends SVGAttributes<SVGElement> {
+interface IconProps extends Exclude<SVGAttributes<SVGElement>, "aria-hidden"> {
   name?: IconName
   modifiers?: Array<string | number | false | null | undefined>
 }
@@ -56,12 +56,12 @@ interface IconProps extends SVGAttributes<SVGElement> {
 function Icon(props: IconProps) {
   if (props.href) {
     return (
-      <img src={props.href} className={classMerge("icon", props.className && classWithModifiers(props.className, ...props.modifiers || []))} />
+      <img src={props.href} aria-hidden="true" className={classMerge("icon", props.className && classWithModifiers(props.className, ...props.modifiers || []))} />
     )
   }
 
   return (
-    <svg {...props} className={classMerge("icon", props.className && classWithModifiers(classWithModifiers(props.className, props.name), ...props.modifiers || []))}>
+    <svg {...props} aria-hidden="true" className={classMerge("icon", props.className && classWithModifiers(classWithModifiers(props.className, props.name), ...props.modifiers || []))}>
       <use href={`/static/icons.svg#${props.name}`} />
     </svg>
   )
