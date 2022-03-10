@@ -34,6 +34,8 @@ export type IconName = (
   | "check"
   | "not-allowed"
   | "pending"
+  | "send"
+  | "smile"
 ) | (string & {})
 
 interface IconProps extends SVGAttributes<SVGElement> {
