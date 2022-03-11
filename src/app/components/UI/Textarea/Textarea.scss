@@ -3,12 +3,15 @@
 .textarea {
 	max-width: 100%;
 	max-height: 50vh;
+	transition: 200ms ease color;
 
-	padding: 1em;
-	border: 1px solid $color-gray-3;
-	border-radius: $border-radius-1;
+	@include InputAppearance;
 
 	font-size: $font-size-5;
+
+	&:invalid {
+		color: $color-raspberry-1;
+	}
 
 	&::placeholder {
 		color: $color-gray-3;

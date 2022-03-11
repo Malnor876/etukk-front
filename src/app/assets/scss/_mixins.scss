@@ -12,6 +12,12 @@
 	outline: 3px solid rgba($color-gray-3, 0.25);
 }
 
+@mixin InputAppearance {
+	padding: 1em;
+	border: 1px solid $color-gray-3;
+	border-radius: $border-radius-1;
+}
+
 /* Font */
 
 @mixin Typography($size: null, $weight: null) {
