@@ -1,72 +1,31 @@
 import "./Input.scss"
 
-import Icon from "app/components/UI/Icon/Icon"
-import useClickAway from "hooks/useClickAway"
-import { ChangeEvent, DetailedHTMLProps, Dispatch, InputHTMLAttributes, useRef, useState } from "react"
+import { DetailedHTMLProps, FormEvent, InputHTMLAttributes, useState } from "react"
 import { classWithModifiers } from "utils/common"
 
-import DropDown from "../DropDown/DropDown"
+import Icon, { IconName } from "../Icon/Icon"
 
+interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+  iconName?: IconName
+  customValidity?: string
 
-
-export interface InputStrainType<V> {
-  title: string
-  value: V
+  onIconClick?(): void
 }
 
-interface InputProps<V> extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
-  strains?: InputStrainType<V>[]
-  onChange?: (event: ChangeEvent<HTMLInputElement>, strain?: InputStrainType<V>) => void
-}
-
-function Input<V>(props: InputProps<V>) {
-  const [currentStrain, setCurrentStrain] = useState(props.strains?.[0])
-  function onChange(event: ChangeEvent<HTMLInputElement>) {
-    props.onChange?.(event, currentStrain)
+function Input(props: InputProps) {
+  const [invalid, setInvalid] = useState(false)
+  function onInvalid(event: FormEvent<HTMLInputElement>) {
+    setInvalid(event.currentTarget.validity.valid)
   }
   return (
-    <label className="input">
-      <input className="input__input" {...{ ...props, strains: undefined }} placeholder={props.placeholder + ((props.required && !props.strains?.length) ? "*" : "")} onChange={onChange} />
-      {props.strains && (
-        <InputStrains strains={props.strains} onChange={setCurrentStrain} />
-      )}
+    <label className={classWithModifiers("input", invalid && "invalid")}>
+      <div className="input__appearance">
+        <input {...{ ...props, iconName: undefined, customValidity: undefined }} className="input__input" onInvalid={onInvalid} placeholder={props.placeholder + (props.required ? "*" : "")} />
+        <Icon className="input__icon" name={props.iconName} onClick={props.onIconClick} />
+      </div>
+      <span className="input__validity" aria-hidden={!invalid}>{props.customValidity || "Данные введены неверно"}</span>
     </label>
   )
 }
-
-
-interface InputMasksProps<V> {
-  strains: InputStrainType<V>[]
-  onChange: Dispatch<InputStrainType<V>>
-}
-
-function InputStrains<V>(props: InputMasksProps<V>) {
-  const parentRef = useRef<HTMLDivElement>(null)
-  const [isExpanded, setIsExpanded] = useState(false)
-  const [currentStrain, setCurrentStrain] = useState(props.strains[0])
-  function onChange(index: number) {
-    const strain = props.strains[index]
-
-    setCurrentStrain(strain)
-    props.onChange(strain)
-  }
-  useClickAway(parentRef, () => setIsExpanded(false))
-  return (
-    <div className="input-masks" ref={parentRef}>
-      <button className="input-masks__current" type="button" onClick={() => setIsExpanded(!isExpanded)} >
-        {currentStrain.title}
-        <Icon className={classWithModifiers("input-masks__icon", isExpanded && "up")} name="chevron" />
-      </button>
-      <div className="input-masks__list">
-        <DropDown<number> expanded={isExpanded} onChange={onChange}>
-          {props.strains.map((mask, index) => (
-            <option value={index} key={index}>{mask.title}</option>
-          ))}
-        </DropDown>
-      </div>
-    </div>
-  )
-}
-
 
 export default Input
