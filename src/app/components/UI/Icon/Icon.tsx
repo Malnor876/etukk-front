@@ -36,6 +36,7 @@ export type IconName = (
   | "pending"
   | "send"
   | "smile"
+  | "eye"
 ) | (string & {})
 
 interface IconProps extends Exclude<SVGAttributes<SVGElement>, "aria-hidden"> {
