@@ -1,16 +1,14 @@
 import "./DropDown.scss"
 
-import { Children, ComponentProps, Dispatch, ReactElement, useState } from "react"
+import { Children, ComponentProps, ReactElement, useState } from "react"
 import { classWithModifiers } from "utils/common"
 
-
-
 interface DropDownProps<V> {
-  expanded: boolean
-  default?: V
-
   name?: string
+  default?: V
+  expanded: boolean
   onChange(value: V, children: unknown): void
+
   children: ReactElement<ComponentProps<"option">>[]
 }
 
@@ -21,11 +19,12 @@ function DropDown<V = string | undefined>(props: DropDownProps<V>) {
   return (
     <section className={classWithModifiers("drop-down", props.expanded && "expanded")} role="listbox" aria-expanded={props.expanded}>
       {options.map((option, index) => (
-        <option
+        <div
           className={classWithModifiers("drop-down__option", choice === index && "selected")}
           onClick={() => (Choose(index), props.onChange(option.value as unknown as V, option.children))}
+          role="option"
           key={index}
-        >{option.children}</option>
+        >{option.children}</div>
       ))}
       {props.name && (
         <input type="hidden" name={props.name} value={options[choice].value} />
@@ -33,6 +32,5 @@ function DropDown<V = string | undefined>(props: DropDownProps<V>) {
     </section>
   )
 }
-
 
 export default DropDown

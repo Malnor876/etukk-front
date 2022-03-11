@@ -1,0 +1,31 @@
+@import "~app/assets/scss/bundle.scss";
+
+.entries {
+	display: grid;
+	gap: 1em;
+}
+
+.entry {
+	display: flex;
+	justify-content: space-between;
+
+	&:nth-child(1) {
+		color: $color-gray-2;
+	}
+
+	&--reverse {
+		&:nth-child(1) {
+			color: inherit;
+		}
+
+		&:nth-child(2) {
+			color: $color-gray-2;
+		}
+	}
+
+	&--column {
+		display: grid;
+		justify-content: unset;
+		gap: 0.5em;
+	}
+}

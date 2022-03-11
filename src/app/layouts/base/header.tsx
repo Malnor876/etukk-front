@@ -1,9 +1,9 @@
-function MainLayout() {
+function MainHeader() {
   return (
-    <>
+    <header>
 
-    </>
+    </header>
   )
 }
 
-export default MainLayout
+export default MainHeader

@@ -1,61 +1,41 @@
 @import "~app/assets/scss/bundle.scss";
 
 .input {
+	display: grid;
+	gap: 0.25em;
+}
+
+.input__appearance {
 	display: flex;
-	gap: 0.5em;
+	align-items: center;
+	transition: 200ms ease border-color;
 
-	padding-bottom: 0.5em;
-	border-bottom: 1px solid rgba($color-gray-90, 0.2);
+	@include InputAppearance;
 
-	@include Mobile {
-		display: grid;
+	.input--invalid & {
+		border-color: $color-raspberry-1;
 	}
 }
 
 .input__input {
 	width: 100%;
+	font-size: $font-size-5;
+	transition: 200ms ease color;
 
-	color: $color-black-main;
-	font-size: 1.5rem;
+	&:invalid {
+		color: $color-raspberry-1;
+	}
 
 	&::placeholder {
-		color: $color-gray-80;
-		transition: 200ms ease color;
-	}
-
-	&:focus::placeholder {
-		color: rgba($color-gray-90, 0.2);
-	}
-
-
-
-
-
-
-
-	resize: vertical;
-}
-
-.input-masks {}
-
-.input-masks__current {
-	display: flex;
-	align-items: center;
-	gap: 0.5em;
-
-	color: $color-violet;
-
-	font-size: 1.5rem;
-}
-
-.input-masks__icon {
-	--icon-size: 0.5em;
-
-	transition: 200ms ease transform;
-
-	&--up {
-		transform: rotateX(180deg);
+		color: $color-gray-3;
 	}
 }
 
-.input-masks__list {}
+.input__icon {
+	--icon-size: $font-size-5;
+}
+
+.input__validity {
+	color: $color-raspberry-1;
+	font-size: $font-size-6;
+}

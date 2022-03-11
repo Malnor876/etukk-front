@@ -23,7 +23,7 @@
     "downlevelIteration": true,
     "noImplicitAny": true,
     "jsx": "react-jsx",
-    "checkJs": false
+    "checkJs": true
   },
   "watchOptions": {
     "watchFile": "useFsEvents",

@@ -1,0 +1,8 @@
+.icon {
+	$size: var(--icon-size, 1em);
+
+	display: inline-block;
+	vertical-align: middle;
+	width: $size;
+	height: $size;
+}

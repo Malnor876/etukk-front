@@ -1,0 +1,59 @@
+@import "~app/assets/scss/bundle.scss";
+
+.star-rating {
+	--star-rating-size: 3em;
+
+	display: flex;
+	gap: 0.5em;
+
+	&--small {
+		font-size: 50%;
+	}
+}
+
+.star-rating__star {
+	--icon-size: var(--star-rating-size);
+
+	transition: 100ms ease transform;
+	cursor: pointer;
+
+	&:not(.star-rating--readonly > &) {
+		&:hover {
+			transform: scale(1.1);
+		}
+
+		&:active {
+			transform: scale(1);
+		}
+	}
+
+}
+
+.star-rating__base,
+.star-rating__before,
+.star-rating__after {
+	display: flex;
+}
+
+.star-rating__base {
+	position: absolute;
+}
+
+.star-rating__before {
+	position: absolute;
+	color: $color-yellow;
+	clip-path: polygon(0 0, 50% 0%, 50% 100%, 0% 100%);
+	z-index: 1;
+
+	&:not(&--active) {
+		opacity: 0;
+	}
+}
+
+.star-rating__after {
+	color: transparent;
+
+	&--active {
+		color: $color-yellow;
+	}
+}

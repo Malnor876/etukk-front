@@ -1,5 +1,35 @@
 @import "vars";
 
+/* Helpers */
+
+@mixin Area($padding: 1.5em) {
+	padding: $padding;
+	border: 1px solid $color-gray-3;
+	border-radius: 0.375em;
+}
+
+@mixin Outline {
+	outline: 3px solid rgba($color-gray-3, 0.25);
+}
+
+@mixin InputAppearance {
+	padding: 1em;
+	border: 1px solid $color-gray-3;
+	border-radius: $border-radius-1;
+}
+
+@mixin Badge($size: 1em, $float: true) {
+	@if $float==true {
+		position: absolute;
+		top: $size / -2;
+		right: $size / -2;
+	}
+
+	padding: $size / 2;
+	background: $color-raspberry-1;
+	border-radius: 50%;
+}
+
 /* Font */
 
 @mixin Typography($size: null, $weight: null) {
@@ -28,6 +58,25 @@
 
 @mixin Tablet {
 	@media screen and (max-width: #{$width-main}) {
-		@content
+		@content;
 	}
+}
+
+/* Utils */
+
+@mixin line-clamp($lines) {
+	@supports (line-clamp: $lines) and (display: -webkit-box) {
+		line-clamp: $lines;
+		display: -webkit-box;
+
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: $lines;
+	}
+
+	@supports (not (line-clamp: $lines)) and (not (display: -webkit-box)) {
+		max-height: 1em * $lines;
+	}
+
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
