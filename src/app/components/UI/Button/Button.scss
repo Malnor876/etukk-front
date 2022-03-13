@@ -1,16 +1,34 @@
 @import "~app/assets/scss/bundle.scss";
 
 .button {
+	--button-color: #{$color-white};
+	--hover-button-color: #{$color-white};
+
+	--button-background-color: $color-raspberry-1;
+	--hover-button-background-color: getHoverColor($color-raspberry-1);
+
+	--button-border-color: transparent;
+	--hover-button-border-color: transparent;
+
+	$background-color: var(--button-background-color);
+	$border-color: var(--button-border-color);
+	$color: var(--button-color);
+
+	$hover-background-color: var(--hover-button-background-color);
+	$hover-border-color: var(--hover-button-border-color);
+	$hover-color: var(--hover-button-color);
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
 
 	gap: 0.5em;
 
-	padding: 0.75em;
-	background: currentColor;
-	border: 2px solid transparent;
-	border-radius: 1.5em;
+	padding: 0.625em 1em;
+	background: $background-color;
+	border: 1px solid $border-color;
+	border-radius: $border-radius-1;
+	transition: 250ms ease background-color, 250ms ease border-color, 250ms ease color;
 
 	color: transparent;
 
@@ -39,13 +57,18 @@
 	}
 
 	&--outline {
-		color: rgba($color-gray-10, 0.1);
+		<<<<<<< Updated upstream color: rgba($color-gray-10, 0.1);
 
 		background: unset;
 		border: 2px solid currentColor;
 		transition: 200ms ease box-shadow;
+		=======--button-color: #{$color-raspberry-1};
+		--hover-button-color: #{getHoverColor($color-raspberry-1)};
 
-		&:hover,
+		--button-background-color: transparent;
+		--hover-button-background-color: transparent;
+
+		>>>>>>>Stashed changes &:hover,
 		&:active {
 			box-shadow: inset 0 0 0 2px currentColor;
 		}
@@ -67,7 +90,7 @@
 	}
 
 	&--white {
-		color: $color-gray-10;
+		<<<<<<< Updated upstream color: $color-gray-10;
 
 		&:hover {
 			color: $color-white;
@@ -81,9 +104,17 @@
 
 	&--dark {
 		color: $color-black-main;
+		=======--button-color: #{$color-white};
+		--hover-button-color: #{getHoverColor($color-white)};
+	}
+
+	&--gray {
+		--button-color: #{$color-gray-3};
+		--hover-button-color: #{getHoverColor($color-gray-3)};
+		>>>>>>>Stashed changes
 	}
 }
 
 .button__text {
-	color: white;
+	// color: white;
 }

@@ -1,0 +1,12 @@
+export const FILE_TYPES = Object.freeze({
+  IMAGE: Object.freeze(["JPEG", "PNG"] as const),
+  VIDEO: Object.freeze(["MP4", "M4V", "MOV", "3GP", "3G2", "WMV", "ASF", "AVI", "FLV", "MKV", "WEBM"] as const)
+})
+
+export const ROUTES = Object.freeze({
+  home: "/",
+  user: "/user",
+  catalog: "/catalog"
+})
+
+console.log(ROUTES)

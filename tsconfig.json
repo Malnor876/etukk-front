@@ -7,8 +7,7 @@
       "ESNext",
     ],
     "baseUrl": "src",
-    "allowJs": true,
-    "skipLibCheck": true,
+    // "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -22,13 +21,14 @@
     "strictNullChecks": true,
     "downlevelIteration": true,
     "noImplicitAny": true,
-    "jsx": "react-jsx",
-    "checkJs": false
+    "jsx": "react",
+    "checkJs": true,
+    "alwaysStrict": true
   },
   "watchOptions": {
     "watchFile": "useFsEvents",
     "watchDirectory": "useFsEvents",
-    "fallbackPolling": "dynamicPriority",
+    "fallbackPolling": "fixedchunksize",
     "synchronousWatchDirectory": true,
     "excludeDirectories": ["**/node_modules", "**/.git", "build"]
   },
