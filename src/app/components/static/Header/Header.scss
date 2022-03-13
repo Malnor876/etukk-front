@@ -1,0 +1,63 @@
+@import "~app/assets/scss/bundle.scss";
+
+header.header {
+	@include WidthLimit;
+}
+
+.topbar {
+	display: flex;
+	align-items: center;
+	gap: 2.5em;
+}
+
+.topbar-menu {
+	display: flex;
+	align-items: center;
+	gap: 2em;
+
+	margin-right: auto;
+}
+
+.topbar-menu__link {
+	color: $color-main-text;
+	font-size: $font-size-5;
+
+	text-decoration: none;
+}
+
+.topbar-actions {
+	display: flex;
+	gap: 1em;
+
+	&>:first-child {
+		margin-right: 1.5em;
+	}
+}
+
+.topbar-actions__action {
+	--icon-size: 1.25em;
+
+	color: $color-gray-3;
+}
+
+.mini-profile {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.mini-profile__avatar {
+	width: 1.5em;
+	height: 1.5em;
+
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.mini-profile__icon {
+	transition: 250ms ease transform;
+
+	&--up {
+		transform: rotateX(180deg);
+	}
+}

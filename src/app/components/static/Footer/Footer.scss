@@ -1,0 +1,24 @@
+@import "~app/assets/scss/bundle.scss";
+
+.footer {
+	display: flex;
+	justify-content: space-between;
+	gap: 1em;
+
+	padding: 2em 0;
+	@include WidthLimit;
+}
+
+.footer__group {
+	display: grid;
+	align-content: baseline;
+	gap: 1.5em;
+
+	color: $color-gray-2;
+}
+
+.footer__link {
+	color: $color-gray-2;
+	font-size: $font-size-5;
+	text-decoration: none;
+}

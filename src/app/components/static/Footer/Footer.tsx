@@ -1,0 +1,34 @@
+import "./Footer.scss"
+
+import OuterLink from "app/components/OuterLink"
+import { Link } from "react-router-dom"
+
+function Footer() {
+  return (
+    <footer className="footer">
+      <Link to="/">
+        <img src="/static/images/logo.svg" alt="etukk logo" />
+      </Link>
+      <div className="footer__group">
+        <Link className="footer__link" to="/">Избранное</Link>
+        <Link className="footer__link" to="/">Выставить лот</Link>
+        <small>Все права защищены, 2021©</small>
+      </div>
+      <div className="footer__group">
+        <Link className="footer__link" to="/">Уведомления</Link>
+        <Link className="footer__link" to="/">Профиль</Link>
+      </div>
+      <div className="footer__group">
+        <Link className="footer__link" to="/">Техподдержка</Link>
+        <Link className="footer__link" to="/">О нас</Link>
+      </div>
+      <div className="footer__group">
+        <OuterLink className="footer__link" to="tel:+7 (900) 999-99-99" noTarget>+7 (900) 999-99-99</OuterLink>
+        <OuterLink className="footer__link" to="mailto:Etukk@mail.ru" noTarget>Etukk@mail.ru</OuterLink>
+      </div>
+    </footer>
+  )
+}
+
+
+export default Footer
