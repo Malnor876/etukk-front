@@ -16,12 +16,14 @@ function AppRouter() {
   )
 }
 
-export function AppBasicRoutes() {
-  return (
-    <Routes>
-      <Route path="/" />
-    </Routes>
-  )
-}
+// export function AppBasicRoutes() {
+//   return (
+//     <Routes>
+//       <Route path="/" element={<BaseLayout />}>
+//         <Route path="/1" />
+//       </Route>
+//     </Routes>
+//   )
+// }
 
 export default AppRouter

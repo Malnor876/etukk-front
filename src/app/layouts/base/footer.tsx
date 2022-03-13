@@ -1,9 +1,9 @@
-function MainLayout() {
+function MainFooter() {
   return (
-    <>
+    <footer>
 
-    </>
+    </footer>
   )
 }
 
-export default MainLayout
+export default MainFooter

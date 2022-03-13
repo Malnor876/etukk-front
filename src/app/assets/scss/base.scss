@@ -6,7 +6,7 @@
 }
 
 body {
-	font: 1/16px "Inter", "Arial", sans-serif;
+	font: 16px/1 "Inter", "Arial", sans-serif;
 	color: $color-main-text;
 }
 
@@ -72,9 +72,6 @@ small {
 /* Anchor */
 
 a {
-	text-decoration: none;
-	cursor: pointer;
-
 	&.ghost {
 		position: absolute;
 		inset: 0;
@@ -87,5 +84,37 @@ input,
 button,
 textarea {
 	all: unset;
-	outline: initial;
+}
+
+input {
+	cursor: revert;
+}
+
+button,
+textarea {
+	&:focus-visible {
+		@include Outline;
+	}
+}
+
+button {
+	cursor: pointer;
+	transition: 100ms ease opacity;
+
+	&:active {
+		opacity: 0.75;
+	}
+}
+
+/* Extensions */
+
+.clamp-2-lines {
+	@include line-clamp(2);
+}
+
+.area {
+	display: flex;
+	justify-content: space-between;
+
+	@include Area;
 }

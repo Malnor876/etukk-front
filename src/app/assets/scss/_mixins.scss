@@ -73,3 +73,22 @@
 		-webkit-line-clamp: $lines;
 	}
 }
+
+/* Utils */
+
+@mixin line-clamp($lines) {
+	@supports (line-clamp: $lines) and (display: -webkit-box) {
+		line-clamp: $lines;
+		display: -webkit-box;
+
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: $lines;
+	}
+
+	@supports (not (line-clamp: $lines)) and (not (display: -webkit-box)) {
+		max-height: 1em * $lines;
+	}
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
