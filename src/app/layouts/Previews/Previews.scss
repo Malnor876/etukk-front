@@ -1,0 +1,8 @@
+@import "~app/assets/scss/bundle.scss";
+
+.previews {
+	display: grid;
+	justify-content: space-between;
+	grid-template-columns: repeat(auto-fit, 14.25em);
+	gap: 2em;
+}
