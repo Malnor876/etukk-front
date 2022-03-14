@@ -2,6 +2,7 @@ import Button from "app/components/UI/Button/Button"
 import Icon from "app/components/UI/Icon/Icon"
 import { useState } from "react"
 import { useSelector } from "react-redux"
+import { Link } from "react-router-dom"
 import { classWithModifiers } from "utils/common"
 
 import avatarPNG from "./avatar.png"
@@ -15,9 +16,9 @@ function TopbarActions() {
   // }
   return (
     <div className="topbar-actions">
-      <Button modifiers="outline">Выставить лот</Button>
-      <button className="topbar-actions__action" type="button"><Icon name="bookmark" /></button>
-      <button className="topbar-actions__action" type="button"><Icon name="bell" /></button>
+      <Button small outline>Выставить лот</Button>
+      <Link className="topbar-actions__action" to="/favourites/lots"><Icon name="bookmark" /></Link>
+      <Link className="topbar-actions__action" to="/notifications"><Icon name="bell" /></Link>
       <MiniProfile />
     </div>
   )

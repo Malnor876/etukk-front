@@ -65,27 +65,19 @@
 /* Utils */
 
 @mixin line-clamp($lines) {
-	@supports (line-clamp: $lines) and (display: -webkit-box) {
-		line-clamp: $lines;
+	@supports (display: -webkit-box) {
 		display: -webkit-box;
-
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: $lines;
-	}
-}
-
-/* Utils */
-
-@mixin line-clamp($lines) {
-	@supports (line-clamp: $lines) and (display: -webkit-box) {
-		line-clamp: $lines;
-		display: -webkit-box;
-
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: $lines;
 	}
 
-	@supports (not (line-clamp: $lines)) and (not (display: -webkit-box)) {
+	@supports (display: box) {
+		display: box;
+		box-orient: vertical;
+		line-clamp: $lines;
+	}
+
+	@supports (not (display: -webkit-box)) and (not (display: box)) {
 		max-height: 1em * $lines;
 	}
 

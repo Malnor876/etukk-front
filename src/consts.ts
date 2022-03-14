@@ -9,4 +9,4 @@ export const ROUTES = Object.freeze({
   catalog: "/catalog"
 })
 
-console.log(ROUTES)
+export const DEFAULT_STAR_RATING_MAX = 5
