@@ -8,8 +8,8 @@
 	--button-color: #{$color-white};
 	--hover-button-color: #{$color-white};
 
-	--button-background-color: $color-raspberry-1;
-	--hover-button-background-color: getHoverColor($color-raspberry-1);
+	--button-background-color: #{$color-raspberry-1};
+	--hover-button-background-color: #{getHoverColor($color-raspberry-1)};
 
 	--button-border-color: transparent;
 	--hover-button-border-color: transparent;
@@ -28,7 +28,7 @@
 
 	gap: 0.5em;
 
-	padding: 0.625em 1em;
+	padding: 0.75em 1em;
 	background: $background-color;
 	border: 1px solid $border-color;
 	border-radius: $border-radius-1;
@@ -51,7 +51,7 @@
 	}
 
 	&--small {
-		padding: 0.5em 1em;
+		padding: 0.625em 0.75em;
 	}
 
 	&--outline {
@@ -76,6 +76,12 @@
 	}
 }
 
+a.button {
+	text-decoration: none;
+}
+
 .button__text {
 	// color: white;
+	font-size: $font-size-6;
+	font-weight: 500;
 }

@@ -25,11 +25,21 @@ function Button(props: ButtonProps) {
       })
     }
   }
+
+  const modifiers: string[] = []
+  if (props.color) modifiers.push(props.color)
+  if (props.small) modifiers.push("small")
+  if (props.outline) modifiers.push("outline")
+
   return (
-    <button className={classMerge(classWithModifiers("button", ...props.modifiers?.split(" ") || []), props.className)} type={props.type || "button"} disabled={props.disabled} onClick={onClick}>
-      <div className="button__icon">{props.iconLeft}</div>
+    <button className={classMerge(classWithModifiers("button", ...modifiers), props.className)} type={props.type || "button"} disabled={props.disabled} onClick={onClick}>
+      {props.iconLeft && (
+        <div className="button__icon">{props.iconLeft}</div>
+      )}
       <div className="button__text">{props.children}</div>
-      <div className="button__icon">{props.iconRight}</div>
+      {props.iconRight && (
+        <div className="button__icon">{props.iconRight}</div>
+      )}
     </button>
   )
 }
