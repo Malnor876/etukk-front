@@ -14,26 +14,7 @@ body {
 
 .heading {
 	@include Typography;
-}
-
-h1.heading {
-	font-size: $font-size-1;
-	font-weight: 700;
-}
-
-h2.heading {
-	font-size: $font-size-1;
-	font-weight: 700;
-}
-
-h3.heading {
-	font-size: $font-size-1;
-	font-weight: 700;
-}
-
-p.paragraph {
-	font-size: $font-size-5;
-	font-weight: 400;
+	text-transform: uppercase;
 }
 
 /* Headings */

@@ -11,21 +11,13 @@ import store from "redux/store"
 
 import AppRouter from "./AppRouter"
 import ErrorBoundary from "./components/services/ErrorBoundary/ErrorBoundary"
-import Footer from "./components/static/Footer/Footer"
-import Header from "./components/static/Header/Header"
-import Main from "./components/static/Main/Main"
 
 function App() {
   return (
     <AppProviders>
       <Suspense fallback="Loading...">
         <ErrorBoundary fallback="Error">
-          <Header />
-          <Main>
-            <AppRouter />
-          </Main>
-          <Footer />
-
+          <AppRouter />
           <ModalContainer />
           <ToastContainer />
         </ErrorBoundary>

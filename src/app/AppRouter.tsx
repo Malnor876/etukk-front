@@ -1,29 +1,19 @@
 import { Route, Routes } from "react-router"
 
-import Chat from "./components/containers/Chat/Chat"
-import Textarea from "./components/UI/Textarea/Textarea"
-import TextareaAttachments from "./components/UI/Textarea/TextareaAttachments"
-import moderPNG from "./moder.png"
+import ViewLayout from "./layouts/ViewLayout/ViewLayout"
+import FavouritesView from "./views/favourites"
 
 function AppRouter() {
   return (
     <Routes>
-      {/* <Route path="/" element={<BaseLayout />}>
-        <Route path="/1" />
-      </Route> */}
-      <Route path="/" element={<TextareaAttachments placeholder="Ваш отзыв..." />} />
+      <Route path="/">
+        <Route path="*" element={<>2</>} />
+        <Route element={<ViewLayout />}>
+          <Route path="favourites" element={<FavouritesView />} />
+        </Route>
+      </Route>
     </Routes>
   )
 }
-
-// export function AppBasicRoutes() {
-//   return (
-//     <Routes>
-//       <Route path="/" element={<BaseLayout />}>
-//         <Route path="/1" />
-//       </Route>
-//     </Routes>
-//   )
-// }
 
 export default AppRouter

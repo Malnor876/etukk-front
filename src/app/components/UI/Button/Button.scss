@@ -55,53 +55,17 @@
 	}
 
 	&--outline {
-		color: rgba($color-gray-10, 0.1);
-
-		background: unset;
-		border: 2px solid currentColor;
-		transition: 200ms ease box-shadow;
 		--button-color: #{$color-raspberry-1};
 		--hover-button-color: #{getHoverColor($color-raspberry-1)};
 
 		--button-background-color: transparent;
 		--hover-button-background-color: transparent;
 
-		&:hover,
-		&:active {
-			box-shadow: inset 0 0 0 2px currentColor;
-		}
-	}
-
-	&--green {
-		color: $color-green;
-	}
-
-	&--green:not(&--outline) {
-		.button__text {
-			color: $color-black-main;
-			font-weight: 600;
-		}
-	}
-
-	&--violet {
-		color: $color-violet;
-	}
-
-	&--white {
-		color: $color-gray-10;
-
-		&:hover {
-			color: $color-white;
-		}
-
-		.button__text {
-			color: $color-black-main;
-			font-weight: 600;
-		}
+		--button-border-color: var(--button-color);
+		--hover-button-border-color: var(--hover-button-color);
 	}
 
 	&--dark {
-		color: $color-black-main;
 		--button-color: #{$color-white};
 		--hover-button-color: #{getHoverColor($color-white)};
 	}
