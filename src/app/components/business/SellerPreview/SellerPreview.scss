@@ -1,0 +1,55 @@
+@import "~app/assets/scss/bundle.scss";
+
+.seller-preview {
+	$shadow-options: 0 0 4px 2px;
+
+	display: grid;
+	justify-items: center;
+
+	gap: 1em;
+	padding: 1em;
+	border-radius: 1.5em 1.5em 0 0;
+	box-shadow: $shadow-options rgba($color-dark, 0.05);
+	transition: 150ms ease background-color, 150ms ease box-shadow;
+
+	&:hover {
+		background: rgba($color-dark, 0.02);
+		box-shadow: $shadow-options rgba($color-dark, 0.1);
+	}
+}
+
+.seller-preview__avatar {
+	$size: 4.25em;
+
+	width: $size;
+	height: $size;
+
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.seller-preview__name {
+	max-width: 75%;
+	@include Typography($font-size-5, 600);
+
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.seller-preview__city {
+	color: $color-gray-2;
+	font-size: $font-size-6;
+	text-align: center;
+}
+
+.seller-preview__entries {
+	width: 100%;
+}
+
+.seller-preview__bookmark {
+	--icon-size: 2em;
+	position: absolute;
+	top: 0;
+	right: 10%;
+	transform: translateY(-25%);
+}
