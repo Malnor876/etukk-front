@@ -8,6 +8,7 @@ export type IconName = (
   | "attention"
   | "bell"
   | "bookmark"
+  | "bookmark-3d"
   | "building"
   | "calendar"
   | "camera"
@@ -37,6 +38,9 @@ export type IconName = (
   | "send"
   | "smile"
   | "eye"
+  | "hammer"
+  | "more"
+  | "sort"
 ) | (string & {})
 
 interface IconProps extends Exclude<SVGAttributes<SVGElement>, "aria-hidden"> {
