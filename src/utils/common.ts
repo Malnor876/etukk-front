@@ -80,13 +80,3 @@ export function interpolate<T extends string>(value: T, vars: Record<ExtractInte
   const varKeys = Object.keys(vars) as ExtractInterpolations<T>[]
   return varKeys.reduce((result: string, next) => result.replace(new RegExp(`{${next}}`, "g"), String(vars[next])), value)
 }
-
-
-export function getFormInputs<U extends string = string>(elements: FormElements<U> | HTMLFormControlsCollection) {
-  return [...elements].reduce<Record<U | (string & {}), string | number>>((result, next) => {
-    if (next instanceof HTMLInputElement) {
-      return { ...result, [next.name]: next.value }
-    }
-    return result
-  }, {} as never)
-}
