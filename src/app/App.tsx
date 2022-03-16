@@ -16,7 +16,7 @@ function App() {
   return (
     <AppProviders>
       <Suspense fallback="Loading...">
-        <ErrorBoundary fallback="Error">
+        <ErrorBoundary fallback={(_, { error }) => `Error -> ${error?.message}`}>
           <AppRouter />
           <ModalContainer />
           <ToastContainer />

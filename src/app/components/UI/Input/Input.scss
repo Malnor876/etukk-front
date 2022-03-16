@@ -2,7 +2,7 @@
 
 .input {
 	display: grid;
-	gap: 0.25em;
+	gap: 0.5em;
 }
 
 .input__appearance {
@@ -12,14 +12,15 @@
 
 	@include InputAppearance;
 
-	.input--invalid & {
+	.input:invalid>&,
+	.input--invalid>& {
 		border-color: $color-raspberry-1;
 	}
 }
 
 .input__input {
 	width: 100%;
-	font-size: $font-size-5;
+	font-size: $font-size-6;
 	transition: 200ms ease color;
 
 	&:invalid {
@@ -32,10 +33,15 @@
 }
 
 .input__icon {
-	--icon-size: $font-size-5;
+	--icon-size: #{$font-size-5};
+	color: $color-gray-3;
 }
 
 .input__validity {
 	color: $color-raspberry-1;
+	font-size: $font-size-6;
+}
+
+.input__label {
 	font-size: $font-size-6;
 }

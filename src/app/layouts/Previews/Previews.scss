@@ -3,6 +3,8 @@
 .previews {
 	display: grid;
 	justify-content: space-between;
-	grid-template-columns: repeat(auto-fit, 14.25em);
+	grid-template-columns: repeat(auto-fill, minmax(14.25em, 1fr));
 	gap: 2em;
+
+	flex: 1;
 }

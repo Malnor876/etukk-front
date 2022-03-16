@@ -8,7 +8,7 @@ interface ToolTipProps {
 
 function ToolTip(props: ToolTipProps) {
   return (
-    <div className="tool-tip">
+    <div className="tool-tip" role="tooltip">
       <div className="tool-tip__inner">{props.children}</div>
     </div>
   )

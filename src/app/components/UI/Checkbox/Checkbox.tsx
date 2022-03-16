@@ -1,24 +1,26 @@
 import "./Checkbox.scss"
 
-import { ChangeEvent, Dispatch, ReactNode } from "react"
+import _ from "lodash"
+import { ChangeEvent, ReactNode } from "react"
 
 import Icon from "../Icon/Icon"
 
-interface CheckboxProps {
+export interface CheckboxProps {
+  name?: string
   checked?: boolean
   defaultChecked?: boolean
-  onChange?: Dispatch<boolean>
+  onChange?(checked: boolean, name: string): void
 
   children?: ReactNode
 }
 
 function Checkbox(props: CheckboxProps) {
   function onChange(event: ChangeEvent<HTMLInputElement>) {
-    props.onChange?.(event.target.checked)
+    props.onChange?.(event.currentTarget.checked, event.currentTarget.name)
   }
   return (
     <label className="checkbox">
-      <input {...props} className="checkbox__input" onChange={onChange} />
+      <input {..._.omit(props, "children")} type="checkbox" className="checkbox__input" onChange={onChange} />
       <div className="checkbox__appearance">
         <Icon className="checkbox__icon" name="check" />
       </div>

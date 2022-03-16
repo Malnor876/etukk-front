@@ -9,3 +9,27 @@
 		padding-right: 4vw;
 	}
 }
+
+@mixin Scrollbar($width: 0.75em) {
+
+	/* Firefox */
+	@supports (scrollbar-width: thin) {
+		scrollbar-width: thin;
+		scrollbar-color: $color-raspberry-1 $color-gray-3;
+	}
+
+	/* Chrome, Edge, and Safari */
+	&::-webkit-scrollbar {
+		width: $width;
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: $color-raspberry-1;
+		border-radius: 1em;
+	}
+}

@@ -1,6 +1,6 @@
 import "./Button.scss"
 
-import { MouseEvent, MouseEventHandler } from "react"
+import { MouseEvent, MouseEventHandler, useState } from "react"
 import ReactGA from "react-ga"
 import { classMerge, classWithModifiers } from "utils/common"
 
@@ -14,8 +14,11 @@ interface ButtonProps extends ButtonBaseProps {
 }
 
 function Button(props: ButtonProps) {
-  function onClick(event: MouseEvent<HTMLButtonElement>) {
-    props.onClick?.(event)
+  const [pending, setPending] = useState(false)
+  async function onClick(event: MouseEvent<HTMLButtonElement>) {
+    setPending(true)
+    await props.onClick?.(event)
+    setPending(false)
     /* --- Google Analytics --- */
     if (props.eventLabel) {
       ReactGA.event({
@@ -30,13 +33,15 @@ function Button(props: ButtonProps) {
   if (props.color) modifiers.push(props.color)
   if (props.small) modifiers.push("small")
   if (props.outline) modifiers.push("outline")
+  if (pending) modifiers.push("pending")
 
   return (
-    <button className={classMerge(classWithModifiers("button", ...modifiers), props.className)} type={props.type || "button"} disabled={props.disabled} onClick={onClick}>
+    <button className={classMerge(classWithModifiers("button", ...modifiers), props.className)} type={props.type || "button"} disabled={props.disabled || pending} onClick={onClick}>
       {props.iconLeft && (
         <div className="button__icon">{props.iconLeft}</div>
       )}
       <div className="button__text">{props.children}</div>
+      <div className="button__pending" />
       {props.iconRight && (
         <div className="button__icon">{props.iconRight}</div>
       )}

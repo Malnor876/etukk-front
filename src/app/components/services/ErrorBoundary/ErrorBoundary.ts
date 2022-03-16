@@ -4,7 +4,7 @@ import { Component, ErrorInfo, ReactNode } from "react"
 
 interface ErrorBoundaryProps {
   deps?: unknown[]
-  fallback: ReactNode | ((reset: () => void, errorId?: number) => JSX.Element)
+  fallback: ReactNode | ((reset: () => void, state: ErrorBoundaryState) => JSX.Element)
 }
 interface ErrorBoundaryState {
   hasError: boolean
@@ -37,7 +37,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   render() {
     if (this.state.hasError) {
       if (typeof this.props.fallback === "function") {
-        return this.props.fallback(this.reset, this.state.errorId)
+        return this.props.fallback(this.reset, this.state)
       }
 
       return this.props.fallback

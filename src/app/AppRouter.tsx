@@ -11,6 +11,7 @@ function AppRouter() {
         <Route path="*" element={<>404</>} />
         <Route element={<ViewLayout />}>
           <Route index element={<HomeView />} />
+          <Route path="hot" element={<HomeView />} />
           <Route path="favourites/*" element={<FavouritesView />} />
         </Route>
       </Route>
