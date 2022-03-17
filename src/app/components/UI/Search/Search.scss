@@ -1,0 +1,29 @@
+@import "~app/assets/scss/bundle.scss";
+
+.search {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	background: $color-white;
+	border: 1px solid $color-gray-3;
+	border-radius: 0.25em;
+}
+
+.search__input {
+	padding: 0.5rem 1rem;
+	flex: 1;
+	font-size: $font-size-5;
+
+	&::placeholder {
+		color: $color-gray-3;
+	}
+}
+
+.search__icon {
+	--icon-size: 1.25em;
+	padding: 0 0.5rem;
+	border-left: 1px solid;
+	color: $color-gray-2;
+	cursor: pointer;
+}
