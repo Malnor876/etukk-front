@@ -1,5 +1,5 @@
-import LotPreviews from "app/components/TT/LotPreviews/LotPreviews"
 import Switcher from "app/components/UI/Switcher/Switcher"
+import LotPreviews from "app/components/unsorted/LotPreviews/LotPreviews"
 import { Route, Routes } from "react-router"
 import { NavLink } from "react-router-dom"
 
