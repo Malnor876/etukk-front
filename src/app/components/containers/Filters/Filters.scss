@@ -4,7 +4,9 @@ $width: 18em;
 $toggleSize: 1.5em;
 
 @keyframes from-absolute {
-	from {
+
+	0%,
+	99% {
 		position: absolute;
 	}
 }
@@ -18,7 +20,7 @@ $toggleSize: 1.5em;
 	background: $color-white;
 	outline: 1em solid white;
 	transition: 500ms ease width, 500ms ease top;
-	animation: 350ms 0ms from-absolute;
+	animation: 200ms 0ms from-absolute;
 
 	&--shrunken {
 		width: $toggleSize;
@@ -29,6 +31,7 @@ $toggleSize: 1.5em;
 
 		.filters__inner {
 			opacity: 0;
+			overflow: hidden;
 			pointer-events: none;
 		}
 	}

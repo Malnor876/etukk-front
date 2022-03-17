@@ -14,7 +14,7 @@ interface DropDownProps<V> {
 
 function DropDown<V = string | undefined>(props: DropDownProps<V>) {
   const options = Children.map(props.children, child => child.props)
-  const initChoice = props.default ? options.findIndex(option => option.value === props.default) : 0
+  const initChoice = props.default ? options.findIndex(option => option.value === props.default) : -1
   const [choice, Choose] = useState<number>(initChoice)
   return (
     <section className={classWithModifiers("drop-down", props.expanded && "expanded")} role="listbox" aria-expanded={props.expanded}>

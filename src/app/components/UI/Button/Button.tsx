@@ -10,15 +10,20 @@ interface ButtonProps extends ButtonBaseProps {
   type?: "reset" | "submit"
   eventLabel?: string
   disabled?: boolean
+  await?: boolean
   onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
 function Button(props: ButtonProps) {
   const [pending, setPending] = useState(false)
   async function onClick(event: MouseEvent<HTMLButtonElement>) {
-    setPending(true)
-    await props.onClick?.(event)
-    setPending(false)
+    if (props.await) {
+      setPending(true)
+      await props.onClick?.(event)
+      setPending(false)
+    } else {
+      props.onClick?.(event)
+    }
     /* --- Google Analytics --- */
     if (props.eventLabel) {
       ReactGA.event({

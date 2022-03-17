@@ -1,8 +1,8 @@
-import LotPreview from "app/components/business/LotPreview/LotPreview"
 import FiltersContainer from "app/components/containers/Filters/FiltersContainer"
 import SortingToggle from "app/components/UI/SortingToggle/SortingToggle"
 import Container from "app/layouts/Container/Container"
 import Previews from "app/layouts/Previews/Previews"
+import LotPreview from "app/views/lot/LotPreview/LotPreview"
 
 import mock3JPG from "./mock-3.jpg"
 

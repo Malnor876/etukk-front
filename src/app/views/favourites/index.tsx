@@ -1,10 +1,10 @@
-import LotPreview from "app/components/business/LotPreview/LotPreview"
 import SellerPreview from "app/components/business/SellerPreview/SellerPreview"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import SortingToggle from "app/components/UI/SortingToggle/SortingToggle"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import Buttons from "app/layouts/Buttons/Buttons"
 import Previews from "app/layouts/Previews/Previews"
+import LotPreview from "app/views/lot/LotPreview/LotPreview"
 import { Outlet, Route, Routes } from "react-router"
 import { NavLink } from "react-router-dom"
 

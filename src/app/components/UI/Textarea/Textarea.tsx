@@ -7,7 +7,12 @@ interface TextareaProps extends HTMLAttributes<HTMLTextAreaElement> { }
 
 function Textarea(props: TextareaProps) {
   return (
-    <textarea {...props} className={classMerge("textarea", props.className)} />
+    <label className="textarea">
+      {props.children && (
+        <div className="textarea__label">{props.children}</div>
+      )}
+      <textarea {...props} className={classMerge("textarea__appearance", props.className)} />
+    </label>
   )
 }
 

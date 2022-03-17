@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
 import { ComponentClass, VoidFunctionComponent } from "react"
 
-type ReactErrorFunction<P = never> = ComponentClass<P> | VoidFunctionComponent<P>
+type ReactErrorFunction<P = any, S = any> = ComponentClass<P, S> | VoidFunctionComponent<P>
 
 /**
  * Throws ReactError for components, hooks, if given, and any
