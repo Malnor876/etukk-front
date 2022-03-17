@@ -1,12 +1,14 @@
 import "./Header.scss"
 
+import Breadcrumbs from "app/components/containers/Breadcrumbs/Breadcrumbs"
+
 import Topbar from "./Topbar"
 
 function Header() {
   return (
     <header className="header">
       <Topbar />
-      <div className="header__breadcrumbs">Мебель / Стулья / Карточка лота / Сделать ставку</div>
+      <Breadcrumbs />
     </header>
   )
 }
