@@ -46,6 +46,7 @@ export type IconName = (
 ) | (string & {})
 
 interface IconProps extends Exclude<SVGAttributes<SVGElement>, "aria-hidden"> {
+  size?: string
   name?: IconName
   modifiers?: Array<string | number | false | null | undefined>
 }
@@ -68,7 +69,7 @@ function Icon(props: IconProps) {
   }
 
   return (
-    <svg {...props} aria-hidden="true" className={classMerge("icon", props.className && classWithModifiers(classWithModifiers(props.className, props.name), ...props.modifiers || []))}>
+    <svg {...props} aria-hidden="true" style={{ "--icon-size": props.size }} className={classMerge("icon", props.className && classWithModifiers(classWithModifiers(props.className, props.name), ...props.modifiers || []))}>
       <use href={`/static/icons.svg#${props.name}`} />
     </svg>
   )
