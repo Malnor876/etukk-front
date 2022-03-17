@@ -43,6 +43,7 @@ export type IconName = (
   | "hammer"
   | "more"
   | "sort"
+  | "dots"
 ) | (string & {})
 
 interface IconProps extends Exclude<SVGAttributes<SVGElement>, "aria-hidden"> {
