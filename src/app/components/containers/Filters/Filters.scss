@@ -213,6 +213,10 @@ $toggleSize: 1.5em;
 	display: flex;
 	align-items: baseline;
 	gap: 1em;
+
+	@include Mobile {
+		display: grid;
+	}
 }
 
 .filter-column {
