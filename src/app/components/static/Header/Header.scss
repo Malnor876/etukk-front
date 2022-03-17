@@ -5,6 +5,7 @@ header.header {
 	gap: 2em;
 
 	@include WidthLimit;
+	margin-top: 0.5em;
 }
 
 .header__breadcrumbs {

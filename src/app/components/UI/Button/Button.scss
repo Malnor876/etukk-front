@@ -76,6 +76,14 @@
 		--hover-button-color: #{getHoverColor($color-gray-3)};
 	}
 
+	&--white {
+		--button-color: #{$color-raspberry-1};
+		--hover-button-color: #{getHoverColor($color-raspberry-1)};
+
+		--button-background-color: #{$color-white};
+		--hover-button-background-color: #{getHoverColor($color-white)};
+	}
+
 	&--pending {
 		.button__text {
 			color: transparent;

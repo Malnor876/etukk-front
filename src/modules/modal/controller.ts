@@ -61,12 +61,12 @@ export class Modal {
             }
           }
         }
-        // Make sure that two same windows won't appear in a row
-        if (state.isActive === false && state.queue.length === 1) {
-          return {
-            isActive: true,
-            queue: [modalWindow]
-          }
+      }
+      // Replace stale window
+      if (state.isActive === false && state.queue.length === 1) {
+        return {
+          isActive: true,
+          queue: [modalWindow]
         }
       }
       return {
@@ -77,13 +77,10 @@ export class Modal {
   }
   private static remove(modalWindow: ModalWindow) {
     modalPrivate.dispatch(state => {
-      const queue = state.queue.filter(pw => pw !== modalWindow)
-      // Make that we need it
-      if (!modalWindow.params?.weak) {
-        // Hide modal without removing if it's the last window
-        if (queue.length === 0) {
-          return { isActive: false, queue: [modalWindow] }
-        }
+      const queue = state.queue.filter(mw => mw !== modalWindow)
+      // Hide modal without removing if it's the last window
+      if (queue.length === 0) {
+        return { isActive: false, queue: [modalWindow] }
       }
       return { queue, isActive: false }
     })

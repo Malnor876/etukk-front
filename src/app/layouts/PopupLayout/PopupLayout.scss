@@ -2,13 +2,26 @@
 
 $gap: 2em;
 
+
 .popup-layout {
+	@keyframes dd {
+		from {
+			transform: translateY(75%);
+		}
+	}
+
+	@keyframes tt {
+		to {
+			transform: translateY(75%);
+		}
+	}
+
 	margin: auto;
-	transition: 250ms ease transform;
+	animation: 250ms ease dd forwards;
 	cursor: initial;
 
 	.modal:not(.modal--active) & {
-		transform: translateY(75%);
+		animation: 250ms ease tt forwards;
 	}
 }
 
