@@ -1,0 +1,74 @@
+@import "~app/assets/scss/bundle.scss";
+
+.modal-slider {
+	display: grid;
+	gap: 2.5em;
+}
+
+.modal-slider__close {
+	margin-left: auto;
+	margin-right: -1em;
+	color: $color-white;
+}
+
+.modal-slider__container {
+	display: grid;
+	gap: 0.5em;
+
+	width: 25em;
+}
+
+.modal-slider__current {
+
+	.modal-slider__slide {
+		width: 100%;
+	}
+}
+
+.modal-slider__arrows {
+	position: absolute;
+	inset: 0 -0.625em;
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.modal-slider__arrow {
+	--icon-size: 0.625em;
+
+	display: flex;
+	padding: 0.375em;
+	background: $color-white;
+	border-radius: 50%;
+
+	&:nth-child(1) {
+		transform: rotate(90deg);
+	}
+
+	&:nth-child(2) {
+		transform: rotate(-90deg);
+	}
+}
+
+.modal-slider__slide {
+	width: inherit;
+	aspect-ratio: 1.25/1;
+	border-radius: $border-radius-1;
+	object-fit: cover;
+
+	width: 5em;
+}
+
+.modal-slider__slides {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 0.25em;
+
+	width: 100%;
+	overflow: auto;
+
+	.modal-slider__slide {
+		cursor: pointer;
+	}
+}

@@ -34,11 +34,12 @@ export class Modal {
     P extends object = {},
     AC extends Partial<ModalParams> & P = Partial<ModalParams> & P
   >(
-    component: ModalComponent<unknown>,
+    component: ModalComponent<P>,
     ...[params]: AnyIfEmpty<P> extends object ? [AC] : [AC?]
   ): Promise<void> {
     return new Promise<void>(function (resolve) {
-      const ModalWindow: ModalWindow = { component, params, close }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const ModalWindow: ModalWindow<any> = { component, params, close }
       Modal.add(ModalWindow)
       function close() {
         resolve()
@@ -48,19 +49,24 @@ export class Modal {
   }
   private static add(modalWindow: ModalWindow) {
     modalPrivate.dispatch(state => {
-      // Skip adding to queue if there is already the same window
-      if (state.queue.length > 0) {
-        const lastWindow = state.queue[state.queue.length - 1]
-        if ((toBase64(lastWindow.params) === toBase64(modalWindow.params)) && lastWindow.component === modalWindow.component) {
-          return { ...state, isActive: true }
+      // Make that we need it
+      if (!modalWindow.params?.weak) {
+        // Skip adding to queue if there is already the same window
+        if (state.queue.length > 0) {
+          const lastWindow = state.queue[state.queue.length - 1]
+          if ((toBase64(lastWindow.params) === toBase64(modalWindow.params)) && lastWindow.component === modalWindow.component) {
+            return {
+              isActive: true,
+              queue: [modalWindow]
+            }
+          }
         }
-      }
-      // Set queue if Modal was inactive and has only one window
-      // to be sure that window by the rule above won't appear again
-      if (state.isActive === false && state.queue.length === 1) {
-        return {
-          isActive: true,
-          queue: [modalWindow]
+        // Make sure that two same windows won't appear in a row
+        if (state.isActive === false && state.queue.length === 1) {
+          return {
+            isActive: true,
+            queue: [modalWindow]
+          }
         }
       }
       return {
@@ -72,11 +78,14 @@ export class Modal {
   private static remove(modalWindow: ModalWindow) {
     modalPrivate.dispatch(state => {
       const queue = state.queue.filter(pw => pw !== modalWindow)
-      // Hide modal without removing if it's the last window
-      if (queue.length === 0) {
-        return { isActive: false, queue: [modalWindow] }
+      // Make that we need it
+      if (!modalWindow.params?.weak) {
+        // Hide modal without removing if it's the last window
+        if (queue.length === 0) {
+          return { isActive: false, queue: [modalWindow] }
+        }
       }
-      return { ...state, queue }
+      return { queue, isActive: false }
     })
   }
   public static closeAll() {

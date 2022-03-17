@@ -16,6 +16,8 @@ copies or substantial portions of the Software.
 
 */
 
+import "./modal.scss"
+
 import { Component } from "react"
 import { classWithModifiers } from "utils/common"
 
@@ -52,11 +54,9 @@ export class ModalContainer extends Component<ModalContainerProps, ModalContaine
     return (
       <div className={classWithModifiers(className, isActive && "active")}>
         <div className={className + "__container"} onClick={close}>
-          <div className={className + "__inner"} onClick={event => event.stopPropagation()}>
-            <modalContext.Provider value={lastModal || null}>
-              {ModalWindowComponent && <ModalWindowComponent {...params} />}
-            </modalContext.Provider>
-          </div>
+          <modalContext.Provider value={lastModal || null}>
+            {ModalWindowComponent && <ModalWindowComponent {...params} />}
+          </modalContext.Provider>
         </div>
       </div>
     )

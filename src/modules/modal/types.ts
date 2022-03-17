@@ -16,15 +16,14 @@ copies or substantial portions of the Software.
 
 */
 
-import { ReactNode } from "react"
+import { FunctionComponent } from "react"
 
-export type ModalComponent<P> = (props: P) => JSX.Element
+export type ModalComponent<P = never> = FunctionComponent<P>
 
 export interface ModalParams {
   id: string | number
-  title: ReactNode
-  desc: ReactNode
   closable: boolean
+  weak: boolean
 }
 
 export interface ModalWindow<P = unknown> {
