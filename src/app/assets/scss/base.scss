@@ -56,6 +56,9 @@ small {
 /* Anchor */
 
 a {
+	color: $color-blue;
+	font-weight: 400;
+
 	&.ghost {
 		position: absolute;
 		inset: 0;
@@ -88,4 +91,11 @@ button {
 	&:active {
 		opacity: 0.75;
 	}
+}
+
+pre {
+	padding: 1em;
+	background: #eaeaea;
+	border: 1px solid #bdbdbd;
+	border-radius: 0.25em;
 }
