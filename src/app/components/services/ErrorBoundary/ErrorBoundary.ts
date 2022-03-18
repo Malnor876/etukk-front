@@ -1,43 +1,29 @@
-import { postError } from "api/actions/error"
-import ClientAPI from "api/client"
-import { Component, ErrorInfo, ReactNode } from "react"
+import { Component, ErrorInfo } from "react"
 
-interface ErrorBoundaryProps {
-  deps?: unknown[]
-  fallback: ReactNode | ((reset: () => void, state: ErrorBoundaryState) => JSX.Element)
-}
-interface ErrorBoundaryState {
-  hasError: boolean
-  error?: Error
-  errorId?: number
-}
+import { ErrorBoundaryProps, ErrorBoundaryState } from "./ErrorBoundary.types"
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state: ErrorBoundaryState = {
     hasError: false
   }
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState | null {
+  static getDerivedStateFromError(error: unknown): ErrorBoundaryState | null {
     // Update state so the next render will show the fallback UI.
-    return { hasError: true, error }
+    return { hasError: true, error: error instanceof Error ? error : undefined }
   }
 
-  componentDidCatch<E extends Error>(error: E, errorInfo: ErrorInfo) {
-    ClientAPI
-      .query(postError(error.name, error.message, [error.stack || "", errorInfo.componentStack]))
-      .then(({ error, payload }) => {
-        if (error || !payload) return
-        this.setState({ errorId: payload.id })
-      })
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.log(errorInfo)
+    this.setState({ error, errorInfo })
   }
 
   reset = () => {
-    this.setState({ hasError: false, error: undefined, errorId: undefined })
+    this.setState({ hasError: false, error: undefined, errorInfo: undefined })
   }
   render() {
     if (this.state.hasError) {
       if (typeof this.props.fallback === "function") {
-        return this.props.fallback(this.reset, this.state)
+        return this.props.fallback(this.reset, this.state.error, this.state.errorInfo)
       }
 
       return this.props.fallback

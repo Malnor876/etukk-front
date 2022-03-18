@@ -14,7 +14,7 @@ function ErrorView() {
           <h3>страницы не существует!</h3>
         </div>
         <ButtonLink color="white" to="/">На главную</ButtonLink>
-        <button className="error-view__backward" type="button" onClick={() => navigate(-1)}>Вернуться назад</button>
+        <button className="error-view__button" type="button" onClick={() => navigate(-1)}>Вернуться назад</button>
       </div>
       <div className="error-view__icon">
         <img src="/static/images/logo.svg" alt="etukk logo" />

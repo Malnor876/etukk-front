@@ -10,13 +10,15 @@ import { ToastContainer } from "react-toastify"
 import store from "redux/store"
 
 import AppRouter from "./AppRouter"
+import CookiesNotice from "./components/containers/CookiesNotice/CookiesNotice"
 import ErrorBoundary from "./components/services/ErrorBoundary/ErrorBoundary"
+import ErrorFallback from "./views/error/ErrorFallback"
 
 function App() {
   return (
     <AppProviders>
       <Suspense fallback="Loading...">
-        <ErrorBoundary fallback={(_, { error }) => `Error -> ${error?.message}`}>
+        <ErrorBoundary fallback={ErrorFallback}>
           <AppRouter />
           <CookiesNotice />
           <ModalContainer />

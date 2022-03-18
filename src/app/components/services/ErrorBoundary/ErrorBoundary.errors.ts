@@ -1,20 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
-import { ComponentClass, VoidFunctionComponent } from "react"
-
-type ReactErrorFunction<P = any, S = any> = ComponentClass<P, S> | VoidFunctionComponent<P>
+import { ReactErrorFunction } from "./ErrorBoundary.types"
 
 /**
  * Throws ReactError for components, hooks, if given, and any
  */
 export class ReactError extends Error {
   name = ReactError.name
+  from?: string
 
   constructor(name: string, message?: string)
   constructor(fn: ReactErrorFunction, message?: string)
   constructor(arg1: string | ReactErrorFunction, message?: string) {
-    super((typeof arg1 === "function" ? arg1.name : arg1) + " -> " + message)
+    super()
+
+    this.from = (typeof arg1 === "function" ? arg1.name : arg1)
+    this.message = message || ""
 
     // Detect if it's hook or component
     if (typeof arg1 === "function") {
