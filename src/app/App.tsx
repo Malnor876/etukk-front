@@ -18,6 +18,7 @@ function App() {
       <Suspense fallback="Loading...">
         <ErrorBoundary fallback={(_, { error }) => `Error -> ${error?.message}`}>
           <AppRouter />
+          <CookiesNotice />
           <ModalContainer />
           <ToastContainer />
         </ErrorBoundary>
