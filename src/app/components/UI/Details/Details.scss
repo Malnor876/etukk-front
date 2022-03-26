@@ -41,7 +41,6 @@
 .details__body {
 	transition: 350ms ease height;
 	height: 0px;
-	overflow: hidden;
 
 	&--expanded {
 		height: calc(var(--details-height) * 1px);
@@ -58,5 +57,12 @@
 	display: grid;
 	justify-items: left;
 	gap: 0.5em;
-	padding-top: 1.25em;
+	padding: 1.25em 0;
+	transition: 250ms ease opacity, 250ms ease transform;
+
+	:not(.details__body--expanded)>& {
+		opacity: 0;
+		transform: translateY(-5%);
+		pointer-events: none;
+	}
 }

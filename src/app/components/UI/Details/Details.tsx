@@ -1,6 +1,6 @@
 import "./Details.scss"
 
-import { ReactNode, useState } from "react"
+import { ReactNode, useEffect, useRef, useState } from "react"
 import { classWithModifiers } from "utils/common"
 import { humanizeDate } from "utils/date"
 
@@ -13,8 +13,13 @@ interface DetailsProps {
 }
 
 function Details(props: DetailsProps) {
+  const innerRef = useRef<HTMLDivElement>(null)
   const [expanded, setExpanded] = useState(false)
   const [height, setHeight] = useState<number>()
+  useEffect(() => {
+    if (!innerRef.current) return
+    setHeight(innerRef.current.scrollHeight)
+  }, [])
   return (
     <div className="details" aria-expanded={expanded}>
       <div className="details__header">
@@ -29,8 +34,8 @@ function Details(props: DetailsProps) {
           <Icon className="details__more" name="dots" />
         </div>
       </div>
-      <div className={classWithModifiers("details__body", expanded && "expanded")} style={{ "--details-height": height }} ref={element => setHeight(element?.scrollHeight)} aria-hidden={!expanded}>
-        <div className="details__inner">{props.children}</div>
+      <div className={classWithModifiers("details__body", expanded && "expanded")} style={{ "--details-height": height }} aria-hidden={!expanded}>
+        <div className="details__inner" ref={innerRef}>{props.children}</div>
       </div>
     </div>
   )
