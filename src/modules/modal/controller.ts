@@ -82,7 +82,7 @@ export class Modal {
       if (queue.length === 0) {
         return { isActive: false, queue: [modalWindow] }
       }
-      return { queue, isActive: false }
+      return { ...state, queue }
     })
   }
   public static closeAll() {

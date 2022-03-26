@@ -19,7 +19,7 @@ copies or substantial portions of the Software.
 import "./modal.scss"
 
 import { Component } from "react"
-import { classWithModifiers } from "utils/common"
+import { classWithModifiers, stopPropagation } from "utils/common"
 
 import { modalContext } from "./context"
 import { modalPrivate } from "./controller"
@@ -47,15 +47,16 @@ export class ModalContainer extends Component<ModalContainerProps, ModalContaine
 
   render() {
     const { isActive, queue } = this.state
-    const lastModal = queue[queue.length - 1] as ModalWindow | undefined
-    const { component: ModalWindowComponent, params = {}, close } = lastModal || {}
+    const current = queue[queue.length - 1] as ModalWindow | undefined
+    if (current == null) return null
+    const { component: ModalComponent, params, close } = current
 
     const className = this.props.className || "modal"
     return (
       <div className={classWithModifiers(className, isActive && "active")}>
-        <div className={className + "__container"} onClick={close}>
-          <modalContext.Provider value={lastModal || null}>
-            {ModalWindowComponent && <ModalWindowComponent {...params} />}
+        <div className={className + "__container"} onClick={params?.closable !== false ? stopPropagation(close) : undefined}>
+          <modalContext.Provider value={current || null}>
+            {ModalComponent && <ModalComponent {...params} />}
           </modalContext.Provider>
         </div>
       </div>
