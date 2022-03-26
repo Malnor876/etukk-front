@@ -8,12 +8,8 @@ declare module "react-fetching-library" {
 }
 
 export interface APIResponseError {
-  error: {
-    type: "error" | "warning"
-    code: string | number
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    detail: any // For development
-  }
+  status: boolean
+  msg: string
 }
 
 interface ActionConfig {
@@ -21,4 +17,9 @@ interface ActionConfig {
   skipCache: boolean
 }
 
-export type Action<P = unknown> = BaseAction<P & APIResponseError, Partial<ActionConfig>>
+export type ActionPayload<P> = { result: P } & APIResponseError
+
+export type Action<P = unknown> = BaseAction<ActionPayload<P>, Partial<ActionConfig>>
+export type ExtractActionPayload<A extends Action> = A extends Action<infer P> ? P : never
+
+export type MapPredicate<P, M> = (payload: P) => M
