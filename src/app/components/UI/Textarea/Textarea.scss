@@ -14,6 +14,9 @@
 	@include InputAppearance;
 
 	font-size: $font-size-5;
+	line-height: 1.25;
+	overflow-wrap: break-word;
+	cursor: text;
 
 	&:invalid {
 		color: $color-raspberry-1;
@@ -25,8 +28,8 @@
 }
 
 .textarea__label {
-	max-width: 35ch;
-	color: $color-gray-3;
+	// max-width: 35ch;
+	// color: $color-gray-3;
 	font-size: $font-size-5;
 }
 
