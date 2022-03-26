@@ -2,26 +2,30 @@
 
 $gap: 2em;
 
-
 .popup-layout {
-	@keyframes dd {
+	@keyframes show {
 		from {
 			transform: translateY(75%);
 		}
 	}
 
-	@keyframes tt {
+	@keyframes hide {
 		to {
 			transform: translateY(75%);
 		}
 	}
 
 	margin: auto;
-	animation: 250ms ease dd forwards;
+	animation: 250ms ease show forwards;
 	cursor: initial;
 
 	.modal:not(.modal--active) & {
-		animation: 250ms ease tt forwards;
+		animation: 250ms ease hide forwards;
+	}
+
+	@include Mobile {
+		margin: unset;
+		overflow: hidden;
 	}
 }
 
@@ -36,14 +40,17 @@ $gap: 2em;
 	border-radius: $border-radius-1;
 
 	@include Mobile {
-		width: 90vw;
-		margin: 0 auto;
+		width: 100vw;
+		padding: unset;
+		border-radius: $border-radius-2 $border-radius-2 0 0;
 	}
 }
 
 .popup-layout__close {
 	--icon-size: 1.25em;
+	margin-top: 1.5em;
 	margin-left: auto;
+	margin-right: 1.5em;
 }
 
 .popup-layout__inner {

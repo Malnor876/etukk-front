@@ -21,7 +21,7 @@ function PopupLayout(props: PopupLayoutProps) {
   if (props.pushLeft) modifiers.push("push-left")
   if (props.pushRight) modifiers.push("push-right")
   return (
-    <div className="popup-layout" onClick={event => event.stopPropagation()}>
+    <div className="popup-layout">
       <div className="popup-layout__container" style={{ "--popup-width": props.width }}>
         <button className="popup-layout__close" type="button" onClick={close}>
           <Icon name="cross" />
