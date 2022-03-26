@@ -41,7 +41,7 @@ function FiltersContainer(props: FiltersContainerProps) {
           <div className="filters__container">
             <FF />
           </div>
-          <Button className="filters__submit" onClick={onSubmit}>Применить</Button>
+          <Button className="filters__submit" await onClick={onSubmit}>Применить</Button>
         </div>
       </div>
     </filtersContext.Provider>
