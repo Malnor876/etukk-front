@@ -1,8 +1,9 @@
 import "./extensions"
 
 import { Buffer } from "buffer"
-import { FormElements, URLDataBase64 } from "interfaces/utilities"
+import { URLDataBase64 } from "interfaces/utilities"
 import { ExtractInterpolations } from "interfaces/utilities"
+import { SyntheticEvent } from "react"
 
 /**
  *
@@ -79,4 +80,26 @@ export async function getFileFromURL(url: string) {
 export function interpolate<T extends string>(value: T, vars: Record<ExtractInterpolations<T>, string | number>): string {
   const varKeys = Object.keys(vars) as ExtractInterpolations<T>[]
   return varKeys.reduce((result: string, next) => result.replace(new RegExp(`{${next}}`, "g"), String(vars[next])), value)
+}
+
+
+/**
+ * Stops propagation from container
+ * @param callback any function
+ * @returns mouse event handler
+ */
+export function stopPropagation(callback?: Function | null) {
+  return ({ target, currentTarget }: Event | SyntheticEvent) => {
+    if (target instanceof Element && currentTarget instanceof Element) {
+      if (target !== currentTarget) return
+    }
+
+    callback?.()
+  }
+}
+
+export function inputValue(callback: Function) {
+  return (event: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    callback(event.currentTarget.value)
+  }
 }
