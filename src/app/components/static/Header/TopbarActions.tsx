@@ -1,4 +1,4 @@
-import Button from "app/components/UI/Button/Button"
+import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Icon from "app/components/UI/Icon/Icon"
 import { useState } from "react"
 import { useSelector } from "react-redux"
@@ -16,7 +16,7 @@ function TopbarActions() {
   // }
   return (
     <div className="topbar-actions">
-      <Button small outline>Выставить лот</Button>
+      <ButtonLink small outline to="/lots/new/edit">Выставить лот</ButtonLink>
       <Link className="topbar-actions__action" to="/favourites/lots"><Icon name="bookmark" /></Link>
       <Link className="topbar-actions__action" to="/notifications"><Icon name="bell" /></Link>
       <MiniProfile />
