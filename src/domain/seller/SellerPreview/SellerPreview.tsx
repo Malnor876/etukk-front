@@ -7,14 +7,17 @@ import EntryCounter from "app/layouts/Entries/EntryCounter"
 import { Link } from "react-router-dom"
 import { getRating } from "utils/business"
 
-interface SellerPreviewProps {
+export interface SellerPreviewProps {
   avatar: string
   name: string
   city: string
 
   likes: number
   dislikes: number
-  lotsCount: number
+  lotsCount?: number
+
+  linkedTo?: string
+  bookmarked?: boolean
 }
 
 function SellerPreview(props: SellerPreviewProps) {
@@ -32,15 +35,21 @@ function SellerPreview(props: SellerPreviewProps) {
             <CounterIcon icon="like" count={props.likes} />
             <CounterIcon icon="dislike" count={props.dislikes} />
           </EntryCounter>
-          <EntryCounter title="Размещено лотов">
-            <CounterIcon icon="hammer" count={props.lotsCount} />
-          </EntryCounter>
+          {props.lotsCount && (
+            <EntryCounter title="Размещено лотов">
+              <CounterIcon icon="hammer" count={props.lotsCount} />
+            </EntryCounter>
+          )}
         </Entries>
       </div>
-      <Link className="ghost" to="/seller/1" />
-      <button className="lot-preview__bookmark" type="button">
-        <Icon name="bookmark-3d" />
-      </button>
+      {props.linkedTo && (
+        <Link className="ghost" to={props.linkedTo} />
+      )}
+      {props.bookmarked != null && (
+        <button className="lot-preview__bookmark" type="button">
+          <Icon name="bookmark-3d" />
+        </button>
+      )}
     </div>
   )
 }
