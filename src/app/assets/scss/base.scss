@@ -46,7 +46,9 @@ h5 {
 /* Text */
 
 p {
+	font-size: $font-size-5;
 	line-height: 1.25;
+	word-break: break-all;
 }
 
 small {
@@ -58,6 +60,7 @@ small {
 a {
 	color: $color-blue;
 	font-weight: 400;
+	word-break: normal;
 
 	&.ghost {
 		position: absolute;
@@ -71,6 +74,7 @@ input,
 button,
 textarea {
 	all: unset;
+	position: relative;
 }
 
 input {
@@ -80,7 +84,7 @@ input {
 button,
 textarea {
 	&:focus-visible {
-		@include Outline;
+		outline: revert;
 	}
 }
 
@@ -88,7 +92,11 @@ button {
 	cursor: pointer;
 	transition: 100ms ease opacity;
 
-	&:active {
+	&:disabled {
+		cursor: not-allowed;
+	}
+
+	&:not(:disabled):active {
 		opacity: 0.75;
 	}
 }
