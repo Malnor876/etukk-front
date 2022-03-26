@@ -1,9 +1,9 @@
 import "./ErrorView.scss"
 
-import { postError } from "api/actions/error"
-import ClientAPI from "api/client"
 import { ErrorBoundaryError, ErrorBoundaryReset } from "app/components/services/ErrorBoundary/ErrorBoundary.types"
 import Button from "app/components/UI/Button/Button"
+import { postError } from "infrastructure/persistence/api/actions/error"
+import ClientAPI from "infrastructure/persistence/api/client"
 import { ErrorInfo } from "react"
 
 function ErrorFallback(reset: ErrorBoundaryReset, error: ErrorBoundaryError, errorInfo: ErrorInfo) {
