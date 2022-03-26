@@ -4,6 +4,7 @@ import { MouseEvent, MouseEventHandler, useState } from "react"
 import ReactGA from "react-ga"
 import { classMerge, classWithModifiers } from "utils/common"
 
+import Loader from "../Loader/Loader"
 import { ButtonBaseProps } from "./Button.types"
 
 interface ButtonProps extends ButtonBaseProps {
@@ -46,10 +47,10 @@ function Button(props: ButtonProps) {
         <div className="button__icon">{props.iconLeft}</div>
       )}
       <div className="button__text">{props.children}</div>
-      <div className="button__pending" />
       {props.iconRight && (
         <div className="button__icon">{props.iconRight}</div>
       )}
+      <Loader className="button__loader" />
     </button>
   )
 }

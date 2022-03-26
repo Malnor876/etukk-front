@@ -8,6 +8,8 @@ import { ButtonBaseProps } from "./Button.types"
 
 interface ButtonLinkProps extends ButtonBaseProps {
   to: string
+  nav?: boolean
+  replace?: boolean
   onClick?: MouseEventHandler<HTMLAnchorElement>
 }
 
@@ -17,7 +19,9 @@ function ButtonLink(props: ButtonLinkProps) {
   if (props.small) modifiers.push("small")
   if (props.outline) modifiers.push("outline")
   return (
-    <NavLink className={link => classMerge(classWithModifiers("button", ...modifiers, props.outline && !link.isActive && "gray"), props.className)} to={props.to} onClick={props.onClick}>
+    <NavLink className={
+      link => classMerge(classWithModifiers("button", ...modifiers, props.outline && (props.nav && !link.isActive && "gray")), props.className)
+    } replace={props.replace} to={props.to} onClick={props.onClick}>
       {props.iconLeft && (
         <div className="button__icon">{props.iconLeft}</div>
       )}
