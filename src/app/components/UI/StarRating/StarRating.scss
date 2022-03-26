@@ -25,9 +25,10 @@
 	--icon-size: var(--star-rating-size);
 
 	transition: 100ms ease transform;
-	cursor: pointer;
 
-	&:not(.star-rating--readonly > &) {
+	&:not(.star-rating--readonly &) {
+		cursor: pointer;
+
 		&:hover {
 			transform: scale(1.1);
 		}

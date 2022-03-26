@@ -6,7 +6,7 @@ import { classWithModifiers } from "utils/common"
 import Icon from "../Icon/Icon"
 
 const STAR_RATING_INIT = 0
-const STAR_RATING_MIN = 0
+const STAR_RATING_MIN = 1
 const STAR_RATING_MAX = 5
 
 interface StarRatingProps {
