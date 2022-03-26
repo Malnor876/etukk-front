@@ -2,7 +2,7 @@ import "./Breadcrumbs.scss"
 
 import { useLocation } from "react-router"
 
-const significantRoutes = ["user", "favourites"]
+const significantRoutes = ["user", "favourites", "notifications", "lots"]
 const significantRoutesStrings: Record<string, string> = {
   user: "Пользователь",
   favourites: "Избранное",
@@ -11,6 +11,8 @@ const significantRoutesStrings: Record<string, string> = {
   pending: "Ожидающие",
   bidding: "Торги",
   sold: "Проданы",
+  notifications: "Уведомления",
+  new: "Новый"
 }
 
 function Breadcrumbs() {
