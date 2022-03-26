@@ -1,3 +1,5 @@
+@import "~app/assets/scss/bundle.scss";
+
 .icon {
 	$size: var(--icon-size, 1em);
 
@@ -5,4 +7,12 @@
 	vertical-align: middle;
 	width: $size;
 	height: $size;
+
+	&[color="red"] {
+		color: $color-raspberry-1;
+	}
+
+	use {
+		pointer-events: none;
+	}
 }
