@@ -20,7 +20,6 @@
       "",
       "import { ReactNode } from \"react\"",
       "",
-      "",
       "interface ${1:${TM_FILENAME_BASE}}Props {",
       "  children: ReactNode",
       "}",
@@ -30,7 +29,6 @@
       "    .${2:${TM_FILENAME_BASE/^([A-Z]+)([a-z]+)([A-Z]+)|([A-Z]+)/${1:/downcase}$2-${3:/downcase}${4:/downcase}/g}}",
       "  )",
       "}",
-      "",
       "",
       "export default ${1:${TM_FILENAME_BASE}}",
       ""
