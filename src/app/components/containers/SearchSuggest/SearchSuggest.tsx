@@ -1,15 +1,15 @@
 import "./SearchSuggest.scss"
 
+import DropDown from "app/components/UI/DropDown/DropDown"
 import Search from "app/components/UI/Search/Search"
 import useClickAway from "hooks/useClickAway"
-import { Dispatch, useRef, useState } from "react"
-import { classWithModifiers } from "utils/common"
+import { ComponentProps, Dispatch, ReactElement, useRef, useState } from "react"
 
 interface SearchSuggestProps {
   width?: string
   disabled?: boolean
   placeholder?: string
-  entries: string[]
+  children: ReactElement<ComponentProps<"option">>[]
   onSubmit?: Dispatch<string>
 }
 
@@ -35,13 +35,7 @@ function SearchSuggest(props: SearchSuggestProps) {
         onChange={event => setValue(event.currentTarget.value)}
         onSubmit={updateValue}
       />
-      <div className={classWithModifiers("search-suggest__container", (props.entries.length > 0 && !props.disabled) && expanded && "expanded")}>
-        <div className="search-suggest__entries">
-          {props.entries.map((entry, index) => (
-            <button className="search-suggest__entry" type="button" onClick={() => updateValue(entry)} key={index}>{entry}</button>
-          ))}
-        </div>
-      </div>
+      <DropDown expanded={expanded} onChange={updateValue}>{props.children}</DropDown>
     </div>
   )
 }
