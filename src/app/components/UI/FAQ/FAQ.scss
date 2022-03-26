@@ -1,4 +1,4 @@
-@import "~app/assets/scss/_bundle.scss";
+@import "~app/assets/scss/bundle.scss";
 
 .faq {
 	display: grid;
@@ -7,42 +7,44 @@
 
 .faq__clause {
 	display: grid;
-
-	&--expanded {
-		.faq__content {
-			height: var(--height);
-		}
-	}
 }
 
 .faq__summary {
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	padding: 2.5em;
-	background: color(Dark);
-	border-radius: 0.25em;
+	padding: 1.5em;
+	background: $color-white;
 
 	cursor: pointer;
 }
 
 .faq__title {
-	@include font(1.25em, 600);
+	font-size: $font-size-5;
+	font-weight: 600;
 }
 
 .faq__content {
 	height: 0;
 	overflow: hidden;
-	transition: 200ms height;
+	transition: 350ms height;
+
+	&--expanded {
+		height: calc(var(--height) * 1px);
+	}
 }
 
 .faq__inner {
-	padding: 2.5em;
-	background: #2b3541;
-	border-radius: 0 0 0.25em 0.25em;
-}
+	padding: 1.5em;
+	background: $color-white;
+	transition: 250ms ease opacity, 250ms ease transform;
 
-.faq__text {
-	// @include font(1.25em, 600, 1.25);
-	color: white;
+	color: $color-dark;
+	line-height: 1.25;
+	white-space: pre-wrap;
+
+	:not(.faq__content--expanded)>& {
+		opacity: 0;
+		transform: translateY(-5%);
+		pointer-events: none;
+	}
 }

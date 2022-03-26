@@ -1,8 +1,7 @@
 import "./FAQ.scss"
 
-import { ReactNode, useState } from "react"
+import { ReactNode, useEffect, useRef, useState } from "react"
 import { classWithModifiers } from "utils/common"
-
 
 export function FAQ(props: { children: ReactNode }) {
   return (
@@ -12,22 +11,24 @@ export function FAQ(props: { children: ReactNode }) {
 
 
 interface FAQClauseProps {
-  summary: string
+  summary: ReactNode
   children: ReactNode
 }
 export function FAQClause(props: FAQClauseProps) {
+  const innerRef = useRef<HTMLDivElement>(null)
   const [expanded, setExpanded] = useState<boolean>(false)
   const [height, setHeight] = useState<number | undefined>()
-
+  useEffect(() => {
+    if (!innerRef.current) return
+    setHeight(innerRef.current.scrollHeight)
+  }, [])
   return (
-    <div className={classWithModifiers("faq__clause", expanded && "expanded")}>
-      <div className="faq__summary" onClick={() => setExpanded(!expanded)}>
+    <div className="faq__clause" aria-expanded={expanded}>
+      <div className="faq__summary" aria-details="show more" onClick={() => setExpanded(!expanded)}>
         <div className="faq__title">{props.summary}</div>
       </div>
-      <div className="faq__content" style={{ "--height": height + "px" }} ref={element => setHeight(element?.scrollHeight)}>
-        <div className="faq__inner">
-          <div className="faq__text">{props.children}</div>
-        </div>
+      <div className={classWithModifiers("faq__content", expanded && "expanded")} aria-hidden={!expanded} style={{ "--height": height }}>
+        <div className="faq__inner" ref={innerRef}>{props.children}</div>
       </div>
     </div>
   )
