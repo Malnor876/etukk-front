@@ -3,7 +3,7 @@ import StarRating from "app/components/UI/StarRating/StarRating"
 import TextareaAttachments from "app/components/UI/Textarea/TextareaAttachments"
 import ToolTipBadge from "app/components/UI/ToolTipBadge/ToolTipBadge"
 import You from "app/components/UI/You/You"
-import PopupLayout from "app/layouts/PopupLayout/PopupLayout"
+import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
 
@@ -12,7 +12,7 @@ import PopupReviewAccepted from "./PopupReviewAccepted"
 function PopupReview() {
   const { close } = useModal()
   function onSubmit() {
-    close()
+    // close()
     Modal.open(PopupReviewAccepted)
   }
   return (

@@ -1,5 +1,5 @@
 import Button from "app/components/UI/Button/Button"
-import PopupLayout from "app/layouts/PopupLayout/PopupLayout"
+import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { useModal } from "modules/modal/hook"
 
 

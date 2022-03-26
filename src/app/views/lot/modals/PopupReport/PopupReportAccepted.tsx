@@ -1,5 +1,5 @@
 import ButtonLink from "app/components/UI/Button/ButtonLink"
-import PopupLayout from "app/layouts/PopupLayout/PopupLayout"
+import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 
 function PopupReportAccepted() {
   return (

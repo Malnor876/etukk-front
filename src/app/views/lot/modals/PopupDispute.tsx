@@ -3,7 +3,7 @@ import Selector from "app/components/UI/Selector/Selector"
 import TextareaAttachments from "app/components/UI/Textarea/TextareaAttachments"
 import ToolTipBadge from "app/components/UI/ToolTipBadge/ToolTipBadge"
 import You from "app/components/UI/You/You"
-import PopupLayout from "app/layouts/PopupLayout/PopupLayout"
+import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { useModal } from "modules/modal/hook"
 
 function PopupDispute() {

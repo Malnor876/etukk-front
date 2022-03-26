@@ -2,22 +2,28 @@ import Button from "app/components/UI/Button/Button"
 import Icon from "app/components/UI/Icon/Icon"
 import Selector from "app/components/UI/Selector/Selector"
 import TextareaAttachments from "app/components/UI/Textarea/TextareaAttachments"
-import PopupLayout from "app/layouts/PopupLayout/PopupLayout"
+import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
 
 import PopupReportAccepted from "./PopupReportAccepted"
 
-function PopupReport() {
+interface PopupReportProps {
+  onSubmit(): void | Promise<unknown>
+}
+
+function PopupReport(props: PopupReportProps) {
   const { close } = useModal()
-  function onSubmit() {
+  async function onSubmit() {
+    await props.onSubmit()
+
     close()
     Modal.open(PopupReportAccepted)
   }
   return (
     <PopupLayout width="40em">
       <form>
-        <Icon name="attention" size="3.5em" />
+        <Icon name="attention" size="3.5em" color="red" />
         <h2>Пожаловаться</h2>
         <Selector width="25em">
           <option>1</option>
@@ -28,7 +34,7 @@ function PopupReport() {
           Кратко опишите причину по которой Вы решили пожаловаться на объявление
         </TextareaAttachments>
         <div>
-          <Button type="submit" onClick={onSubmit}>Открыть спор по товару</Button>
+          <Button type="submit" await onClick={onSubmit}>Открыть спор по товару</Button>
         </div>
       </form>
     </PopupLayout>
