@@ -1,0 +1,22 @@
+@import "~app/assets/scss/bundle.scss";
+
+.get-back {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+
+	color: $color-main-text;
+	text-decoration: none;
+}
+
+.get-back__icon {
+	--icon-size: 0.75em;
+
+	transform: rotate(90deg);
+}
+
+.get-back__text {
+	font-size: $font-size-3;
+	font-weight: 600;
+	text-transform: uppercase;
+}
