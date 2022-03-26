@@ -1,10 +1,11 @@
-import { Filter, FilterCheckboxes, FilterColumn, FilterPriceRange, FilterRadios, FiltersToolbox } from "app/components/containers/Filters/Filters"
+import { Filter, FilterCheckboxes, FilterPriceRange, FilterRadios, FiltersToolbox } from "app/components/containers/Filters/Filters"
 import Button from "app/components/UI/Button/Button"
 import Checkbox from "app/components/UI/Checkbox/Checkbox"
 import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"
 import Radio from "app/components/UI/Radio/Radio"
 import ToolTip from "app/components/UI/ToolTip/ToolTip"
+import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import { Dispatch, useState } from "react"
 import { classWithModifiers } from "utils/common"
 
@@ -58,7 +59,7 @@ function FF() {
         </FilterCheckboxes>
       </Filter> */}
       <Filter group label="КАТЕГОРИИ">
-        <FilterColumn>
+        <Column>
           <Filter label="Города">
             <FilterCheckboxes name="city">
               <Checkbox name="moscow">Москва</Checkbox>
@@ -77,9 +78,9 @@ function FF() {
               <Checkbox name="karaganda">Караганда</Checkbox>
             </FilterCheckboxes>
           </Filter>
-        </FilterColumn>
+        </Column>
 
-        <FilterColumn>
+        <Column>
           <Filter label="Города">
             <FilterCheckboxes name="city">
               <Checkbox name="moscow">Москва</Checkbox>
@@ -93,9 +94,9 @@ function FF() {
               <Checkbox name="karaganda">Караганда</Checkbox>
             </FilterCheckboxes>
           </Filter>
-        </FilterColumn>
+        </Column>
 
-        <FilterColumn>
+        <Column>
           <Filter label="Города">
             <FilterCheckboxes name="city">
               <Checkbox name="moscow">Москва</Checkbox>
@@ -109,9 +110,9 @@ function FF() {
               <Checkbox name="karaganda">Караганда</Checkbox>
             </FilterCheckboxes>
           </Filter>
-        </FilterColumn>
+        </Column>
 
-        {/* <FilterColumn>
+        {/* <Column>
           <Filter label="Города">
             <FilterCheckboxes name="city">
               <Checkbox name="moscow">Москва</Checkbox>
@@ -133,8 +134,8 @@ function FF() {
               <Checkbox name="karaganda">Караганда</Checkbox>
             </FilterCheckboxes>
           </Filter>
-        </FilterColumn>
-        <FilterColumn>
+        </Column>
+        <Column>
           <Filter label="Города">
             <FilterCheckboxes name="city">
               <Checkbox name="moscow">Москва</Checkbox>
@@ -156,7 +157,7 @@ function FF() {
               <Checkbox name="karaganda">Караганда</Checkbox>
             </FilterCheckboxes>
           </Filter>
-        </FilterColumn> */}
+        </Column> */}
       </Filter>
       <Filter label="СТАТУС ТОРГОВ">
         <FilterRadios name="status">

@@ -6,6 +6,7 @@ import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"
 import Radio, { RadioProps } from "app/components/UI/Radio/Radio"
 import ToolTip from "app/components/UI/ToolTip/ToolTip"
+import { Row } from "app/layouts/BaseLayouts/BaseLayouts"
 import _ from "lodash"
 import { ChangeEvent, Children, cloneElement, Dispatch, ReactElement, ReactNode, useContext, useState } from "react"
 import { classWithModifiers } from "utils/common"
@@ -36,28 +37,6 @@ export function Filter(props: FilterProps) {
         role="group"
         aria-expanded={expanded}>{props.children}</div>
     </div>
-  )
-}
-
-
-interface FilterColumnProps {
-  children: ReactNode
-}
-
-export function FilterRow(props: FilterColumnProps) {
-  return (
-    <div className="filter-row">{props.children}</div>
-  )
-}
-
-
-interface FilterColumnProps {
-  children: ReactNode
-}
-
-export function FilterColumn(props: FilterColumnProps) {
-  return (
-    <div className="filter-column">{props.children}</div>
   )
 }
 
@@ -118,11 +97,12 @@ export function FilterCheckboxes(props: FilterCheckboxesProps) {
   if (!(filterValue instanceof Array)) {
     throw new ReactError(FilterCheckboxes, `Got bad value. You probably used "${props.name}" somewhere else.`)
   }
-  function onChange(willBeChecked: boolean, name: string) {
-    if (willBeChecked === false) {
-      return setFilters({ ...filters, [props.name]: filterValue.filter(chunk => chunk !== name) })
+  function onChange(event: ChangeEvent<HTMLInputElement>) {
+    const target = event.currentTarget
+    if (target.checked === false) {
+      return setFilters({ ...filters, [props.name]: filterValue.filter(chunk => chunk !== target.name) })
     }
-    setFilters({ ...filters, [props.name]: [...new Set([...filterValue, name])] })
+    setFilters({ ...filters, [props.name]: [...new Set([...filterValue, target.name])] })
   }
   function reset() {
     setFilters(_.omit(filters, props.name))
@@ -146,7 +126,7 @@ interface FilterRadiosProps {
 export function FilterRadios(props: FilterRadiosProps) {
   const [filters, setFilters] = useContext(filtersContext)
   const filterValue = filters[props.name]
-  function onChange(_name: string, value: unknown) {
+  function onChange(value: unknown) {
     setFilters({ ...filters, [props.name]: value })
   }
   function reset() {
@@ -154,7 +134,7 @@ export function FilterRadios(props: FilterRadiosProps) {
   }
   return (
     <>
-      <Radio onChange={reset} checked={filterValue == null}>Все</Radio>
+      <Radio value="all" onChange={reset} checked={filterValue == null}>Все</Radio>
       {Children.map(props.children, child => (
         cloneElement<RadioProps>(child, { ...child.props, checked: filterValue === child.props.value, onChange })
       ))}
@@ -185,9 +165,9 @@ export function FilterPriceRange(props: FilterPriceRangeProps) {
     }
   }
   return (
-    <div className="filter-row">
+    <Row>
       <Input type="number" placeholder="Стоимость от" iconName="rub" value={min || ""} onInput={onChangeFactory(setMin)} />
       <Input type="number" placeholder="Стоимость до" iconName="rub" value={max || ""} onInput={onChangeFactory(setMax)} />
-    </div>
+    </Row>
   )
 }
