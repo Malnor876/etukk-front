@@ -17,10 +17,6 @@
 	}
 
 	@include Mobile {
-		left: 5vw;
-		right: 5vw;
-		bottom: 2.5vh;
-
 		display: grid;
 		gap: 1em;
 
