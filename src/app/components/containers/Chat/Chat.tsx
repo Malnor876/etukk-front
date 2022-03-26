@@ -1,7 +1,7 @@
 import "./Chat.scss"
 
-import { Dispatch } from "react"
-import { UserSigned } from "redux/reducers/user/types"
+import { UserSigned } from "infrastructure/persistence/redux/reducers/user/types"
+import { Dispatch, useState } from "react"
 
 import { ChatMessageType } from "./Chat.types"
 import ChatMessage from "./ChatMessage"
@@ -14,6 +14,11 @@ interface ChatProps {
 }
 
 function Chat(props: ChatProps) {
+  const [messages, setMessages] = useState(props.messages)
+  async function onSubmit(message: string) {
+    await props.onSubmit?.(message)
+    setMessages([...messages, { date: new Date, message, onRight: true }])
+  }
   return (
     <div className="chat">
       <div className="chat-recipient">
@@ -21,11 +26,11 @@ function Chat(props: ChatProps) {
         <div className="chat-recipient__name">{props.recipient.firstName}</div>
       </div>
       <div className="chat__field">
-        {props.messages.map((message, index) => (
+        {messages.map((message, index) => (
           <ChatMessage {...message} key={index} />
         ))}
       </div>
-      <ChatSend onSubmit={props.onSubmit} />
+      <ChatSend onSubmit={onSubmit} />
     </div>
   )
 }
