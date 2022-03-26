@@ -1,7 +1,7 @@
 import "./Selector.scss"
 
 import useClickAway from "hooks/useClickAway"
-import { ComponentProps, Dispatch, ReactElement, useRef, useState } from "react"
+import { Children, ComponentProps, Dispatch, ReactElement, ReactNode, useRef, useState } from "react"
 import { classWithModifiers } from "utils/common"
 
 import DropDown from "../DropDown/DropDown"
@@ -10,28 +10,34 @@ import Icon from "../Icon/Icon"
 interface SelectorProps<V> {
   name?: string
   width?: string
-  defaultValue?: string
+  defaultValue?: V
   onChange?: Dispatch<V>
-  children: ReactElement<ComponentProps<"option">>[]
+  children: ReactElement<ComponentProps<"option"> & { value: V }>[]
+  label?: ReactNode
 }
 
 function Selector<V = string | undefined>(props: SelectorProps<V>) {
+  const options = Children.map(props.children, child => child.props)
+
   const parentRef = useRef<HTMLDivElement>(null)
-  const [current, setCurrent] = useState<string | null>(null)
+  const [children, setChildren] = useState<ReactNode>(options.find(option => option.value === props.defaultValue)?.children || null)
   const [expanded, setExpanded] = useState(false)
-  function onChange(value: V, children: string) {
+  function onChange(value: V, children: ReactNode) {
     props.onChange?.(value)
-    setCurrent(children)
+    setChildren(children)
     setExpanded(false)
   }
   useClickAway(parentRef, () => setExpanded(false))
   return (
     <div className="selector" style={{ "--selector-width": props.width }} ref={parentRef}>
-      <div className="selector__appearance" onClick={() => setExpanded(!expanded)}>
-        <div className="selector__current">{current || "Выбрать из списка..."}</div>
+      {props.label && (
+        <div className="selector__label">{props.label}</div>
+      )}
+      <button className="selector__appearance" type="button" onClick={() => setExpanded(!expanded)}>
+        <div className="selector__current">{children || "Выбрать из списка..."}</div>
         <Icon className={classWithModifiers("selector__icon", expanded && "up")} name="chevron" />
-      </div>
-      <DropDown name={props.name} expanded={expanded} onChange={onChange}>{props.children}</DropDown>
+      </button>
+      <DropDown name={props.name} default={props.defaultValue} expanded={expanded} onChange={onChange}>{props.children}</DropDown>
     </div>
   )
 }
