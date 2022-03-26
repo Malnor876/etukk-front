@@ -74,8 +74,11 @@
 
 .lot-preview__bookmark {
 	--icon-size: 2em;
+
 	position: absolute;
 	top: 0;
 	right: 10%;
 	transform: translateY(-25%);
+
+	color: $color-raspberry-1;
 }
