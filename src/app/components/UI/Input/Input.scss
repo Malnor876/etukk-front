@@ -3,6 +3,8 @@
 .input {
 	display: grid;
 	gap: 0.5em;
+
+	width: var(--input-width, fit-content);
 }
 
 .input__appearance {

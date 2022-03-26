@@ -7,6 +7,7 @@ import { classWithModifiers } from "utils/common"
 import Icon, { IconName } from "../Icon/Icon"
 
 interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+  width?: string
   iconName?: IconName
   customValidity?: string
   children?: ReactNode
@@ -19,7 +20,7 @@ function Input(props: InputProps) {
     setInvalid(!event.currentTarget.validity.valid)
   }
   return (
-    <label className={classWithModifiers("input", invalid && "invalid")}>
+    <label className={classWithModifiers("input", invalid && "invalid")} style={{ "--input-width": props.width }}>
       {props.children && (
         <div className="input__label">{props.children}</div>
       )}
