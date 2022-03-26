@@ -5,17 +5,17 @@ import { ReactNode } from "react"
 
 export interface RadioProps<V = unknown> {
   name?: string
-  value?: V
+  value: V
   checked?: boolean
   defaultChecked?: boolean
-  onChange?(name?: string, value?: V): void
+  onChange?(value: V, name?: string): void
 
   children?: ReactNode
 }
 
 function Radio<V>(props: RadioProps<V>) {
   function onChange() {
-    props.onChange?.(props.name, props.value)
+    props.onChange?.(props.value, props.name)
   }
   return (
     <label className="radio">
