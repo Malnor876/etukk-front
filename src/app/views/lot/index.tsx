@@ -1,39 +1,38 @@
-import SellerPreview from "app/components/business/SellerPreview/SellerPreview"
 import { ReactError } from "app/components/services/ErrorBoundary/ErrorBoundary.errors"
-import Button from "app/components/UI/Button/Button"
-import Details from "app/components/UI/Details/Details"
-import { Modal } from "modules/modal/controller"
+import { IMAGE_MOCKS } from "constants/mocks"
+import LotBidUp from "domain/Lot/LotBidUp"
+import LotInfo from "domain/Lot/LotInfo"
+import LotTrade from "domain/Lot/LotTrade"
 import { useParams } from "react-router"
-import { Link } from "react-router-dom"
-
-import PopupDispute from "./modals/PopupDispute"
-import PopupReport from "./modals/PopupReport/PopupReport"
-import PopupReview from "./modals/PopupReview/PopupReview"
 
 function LotView() {
   const { lotId } = useParams<"lotId">()
   if (lotId == null) {
     throw new ReactError(LotView, "got no lotId")
   }
-  return (
-    <>
-      <Button onClick={() => Modal.open(PopupReport)}>PopupReport</Button>
-      <Button onClick={() => Modal.open(PopupReview)}>PopupReview</Button>
-      <Button onClick={() => Modal.open(PopupDispute)}>PopupDispute</Button>
+  if (isNaN(+lotId)) {
+    throw new ReactError(LotView, "lotId is not number")
+  }
 
-      <div>
-        <Details date={new Date} summary={<>Продавец разместил новый лот в категории <Link to="/1">Мебель</Link></>}>
-          <SellerPreview
-            avatar=""
-            name="ИП ПОВЕЛИТЕЛЬ МЕБЕЛИ и мира в целом"
-            city="Москва"
-            likes={5}
-            dislikes={1}
-            lotsCount={1}
-          />
-        </Details>
+  function onBookmark() {
+    1
+  }
+
+  const specifications = [
+    { key: "Марка", value: "Русмебель" },
+    { key: "Год выпуска", value: "2017" },
+    { key: "Номер модели", value: "123456789101112" }
+  ]
+  return (
+    <div className="lot-layout">
+      <div className="lot-layout__section">
+        <LotInfo slides={[...IMAGE_MOCKS]} description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa soluta earum tenetur odio eius nostrum officiis possimus, dolorum asperiores ratione sint dolor veniam obcaecati unde fugiat incidunt, quasi aliquam! Tenetur." specifications={specifications} bookmarked onBookmark={onBookmark} />
       </div>
-    </>
+      <div className="lot-layout__section">
+        <LotTrade price={100} city="Москва" title="ЗАГОЛОВОК ВМЕСТИТСЯ 2 СТРОКИ НЕ БОЛЬШЕ" tradeStart={new Date} tradeEnd={new Date} />
+        <LotBidUp bid={1100} step={100} />
+      </div>
+    </div>
   )
 }
 
