@@ -7,7 +7,7 @@
       "ESNext",
     ],
     "baseUrl": "src",
-    // "skipLibCheck": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
