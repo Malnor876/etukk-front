@@ -4,6 +4,7 @@ import SortingToggle from "app/components/UI/SortingToggle/SortingToggle"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import Container from "app/layouts/Container/Container"
 import Previews from "app/layouts/Previews/Previews"
+import { LOT_PREVIEW_MOCK } from "constants/mocks"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
 import { getLots } from "infrastructure/persistence/api/actions/lots"
 import QueryContainer from "infrastructure/persistence/api/components/QueryContainer"
@@ -34,18 +35,21 @@ function HomeView() {
         <Route index element={
           <Container row>
             <SortingToggle />
-            <QueryContainer action={getLots(12, 1)} mapping={mapGetLots}>
-              {payload => (
-                <Container>
-                  <Previews>
-                    {payload.items.map(lot => (
+            {/* <QueryContainer action={getLots(12, 1)} mapping={mapGetLots}>
+              {payload => ( */}
+            <Container>
+              <Previews>
+                {/* {payload.items.map(lot => (
                       <LotPreview {...lot} key={lot.id} />
-                    ))}
-                  </Previews>
-                  <FiltersContainer onSubmit={console.log} />
-                </Container>
-              )}
-            </QueryContainer>
+                    ))} */}
+                {[...Array(12)].map((_, index) => (
+                  <LotPreview {...LOT_PREVIEW_MOCK} key={index} />
+                ))}
+              </Previews>
+              <FiltersContainer onSubmit={console.log} />
+            </Container>
+            {/* )}
+            </QueryContainer> */}
           </Container>
         } />
       </Routes>
