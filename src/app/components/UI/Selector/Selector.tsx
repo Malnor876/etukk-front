@@ -34,7 +34,7 @@ function Selector<V = string | undefined>(props: SelectorProps<V>) {
         <div className="selector__label">{props.label}</div>
       )}
       <button className="selector__appearance" type="button" onClick={() => setExpanded(!expanded)}>
-        <div className="selector__current">{children || "Выбрать из списка..."}</div>
+        <div className={classWithModifiers("selector__current", !children && "empty")}>{children || "Выбрать из списка..."}</div>
         <Icon className={classWithModifiers("selector__icon", expanded && "up")} name="chevron" />
       </button>
       <DropDown name={props.name} default={props.defaultValue} expanded={expanded} onChange={onChange}>{props.children}</DropDown>

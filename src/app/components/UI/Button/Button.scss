@@ -23,7 +23,7 @@
 	$hover-color: var(--hover-button-color);
 
 	position: relative;
-	display: flex;
+	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 
@@ -37,11 +37,15 @@
 
 	color: $color;
 
-	&:active:not(&:disabled) {
+	&:disabled:not(&--pending) {
+		opacity: 0.2;
+	}
+
+	&:active:not(:disabled) {
 		opacity: 0.7;
 	}
 
-	&:hover:not(&:disabled) {
+	&:hover:not(:disabled) {
 		background: $hover-background-color;
 		border-color: $hover-border-color;
 		color: $hover-color;

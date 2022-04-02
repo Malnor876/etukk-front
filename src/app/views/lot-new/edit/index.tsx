@@ -1,9 +1,10 @@
+import Backward from "app/components/UI/Backward/Backward"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
-import GetBack from "app/components/UI/GetBack/GetBack"
 import Quote from "app/components/UI/Quote/Quote"
 import Container from "app/layouts/Container/Container"
 import ViewNarrow from "app/layouts/ViewNarrow/ViewNarrow"
 import EditLotCategory from "app/views/lot-new/edit/EditLotCategory"
+import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
 import { Route, Routes } from "react-router"
 import { useParams } from "react-router"
 
@@ -13,6 +14,7 @@ import EditLotName from "./EditLotName"
 import EditLotSpecifications from "./EditLotSpecifications"
 import EditLotTrade from "./EditLotTrade"
 
+export const lotNewStorage = new TemporaryStorage("lot-new")
 const LotNewEditSectionsOrder = ["", "name", "specifications", "description", "files", "trade"]
 
 function LotNewEditView() {
@@ -60,7 +62,7 @@ function LotNewEditView() {
       <Container>
         {isCurrentRouteBase && <div />}
         {!isCurrentRouteBase && (
-          <GetBack replace to={prevRoute} />
+          <Backward replace to={prevRoute} />
         )}
         {!isCurrentRouteLast && (
           <ButtonLink replace to={nextRoute}>Далее</ButtonLink>

@@ -3,7 +3,7 @@ import SortingToggle from "app/components/UI/SortingToggle/SortingToggle"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import Buttons from "app/layouts/Buttons/Buttons"
 import Previews from "app/layouts/Previews/Previews"
-import { IMAGE_MOCKS } from "constants/mocks"
+import { IMAGE_MOCKS, LOT_PREVIEW_MOCK } from "constants/mocks"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
 import SellerPreview from "domain/seller/SellerPreview/SellerPreview"
 import { Outlet, Route, Routes } from "react-router"
@@ -33,16 +33,7 @@ function FavouritesView() {
           <Route index element={
             <Previews>
               {[...Array(16)].map((_, i) => (
-                <LotPreview
-                  id={i}
-                  city="Москва"
-                  title="ЗАГОЛОВОК ВМЕСТИТСЯ 2 СТРОКИ НЕ БОЛЬШЕ ЗАГОЛОВОК ВМЕСТИТСЯ 2 СТРОКИ НЕ БОЛЬШЕ"
-                  image={IMAGE_MOCKS[0]}
-                  price={100}
-                  tradeStart={new Date}
-                  bookmarked
-                  key={i}
-                />
+                <LotPreview {...LOT_PREVIEW_MOCK} key={i} />
               ))}
             </Previews>
           } />

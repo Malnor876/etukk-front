@@ -3,7 +3,7 @@ import "./Previews.scss"
 import { ReactNode } from "react"
 
 interface PreviewsProps {
-  children: ReactNode[]
+  children: ReactNode
 }
 
 function Previews(props: PreviewsProps) {

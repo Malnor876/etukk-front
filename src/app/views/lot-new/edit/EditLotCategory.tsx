@@ -1,8 +1,8 @@
 import Picker from "app/components/UI/Picker/Picker"
-import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
+
+import { lotNewStorage } from "."
 
 function EditLotCategory() {
-  const lotNewStorage = new TemporaryStorage("lot-new")
   const [category, setCategory] = lotNewStorage.state("category")
   return (
     <section>

@@ -1,0 +1,48 @@
+@import "~app/assets/scss/bundle.scss";
+
+.lot-edit-view {
+	display: grid;
+	align-content: flex-start;
+	gap: 3em;
+}
+
+.lot-edit-view__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.lot-edit-view__container {
+	display: grid;
+	align-content: flex-start;
+	gap: 2.5em;
+}
+
+/* Setting */
+
+.lot-edit-setting {
+	display: flex;
+	align-items: flex-start;
+}
+
+.lot-edit-setting__label {
+	width: 100%;
+	max-width: 20ch;
+
+	margin-top: 0.5em;
+	margin-right: 1.5em;
+
+	@include Typography;
+	color: $color-gray-2;
+	font-size: $font-size-5;
+}
+
+.lot-edit-setting__container {
+	display: flex;
+	align-items: flex-start;
+	gap: 1.5em;
+
+	&>.close-button {
+		margin-top: 0.5em;
+	}
+}

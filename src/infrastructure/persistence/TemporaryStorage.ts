@@ -21,7 +21,7 @@ class TemporaryStorage {
   }
 
   set<K, V>(key: K, value: V) {
-    Object.seal(value)
+    // Object.seal(value)
     this.storage.set(key, value)
     this.serialize()
   }

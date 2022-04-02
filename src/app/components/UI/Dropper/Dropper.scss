@@ -1,0 +1,34 @@
+@import "~app/assets/scss/bundle.scss";
+
+.dropper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	padding: 1em 1em;
+	border-radius: $border-radius-1;
+
+	&--active {
+		background: rgba($color-gray-1, 0.1);
+		font-weight: 500;
+	}
+}
+
+.dropper__text {
+	font-size: $font-size-5;
+}
+
+.dropper__side {
+	display: flex;
+	align-items: center;
+	gap: 1em;
+}
+
+.dropper__icon {
+	--icon-size: 0.75em;
+}
+
+.dropper__amount {
+	font-size: $font-size-5;
+	font-weight: 500;
+}

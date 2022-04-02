@@ -90,7 +90,7 @@ $toggleSize: 1.5em;
 	gap: 1em;
 
 	&>* {
-		padding-top: 1.5em;
+		padding-top: 1em;
 		border-top: 1px solid $color-gray-4;
 	}
 }
@@ -136,21 +136,13 @@ $toggleSize: 1.5em;
 /* Filter */
 
 .filter {
-	display: grid;
-	gap: 1.5em;
-
 	&--group {
 		& .filter .filter__title {
 			font-weight: 500;
 			text-transform: capitalize;
 		}
 
-		&>.filter__content {
-			align-content: baseline;
-			justify-content: space-between;
-			column-gap: 5%;
-			grid-template-columns: repeat(auto-fill, minmax($width - 2em, 1fr));
-
+		&>.filter__container {
 			max-height: 50vh;
 			overflow-y: overlay;
 			overflow-x: hidden;
@@ -158,6 +150,13 @@ $toggleSize: 1.5em;
 			padding-right: 1.5em;
 
 			@include Scrollbar;
+
+			&>.filter__inner {
+				align-content: baseline;
+				justify-content: space-between;
+				column-gap: 5%;
+				grid-template-columns: repeat(auto-fill, minmax($width - 2em, 1fr));
+			}
 		}
 	}
 }
@@ -188,11 +187,7 @@ $toggleSize: 1.5em;
 	}
 }
 
-.filter__content {
-	display: grid;
-	align-content: baseline;
-	gap: 1em;
-
+.filter__container {
 	height: auto;
 	height: calc(var(--height) * 1px);
 	transition: 250ms ease opacity, 250ms ease height;
@@ -202,4 +197,12 @@ $toggleSize: 1.5em;
 		height: 0px;
 		pointer-events: none;
 	}
+}
+
+.filter__inner {
+	display: grid;
+	align-content: baseline;
+	gap: 1em;
+
+	padding-top: 1em;
 }

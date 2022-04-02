@@ -11,7 +11,7 @@
 }
 
 .counter-icon__icon {
-	--icon-size: #{$font-size-5};
+	// --icon-size: #{$font-size-5};
 
 	&[name="star"] {
 		color: $color-yellow;

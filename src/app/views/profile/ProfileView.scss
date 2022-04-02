@@ -1,0 +1,32 @@
+@import "~app/assets/scss/bundle.scss";
+
+.profile-view {}
+
+.profile-view__container {
+	display: grid;
+	align-content: baseline;
+	gap: 2em;
+
+	flex: 1;
+}
+
+.profile-view__cover {
+	width: 100%;
+	height: 35em;
+
+	background: $color-gray-4;
+}
+
+/* Layouts */
+
+.profile-view__personal {
+	display: flex;
+	justify-content: space-between;
+	gap: 2em;
+}
+
+.profile-view__general-info {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}

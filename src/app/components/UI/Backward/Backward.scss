@@ -2,7 +2,7 @@
 
 .get-back {
 	display: flex;
-	align-items: center;
+	align-items: baseline;
 	gap: 0.5em;
 
 	color: $color-main-text;
@@ -10,12 +10,16 @@
 }
 
 .get-back__icon {
-	--icon-size: 0.75em;
+	--icon-size: 1em;
 
+	top: 1px;
+	flex-shrink: 0;
 	transform: rotate(90deg);
 }
 
 .get-back__text {
+	@include Typography;
+
 	font-size: $font-size-3;
 	font-weight: 600;
 	text-transform: uppercase;

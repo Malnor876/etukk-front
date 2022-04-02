@@ -1,8 +1,8 @@
 import Input from "app/components/UI/Input/Input"
-import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
+
+import { lotNewStorage } from "."
 
 function EditLotName() {
-  const lotNewStorage = new TemporaryStorage("lot-new")
   const [title, setTitle] = lotNewStorage.state("title", "")
   return (
     <section>

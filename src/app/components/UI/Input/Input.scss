@@ -5,6 +5,10 @@
 	gap: 0.5em;
 
 	width: var(--input-width, fit-content);
+
+	@include Mobile {
+		width: fit-content;
+	}
 }
 
 .input__appearance {
@@ -22,7 +26,7 @@
 
 .input__input {
 	width: 100%;
-	font-size: $font-size-6;
+	font-size: $font-size-5;
 	transition: 200ms ease color;
 
 	&:invalid {
@@ -37,11 +41,19 @@
 .input__icon {
 	--icon-size: #{$font-size-5};
 	color: $color-gray-3;
+
+	&--clickable {
+		cursor: pointer;
+	}
 }
 
 .input__validity {
 	color: $color-raspberry-1;
 	font-size: $font-size-6;
+
+	&:not(&--active) {
+		visibility: hidden;
+	}
 }
 
 .input__label {

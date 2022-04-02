@@ -1,0 +1,26 @@
+@import "~app/assets/scss/bundle.scss";
+
+.lot-page {
+	display: flex;
+	justify-content: space-between;
+
+	&>* {
+		display: grid;
+		align-content: baseline;
+		gap: 2em;
+
+		width: 100%;
+
+		&:nth-child(1) {
+			max-width: 45%;
+		}
+
+		&:nth-child(2) {
+			max-width: 33%;
+		}
+	}
+
+	&--spaceAround {
+		justify-content: space-around;
+	}
+}

@@ -1,6 +1,14 @@
+import ChooseImage from "app/components/UI/ChooseImage/ChooseImage"
 import Input from "app/components/UI/Input/Input"
 
+import { lotNewStorage } from "."
+
 function EditLotFiles() {
+  const [files, setFiles] = lotNewStorage.state<File[]>("files", [])
+  if (files.some(image => !(image instanceof File))) {
+    setFiles([])
+    files.length = 0
+  }
   return (
     <section>
       <h4>Фото и видео лота</h4>
@@ -9,6 +17,7 @@ function EditLotFiles() {
         и характеристик, у Вас будет конкурентное преимущество продать его выгодней и быстрей
       </p>
       <h4>Фото</h4>
+      <ChooseImage defaultValue={files} onChange={setFiles} />
       <h4>Видео</h4>
       <p>Вставьте ссылку на видео в YouTube</p>
       <p>По нашим данным размещение лота с видео повышает цену продажи на 16 % и более</p>

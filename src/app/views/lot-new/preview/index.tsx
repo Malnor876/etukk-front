@@ -5,25 +5,26 @@ import { IMAGE_MOCKS } from "constants/mocks"
 import LotInfo from "domain/Lot/LotInfo"
 import LotTrade from "domain/Lot/LotTrade"
 import { LotInfoType, LotTradeType } from "domain/Lot/types"
-import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
+
+import { lotNewStorage } from "../edit"
 
 function LotNewPreviewView() {
-  const lotNewStorage = new TemporaryStorage("lot-new")
-
+  const files = lotNewStorage.get<File[]>("files") || []
   const specifications = lotNewStorage.get<LotInfoType["specifications"]>("specifications") || []
   const description = lotNewStorage.get<LotInfoType["description"]>("description") || ""
 
   const city = lotNewStorage.get<LotTradeType["city"]>("city") || ""
-  const price = lotNewStorage.get<LotTradeType["price"]>("price") || 0
+  const price = lotNewStorage.get<string>("price") || 0
   const title = lotNewStorage.get<LotTradeType["title"]>("title") || ""
   const date = lotNewStorage.get<string>("date") || "12-20-20"
 
+  const images = (files.some(file => !(file instanceof File)) ? [] : files).map(file => URL.createObjectURL(file))
   return (
     <>
       <h2 className="heading">Просмотр лота перед публикацией</h2>
       <div className="lot-layout">
-        <LotInfo specifications={specifications} description={description} slides={IMAGE_MOCKS} />
-        <LotTrade city={city} price={price} title={title} tradeStart={new Date(date)} tradeEnd={new Date(date)}>
+        <LotInfo specifications={specifications} description={description} slides={images} />
+        <LotTrade city={city} price={+price} title={title} tradeStart={new Date(date)} tradeEnd={new Date(date)}>
           <Buttons>
             <ButtonLink to="../edit">Редактировать</ButtonLink>
             <Button outline>Поместить в архив</Button>

@@ -3,6 +3,12 @@
 .textarea {
 	display: grid;
 	gap: 0.5em;
+
+	width: var(--textarea-width, fit-content);
+
+	@include Mobile {
+		width: fit-content;
+	}
 }
 
 .textarea__appearance {

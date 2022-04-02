@@ -28,11 +28,14 @@
 }
 
 .selector__current {
-	color: $color-gray-3;
 	font-size: $font-size-5;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+
+	&--empty {
+		color: $color-gray-3;
+	}
 }
 
 .selector__icon {

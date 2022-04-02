@@ -47,6 +47,19 @@ export class Modal {
       }
     })
   }
+  public static replace<
+    P extends object = {},
+    AC extends Partial<ModalParams> & P = Partial<ModalParams> & P
+  >(
+    component: ModalComponent<P>,
+    ...[params]: AnyIfEmpty<P> extends object ? [AC] : [AC?]
+  ): Promise<void> {
+    modalPrivate.dispatch(state => ({
+      ...state,
+      queue: state.queue.slice(0, -1)
+    }))
+    return Modal.open(component, params as never)
+  }
   private static add(modalWindow: ModalWindow) {
     modalPrivate.dispatch(state => {
       // Make that we need it

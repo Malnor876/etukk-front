@@ -11,11 +11,11 @@ function SupportView() {
     <>
       <h2 className="heading">Тех. поддержка</h2>
       <Buttons>
-        <ButtonLink small outline to="faq">FAQ</ButtonLink>
-        <ButtonLink small outline to="chat">Чат</ButtonLink>
+        <ButtonLink small outline nav to="" end>FAQ</ButtonLink>
+        <ButtonLink small outline nav to="chat">Чат</ButtonLink>
       </Buttons>
       <Routes>
-        <Route path="faq" element={<SupportViewFAQ />} />
+        <Route index element={<SupportViewFAQ />} />
         <Route path="chat" element={<SupportViewChat />} />
       </Routes>
     </>

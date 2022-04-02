@@ -8,7 +8,7 @@ import Radio, { RadioProps } from "app/components/UI/Radio/Radio"
 import ToolTip from "app/components/UI/ToolTip/ToolTip"
 import { Row } from "app/layouts/BaseLayouts/BaseLayouts"
 import _ from "lodash"
-import { ChangeEvent, Children, cloneElement, Dispatch, ReactElement, ReactNode, useContext, useState } from "react"
+import { ChangeEvent, Children, cloneElement, Dispatch, ReactElement, ReactNode, useContext, useEffect, useRef, useState } from "react"
 import { classWithModifiers } from "utils/common"
 
 import { FilterKey, FiltersState } from "./Filters.types"
@@ -22,8 +22,14 @@ interface FilterProps {
 }
 
 export function Filter(props: FilterProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
   const [expanded, setExpanded] = useState(false)
   const [contentHeight, setContentHeight] = useState<number>()
+  useEffect(() => {
+    if (containerRef.current === null) return
+    // console.log(containerRef.current.scrollHeight)
+    setContentHeight(containerRef.current.scrollHeight)
+  }, [])
   return (
     <div className={classWithModifiers("filter", props.group && "group")} aria-label="filter" aria-details="toggle filter">
       <div className="filter__header" onClick={() => setExpanded(!expanded)}>
@@ -31,12 +37,16 @@ export function Filter(props: FilterProps) {
         <Icon className={classWithModifiers("filter__icon", expanded && (props.group ? "rotate" : "up"))} name={props.group ? "plus" : "chevron"} />
       </div>
       <div
-        className={classWithModifiers("filter__content", expanded && "expanded")}
+        className={classWithModifiers("filter__container", expanded && "expanded")}
         style={{ "--height": contentHeight }}
-        ref={element => setContentHeight(element?.scrollHeight)}
+        ref={containerRef}
         role="group"
-        aria-expanded={expanded}>{props.children}</div>
-    </div>
+        aria-expanded={expanded}>
+        <div className={classWithModifiers("filter__inner", props.group && "group")}>
+          {props.children}
+        </div>
+      </div>
+    </div >
   )
 }
 

@@ -7,13 +7,25 @@
 
 .entry {
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
 
 	font-size: $font-size-5;
 	font-weight: 500;
 
-	:nth-child(1) {
+	:not(em):nth-child(1) {
 		color: $color-gray-2;
+	}
+
+	:nth-child(1) {
+		font-weight: 400;
+	}
+
+	:nth-child(2) {}
+
+	big {
+		font-size: $font-size-3;
+		font-weight: 600;
 	}
 
 	&--reverse {
@@ -32,6 +44,8 @@
 		gap: 0.5em;
 	}
 }
+
+/* Counter */
 
 .entry-counter {
 	display: flex;

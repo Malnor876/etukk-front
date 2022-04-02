@@ -1,9 +1,9 @@
 import Textarea from "app/components/UI/Textarea/Textarea"
-import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
 import { inputValue } from "utils/common"
 
+import { lotNewStorage } from "."
+
 function EditLotDescription() {
-  const lotNewStorage = new TemporaryStorage("lot-new")
   const [description, setDescription] = lotNewStorage.state("description", "")
   return (
     <section>

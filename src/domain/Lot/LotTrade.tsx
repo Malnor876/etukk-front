@@ -1,10 +1,10 @@
 import "./Lot.scss"
 
+import Backward from "app/components/UI/Backward/Backward"
 import Icon from "app/components/UI/Icon/Icon"
 import Entries from "app/layouts/Entries/Entries"
 import Entry from "app/layouts/Entries/Entry"
 import { ReactNode } from "react"
-import { useNavigate } from "react-router"
 import { humanizeDate } from "utils/date"
 
 import { LotTradeType } from "./types"
@@ -14,15 +14,9 @@ interface LotTradeProps extends LotTradeType {
 }
 
 function LotTrade(props: LotTradeProps) {
-  const navigate = useNavigate()
   return (
     <div className="lot-trade">
-      <div className="lot-trade__header">
-        <button className="lot-trade__backward" type="button" onClick={() => navigate(-1)}>
-          <Icon name="chevron" />
-        </button>
-        <h2 className="lot-trade__title heading">{props.title}</h2>
-      </div>
+      <Backward>{props.title}</Backward>
       <div className="lot-trade__city">
         <span>Москва</span>
         <Icon name="truck" />
