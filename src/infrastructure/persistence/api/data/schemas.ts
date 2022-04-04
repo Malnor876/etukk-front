@@ -127,6 +127,37 @@ export interface SchemaSearchLists {
 	}
 }
 
+export interface SchemaFavorite {
+	lots: number
+}
+
+export interface SchemaFavoriteAddResponse {
+	status: boolean
+	msg: string
+	result: "add" | "delete"
+}
+
+export interface SchemaFavoriteUsers {
+	status: boolean
+	msg: string
+	result: number[]
+}
+
+export interface SchemaFavoriteList {
+	status: boolean
+	msg: string
+	result: {
+		limit: number
+		current: number
+		items: SchemaLotsItem[]
+	}
+}
+
+export interface SchemaLikes {
+	entity: string
+	id: number
+}
+
 export interface SchemaLotsGetFormData {
 	id: number
 	category: number
@@ -151,6 +182,7 @@ export interface SchemaLotsSpecifications {
 }
 
 export interface SchemaLotsUsersBets {
+	uid: number
 	users: string
 	bet: number
 	date: string
@@ -177,10 +209,11 @@ export interface SchemaLotsContentItem {
 	result: {
 		name: string
 		content: string
-		specifications: SchemaLotsSpecifications[] | null
+		specifications: SchemaLotsSpecifications[]
 		picture: string[]
 		video: string
 		address: string
+		delivery: "other_regions" | "only_city"
 		trading_start: string
 		trading_end: string
 		started: string
@@ -190,6 +223,16 @@ export interface SchemaLotsContentItem {
 		price_bids: SchemaLotsUsersBets[]
 		binds_number: number
 		bind_current: number
+		users_info: {
+			id: number
+			name: string
+			type: "organization" | "user"
+			reviews: {
+				likes: number
+				dislikes: number
+			}
+			rating: number
+		}
 	}
 }
 
@@ -199,8 +242,8 @@ export interface SchemaLotsItem {
 	price: number
 	picture: string
 	address: string
-	started: string
-	users: SchemaUsersInfo
+	delivery: "other_regions" | "only_city"
+	trading_start: string
 }
 
 export interface SchemaReviewsAdd {
@@ -400,8 +443,8 @@ export interface SchemaUsersCabinet {
 export interface SchemaUsersInfo {
 	id: number
 	name: string
+	type: "organization" | "user"
 	pricture: string
-	address: string
 	rating_buyer: number
 	rating_seller: number
 }

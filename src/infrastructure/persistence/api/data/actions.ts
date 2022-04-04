@@ -14,6 +14,11 @@ import {
   SchemaContent,
   SchemaDeliveryPrice,
   SchemaDeliveryZone,
+  SchemaFavorite,
+  SchemaFavoriteAddResponse,
+  SchemaFavoriteList,
+  SchemaFavoriteUsers,
+  SchemaLikes,
   SchemaLikesGet,
   SchemaLotsContentItem,
   SchemaLotsGetFormData,
@@ -71,12 +76,12 @@ export const getGetBreadcrumbsByPagesId = (pages_id: number): Action<SchemaPages
 })
 
 /**
- * фильтрации по категориям/подкатегориям/цене
+ * Вывод лотов из выбранных параметров
  */
 export const getGetFilters = (price: {
   min: number
   max: number
-}[], category: number[], seller_type: "all" | "users" | "legal_entity" = "all", delivery: "all" | "other_regions" | "only_city" = "all", period: {
+}[], category: number[], seller_type: "all" | "users" | "legal_entity", delivery: "all" | "other_regions" | "only_city", period: {
   date_start: string
   date_end: string
 }[], started: number): Action<SchemaSearchLists> => ({
@@ -293,6 +298,31 @@ export const postCabinetNotificationsRead = (body: {
 })
 
 /**
+ * Вывод списка лотов, которые находятся в избранном пользователя
+ */
+export const getCabinetFavorite = (): Action<SchemaFavoriteList> => ({
+  method: "GET",
+  endpoint: `/cabinet/favorite`
+})
+
+/**
+ * Вывод списка лотов, которые находятся в избранном пользователя
+ */
+export const getCabinetFavoriteUsers = (): Action<SchemaFavoriteUsers> => ({
+  method: "GET",
+  endpoint: `/cabinet/favorite/users`
+})
+
+/**
+ * Добавить Лот в избранное. Если он там уже есть, то лот удаляется.
+ */
+export const putCabinetFavoriteAdd = (body: SchemaFavorite): Action<SchemaFavoriteAddResponse> => ({
+  method: "PUT",
+  endpoint: `/cabinet/favorite/add`,
+  body
+})
+
+/**
  * Получить лайки сущности
  */
 export const getCabinetLikes = (entity: string, id: number): Action<SchemaLikesGet> => ({
@@ -304,19 +334,19 @@ export const getCabinetLikes = (entity: string, id: number): Action<SchemaLikesG
 /**
  * Передать/Отозвать лайк
  */
-export const getCabinetDislikesAdd = (entity: string, id: number): Action<SchemaLikesGet> => ({
-  method: "GET",
+export const postCabinetDislikesAdd = (body: SchemaLikes): Action<SchemaLikesGet> => ({
+  method: "POST",
   endpoint: `/cabinet/dislikes/add`,
-  params: { entity, id }
+  body
 })
 
 /**
  * Передать/Отозвать лайк
  */
-export const getCabinetLikesAdd = (entity: string, id: number): Action<SchemaLikesGet> => ({
-  method: "GET",
+export const postCabinetLikesAdd = (body: SchemaLikes): Action<SchemaLikesGet> => ({
+  method: "POST",
   endpoint: `/cabinet/likes/add`,
-  params: { entity, id }
+  body
 })
 
 /**
