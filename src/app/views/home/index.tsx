@@ -6,9 +6,6 @@ import Container from "app/layouts/Container/Container"
 import Previews from "app/layouts/Previews/Previews"
 import { LOT_PREVIEW_MOCK } from "constants/mocks"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
-import { getLots } from "infrastructure/persistence/api/actions/lots"
-import QueryContainer from "infrastructure/persistence/api/components/QueryContainer"
-import { mapGetLots } from "infrastructure/persistence/api/mappings/lots"
 import { useState } from "react"
 import { useMatch } from "react-router"
 import { Route, Routes } from "react-router"
@@ -35,21 +32,14 @@ function HomeView() {
         <Route index element={
           <Container row>
             <SortingToggle />
-            {/* <QueryContainer action={getLots(12, 1)} mapping={mapGetLots}>
-              {payload => ( */}
             <Container>
               <Previews>
-                {/* {payload.items.map(lot => (
-                      <LotPreview {...lot} key={lot.id} />
-                    ))} */}
                 {[...Array(12)].map((_, index) => (
                   <LotPreview {...LOT_PREVIEW_MOCK} key={index} />
                 ))}
               </Previews>
               <FiltersContainer onSubmit={console.log} />
             </Container>
-            {/* )}
-            </QueryContainer> */}
           </Container>
         } />
       </Routes>
