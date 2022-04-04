@@ -1,8 +1,7 @@
+import { Action } from "infrastructure/persistence/api/client.types"
+import { endpointTransform } from "infrastructure/persistence/api/interceptors"
 import _ from "lodash"
 import { HTMLAttributes } from "react"
-
-import { Action } from "../client.types"
-import { endpointTransform } from "../interceptors"
 
 interface ActionOuterLinkProps extends Omit<HTMLAttributes<HTMLAnchorElement>, "href"> {
   action: Action
