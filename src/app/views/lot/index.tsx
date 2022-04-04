@@ -30,7 +30,7 @@ function LotView() {
       </div>
       <div className="lot-layout__section">
         <LotTrade price={100} city="Москва" title="ЗАГОЛОВОК ВМЕСТИТСЯ 2 СТРОКИ НЕ БОЛЬШЕ" tradeStart={new Date} tradeEnd={new Date} />
-        <LotBidUp bid={1100} step={100} />
+        <LotBidUp current={1100} start={100} step={100} />
       </div>
     </div>
   )
