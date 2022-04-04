@@ -3,12 +3,6 @@
 .textarea {
 	display: grid;
 	gap: 0.5em;
-
-	width: var(--textarea-width, fit-content);
-
-	@include Mobile {
-		width: fit-content;
-	}
 }
 
 .textarea__appearance {
@@ -34,9 +28,8 @@
 }
 
 .textarea__label {
-	// max-width: 35ch;
-	// color: $color-gray-3;
-	font-size: $font-size-5;
+	@include Typography;
+	font-size: $font-size-6;
 }
 
 /* Attachments */

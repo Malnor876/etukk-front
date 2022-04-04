@@ -18,20 +18,16 @@ $gap: 1em;
 	}
 
 	position: absolute;
-	// inset: 0;
+	inset: 0;
 
 	display: grid;
+	align-items: center;
+	justify-content: center;
 
-	width: var(--dialog-width);
-	background: $color-white;
-	border: 1px solid $color-gray-3;
-	border-radius: $border-radius-1;
-	cursor: pointer;
-
-	margin: auto;
+	
 	animation: 200ms ease show forwards;
-	cursor: initial;
-
+	cursor: pointer;
+	
 	.modal:not(.modal--active) & {
 		animation: 200ms ease hide forwards;
 	}
@@ -44,9 +40,6 @@ $gap: 1em;
 }
 
 .dialog-layout__container {
-	display: grid;
-	gap: $gap;
-
 	@include Mobile {
 		width: 100vw;
 		padding: unset;
@@ -63,8 +56,15 @@ $gap: 1em;
 
 .dialog-layout__inner {
 	display: grid;
-	align-content: baseline;
+	align-content: flex-start;
+	justify-items: center;
 	gap: $gap;
+
+	width: var(--dialog-width);
+	background: $color-white;
+	border: 1px solid $color-gray-3;
+	border-radius: $border-radius-1;
+	cursor: initial;
 
 	padding: 1em;
 

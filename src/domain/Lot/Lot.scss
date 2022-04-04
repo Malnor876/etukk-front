@@ -1,6 +1,11 @@
 @import "~app/assets/scss/bundle.scss";
 
-.lot-layout {
+.lot-view {
+	display: grid;
+	gap: 5em;
+}
+
+.lot-info-layout {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
@@ -29,7 +34,7 @@
 	}
 }
 
-.lot-layout__section {
+.lot-info-layout__section {
 	display: grid;
 	gap: 2em;
 

@@ -31,7 +31,9 @@ function PopupReport(props: PopupReportProps) {
           <option>3</option>
         </Selector>
         <TextareaAttachments placeholder="Введите комментарий ...">
-          Кратко опишите причину по которой Вы решили пожаловаться на объявление
+          Кратко опишите причину по которой
+          <br />
+          Вы решили пожаловаться на объявление
         </TextareaAttachments>
         <div>
           <Button type="submit" await onClick={onSubmit}>Открыть спор по товару</Button>

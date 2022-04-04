@@ -20,7 +20,7 @@ function Selector<V = string | undefined>(props: SelectorProps<V>) {
   const options = Children.map(props.children, child => child.props)
 
   const parentRef = useRef<HTMLDivElement>(null)
-  const [children, setChildren] = useState<ReactNode>(options.find(option => option.value === props.defaultValue)?.children || null)
+  const [children, setChildren] = useState<ReactNode>(props.defaultValue && options.find(option => option.value === props.defaultValue)?.children || null)
   const [expanded, setExpanded] = useState(false)
   function onChange(value: V, children: ReactNode) {
     props.onChange?.(value)
