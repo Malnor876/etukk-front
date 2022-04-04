@@ -18,7 +18,7 @@ function LotTrade(props: LotTradeProps) {
     <div className="lot-trade">
       <Backward>{props.title}</Backward>
       <div className="lot-trade__city">
-        <span>Москва</span>
+        <span>г. {props.city}</span>
         <Icon name="truck" />
       </div>
       <Entries>
