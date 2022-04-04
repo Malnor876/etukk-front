@@ -1,7 +1,6 @@
 import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
-import { IMAGE_MOCKS } from "constants/mocks"
 import LotInfo from "domain/Lot/LotInfo"
 import LotTrade from "domain/Lot/LotTrade"
 import { LotInfoType, LotTradeType } from "domain/Lot/types"
@@ -26,8 +25,8 @@ function LotNewPreviewView() {
         <LotInfo specifications={specifications} description={description} slides={images} />
         <LotTrade city={city} price={+price} title={title} tradeStart={new Date(date)} tradeEnd={new Date(date)}>
           <Buttons>
-            <ButtonLink to="../edit">Редактировать</ButtonLink>
-            <Button outline>Поместить в архив</Button>
+            <Button>Опубликовать</Button>
+            <ButtonLink outline to="../edit">Редактировать</ButtonLink>
           </Buttons>
         </LotTrade>
       </div>
