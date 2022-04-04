@@ -3,7 +3,7 @@ export type User = UserSigned | UserAnonymous
 export interface UserSigned {
   auth: true
   id: number
-  // type: UserType
+  type: UserType
   fullName: string
   firstName: string
   lastName: string
@@ -15,6 +15,4 @@ export interface UserAnonymous {
   auth: false
 }
 
-export enum UserType {
-  banned, default, admin
-}
+export type UserType = "organization" | "user"

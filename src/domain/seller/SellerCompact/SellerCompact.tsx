@@ -2,6 +2,7 @@ import "./SellerCompact.scss"
 
 import CounterIcon from "app/components/UI/CounterIcon/CounterIcon"
 import StarRating from "app/components/UI/StarRating/StarRating"
+import { Link } from "react-router-dom"
 import { getRating } from "utils/business"
 
 interface SellerCompactProps {
@@ -30,6 +31,7 @@ function SellerCompact(props: SellerCompactProps) {
           <StarRating size="small" defaultValue={getRating(props.likes, props.dislikes)} />
         </div>
       </div>
+      <Link className="ghost" to={"/user/" + props.id} />
     </div>
   )
 }

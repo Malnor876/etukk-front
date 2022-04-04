@@ -8,10 +8,10 @@ export function mapUser(user: SchemaUsersInfo): UserSigned {
     auth: true,
     id: user.id,
     avatar: user.pricture,
-    city: user.address,
+    city: "Москва",
     fullName: user.name,
     firstName,
     lastName,
-    // type: ""
+    type: user.type
   }
 }

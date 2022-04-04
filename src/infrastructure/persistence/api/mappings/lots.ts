@@ -14,7 +14,7 @@ export function mapGetGetLots({ result }: SchemaLotsLists): PaginationType<LotPr
       city: item.address,
       title: item.name,
       price: item.price,
-      tradeStart: new Date(item.started)
+      tradeStart: new Date(item.trading_start)
     }))
   }
 }

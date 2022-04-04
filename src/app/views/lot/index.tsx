@@ -3,6 +3,7 @@ import { IMAGE_MOCKS } from "constants/mocks"
 import LotBidUp from "domain/Lot/LotBidUp"
 import LotInfo from "domain/Lot/LotInfo"
 import LotTrade from "domain/Lot/LotTrade"
+import SellerCompact from "domain/seller/SellerCompact/SellerCompact"
 import { useParams } from "react-router"
 
 function LotView() {
@@ -27,6 +28,7 @@ function LotView() {
     <div className="lot-layout">
       <div className="lot-layout__section">
         <LotInfo slides={[...IMAGE_MOCKS]} description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa soluta earum tenetur odio eius nostrum officiis possimus, dolorum asperiores ratione sint dolor veniam obcaecati unde fugiat incidunt, quasi aliquam! Tenetur." specifications={specifications} bookmarked onBookmark={onBookmark} />
+        <SellerCompact dislikes={1} id={1} likes={5} name="Игорь" />
       </div>
       <div className="lot-layout__section">
         <LotTrade price={100} city="Москва" title="ЗАГОЛОВОК ВМЕСТИТСЯ 2 СТРОКИ НЕ БОЛЬШЕ" tradeStart={new Date} tradeEnd={new Date} />
