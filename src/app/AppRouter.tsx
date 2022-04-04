@@ -23,7 +23,7 @@ function AppRouter() {
           <Route index element={<HomeView />} />
           <Route path="hot" element={<HomeView />} />
 
-          <Route path="lots/new/edit" element={<LotNewEditView />} />
+          <Route path="lots/new/edit/*" element={<LotNewEditView />} />
           <Route path="lots/new/preview" element={<LotNewPreviewView />} />
           <Route path="lots/:lotId" element={<LotView />} />
           <Route path="lots/:lotId/edit" element={<LotEditView />} />
