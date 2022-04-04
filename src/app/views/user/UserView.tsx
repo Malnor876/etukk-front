@@ -3,6 +3,7 @@ import "./UserView.scss"
 import { ReactError } from "app/components/services/ErrorBoundary/ErrorBoundary.errors"
 import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
+import Copy from "app/components/UI/Copy/Copy"
 import CustomerRating from "app/components/UI/CustomerRating/CustomerRating"
 import Review from "app/components/UI/Review/Review"
 import Switcher from "app/components/UI/Switcher/Switcher"
@@ -26,10 +27,10 @@ function UserView() {
       <div className="user-view__container">
         <div className="user-view__row">
           <h2 className="heading">Игорь</h2>
-          id1234765
+          <Copy>id1234765</Copy>
         </div>
         <div className="user-view__row">
-          <div className="user-view__entry">Зарегестрирован 12.09.21</div>
+          <div className="user-view__entry">Зарегистрирован 12.09.21</div>
           <div className="user-view__entry">Частное лицо / г. Москва</div>
         </div>
         <div className="user-view__general-info">
