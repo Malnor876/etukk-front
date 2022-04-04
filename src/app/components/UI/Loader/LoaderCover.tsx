@@ -1,12 +1,16 @@
 import "./Loader.scss"
 
+import { classWithModifiers } from "utils/common"
+
 import Loader from "./Loader"
 
-interface LoaderCoverProps { }
+interface LoaderCoverProps {
+  absolute?: boolean
+}
 
 function LoaderCover(props: LoaderCoverProps) {
   return (
-    <div className="loader-cover">
+    <div className={classWithModifiers("loader-cover", props.absolute && "absolute")}>
       <Loader className="loader-cover__loader" />
     </div>
   )
