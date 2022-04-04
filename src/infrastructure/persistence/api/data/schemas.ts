@@ -17,7 +17,16 @@ export interface SchemaNotFoud {
 export interface SchemaContent {
 	status: boolean
 	msg: string
-	result: SchemaContentResult
+	result: {
+		title: string
+		description: string
+		keywords: string
+		content: string
+		modules: {
+			news: SchemaNewsItem[]
+			blogs: SchemaBlogsItem[]
+		}
+	}
 }
 
 export interface SchemaPagesMenu {
@@ -49,7 +58,11 @@ export interface SchemaCategoryListsItem {
 export interface SchemaNewsLists {
 	status: boolean
 	msg: string
-	result: SchemaNewsListsResult
+	result: {
+		limit: number
+		current: number
+		items: SchemaNewsItem[]
+	}
 }
 
 export interface SchemaNewsItemContent {
@@ -71,13 +84,23 @@ export interface SchemaNewsItem {
 export interface SchemaBlogsLists {
 	status: boolean
 	msg: string
-	result: SchemaBlogsListsResult
+	result: {
+		limit: number
+		current: number
+		items: SchemaBlogsItem[]
+	}
 }
 
 export interface SchemaBlogsContentItem {
 	status: boolean
 	msg: string
-	result: SchemaBlogsContentItemResult
+	result: {
+		name: string
+		content: string
+		picture: string[]
+		date_create: string
+		users: SchemaUsersInfo
+	}
 }
 
 export interface SchemaBlogsItem {
@@ -97,7 +120,11 @@ export interface SchemaRecommendations {
 export interface SchemaSearchLists {
 	status: boolean
 	msg: string
-	result: SchemaSearchListsResult
+	result: {
+		limit: number
+		current: number
+		items: SchemaLotsItem[]
+	}
 }
 
 export interface SchemaLotsGetFormData {
@@ -137,13 +164,33 @@ export interface SchemaLotsPlaceBet {
 export interface SchemaLotsLists {
 	status: boolean
 	msg: string
-	result: SchemaSearchListsResult
+	result: {
+		limit: number
+		current: number
+		items: SchemaLotsItem[]
+	}
 }
 
 export interface SchemaLotsContentItem {
 	status: boolean
 	msg: string
-	result: SchemaLotsContentItemResult
+	result: {
+		name: string
+		content: string
+		specifications: SchemaLotsSpecifications[] | null
+		picture: string[]
+		video: string
+		address: string
+		trading_start: string
+		trading_end: string
+		started: string
+		redeemed: boolean
+		price: number
+		price_step: number
+		price_bids: SchemaLotsUsersBets[]
+		binds_number: number
+		bind_current: number
+	}
 }
 
 export interface SchemaLotsItem {
@@ -181,10 +228,13 @@ export interface SchemaAdvertisingFollowLink {
 export interface SchemaUsersLotsFormData {
 	id?: number
 	category: number
-	delivery?: string
+	delivery?: "other_regions" | "only_city"
 	name: string
 	content?: string
-	specifications?: SchemaUsersLotsFormDataSpecifications[]
+	specifications?: {
+		key: string
+		val: string
+	}[]
 	picture: string[]
 	video?: string
 	address: string
@@ -196,25 +246,45 @@ export interface SchemaUsersLotsFormData {
 export interface SchemaNotifications {
 	status: boolean
 	msg: string
-	result: SchemaNotificationsResult[]
+	result: {
+		id: number
+		type: string
+		message: string
+		date_create: string
+	}[]
 }
 
 export interface SchemaDeliveryPrice {
 	status: boolean
 	msg: string
-	result: SchemaDeliveryPriceResult
+	result: {
+		price: number
+		city: string
+		description: string
+	}
 }
 
 export interface SchemaDeliveryZone {
 	status: boolean
 	msg: string
-	result: SchemaDeliveryZoneResult[]
+	result: {
+		id: number
+		city: string
+		price: number
+		description: string
+		zone: string
+		color: string
+	}[]
 }
 
 export interface SchemaChatUsersLists {
 	status: boolean
 	msg: string
-	result: SchemaChatUsersListsResult[]
+	result: {
+		users: number
+		avatar: string
+		unread: boolean
+	}[]
 }
 
 export interface SchemaChatUsers {
@@ -226,8 +296,16 @@ export interface SchemaChatUsers {
 export interface SchemaChatItem {
 	id: number
 	reply: number
-	users_to: SchemaChatItemUsersTo
-	users_from: SchemaChatItemUsersTo
+	users_to: {
+		id: number
+		name: string
+		avatar: string
+	}
+	users_from: {
+		id: number
+		name: string
+		avatar: string
+	}
 	message: string
 	date_create: string
 	read: boolean
@@ -248,26 +326,46 @@ export interface SchemaChatUsersFormAdd {
 export interface SchemaLikesInit {
 	status: boolean
 	msg: string
-	result: SchemaLikesInitResult
+	result: {
+		count_likes: number
+		count_dislikes: number
+	}
 }
 
 export interface SchemaLikesGet {
 	status: boolean
 	msg: string
-	result: SchemaLikesGetResult
+	result: {
+		count_likes: number
+		count_dislikes: number
+		response_type: "add" | "del"
+	}
 }
 
 export interface SchemaClaims {
 	status: boolean
 	msg: string
-	result: SchemaClaimsResult
+	result: {
+		total_items: number
+		limit: number
+		items: SchemaClaimsItem[]
+	}
 }
 
 export interface SchemaClaimsItem {
 	lots: SchemaLotsItem
 	seller: SchemaUsersInfo
 	buyer: SchemaUsersInfo
-	claims: SchemaClaimsItemClaims[]
+	claims: {
+		id: number
+		seller: number
+		buyer: number
+		manager: number
+		name: string
+		content: string
+		picture: string[]
+		date_create: string
+	}[]
 }
 
 export interface SchemaClaimsAdd {
@@ -282,7 +380,21 @@ export interface SchemaClaimsAdd {
 export interface SchemaUsersCabinet {
 	status: boolean
 	msg: string
-	result: SchemaUsersCabinetResult
+	result: {
+		id: number
+		type: "user" | "organization"
+		name: string
+		picture: string
+		email: string
+		phone: string
+		inn: number
+		rating_buyer: number
+		rating_seller: number
+		analytics: {
+			amount_sales: number
+			amount_purchase: number
+		}
+	}
 }
 
 export interface SchemaUsersInfo {
@@ -297,7 +409,11 @@ export interface SchemaUsersInfo {
 export interface SchemaUsersLotsLists {
 	status: boolean
 	msg: string
-	result: SchemaUsersLotsListsResult
+	result: {
+		limit: number
+		current: number
+		items: SchemaUsersLotsItem[]
+	}
 }
 
 export interface SchemaUsersLotsItem {
@@ -307,7 +423,11 @@ export interface SchemaUsersLotsItem {
 	name: string
 	price: number
 	price_step: number
-	price_bids: SchemaUsersLotsItemPriceBids
+	price_bids: {
+		users: SchemaUsersInfo
+		bet: number
+		date: string
+	}
 	trading_start: string
 	trading_end: string
 	picture: string
@@ -350,181 +470,4 @@ export interface SchemaUsersSignUp {
 	phone?: string
 	inn?: string
 	name: string
-}
-
-export type SchemaPrice = SchemaPrice[]
-
-export type SchemaPeriod = SchemaPeriod[]
-
-export interface SchemaUsersCoordinate {
-	latitude: number
-	longitude: number
-}
-
-export interface SchemaUsersCoordinate1 {
-	latitude: number
-	longitude: number
-}
-
-export interface SchemaInlineResponse200 {
-	category: SchemaCategoryLists
-	data: SchemaLotsGetFormData
-}
-
-export interface SchemaNotificationsReadBody {
-	id: number
-}
-
-export interface SchemaContentResultModules {
-	news: SchemaNewsItem[]
-	blogs: SchemaBlogsItem[]
-}
-
-export interface SchemaContentResult {
-	title: string
-	description: string
-	keywords: string
-	content: string
-	modules: SchemaContentResultModules
-}
-
-export interface SchemaNewsListsResult {
-	limit: number
-	current: number
-	items: SchemaNewsItem[]
-}
-
-export interface SchemaBlogsListsResult {
-	limit: number
-	current: number
-	items: SchemaBlogsItem[]
-}
-
-export interface SchemaBlogsContentItemResult {
-	name: string
-	content: string
-	picture: string[]
-	date_create: string
-	users: SchemaUsersInfo
-}
-
-export interface SchemaSearchListsResult {
-	limit: number
-	current: number
-	items: SchemaLotsItem[]
-}
-
-export interface SchemaLotsContentItemResult {
-	name: string
-	content: string
-	specifications: SchemaLotsSpecifications[]
-	picture: string[]
-	video: string
-	address: string
-	trading_start: string
-	trading_end: string
-	started: string
-	redeemed: boolean
-	price: number
-	price_step: number
-	price_bids: SchemaLotsUsersBets[]
-	binds_number: number
-	bind_current: number
-}
-
-export interface SchemaUsersLotsFormDataSpecifications {
-	key: string
-	val: string
-}
-
-export interface SchemaNotificationsResult {
-	id: number
-	type: string
-	message: string
-	date_create: string
-}
-
-export interface SchemaDeliveryPriceResult {
-	price: number
-	city: string
-	description: string
-}
-
-export interface SchemaDeliveryZoneResult {
-	id: number
-	city: string
-	price: number
-	description: string
-	zone: string
-	color: string
-}
-
-export interface SchemaChatUsersListsResult {
-	users: number
-	avatar: string
-	unread: boolean
-}
-
-export interface SchemaChatItemUsersTo {
-	id: number
-	name: string
-	avatar: string
-}
-
-export interface SchemaLikesInitResult {
-	count_likes: number
-	count_dislikes: number
-}
-
-export interface SchemaLikesGetResult {
-	count_likes: number
-	count_dislikes: number
-	response_type: string
-}
-
-export interface SchemaClaimsResult {
-	total_items: number
-	limit: number
-	items: SchemaClaimsItem[]
-}
-
-export interface SchemaClaimsItemClaims {
-	id: number
-	seller: number
-	buyer: number
-	manager: number
-	name: string
-	content: string
-	picture: string[]
-	date_create: string
-}
-
-export interface SchemaUsersCabinetResultAnalytics {
-	amount_sales: number
-	amount_purchase: number
-}
-
-export interface SchemaUsersCabinetResult {
-	id: number
-	type: string
-	name: string
-	picture: string
-	email: string
-	phone: string
-	inn: number
-	rating_buyer: number
-	rating_seller: number
-	analytics: SchemaUsersCabinetResultAnalytics
-}
-
-export interface SchemaUsersLotsListsResult {
-	limit: number
-	current: number
-	items: SchemaUsersLotsItem[]
-}
-
-export interface SchemaUsersLotsItemPriceBids {
-	users: SchemaUsersInfo
-	bet: number
-	date: string
 }

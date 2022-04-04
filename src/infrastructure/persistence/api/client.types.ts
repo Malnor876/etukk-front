@@ -17,7 +17,7 @@ interface ActionConfig {
   skipCache: boolean
 }
 
-export type ActionPayload<P> = { result: P } & APIResponseError
+export type ActionPayload<P> = P & APIResponseError
 
 export type Action<P = unknown> = BaseAction<ActionPayload<P>, Partial<ActionConfig>>
 export type ExtractActionPayload<A extends Action> = A extends Action<infer P> ? P : never

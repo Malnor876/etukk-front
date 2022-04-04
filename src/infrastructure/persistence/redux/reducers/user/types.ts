@@ -3,7 +3,8 @@ export type User = UserSigned | UserAnonymous
 export interface UserSigned {
   auth: true
   id: number
-  type: UserType
+  // type: UserType
+  fullName: string
   firstName: string
   lastName: string
   avatar: string
