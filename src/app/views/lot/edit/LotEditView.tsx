@@ -2,6 +2,7 @@ import "./LotEditView.scss"
 
 import { ReactError } from "app/components/services/ErrorBoundary/ErrorBoundary.errors"
 import Backward from "app/components/UI/Backward/Backward"
+import Button from "app/components/UI/Button/Button"
 import ChooseImage from "app/components/UI/ChooseImage/ChooseImage"
 import CloseButton from "app/components/UI/CloseButton/CloseButton"
 import Input from "app/components/UI/Input/Input"
@@ -45,10 +46,10 @@ function LotEditView() {
         </LotEditSetting>
         <LotEditSetting label="Период публикации лота и проведения торгов">
           <Choices>
-            <Radio value="">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
-            <Radio value="" checked>Сегодня 21.09.21 в 20:00 - 22:00</Radio>
-            <Radio value="">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
-            <Radio value="">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+            <Radio name="2" value="1">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+            <Radio name="2" value="2" defaultChecked>Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+            <Radio name="2" value="3">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+            <Radio name="2" value="4">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
           </Choices>
         </LotEditSetting>
         <LotEditSetting label="Укажите ваш город">
@@ -68,6 +69,10 @@ function LotEditView() {
         <LotEditSetting label="Характеристики">
           <Specifications />
         </LotEditSetting>
+      </div>
+      <div className="lot-edit-view__buttons">
+        <Button>Сохранить</Button>
+        <Button outline>Отмена</Button>
       </div>
     </div>
   )

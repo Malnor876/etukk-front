@@ -18,6 +18,13 @@
 	gap: 2.5em;
 }
 
+.lot-edit-view__buttons {
+	display: flex;
+	gap: 2em;
+
+	margin-left: calc(20ch - 0.25em);
+}
+
 /* Setting */
 
 .lot-edit-setting {
@@ -29,7 +36,7 @@
 	width: 100%;
 	max-width: 20ch;
 
-	margin-top: 0.5em;
+	margin-top: 0.75em;
 	margin-right: 1.5em;
 
 	@include Typography;
@@ -43,6 +50,6 @@
 	gap: 1.5em;
 
 	&>.close-button {
-		margin-top: 0.5em;
+		margin-top: 0.35em;
 	}
 }
