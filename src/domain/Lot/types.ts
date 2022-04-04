@@ -12,6 +12,7 @@ export interface LotType {
   info: LotInfoType
   trade: LotTradeType
   seller: LotSellerType
+  bid: LotBidType
 }
 
 export interface LotInfoType {
@@ -33,3 +34,8 @@ export interface LotTradeType {
 }
 
 export interface LotSellerType { }
+export interface LotBidType {
+  start: number
+  step: number
+  current: number
+}
