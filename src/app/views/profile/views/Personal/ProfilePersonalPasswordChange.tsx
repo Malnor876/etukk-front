@@ -8,7 +8,7 @@ function ProfilePersonalPasswordChange() {
   return (
     <>
       <h5 className="heading">Смена пароля</h5>
-      <Form onChange={event => setValidity(event.currentTarget.checkValidity())}>
+      <Form gap="2em" onChange={event => setValidity(event.currentTarget.checkValidity())}>
         <NewPassword />
         <div><Button type="submit" disabled={!validity}>Сохранить</Button></div>
       </Form>

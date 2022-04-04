@@ -6,7 +6,7 @@ function ProfilePersonalMe() {
   return (
     <>
       <h5 className="heading">Личная информация</h5>
-      <Form>
+      <Form gap="2em">
         <Input placeholder="Имя" defaultValue="Игорь" width="25em" />
         <Input defaultValue="Частное лицо" readOnly width="25em" />
         <Input placeholder="Email" type="email" defaultValue="KGHJ@mail.ru" width="25em" />
