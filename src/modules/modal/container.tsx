@@ -48,8 +48,7 @@ export class ModalContainer extends Component<ModalContainerProps, ModalContaine
   render() {
     const { isActive, queue } = this.state
     const current = queue[queue.length - 1] as ModalWindow | undefined
-    if (current == null) return null
-    const { component: ModalComponent, params, close } = current
+    const { component: ModalComponent, params, close } = current || {}
 
     const className = this.props.className || "modal"
     return (
