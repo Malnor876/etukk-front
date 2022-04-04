@@ -3,6 +3,7 @@ import Button from "app/components/UI/Button/Button"
 import Checkbox from "app/components/UI/Checkbox/Checkbox"
 import Input from "app/components/UI/Input/Input"
 import SocialAuth from "app/components/UI/SocialAuth/SocialAuth"
+import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Form from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { Modal } from "modules/modal/controller"
@@ -22,14 +23,16 @@ function FullscreenSignUpPerson() {
       </div>
       {/* <SocialAuth /> */}
       <Form centered onChange={event => setValidity(event.currentTarget.checkValidity())}>
-        <Input placeholder="Имя" width="20em" required />
-        <Input placeholder="Е-mail" width="20em" type="email" required />
-        <Input placeholder="Номер телефона" width="20em" type="tel" required />
-        <NewPassword width="20em" />
-        <Checkbox required>
-          <Link to="/terms">Принимаю условия соглашения</Link>
-        </Checkbox>
-        <Button type="submit" disabled={!validity || !reCaptcha}>Регистрация</Button>
+        <Column>
+          <Input placeholder="Имя" width="20em" required />
+          <Input placeholder="Е-mail" width="20em" type="email" required />
+          <Input placeholder="Номер телефона" width="20em" type="tel" required />
+          <NewPassword width="20em" />
+          <Checkbox required>
+            <Link to="/terms">Принимаю условия соглашения</Link>
+          </Checkbox>
+          <div><Button type="submit" disabled={!validity || !reCaptcha}>Регистрация</Button></div>
+        </Column>
       </Form>
       <ReCAPTCHA
         sitekey="6Lc5tBgfAAAAAC1ZVB3wW7Srz56N6RQiEufFPVRi"
