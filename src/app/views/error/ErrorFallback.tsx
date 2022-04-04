@@ -2,7 +2,6 @@ import "./ErrorView.scss"
 
 import { ErrorBoundaryError, ErrorBoundaryReset } from "app/components/services/ErrorBoundary/ErrorBoundary.types"
 import Button from "app/components/UI/Button/Button"
-import { postError } from "infrastructure/persistence/api/actions/error"
 import ClientAPI from "infrastructure/persistence/api/client"
 import { ErrorInfo } from "react"
 
@@ -24,14 +23,14 @@ function FatalError(props: FatalErrorProps) {
     const error = props.error
     if (error == null) return
     ClientAPI
-      .query(postError(error.name, error.message, [error.stack?.replace(/ \(.*\)/g, "").replace(/\t| {2}/g, "") || "", props.errorInfo?.componentStack.replace(/ \(.*\)/g, "").replace(/\t| {2}/g, "") || ""]))
-      .then(({ error, payload }) => {
-        if (error || !payload) {
-          alert("Ошибка во время отправки, попробуйте ещё раз")
-          return
-        }
-        alert("Отправлено")
-      })
+    //   .query(postError(error.name, error.message, [error.stack?.replace(/ \(.*\)/g, "").replace(/\t| {2}/g, "") || "", props.errorInfo?.componentStack.replace(/ \(.*\)/g, "").replace(/\t| {2}/g, "") || ""]))
+    //   .then(({ error, payload }) => {
+    //     if (error || !payload) {
+    //       alert("Ошибка во время отправки, попробуйте ещё раз")
+    //       return
+    //     }
+    //     alert("Отправлено")
+    //   })
   }
   return (
     <div className="error-view">
