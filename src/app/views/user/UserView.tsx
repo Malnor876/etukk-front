@@ -42,7 +42,6 @@ function UserView() {
             </div>
           </div>
         </div>
-        <br />
         <Switcher>
           <NavLink to="" end>Отзывы(8)</NavLink>
           <NavLink to="placed">Размещенные лоты (1)</NavLink>
