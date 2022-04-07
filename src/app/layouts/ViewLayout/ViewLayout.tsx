@@ -1,9 +1,10 @@
 import "./ViewLayout.scss"
 
-import Footer from "app/components/static/Footer/Footer"
-import Header from "app/components/static/Header/Header"
-import Main from "app/components/static/Main/Main"
 import { Outlet } from "react-router"
+
+import Footer from "../Footer/Footer"
+import Header from "../Header/Header"
+import Main from "../Main/Main"
 
 function ViewLayout() {
   return (

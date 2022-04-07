@@ -1,6 +1,6 @@
 import "./ErrorView.scss"
 
-import { ErrorBoundaryError, ErrorBoundaryReset } from "app/components/services/ErrorBoundary/ErrorBoundary.types"
+import { ErrorBoundaryError, ErrorBoundaryReset } from "app/components/containers/ErrorBoundary/ErrorBoundary.types"
 import Button from "app/components/UI/Button/Button"
 import ClientAPI from "infrastructure/persistence/api/client"
 import { ErrorInfo } from "react"

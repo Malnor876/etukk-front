@@ -1,4 +1,8 @@
+import "./Topbar.scss"
+
+import SidebarNavDrawer from "app/components/modals/SidebarNavDrawer/SidebarNavDrawer"
 import Icon from "app/components/UI/Icon/Icon"
+import { Modal } from "modules/modal/controller"
 import { NavLink } from "react-router-dom"
 import { classWithModifiers } from "utils/common"
 
@@ -17,7 +21,9 @@ function Topbar() {
         <NavLink className={link => classWithModifiers("topbar-menu__link", link.isActive && "active")} to="/catalog">Еще</NavLink>
       </nav>
       <TopbarActions />
-      <Icon name="menu" />
+      <button type="button" onClick={() => Modal.open(SidebarNavDrawer)}>
+        <Icon className="topbar-menu__icon" name="menu" />
+      </button>
     </div>
   )
 }

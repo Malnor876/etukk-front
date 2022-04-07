@@ -1,6 +1,6 @@
 import "./Footer.scss"
 
-import OuterLink from "app/components/services/OuterLink"
+import OuterLink from "app/components/UI/OuterLink"
 import { Link } from "react-router-dom"
 
 function Footer() {

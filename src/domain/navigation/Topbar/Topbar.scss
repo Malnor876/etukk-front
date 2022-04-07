@@ -1,17 +1,9 @@
 @import "~app/assets/scss/bundle.scss";
 
-header.header {
-	display: grid;
-	gap: 2em;
-
-	@include WidthLimit;
-	margin-top: 0.5em;
-}
-
 .topbar {
 	display: flex;
 	align-items: center;
-	gap: 2.5em;
+	gap: 1.5em;
 }
 
 .topbar-menu {
@@ -45,24 +37,6 @@ header.header {
 	color: $color-gray-3;
 }
 
-.mini-profile {
-	display: flex;
-	align-items: center;
-	gap: 0.5em;
-}
-
-.mini-profile__avatar {
-	width: 1.5em;
-	height: 1.5em;
-
-	border-radius: 50%;
-	object-fit: cover;
-}
-
-.mini-profile__icon {
-	transition: 250ms ease transform;
-
-	&--up {
-		transform: rotateX(180deg);
-	}
+.topbar-menu__icon {
+	--icon-size: 1.25em;
 }
