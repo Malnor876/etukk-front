@@ -10,7 +10,7 @@ function DialogArchiveLot(props: { onSubmit(): void; }) {
     close()
   }
   return (
-    <DialogLayout centered width="20em">
+    <DialogLayout centered width="23.5em">
       <h3>Лот будет снят с публикации и перемещен  в папку “АРХИВ”</h3>
       <Buttons>
         <Button outline onClick={close}>Отмена</Button>

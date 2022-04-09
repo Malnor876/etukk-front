@@ -6,7 +6,7 @@ import { useModal } from "modules/modal/hook"
 export function PopupBidAccepted() {
   const { close } = useModal()
   return (
-    <PopupLayout centered>
+    <PopupLayout centered width="23.5em">
       <h3>Ваша ставка принята</h3>
       <Button onClick={close}>Ок</Button>
     </PopupLayout>

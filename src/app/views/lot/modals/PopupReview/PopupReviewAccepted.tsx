@@ -5,7 +5,7 @@ import { useModal } from "modules/modal/hook"
 function PopupReviewAccepted() {
   const { close } = useModal()
   return (
-    <PopupLayout centered width="20em">
+    <PopupLayout centered width="23.5em">
       <h3>Ваш отзыв отправлен! Вперед за новыми покупками?</h3>
       <ButtonLink to="/" onClick={close}>На главную</ButtonLink>
     </PopupLayout>

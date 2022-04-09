@@ -26,7 +26,7 @@ function PopupConfirmBidUp(props: PopupConfirmBidUpProps) {
     if (shouldRequestConfirm === false) onSubmit()
   }, [])
   return (
-    <PopupLayout centered>
+    <PopupLayout centered width="23.5em">
       <h3>Подтвердите повышение ставки</h3>
       <Buttons>
         <Button outline onClick={close}>Отмена</Button>
