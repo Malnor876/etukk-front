@@ -42,6 +42,7 @@ function FavouritesView() {
           <Previews>
             {[...Array(16)].map((_, i) => (
               <SellerPreview
+                id={i}
                 avatar={IMAGE_MOCKS[1]}
                 name="ИП ПОВЕЛИТЕЛЬ МЕБЕЛИ и мира в целом"
                 city="Москва"

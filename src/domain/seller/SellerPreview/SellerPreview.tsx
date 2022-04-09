@@ -8,6 +8,8 @@ import { Link } from "react-router-dom"
 import { getRating } from "utils/business"
 
 export interface SellerPreviewProps {
+  id: number
+
   avatar: string
   name: string
   city: string

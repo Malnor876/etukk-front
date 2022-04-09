@@ -1,6 +1,6 @@
 export interface LotPreviewType {
   id: number
-  bookmarked: boolean
+  bookmarked?: boolean
   image: string
   title: string
   city: string

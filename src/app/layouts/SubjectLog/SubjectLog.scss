@@ -1,35 +1,31 @@
 @import "~app/assets/scss/bundle.scss";
 
-.detailed-sellers {}
+.subject-log {
+	display: grid;
+	gap: 2.5em;
+}
 
-.detailed-sellers__previews {}
-
-.detailed-sellers__preview {
+.subject-log__subject {
 	max-width: 13em;
 	cursor: pointer;
 }
 
-.detailed-sellers__expanded {
+.subject-log__container {
 	display: flex;
 	align-items: flex-start;
 	gap: 2.5em;
 
 	background: $color-white;
 	transition: 500ms ease opacity;
-
-	&:not(&--active) {
-		opacity: 0;
-		pointer-events: none;
-	}
 }
 
-.detailed-sellers__log {
+.subject-log__log {
 	display: grid;
 	gap: 1em;
 
 	flex: 1;
 }
 
-.detailed-sellers__back {
+.subject-log__back {
 	justify-self: flex-start;
 }
