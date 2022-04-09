@@ -18,13 +18,15 @@ export function endpointTransform(action: Action) {
 }
 
 export function requestInterceptor() {
-  return async (action: Action) => {
+  return async (action: Action): Promise<Action> => {
     return {
       ...action,
       endpoint: endpointTransform(action),
       headers: {
-        Authorization: !action.config?.skipAuth && localStorage.getItem("token") || "",
-        "Accept-Language": Localization.lang
+        // Authorization: !action.config?.skipAuth && localStorage.getItem("token") || "",
+        "Content-Type": "application/json",
+        // accept: "application/json",
+        // "Accept-Language": Localization.lang
       }
     }
   }

@@ -9,6 +9,9 @@ export interface UserSigned {
   lastName: string
   avatar: string
   city: string
+
+  buyerRating: number
+  sellerRating: number
 }
 
 export interface UserAnonymous {

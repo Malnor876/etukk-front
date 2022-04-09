@@ -1,15 +1,16 @@
 import FiltersContainer from "app/components/containers/Filters/FiltersContainer"
+import { QueryErrorCoverBoundary } from "app/components/containers/QueryErrorCoverBoundary/QueryErrorCoverBoundary"
 import SearchSuggest from "app/components/containers/SearchSuggest/SearchSuggest"
+import ErrorCover from "app/components/UI/ErrorCover/ErrorCover"
 import SortingToggle from "app/components/UI/SortingToggle/SortingToggle"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import Container from "app/layouts/Container/Container"
-import Previews from "app/layouts/Previews/Previews"
-import { LOT_PREVIEW_MOCK } from "constants/mocks"
-import LotPreview from "domain/Lot/LotPreview/LotPreview"
 import { useState } from "react"
 import { useMatch } from "react-router"
 import { Route, Routes } from "react-router"
 import { NavLink } from "react-router-dom"
+
+import LotPreviewsContainer from "./LotPreviewsContainer"
 
 function HomeView() {
   const matchHot = useMatch("hot")
@@ -33,11 +34,9 @@ function HomeView() {
           <Container row>
             <SortingToggle />
             <Container>
-              <Previews>
-                {[...Array(12)].map((_, index) => (
-                  <LotPreview {...LOT_PREVIEW_MOCK} key={index} />
-                ))}
-              </Previews>
+              <QueryErrorCoverBoundary>
+                <LotPreviewsContainer />
+              </QueryErrorCoverBoundary>
               <FiltersContainer onSubmit={console.log} />
             </Container>
           </Container>

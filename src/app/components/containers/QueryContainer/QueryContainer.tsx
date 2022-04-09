@@ -21,7 +21,9 @@ function QueryContainer<P, M>(props: QueryContainerProps<P, M>) {
 
   if (response.error) throw new QueryError("Error during sending request or handling response.", response)
   if (response.loading) return <LoaderCover />
-  if (payload == null) return <>no content</>
+  if (response.payload == null) throw new QueryError("Response payload is null.", response)
+  // Show loader while `payload` state is not updated
+  if (payload == null) return <LoaderCover />
 
   return <>{props.children(payload as never)}</>
 }

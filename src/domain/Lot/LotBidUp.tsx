@@ -4,12 +4,15 @@ import Button from "app/components/UI/Button/Button"
 import { PopupBidAccepted } from "app/views/lot/modals/PopupBidAccepted"
 import PopupConfirmBidUp from "app/views/lot/modals/PopupConfirmBidUp"
 import { Modal } from "modules/modal/controller"
-import { useState } from "react"
+import { Dispatch, useState } from "react"
 import { Link } from "react-router-dom"
 
 import { LotBidType } from "./types"
 
-interface LotBidUpProps extends LotBidType { }
+interface LotBidUpProps extends LotBidType {
+  /** @param value - current bid */
+  onSubmit?: Dispatch<number>
+}
 
 function LotBidUp(props: LotBidUpProps) {
   const [currentBid, setCurrentBid] = useState(props.current)
@@ -20,6 +23,7 @@ function LotBidUp(props: LotBidUpProps) {
   }
   function confirmBidUp() {
     async function onSubmit() {
+      await props.onSubmit?.(currentBid)
       await Modal.open(PopupBidAccepted)
       setStage("default")
     }

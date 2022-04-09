@@ -1,6 +1,6 @@
 import "./Filters.scss"
 
-import { ReactError } from "app/components/services/ErrorBoundary/ErrorBoundary.errors"
+import { ReactError } from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
 import Checkbox, { CheckboxProps } from "app/components/UI/Checkbox/Checkbox"
 import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"

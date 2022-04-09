@@ -1,6 +1,6 @@
 import "./UserView.scss"
 
-import { ReactError } from "app/components/services/ErrorBoundary/ErrorBoundary.errors"
+import { ReactError } from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
 import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
 import Copy from "app/components/UI/Copy/Copy"

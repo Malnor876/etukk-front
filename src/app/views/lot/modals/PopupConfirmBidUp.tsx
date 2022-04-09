@@ -32,7 +32,7 @@ function PopupConfirmBidUp(props: PopupConfirmBidUpProps) {
         <Button outline onClick={close}>Отмена</Button>
         <Button onClick={onSubmit}>Поднять</Button>
       </Buttons>
-      <Checkbox defaultChecked={shouldRequestConfirm} onChange={onShouldRequestBidConfirm}>Больше не запрашивать подтверждение о повышении ставки</Checkbox>
+      <Checkbox defaultChecked={!shouldRequestConfirm} onChange={onShouldRequestBidConfirm}>Больше не запрашивать подтверждение о повышении ставки</Checkbox>
     </PopupLayout>
   )
 }

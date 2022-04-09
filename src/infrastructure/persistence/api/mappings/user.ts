@@ -12,6 +12,18 @@ export function mapUser(user: SchemaUsersInfo): UserSigned {
     fullName: user.name,
     firstName,
     lastName,
-    type: user.type
+    type: user.type,
+    buyerRating: user.rating_buyer,
+    sellerRating: user.rating_seller,
+  }
+}
+
+export function mapUserType(userType: SchemaUsersInfo["type"]) {
+  switch (userType) {
+    case "user": return "Физическое Лицо"
+    case "organization": return "Юридическое Лицо"
+
+    default:
+      return "Неизвестное"
   }
 }
