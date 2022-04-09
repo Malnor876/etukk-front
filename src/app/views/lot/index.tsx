@@ -18,7 +18,9 @@ import { PopupDeliveryRequest } from "./modals/PopupDeliveryRequest"
 import PopupDispute from "./modals/PopupDispute"
 import { PopupPasswordRecoverLinkSent } from "./modals/PopupPasswordRecoverLinkSent"
 import PopupReport from "./modals/PopupReport/PopupReport"
+import PopupReportAccepted from "./modals/PopupReport/PopupReportAccepted"
 import PopupReview from "./modals/PopupReview/PopupReview"
+import PopupReviewAccepted from "./modals/PopupReview/PopupReviewAccepted"
 
 function LotView() {
   const { lotId } = useParams<"lotId">()
@@ -52,13 +54,17 @@ function LotView() {
       </div>
       <Column>
         <Button onClick={() => Modal.open(PopupReport, { onSubmit: () => { 1 } })}>PopupReport</Button>
+        <Button onClick={() => Modal.open(PopupReportAccepted)}>PopupReportAccepted</Button>
+        <br />
         <Button onClick={() => Modal.open(PopupReview)}>PopupReview</Button>
+        <Button onClick={() => Modal.open(PopupReviewAccepted)}>PopupReviewAccepted</Button>
+        <br />
+        <Button onClick={() => Modal.open(PopupDispute)}>PopupDispute</Button>
         <Button onClick={() => Modal.open(DialogArchiveLot, { onSubmit: () => { 1 } })}>DialogArchiveLot</Button>
         <Button onClick={() => Modal.open(PopupBidAccepted)}>PopupBidAccepted</Button>
         <Button onClick={() => Modal.open(PopupConfirmBidUp, { onSubmit: () => { 1 } })}>PopupConfirmBidUp</Button>
         <Button onClick={() => Modal.open(PopupDataAccepted)}>PopupDataAccepted</Button>
         <Button onClick={() => Modal.open(PopupDeliveryRequest)}>PopupDeliveryRequest</Button>
-        <Button onClick={() => Modal.open(PopupDispute)}>PopupDispute</Button>
         <Button onClick={() => Modal.open(PopupPasswordRecoverLinkSent)}>PopupPasswordRecoverLinkSent</Button>
       </Column>
     </div>

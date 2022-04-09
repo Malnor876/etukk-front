@@ -1,6 +1,6 @@
 import Button from "app/components/UI/Button/Button"
 import Buttons from "app/layouts/Buttons/Buttons"
-import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
+import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { useModal } from "modules/modal/hook"
 
 function DialogArchiveLot(props: { onSubmit(): void; }) {
@@ -10,13 +10,13 @@ function DialogArchiveLot(props: { onSubmit(): void; }) {
     close()
   }
   return (
-    <DialogLayout centered width="23.5em">
+    <PopupLayout centered width="23.5em">
       <h3>Лот будет снят с публикации и перемещен  в папку “АРХИВ”</h3>
       <Buttons>
         <Button outline onClick={close}>Отмена</Button>
         <Button onClick={onSubmit}>Ок</Button>
       </Buttons>
-    </DialogLayout>
+    </PopupLayout>
   )
 }
 

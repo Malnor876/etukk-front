@@ -45,9 +45,9 @@
 	background: $color-white;
 	border-radius: $border-radius-1;
 	box-shadow: 3px 3px 4px -5px $color-gray-2;
-	line-height: 1.25;
-	font-size: $font-size-6;
 	transition: 250ms ease top, 250ms ease opacity;
+
+	@include Typography($font-size-6);
 	pointer-events: none;
 
 	:not(:hover)+& {
