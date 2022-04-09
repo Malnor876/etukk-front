@@ -1,6 +1,6 @@
 import "./LotEditView.scss"
 
-import { ReactError } from "app/components/services/ErrorBoundary/ErrorBoundary.errors"
+import { ReactError } from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
 import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
 import ChooseImage from "app/components/UI/ChooseImage/ChooseImage"
@@ -45,12 +45,14 @@ function LotEditView() {
           <CloseButton />
         </LotEditSetting>
         <LotEditSetting label="Период публикации лота и проведения торгов">
-          <Choices>
-            <Radio name="2" value="1">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
-            <Radio name="2" value="2" defaultChecked>Сегодня 21.09.21 в 20:00 - 22:00</Radio>
-            <Radio name="2" value="3">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
-            <Radio name="2" value="4">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
-          </Choices>
+          <div style={{ paddingTop: "0.5em" }}>
+            <Choices>
+              <Radio name="2" value="1">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+              <Radio name="2" value="2" defaultChecked>Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+              <Radio name="2" value="3">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+              <Radio name="2" value="4">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+            </Choices>
+          </div>
         </LotEditSetting>
         <LotEditSetting label="Укажите ваш город">
           <Input width="16em" placeholder="Укажите город..." />
@@ -63,7 +65,7 @@ function LotEditView() {
           </Selector>
         </LotEditSetting>
         <LotEditSetting label="Описание лота">
-          <Textarea width="35em" rows={4} defaultValue="Продается шайтан-арба,не бит, не крашен, валиком подшаманен. Ездила девушка от дома до работы в Краснодарский край. От души отрываю, мамой клянусь. Арбузы не возил, все щапчасти заводские. Год выпуска 1985." />
+          <Textarea width="33.5em" rows={16} defaultValue="Продается шайтан-арба,не бит, не крашен, валиком подшаманен. Ездила девушка от дома до работы в Краснодарский край. От души отрываю, мамой клянусь. Арбузы не возил, все щапчасти заводские. Год выпуска 1985." />
           <CloseButton />
         </LotEditSetting>
         <LotEditSetting label="Характеристики">

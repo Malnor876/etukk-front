@@ -7,6 +7,7 @@
 
 .textarea__appearance {
 	flex: 1;
+	width: var(--textarea-width, auto);
 	max-width: 100%;
 	max-height: 50vh;
 	transition: 200ms ease color;
