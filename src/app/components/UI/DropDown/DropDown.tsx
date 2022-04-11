@@ -9,7 +9,7 @@ interface DropDownProps<V> {
   expanded: boolean
   onChange(value: V, children: ReactNode): void
 
-  children: ReactElement<ComponentProps<"option">>[]
+  children: ReactElement<ComponentProps<"option">> | ReactElement<ComponentProps<"option">>[]
 }
 
 function DropDown<V = string | undefined>(props: DropDownProps<V>) {

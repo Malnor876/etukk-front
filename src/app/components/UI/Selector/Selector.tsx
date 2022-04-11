@@ -12,7 +12,7 @@ interface SelectorProps<V> {
   width?: string
   defaultValue?: V
   onChange?: Dispatch<V>
-  children: ReactElement<ComponentProps<"option"> & { value: V }>[]
+  children: ReactElement<ComponentProps<"option"> & { value: V }> | ReactElement<ComponentProps<"option"> & { value: V }>[]
   label?: ReactNode
 }
 
