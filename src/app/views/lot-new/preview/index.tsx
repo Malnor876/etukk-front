@@ -21,12 +21,12 @@ function LotNewPreviewView() {
   return (
     <>
       <h2 className="heading">Просмотр лота перед публикацией</h2>
-      <div className="lot-layout">
+      <div className="lot-info-layout">
         <LotInfo specifications={specifications} description={description} slides={images} />
         <LotTrade city={city} price={+price} title={title} tradeStart={new Date(date)} tradeEnd={new Date(date)}>
           <Buttons>
             <Button>Опубликовать</Button>
-            <ButtonLink outline to="../edit">Редактировать</ButtonLink>
+            <ButtonLink outline to="/lots/new/edit">Редактировать</ButtonLink>
           </Buttons>
         </LotTrade>
       </div>

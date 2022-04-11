@@ -68,7 +68,7 @@ function LotNewEditView() {
           <ButtonLink replace to={nextRoute}>Далее</ButtonLink>
         )}
         {!isCurrentRouteBase && isCurrentRouteLast && (
-          <ButtonLink to="../preview">Предпросмотр</ButtonLink>
+          <ButtonLink to="/lots/new/preview">Предпросмотр</ButtonLink>
         )}
       </Container>
       <Quote author="В.И. Ленин">
