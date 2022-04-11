@@ -3,25 +3,19 @@ import "./SortingToggle.scss"
 import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
-import { Dispatch, useState } from "react"
+import { Children, Dispatch, ReactElement, ReactNode, useState } from "react"
 
 import Button from "../Button/Button"
 import Icon from "../Icon/Icon"
 import Selector from "../Selector/Selector"
 
-const ll: Record<string, string> = {
-  all: "Все отзывы",
-  new: "Новые отзывы",
-  positive: "Положительные",
-  negative: "Отрицательные"
-}
-
 type SortValueType = string | undefined
-interface SortingToggleProps {
+interface SortingToggleProps<V> {
+  children: ReactElement<{ value: V, children: ReactNode }>[]
   onChange?: Dispatch<SortValueType>
 }
 
-function SortingToggle(props: SortingToggleProps) {
+function SortingToggle<V extends string>(props: SortingToggleProps<V>) {
   const [current, setCurrent] = useState("all")
   function onApply(value: SortValueType) {
     if (value == null) value = "all"
@@ -29,9 +23,10 @@ function SortingToggle(props: SortingToggleProps) {
     props.onChange?.(value)
     setCurrent(value)
   }
+  const options = Children.map(props.children, child => child.props)
   return (
-    <button className="sorting-toggle" type="button" onClick={() => Modal.open(PopupApplyFilters, { onApply, weak: true })}>
-      <div className="sorting-toggle__text">{ll[current]}</div>
+    <button className="sorting-toggle" type="button" onClick={() => Modal.open(PopupApplyFilters, { children: props.children, onApply, weak: true })}>
+      <div className="sorting-toggle__text">{options.find(option => option.value === current)?.children || "Выберите фильтр"}</div>
       <Icon className="sorting-toggle__icon" name="sort" />
     </button>
   )
@@ -39,6 +34,7 @@ function SortingToggle(props: SortingToggleProps) {
 
 
 interface PopupApplyFiltersProps {
+  children: ReactElement<{ value: string, children: ReactNode }>[]
   onApply?: Dispatch<SortValueType>
 }
 
@@ -52,12 +48,7 @@ function PopupApplyFilters(props: PopupApplyFiltersProps) {
   return (
     <PopupLayout centered>
       <h3>Применить сортировку</h3>
-      <Selector onChange={setValue}>
-        <option value="all">Все отзывы</option>
-        <option value="new">Новые отзывы</option>
-        <option value="positive">Положительные</option>
-        <option value="negative">Отрицательные</option>
-      </Selector>
+      <Selector width="17em" onChange={setValue}>{props.children}</Selector>
       <Button outline onClick={onApply}>Применить</Button>
     </PopupLayout>
   )

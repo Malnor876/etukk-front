@@ -31,7 +31,10 @@ function HomeView() {
       <Routes>
         <Route index element={
           <Container row>
-            <SortingToggle />
+            <SortingToggle>
+              <option value="all">С доставкой в другие регионы</option>
+              <option value="locally">Только по городу продажи</option>
+            </SortingToggle>
             <Container>
               <Previews>
                 {[...Array(12)].map((_, index) => (

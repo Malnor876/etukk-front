@@ -26,7 +26,12 @@ function FavouritesView() {
               <NavLink to="bidding">Торги (0)</NavLink>
               <NavLink to="sold">Проданы (4)</NavLink>
             </Switcher>
-            <SortingToggle />
+            <SortingToggle>
+              <option value="all">Все отзывы</option>
+              <option value="new">Новые отзывы</option>
+              <option value="positive">Положительные</option>
+              <option value="negative">Отрицательные</option>
+            </SortingToggle>
             <Outlet />
           </>
         }>
