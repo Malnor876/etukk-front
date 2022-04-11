@@ -2,12 +2,12 @@ import "./Textarea.scss"
 
 import { FILE_TYPES } from "consts"
 import _ from "lodash"
-import { HTMLAttributes } from "react"
+import { DetailedHTMLProps, HTMLAttributes, TextareaHTMLAttributes } from "react"
 import { classMerge } from "utils/common"
 
 import Icon from "../Icon/Icon"
 
-interface TextareaAttachmentsProps extends HTMLAttributes<HTMLTextAreaElement> {
+interface TextareaAttachmentsProps extends DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {
   width?: string
 }
 

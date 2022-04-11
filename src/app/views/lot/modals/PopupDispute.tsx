@@ -12,7 +12,7 @@ function PopupDispute() {
     close()
   }
   return (
-    <PopupLayout width="40em">
+    <PopupLayout width="46.25em">
       <h2>Открыть спор по товару</h2>
       <You />
       <Selector width="20em">

@@ -16,9 +16,9 @@ function PopupReview() {
     Modal.open(PopupReviewAccepted)
   }
   return (
-    <PopupLayout width="40em">
+    <PopupLayout width="46.25em">
       <h2>Оставить отзыв о товаре</h2>
-      <TextareaAttachments placeholder="Ваш отзыв...">
+      <TextareaAttachments rows={8} placeholder="Ваш отзыв...">
         <You />
       </TextareaAttachments>
       <StarRating>Ваша оценка</StarRating>

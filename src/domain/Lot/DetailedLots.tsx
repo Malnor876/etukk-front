@@ -1,3 +1,4 @@
+import Button from "app/components/UI/Button/Button"
 import Details from "app/components/UI/Details/Details"
 import Previews from "app/layouts/Previews/Previews"
 import SubjectLog from "app/layouts/SubjectLog/SubjectLog"
@@ -31,7 +32,11 @@ function DetailedLots(props: DetailedLotsProps) {
       )}
       {expandedLot !== null && (
         <SubjectLog subject={
-          <LotPreview {...expandedLot} />
+          <>
+            <LotPreview {...expandedLot} />
+            <br />
+            <Button>Отписаться</Button>
+          </>
         } onBackward={() => setExpandedLot(null)}>
           <Details summary={
             <>Продавец разместил новый лот в категории <Link to="/catalog">Мебель</Link></>

@@ -21,11 +21,11 @@ function PopupReport(props: PopupReportProps) {
     Modal.open(PopupReportAccepted)
   }
   return (
-    <PopupLayout width="40em">
+    <PopupLayout width="46.25em">
       <form>
         <Icon name="attention" size="3.5em" color="red" />
         <h2>Пожаловаться</h2>
-        <Selector width="25em">
+        <Selector >
           <option>1</option>
           <option>2</option>
           <option>3</option>
