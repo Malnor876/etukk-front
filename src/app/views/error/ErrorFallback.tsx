@@ -5,7 +5,7 @@ import Button from "app/components/UI/Button/Button"
 import ClientAPI from "infrastructure/persistence/api/client"
 import { ErrorInfo } from "react"
 
-function ErrorFallback(reset: ErrorBoundaryReset, error: ErrorBoundaryError, errorInfo: ErrorInfo) {
+function ErrorFallback(reset: ErrorBoundaryReset, error?: ErrorBoundaryError, errorInfo?: ErrorInfo) {
   return (
     <FatalError reset={reset} error={error} errorInfo={errorInfo} />
   )

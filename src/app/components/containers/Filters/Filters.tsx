@@ -1,6 +1,5 @@
 import "./Filters.scss"
 
-import { ReactError } from "app/components/services/ErrorBoundary/ErrorBoundary.errors"
 import Checkbox, { CheckboxProps } from "app/components/UI/Checkbox/Checkbox"
 import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"
@@ -11,6 +10,7 @@ import _ from "lodash"
 import { ChangeEvent, Children, cloneElement, Dispatch, ReactElement, ReactNode, useContext, useEffect, useRef, useState } from "react"
 import { classWithModifiers } from "utils/common"
 
+import { ReactError } from "../ErrorBoundary/ErrorBoundary.errors"
 import { FilterKey, FiltersState } from "./Filters.types"
 import filtersContext from "./filtersContext"
 

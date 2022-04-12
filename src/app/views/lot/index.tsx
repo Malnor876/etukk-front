@@ -1,4 +1,4 @@
-import { ReactError } from "app/components/services/ErrorBoundary/ErrorBoundary.errors"
+import { ReactError } from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
 import Button from "app/components/UI/Button/Button"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Buttons from "app/layouts/Buttons/Buttons"

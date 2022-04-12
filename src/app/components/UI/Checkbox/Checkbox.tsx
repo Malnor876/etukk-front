@@ -8,7 +8,6 @@ import Icon from "../Icon/Icon"
 export interface CheckboxProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> { }
 
 function Checkbox(props: CheckboxProps) {
-  props.name
   return (
     <label className="checkbox">
       <input {..._.omit(props, "children")} type="checkbox" className="checkbox__input" />
