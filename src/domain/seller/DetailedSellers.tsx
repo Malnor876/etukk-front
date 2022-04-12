@@ -31,7 +31,7 @@ function DetailedSellers(props: DetailedSellersProps) {
         <SubjectLog subject={
           <SellerPreview {...expandedSeller} />
         } onBackward={() => setExpandedSeller(null)}>
-          <Details summary={
+          <Details date={new Date} summary={
             <>Продавец разместил новый лот в категории <Link to="/catalog">Мебель</Link></>
           }>
             <LotPreview

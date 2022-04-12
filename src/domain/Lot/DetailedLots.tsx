@@ -38,7 +38,7 @@ function DetailedLots(props: DetailedLotsProps) {
             <Button>Отписаться</Button>
           </>
         } onBackward={() => setExpandedLot(null)}>
-          <Details summary={
+          <Details date={new Date} summary={
             <>Продавец разместил новый лот в категории <Link to="/catalog">Мебель</Link></>
           }>
             <SellerPreview {...{
