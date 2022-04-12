@@ -16,6 +16,7 @@ function LotNewPreviewView() {
   const price = lotNewStorage.get<string>("price") || 0
   const title = lotNewStorage.get<LotTradeType["title"]>("title") || ""
   const date = lotNewStorage.get<string>("date") || "12-20-20"
+  const delivery = lotNewStorage.get<string>("delivery") || "all"
 
   const images = (files.some(file => !(file instanceof File)) ? [] : files).map(file => URL.createObjectURL(file))
   return (
@@ -23,7 +24,7 @@ function LotNewPreviewView() {
       <h2 className="heading">Просмотр лота перед публикацией</h2>
       <div className="lot-info-layout">
         <LotInfo specifications={specifications} description={description} slides={images} />
-        <LotTrade city={city} price={+price} title={title} tradeStart={new Date(date)} tradeEnd={new Date(date)}>
+        <LotTrade delivery={delivery} city={city} price={+price} title={title} tradeStart={new Date(date)} tradeEnd={new Date(date)}>
           <Buttons>
             <Button>Опубликовать</Button>
             <ButtonLink outline to="/lots/new/edit">Редактировать</ButtonLink>

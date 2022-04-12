@@ -10,7 +10,7 @@ function EditLotTrade() {
   const [date, setDate] = lotNewStorage.state("date", "")
   const [price, setPrice] = lotNewStorage.state("price", "")
   const [city, setCity] = lotNewStorage.state("city", "")
-  const [delivery, setDelivery] = lotNewStorage.state("delivery", "")
+  const [delivery, setDelivery] = lotNewStorage.state("delivery", "all")
   return (
     <section>
       <h2>Торги и доставка</h2>
@@ -31,8 +31,8 @@ function EditLotTrade() {
       <br />
       <br />
       <Selector label="Выберите вариант возможной доставки" defaultValue={delivery} onChange={setDelivery}>
-        <option value="1">С собой</option>
-        <option value="2">В зале</option>
+        <option value="all">Доставка в регионы</option>
+        <option value="locally">Доставка по городу продажи</option>
       </Selector>
     </section>
   )

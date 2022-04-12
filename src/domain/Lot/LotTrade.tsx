@@ -10,6 +10,7 @@ import { humanizeDate } from "utils/date"
 import { LotTradeType } from "./types"
 
 interface LotTradeProps extends LotTradeType {
+  delivery?: "all" | "locally" | string // Doubtful prop
   children?: ReactNode
 }
 
@@ -19,7 +20,7 @@ function LotTrade(props: LotTradeProps) {
       <Backward>{props.title}</Backward>
       <div className="lot-trade__city">
         <span>г. {props.city}</span>
-        <Icon name="truck" />
+        <Icon name={props.delivery === "all" ? "truck" : "building"} />
       </div>
       <Entries>
         <Entry><span>Начальная ставка</span><big>{props.price.toPrice("ru", "rub")}</big></Entry>
