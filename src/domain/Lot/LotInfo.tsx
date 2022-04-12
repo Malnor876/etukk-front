@@ -1,9 +1,11 @@
 import "./Lot.scss"
 
 import Slider from "app/components/containers/Slider/Slider"
+import SliderPopup from "app/components/modals/SliderPopup/SliderPopup"
 import Icon from "app/components/UI/Icon/Icon"
 import Entries from "app/layouts/Entries/Entries"
 import Entry from "app/layouts/Entries/Entry"
+import { Modal } from "modules/modal/controller"
 import { useState } from "react"
 import { classWithModifiers } from "utils/common"
 
@@ -22,7 +24,9 @@ function LotInfo(props: LotInfoProps) {
   return (
     <div className="lot-info">
       <div className="lot-info__preview">
-        <Slider slides={props.slides} />
+        <div style={{ cursor: "pointer" }} onClick={() => Modal.open(SliderPopup, { slides: props.slides })}>
+          <Slider slides={props.slides} />
+        </div>
         {bookmarked != null && (
           <button className={classWithModifiers("lot-info__bookmark", bookmarked && "active")} onClick={onBookmark}>
             <Icon name="bookmark-3d" />
