@@ -59,9 +59,9 @@ function LotEditView() {
           <CloseButton />
         </LotEditSetting>
         <LotEditSetting label="Вариант доставки">
-          <Selector width="16em">
-            <option value="1">2</option>
-            <option value="2">1</option>
+          <Selector width="16em" defaultValue="all">
+            <option value="all">Доставка в регионы</option>
+            <option value="locally">Доставка по городу продажи</option>
           </Selector>
         </LotEditSetting>
         <LotEditSetting label="Описание лота">
