@@ -8,21 +8,28 @@ import Form from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
-import { useState } from "react"
+import { FormEvent, useState } from "react"
 import ReCAPTCHA from "react-google-recaptcha"
 import { Link } from "react-router-dom"
 
+import FullscreenPhoneConfirm from "./FullscreenPhoneConfirm"
 import FullscreenSignIn from "./FullscreenSignIn"
 
 function FullscreenSignUpEntity() {
   const { close } = useModal()
   const [reCaptcha, setReCaptcha] = useState(false)
   const [validity, setValidity] = useState(false)
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    Modal.replace(FullscreenPhoneConfirm)
+
+  }
   return (
     <FullscreenLayout>
       <h3 className="heading center">Регистрация</h3>
       {/* <SocialAuth /> */}
-      <Form centered onChange={event => setValidity(event.currentTarget.checkValidity())}>
+      <Form centered onChange={event => setValidity(event.currentTarget.checkValidity())} onSubmit={onSubmit}>
         <Column>
           <Input placeholder="Название организации" name="title" width="20em" required />
           <Input placeholder="ИНН" name="inn" width="20em" required />
@@ -40,7 +47,7 @@ function FullscreenSignUpEntity() {
         </Column>
       </Form>
       <Button color="white" onClick={() => Modal.replace(FullscreenSignIn)}>Войти</Button>
-    </FullscreenLayout>
+    </FullscreenLayout >
   )
 }
 

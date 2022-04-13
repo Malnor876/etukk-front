@@ -2,7 +2,7 @@ import "./Breadcrumbs.scss"
 
 import { useLocation } from "react-router"
 
-const significantRoutes = ["user", "favourites", "notifications", "lots"]
+const significantRoutes = ["user", "favourites", "notifications", "lots", "profile"]
 const significantRoutesStrings: Record<string, string> = {
   user: "Пользователь",
   favourites: "Избранное",
@@ -12,12 +12,21 @@ const significantRoutesStrings: Record<string, string> = {
   bidding: "Торги",
   sold: "Проданы",
   notifications: "Уведомления",
-  new: "Новый"
+  new: "Новый",
+  profile: "Мебель / Стулья / Карточка лота / Сделать ставку"
 }
+
+const exclude = ["personal", "bids", "sales", "purchases", "password", "services", "settings", "exit", "outbids", "reviews"]
 
 function Breadcrumbs() {
   const location = useLocation()
   const routes = location.pathname.split("/").filter(Boolean)
+  exclude.forEach(ex => {
+    const index = routes.indexOf(ex)
+    if (index === -1) return
+
+    routes.splice(index, 1)
+  })
   if (routes.every(route => !significantRoutes.includes(route))) {
     return null
   }

@@ -11,8 +11,8 @@ function ChatMessage(props: ChatMessageProps) {
     <div className={classWithModifiers("chat-message", props.onRight && "on-right")}>
       <div className="chat-message__message">
         <p className="chat-message__text">{props.message}</p>
-        <time className="chat-message__date-time" dateTime={localeDateString}>{localeDateString}</time>
       </div>
+      <time className="chat-message__date-time" dateTime={localeDateString}>{localeDateString}</time>
     </div>
   )
 }

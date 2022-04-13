@@ -63,11 +63,19 @@ small {
 a {
 	color: $color-blue;
 	font-weight: 400;
+	font-size: $font-size-5;
 	word-break: normal;
 
 	&.ghost {
 		position: absolute;
 		inset: 0;
+	}
+
+	&.gray {
+		justify-self: center;
+		color: $color-gray-3;
+		border-bottom: 1px solid;
+		cursor: pointer;
 	}
 }
 

@@ -9,7 +9,7 @@ import moderPNG from "./moder.png"
 function SupportView() {
   return (
     <>
-      <h2 className="heading">Тех. поддержка</h2>
+      <h2 className="heading">Техподдержка</h2>
       <Buttons>
         <ButtonLink small outline nav to="" end>FAQ</ButtonLink>
         <ButtonLink small outline nav to="chat">Чат</ButtonLink>

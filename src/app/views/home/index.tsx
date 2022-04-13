@@ -17,7 +17,7 @@ function HomeView() {
   const isHot = !!matchHot
   return (
     <>
-      <SearchSuggest width="75%" placeholder="Поиск по Москве..." onSubmit={setSearch}>
+      <SearchSuggest width="65%" placeholder="Поиск по Москве..." onSubmit={setSearch}>
         <option value="Стул мягкий">Стул мягкий</option>
         <option value="Стул мягкий1">Стул мягкий1</option>
         <option value="Стул мягкий2">Стул мягкий2</option>

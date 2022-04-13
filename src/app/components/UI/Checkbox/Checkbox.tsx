@@ -9,8 +9,8 @@ export interface CheckboxProps extends DetailedHTMLProps<InputHTMLAttributes<HTM
 
 function Checkbox(props: CheckboxProps) {
   return (
-    <label className="checkbox">
-      <input {..._.omit(props, "children")} type="checkbox" className="checkbox__input" />
+    <label className="checkbox" style={props.style}>
+      <input {..._.omit(props, "children", "style")} type="checkbox" className="checkbox__input" />
       <div className="checkbox__appearance">
         <Icon className="checkbox__icon" name="check" />
       </div>

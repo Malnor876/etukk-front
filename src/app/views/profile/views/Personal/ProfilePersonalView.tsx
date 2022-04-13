@@ -5,6 +5,7 @@ import EditAvatar from "app/components/UI/EditAvatar/EditAvatar"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import { IMAGE_MOCKS } from "constants/mocks"
 import { Route, Routes } from "react-router"
+import { NavLink } from "react-router-dom"
 import { Link } from "react-router-dom"
 
 import ProfilePersonalExit from "./ProfilePersonalExit"
@@ -17,14 +18,14 @@ function ProfilePersonalView() {
   return (
     <div className="profile-view__personal">
       <div className="profile-view__container">
-        <GeneralInfo />
         <Switcher>
-          <Link to="">Обо мне</Link>
+          <NavLink to="" end>Обо мне</NavLink>
           <Link to="password">Смена пароля</Link>
           <Link to="services">Сервисы и услуги</Link>
           <Link to="settings">Настройки</Link>
           <Link to="exit">Выход</Link>
         </Switcher>
+        <GeneralInfo />
         <Routes>
           <Route index element={<ProfilePersonalMe />} />
           <Route path="password" element={<ProfilePersonalPasswordChange />} />
