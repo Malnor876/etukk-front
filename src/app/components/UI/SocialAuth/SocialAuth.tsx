@@ -1,30 +1,33 @@
 import "./SocialAuth.scss"
 
 import Icon from "app/components/UI/Icon/Icon"
+import { getUsersSignupBySocialKey } from "infrastructure/persistence/api/data/actions"
+
+import ActionOuterLink from "../ActionOuterLink"
 
 function SocialAuth() {
   return (
     <div className="social-auth">
       <div className="social-auth__text">Войти через</div>
       <div className="social-auth__socials">
-        <button type="button">
+        {/* <ActionOuterLink action={getUsersSignupBySocialKey("yandex")}>
           <Icon name="yandex" />
-        </button>
-        <button type="button">
+        </ActionOuterLink> */}
+        <ActionOuterLink action={getUsersSignupBySocialKey("google")}>
           <Icon name="google" />
-        </button>
-        <button type="button">
+        </ActionOuterLink>
+        <ActionOuterLink action={getUsersSignupBySocialKey("vk")}>
           <Icon name="vk" />
-        </button>
-        <button type="button">
+        </ActionOuterLink>
+        <ActionOuterLink action={getUsersSignupBySocialKey("facebook")}>
           <Icon name="facebook" />
-        </button>
-        <button type="button">
+        </ActionOuterLink>
+        {/* <ActionOuterLink action={getUsersSignupBySocialKey("odnoklassniki")}>
           <Icon name="odnoklassniki" />
-        </button>
-        <button type="button">
+        </ActionOuterLink>
+        <ActionOuterLink action={getUsersSignupBySocialKey("apple")}>
           <Icon name="apple" />
-        </button>
+        </ActionOuterLink> */}
       </div>
     </div>
   )
