@@ -12,3 +12,6 @@ export type FormElements<U extends string> = HTMLFormControlsCollection & Record
 
 
 export type ExtractInterpolations<T extends string> = T extends `${infer _Start}{${infer V}}${infer Rest}` ? V | ExtractInterpolations<Rest> : never
+
+// https://stackoverflow.com/questions/50158272/what-is-the-type-of-an-enum-in-typescript
+export type Enum<E> = Record<keyof E, number | string> & { [k: number]: string }

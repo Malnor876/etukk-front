@@ -5,6 +5,8 @@ import { inputValue } from "utils/common"
 const PASSWORD_MISMATCH = "Пароли не совпадают!"
 
 interface NewPasswordProps {
+  name?: string
+  nameConfirm?: string
   width?: string
 }
 
@@ -22,8 +24,8 @@ function NewPassword(props: NewPasswordProps) {
   }
   return (
     <>
-      <Input {...inputProps} pattern=".{6,}" placeholder="Пароль" onChange={inputValue(setPassword)} name="password" autoComplete="new-password" />
-      <Input {...inputProps} pattern={password} customValidity={PASSWORD_MISMATCH} placeholder="Повторите пароль" name="password-confirm" autoComplete="new-password" />
+      <Input {...inputProps} pattern=".{6,}" placeholder="Пароль" onChange={inputValue(setPassword)} name={props.name} autoComplete="new-password" />
+      <Input {...inputProps} pattern={password} customValidity={PASSWORD_MISMATCH} placeholder="Повторите пароль" name={props.nameConfirm} autoComplete="new-password" />
     </>
   )
 }
