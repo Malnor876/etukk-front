@@ -45,6 +45,7 @@ function FullscreenSignIn() {
   return (
     <FullscreenLayout>
       <h3 className="heading" style={{ textAlign: "center" }}>ВХОД</h3>
+      <SocialAuth />
       <Form centered onChange={event => setValidity(event.currentTarget.checkValidity())} onSubmit={onSubmit}>
         <Column>
           <Input type="email" name="email" width="20em" placeholder="Е-mail или номер телефона" required />
