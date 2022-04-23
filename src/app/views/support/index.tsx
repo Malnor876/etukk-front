@@ -1,7 +1,9 @@
 import Chat from "app/components/containers/Chat/Chat"
+import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import { FAQ, FAQClause } from "app/components/UI/FAQ/FAQ"
 import Buttons from "app/layouts/Buttons/Buttons"
+import { getCabinetChat } from "infrastructure/persistence/api/data/actions"
 import { Route, Routes } from "react-router"
 
 import moderPNG from "./moder.png"
@@ -16,7 +18,7 @@ function SupportView() {
       </Buttons>
       <Routes>
         <Route index element={<SupportViewFAQ />} />
-        <Route path="chat" element={<SupportViewChat />} />
+        <Route path="chat" element={<SupportViewChatContainer />} />
       </Routes>
     </>
   )
@@ -54,9 +56,13 @@ function SupportViewFAQ() {
     </FAQ>
   )
 }
-function SupportViewChat() {
+function SupportViewChatContainer() {
   return (
-    <Chat messages={[]} recipient={{ avatar: moderPNG, firstName: "Модератор" }} />
+    <QueryContainer action={getCabinetChat(20, 0)}>
+      {payload => (
+        <Chat messages={[]} recipient={{ avatar: moderPNG, firstName: "Модератор" }} />
+      )}
+    </QueryContainer>
   )
 }
 

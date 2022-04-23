@@ -4,6 +4,8 @@ import CustomerRating from "app/components/UI/CustomerRating/CustomerRating"
 import EditAvatar from "app/components/UI/EditAvatar/EditAvatar"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import { IMAGE_MOCKS } from "constants/mocks"
+import { Mutation } from "react-fetching-library"
+import { useSelector } from "react-redux"
 import { Route, Routes } from "react-router"
 import { NavLink } from "react-router-dom"
 import { Link } from "react-router-dom"
@@ -43,6 +45,23 @@ function ProfilePersonalView() {
 }
 
 function GeneralInfo() {
+  const user = useSelector(state => state.user)
+
+  if (user.auth) {
+    return (
+      <>
+        <div className="profile-view__general-info">
+          {/* <Mutation actionCreator={put}>
+            {({mutate}) => (
+              <EditAvatar image={user.avatar} onChange={console.log} />
+            )}
+          </Mutation> */}
+          <CustomerRating sellerRating={user.sellerRating} buyerRating={user.buyerRating} />
+        </div>
+      </>
+    )
+  }
+
   return (
     <>
       <div className="profile-view__general-info">
