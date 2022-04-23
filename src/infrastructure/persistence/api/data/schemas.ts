@@ -45,7 +45,18 @@ export interface SchemaPagesMenuItem {
 export interface SchemaCategoryLists {
 	status: boolean
 	msg: string
-	result: SchemaCategoryListsItem[]
+	result: {
+		category: SchemaCategoryListsItem[]
+		cities: SchemaCities[]
+		price: {
+			min: number
+			max: number
+		}
+	}
+}
+
+export interface SchemaCities {
+	city: string
 }
 
 export interface SchemaCategoryListsItem {
@@ -166,7 +177,7 @@ export interface SchemaLotsGetFormData {
 	specifications: SchemaLotsSpecifications[]
 	picture: string[]
 	video: string
-	address: string
+	city: string
 	price: number
 	price_bids: SchemaLotsUsersBets[]
 	trading_start: string
@@ -193,6 +204,35 @@ export interface SchemaLotsPlaceBet {
 	bet: number
 }
 
+export interface SchemaReviewSeller {
+	status: boolean
+	msg: string
+	result: {
+		limit: number
+		current: number
+		items: SchemaReviewSellerItem[]
+	}
+}
+
+export interface SchemaReviewSellerItem {
+	id: number
+	lots: number
+	votes: number
+	content: string
+	picture: string
+	user: string
+}
+
+export interface SchemaLotsBetsLists {
+	status: boolean
+	msg: string
+	result: {
+		limit: number
+		current: number
+		items: SchemaLotsBetItem[]
+	}
+}
+
 export interface SchemaLotsLists {
 	status: boolean
 	msg: string
@@ -207,6 +247,7 @@ export interface SchemaLotsContentItem {
 	status: boolean
 	msg: string
 	result: {
+		id: number
 		name: string
 		content: string
 		specifications: SchemaLotsSpecifications[]
@@ -216,13 +257,14 @@ export interface SchemaLotsContentItem {
 		delivery: "other_regions" | "only_city"
 		trading_start: string
 		trading_end: string
-		started: string
+		started: "started" | "ended" | "waiting"
 		redeemed: boolean
 		price: number
 		price_step: number
 		price_bids: SchemaLotsUsersBets[]
 		binds_number: number
 		bind_current: number
+		favorite: number
 		users_info: {
 			id: number
 			name: string
@@ -241,16 +283,27 @@ export interface SchemaLotsItem {
 	name: string
 	price: number
 	picture: string
-	address: string
+	city: string
 	delivery: "other_regions" | "only_city"
 	trading_start: string
+	favorite: number
+}
+
+export interface SchemaLotsBetItem {
+	id: number
+	name: string
+	price: number
+	price_bet: number
+	picture: string
+	city: string
+	delivery: "other_regions" | "only_city"
+	trading_end: string
 }
 
 export interface SchemaReviewsAdd {
 	answer: number
 	orders: number
-	entity: string
-	entity_id: number
+	lots: number
 	votes: number
 	content: string
 	picture: string[]
@@ -280,7 +333,7 @@ export interface SchemaUsersLotsFormData {
 	}[]
 	picture: string[]
 	video?: string
-	address: string
+	city: string
 	price: number
 	trading_start: string
 	trading_end: string
@@ -366,15 +419,6 @@ export interface SchemaChatUsersFormAdd {
 	message: string
 }
 
-export interface SchemaLikesInit {
-	status: boolean
-	msg: string
-	result: {
-		count_likes: number
-		count_dislikes: number
-	}
-}
-
 export interface SchemaLikesGet {
 	status: boolean
 	msg: string
@@ -420,6 +464,30 @@ export interface SchemaClaimsAdd {
 	picture: string[]
 }
 
+export interface SchemaUsersPostData {
+	id: number
+	name: string
+	picture: string
+	email: string
+	phone: string
+	inn: string
+	password: string
+	password_confirm: string
+}
+
+export interface SchemaUsersPublicInfo {
+	status: boolean
+	msg: string
+	result: {
+		id: number
+		type: "user" | "organization"
+		name: string
+		picture: string
+		rating_buyer: number
+		rating_seller: number
+	}
+}
+
 export interface SchemaUsersCabinet {
 	status: boolean
 	msg: string
@@ -444,9 +512,10 @@ export interface SchemaUsersInfo {
 	id: number
 	name: string
 	type: "organization" | "user"
-	pricture: string
+	picture: string
 	rating_buyer: number
 	rating_seller: number
+	confirm: boolean
 }
 
 export interface SchemaUsersLotsLists {
@@ -474,11 +543,17 @@ export interface SchemaUsersLotsItem {
 	trading_start: string
 	trading_end: string
 	picture: string
-	address: string
+	city: string
 	started: string
 	active: boolean
 	banned: boolean
 	banned_msg: string
+}
+
+export interface SchemaUsersAuthSocial {
+	status: boolean
+	msg: string
+	result: object
 }
 
 export interface SchemaUsersAuthOk {

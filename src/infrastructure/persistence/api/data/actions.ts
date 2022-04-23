@@ -20,6 +20,7 @@ import {
   SchemaFavoriteUsers,
   SchemaLikes,
   SchemaLikesGet,
+  SchemaLotsBetsLists,
   SchemaLotsContentItem,
   SchemaLotsGetFormData,
   SchemaLotsLists,
@@ -31,14 +32,18 @@ import {
   SchemaPagesMenu,
   SchemaRecommendations,
   SchemaReviewsAdd,
+  SchemaReviewSeller,
   SchemaSearchLists,
   SchemaUsersAuthOk,
+  SchemaUsersAuthSocial,
   SchemaUsersCabinet,
   SchemaUsersForgotRequest,
   SchemaUsersForgotReset,
   SchemaUsersLotsFormData,
   SchemaUsersLotsLists,
   SchemaUsersPhone,
+  SchemaUsersPostData,
+  SchemaUsersPublicInfo,
   SchemaUsersSignin,
   SchemaUsersSignUp
 } from "./schemas"
@@ -77,17 +82,23 @@ export const getGetBreadcrumbsByPagesId = (pages_id: number): Action<SchemaPages
 
 /**
  * Вывод лотов из выбранных параметров
+ * @param price - Цена [минимальная, максимальная] 
+ * @param category - Категории 
+ * @param seller - Тип пользователя [физическое лицо, юридическое лицо] 
+ * @param delivery - Доставка во [все, регионы, по городу] 
+ * @param period - Дата публикации лотов 
+ * @param started - Идентификатор статуса лота [началось,закончился,ожидание] 
  */
-export const getGetFilters = (price: {
+export const getGetFilters = (price?: {
   min: number
   max: number
-}[], category: number[], seller_type: "all" | "users" | "legal_entity", delivery: "all" | "other_regions" | "only_city", period: {
+}, category?: number[], seller?: "all" | "user" | "organization", delivery?: "all" | "other_regions" | "only_city", period?: {
   date_start: string
   date_end: string
-}[], started: number): Action<SchemaSearchLists> => ({
+}, started?: "started" | "ended" | "waiting"): Action<SchemaSearchLists> => ({
   method: "GET",
   endpoint: `/get/filters`,
-  params: { price, category, seller_type, delivery, period, started }
+  params: { price, category, seller, delivery, period, started }
 })
 
 /**
@@ -101,7 +112,7 @@ export const getGetFiltersCategory = (): Action<SchemaCategoryLists> => ({
 /**
  * поисковый модуль в виде бесконечной ленты
  */
-export const getGetSearch = (s: string, limit: number, current: number): Action<SchemaSearchLists> => ({
+export const getGetSearch = (s?: string, limit?: number, current?: number): Action<SchemaSearchLists> => ({
   method: "GET",
   endpoint: `/get/search`,
   params: { s, limit, current }
@@ -118,7 +129,7 @@ export const getGetRecommendations = (): Action<SchemaRecommendations> => ({
 /**
  * Получении стоимости доставки по координатам
  */
-export const getGetDeliveryAddress = (users_coordinate: {
+export const getGetDeliveryAddress = (users_coordinate?: {
   latitude: number
   longitude: number
 }): Action<SchemaDeliveryPrice> => ({
@@ -130,10 +141,10 @@ export const getGetDeliveryAddress = (users_coordinate: {
 /**
  * Зоны доставки
  */
-export const getGetDeliveryZone = (users_coordinate: {
+export const getGetDeliveryZone = (users_coordinate?: {
   latitude: number
   longitude: number
-}, city: string): Action<SchemaDeliveryZone> => ({
+}, city?: string): Action<SchemaDeliveryZone> => ({
   method: "GET",
   endpoint: `/get/delivery/zone`,
   params: { users_coordinate, city }
@@ -158,7 +169,7 @@ export const getGetAdvertisingFollowLinkByUid = (uid: string): Action<SchemaAdve
 /**
  * News lists
  */
-export const getGetNews = (limit: number, current: number): Action<SchemaNewsLists> => ({
+export const getGetNews = (limit?: number, current?: number): Action<SchemaNewsLists> => ({
   method: "GET",
   endpoint: `/get/news`,
   params: { limit, current }
@@ -175,7 +186,7 @@ export const getGetNewsById = (id: number): Action<SchemaNewsItemContent> => ({
 /**
  * Blogs lists
  */
-export const getGetBlogs = (limit: number, current: number): Action<SchemaBlogsLists> => ({
+export const getGetBlogs = (limit?: number, current?: number): Action<SchemaBlogsLists> => ({
   method: "GET",
   endpoint: `/get/blogs`,
   params: { limit, current }
@@ -190,9 +201,44 @@ export const getGetBlogsById = (id: number): Action<SchemaBlogsContentItem> => (
 })
 
 /**
+ * Данные пользователя
+ */
+export const getGetUsersById = (id: number): Action<SchemaUsersPublicInfo> => ({
+  method: "GET",
+  endpoint: `/get/users/${id}`
+})
+
+/**
+ * Страница отзывов
+ */
+export const getGetUsersByIdReviews = (id: number, limit?: number, current?: number): Action<SchemaReviewSeller> => ({
+  method: "GET",
+  endpoint: `/get/users/${id}/reviews`,
+  params: { limit, current }
+})
+
+/**
+ * Страница лотов пользователя
+ */
+export const getGetUsersByIdPlaced = (id: number, limit?: number, current?: number): Action<SchemaLotsLists> => ({
+  method: "GET",
+  endpoint: `/get/users/${id}/placed`,
+  params: { limit, current }
+})
+
+/**
+ * Страница лотов Отзывов
+ */
+export const getGetUsersByIdCompleted = (id: number, limit?: number, current?: number): Action<SchemaLotsLists> => ({
+  method: "GET",
+  endpoint: `/get/users/${id}/completed`,
+  params: { limit, current }
+})
+
+/**
  * Lots lists
  */
-export const getGetLots = (limit: number, current: number): Action<SchemaLotsLists> => ({
+export const getGetLots = (limit?: number, current?: number): Action<SchemaLotsLists> => ({
   method: "GET",
   endpoint: `/get/lots`,
   params: { limit, current }
@@ -224,9 +270,18 @@ export const getCabinet = (): Action<SchemaUsersCabinet> => ({
 })
 
 /**
+ * Сохранение информации о пользователе
+ */
+export const postCabinetSave = (body: SchemaUsersPostData): Action<SchemaUsersCabinet> => ({
+  method: "POST",
+  endpoint: `/cabinet/save`,
+  body
+})
+
+/**
  * Список лотов пользователя
  */
-export const getCabinetLots = (limit: number, current: number, status: number): Action<SchemaUsersLotsLists> => ({
+export const getCabinetLots = (limit?: number, current?: number, status?: number): Action<SchemaUsersLotsLists> => ({
   method: "GET",
   endpoint: `/cabinet/lots`,
   params: { limit, current, status }
@@ -243,7 +298,7 @@ export const deleteCabinetLotsDeleteById = (id: number): Action<SchemaOk> => ({
 /**
  * Публикация пользователем лота
  */
-export const getCabinetLotsAdd = (id: number): Action<{
+export const getCabinetLotsAdd = (id?: number): Action<{
   category: SchemaCategoryLists
   data: SchemaLotsGetFormData
 }> => ({
@@ -259,6 +314,24 @@ export const postCabinetLotsAdd = (body: SchemaUsersLotsFormData): Action<Schema
   method: "POST",
   endpoint: `/cabinet/lots/add`,
   body
+})
+
+/**
+ * Покупки пользователя
+ */
+export const getCabinetLotsBuying = (limit?: number, current?: number): Action<SchemaLotsBetsLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/lots/buying`,
+  params: { limit, current }
+})
+
+/**
+ * Ставки пользователя
+ */
+export const getCabinetLotsBets = (limit?: number, current?: number): Action<SchemaLotsBetsLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/lots/bets`,
+  params: { limit, current }
 })
 
 /**
@@ -352,7 +425,7 @@ export const postCabinetLikesAdd = (body: SchemaLikes): Action<SchemaLikesGet> =
 /**
  * Чат сообщений пользователя
  */
-export const getCabinetChat = (limit: number, current: number): Action<SchemaChatUsersLists> => ({
+export const getCabinetChat = (limit?: number, current?: number): Action<SchemaChatUsersLists> => ({
   method: "GET",
   endpoint: `/cabinet/chat`,
   params: { limit, current }
@@ -361,7 +434,7 @@ export const getCabinetChat = (limit: number, current: number): Action<SchemaCha
 /**
  * Чат сообщений пользователя
  */
-export const getCabinetChatByChatUsers = (chat_users: number, limit: number, current: number): Action<SchemaChatUsers> => ({
+export const getCabinetChatByChatUsers = (chat_users: number, limit?: number, current?: number): Action<SchemaChatUsers> => ({
   method: "GET",
   endpoint: `/cabinet/chat/${chat_users}`,
   params: { limit, current }
@@ -379,7 +452,7 @@ export const postCabinetChatByChatUsersAdd = (chat_users: number, body: SchemaCh
 /**
  * Жалобы
  */
-export const getCabinetClaims = (limit: number, current: number): Action<SchemaClaims> => ({
+export const getCabinetClaims = (limit?: number, current?: number): Action<SchemaClaims> => ({
   method: "GET",
   endpoint: `/cabinet/claims`,
   params: { limit, current }
@@ -446,7 +519,15 @@ export const getUsersForgotByConfirmKey = (confirm_key: string): Action<SchemaOk
 })
 
 /**
- * 
+ * Авторизация через социальную сеть
+ */
+export const getUsersSocial = (): Action<SchemaUsersAuthSocial> => ({
+  method: "GET",
+  endpoint: `/users/social`
+})
+
+/**
+ * Ok
  */
 export const getUsersSignupBySocialKey = (social_key: "vk" | "facebook" | "google"): Action<SchemaUsersAuthOk> => ({
   method: "GET",
