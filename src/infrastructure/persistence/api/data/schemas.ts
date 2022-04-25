@@ -139,7 +139,8 @@ export interface SchemaSearchLists {
 }
 
 export interface SchemaFavorite {
-	lots: number
+	type: "lots" | "users"
+	item: number
 }
 
 export interface SchemaFavoriteAddResponse {
@@ -190,6 +191,30 @@ export interface SchemaLotsGetFormData {
 export interface SchemaLotsSpecifications {
 	key: string
 	val: string
+}
+
+export interface SchemaLotsUsersBetsDetail {
+	status: boolean
+	msg: string
+	result: {
+		bets: {
+			bet: number
+			date: string
+			user: string
+		}[]
+		total_bets: number
+		current_bid: number
+	}
+}
+
+export interface SchemaLotsUsersBetsPeriod {
+	status: boolean
+	msg: string
+	result: {
+		bets: SchemaLotsUsersBets[]
+		favorites: number
+		views: number
+	}
 }
 
 export interface SchemaLotsUsersBets {
@@ -250,10 +275,10 @@ export interface SchemaLotsContentItem {
 		id: number
 		name: string
 		content: string
-		specifications: SchemaLotsSpecifications[]
+		specifications: SchemaLotsSpecifications[] | null
 		picture: string[]
-		video: string
-		address: string
+		video: string | null
+		city: string
 		delivery: "other_regions" | "only_city"
 		trading_start: string
 		trading_end: string
@@ -261,9 +286,9 @@ export interface SchemaLotsContentItem {
 		redeemed: boolean
 		price: number
 		price_step: number
-		price_bids: SchemaLotsUsersBets[]
+		price_bids: SchemaLotsUsersBets[] | null
 		binds_number: number
-		bind_current: number
+		bind_current: number | null
 		favorite: number
 		users_info: {
 			id: number
@@ -282,7 +307,7 @@ export interface SchemaLotsItem {
 	id: number
 	name: string
 	price: number
-	picture: string
+	picture: string | null
 	city: string
 	delivery: "other_regions" | "only_city"
 	trading_start: string
@@ -330,7 +355,7 @@ export interface SchemaUsersLotsFormData {
 	specifications?: {
 		key: string
 		val: string
-	}[]
+	}[] | null
 	picture: string[]
 	video?: string
 	city: string
@@ -464,15 +489,31 @@ export interface SchemaClaimsAdd {
 	picture: string[]
 }
 
-export interface SchemaUsersPostData {
-	id: number
-	name: string
-	picture: string
-	email: string
-	phone: string
-	inn: string
+export interface SchemaUserSettingsGet {
+	status: boolean
+	msg: string
+	result: SchemaUserSettings
+}
+
+export interface SchemaUserSettings {
+	increase: boolean
+	subscriptions: boolean
+	bidding: boolean
+}
+
+export interface SchemaUsersPassword {
+	password_old: string
 	password: string
 	password_confirm: string
+}
+
+export interface SchemaUsersPostData {
+	id: number
+	type: "user" | "organization"
+	name: string
+	email: string
+	phone: string
+	inn: string | null
 }
 
 export interface SchemaUsersPublicInfo {

@@ -25,6 +25,8 @@ import {
   SchemaLotsGetFormData,
   SchemaLotsLists,
   SchemaLotsPlaceBet,
+  SchemaLotsUsersBetsDetail,
+  SchemaLotsUsersBetsPeriod,
   SchemaNewsItemContent,
   SchemaNewsLists,
   SchemaNotifications,
@@ -37,10 +39,13 @@ import {
   SchemaUsersAuthOk,
   SchemaUsersAuthSocial,
   SchemaUsersCabinet,
+  SchemaUserSettings,
+  SchemaUserSettingsGet,
   SchemaUsersForgotRequest,
   SchemaUsersForgotReset,
   SchemaUsersLotsFormData,
   SchemaUsersLotsLists,
+  SchemaUsersPassword,
   SchemaUsersPhone,
   SchemaUsersPostData,
   SchemaUsersPublicInfo,
@@ -218,7 +223,7 @@ export const getGetUsersByIdReviews = (id: number, limit?: number, current?: num
 })
 
 /**
- * Страница лотов пользователя
+ * Список размещённых лотов
  */
 export const getGetUsersByIdPlaced = (id: number, limit?: number, current?: number): Action<SchemaLotsLists> => ({
   method: "GET",
@@ -227,7 +232,7 @@ export const getGetUsersByIdPlaced = (id: number, limit?: number, current?: numb
 })
 
 /**
- * Страница лотов Отзывов
+ * Список завершённых лотов
  */
 export const getGetUsersByIdCompleted = (id: number, limit?: number, current?: number): Action<SchemaLotsLists> => ({
   method: "GET",
@@ -245,11 +250,29 @@ export const getGetLots = (limit?: number, current?: number): Action<SchemaLotsL
 })
 
 /**
- * Lots content item
+ * Данные лота
  */
 export const getGetLotsById = (id: number): Action<SchemaLotsContentItem> => ({
   method: "GET",
   endpoint: `/get/lots/${id}`
+})
+
+/**
+ * Данные лота | Подробная таблица
+ */
+export const getGetLotsByIdDetail = (id: number, period?: number): Action<SchemaLotsUsersBetsDetail> => ({
+  method: "GET",
+  endpoint: `/get/lots/${id}/detail`,
+  params: { period }
+})
+
+/**
+ * Данные лота
+ */
+export const getGetLotsByIdStats = (id: number, period?: number): Action<SchemaLotsUsersBetsPeriod> => ({
+  method: "GET",
+  endpoint: `/get/lots/${id}/stats`,
+  params: { period }
 })
 
 /**
@@ -267,6 +290,32 @@ export const postCabinetLotsPlaceBet = (body: SchemaLotsPlaceBet): Action<Schema
 export const getCabinet = (): Action<SchemaUsersCabinet> => ({
   method: "GET",
   endpoint: `/cabinet`
+})
+
+/**
+ * Настройки подписок
+ */
+export const getCabinetUsersSettings = (): Action<SchemaUserSettingsGet> => ({
+  method: "GET",
+  endpoint: `/cabinet/users/settings`
+})
+
+/**
+ * Сохранение настроек по подпискам
+ */
+export const postCabinetUsersSettings = (body: SchemaUserSettings): Action<SchemaUserSettingsGet> => ({
+  method: "POST",
+  endpoint: `/cabinet/users/settings`,
+  body
+})
+
+/**
+ * Изменить пароль
+ */
+export const postCabinetUsersPassword = (body: SchemaUsersPassword): Action<SchemaOk> => ({
+  method: "POST",
+  endpoint: `/cabinet/users/password`,
+  body
 })
 
 /**
@@ -290,8 +339,8 @@ export const getCabinetLots = (limit?: number, current?: number, status?: number
 /**
  * Удаление лота пользователем
  */
-export const deleteCabinetLotsDeleteById = (id: number): Action<SchemaOk> => ({
-  method: "DELETE",
+export const postCabinetLotsDeleteById = (id: number): Action<SchemaOk> => ({
+  method: "POST",
   endpoint: `/cabinet/lots/delete/${id}`
 })
 
@@ -337,8 +386,8 @@ export const getCabinetLotsBets = (limit?: number, current?: number): Action<Sch
 /**
  * Удаление отзыва пользователем
  */
-export const deleteCabinetReviewsDeleteById = (id: number): Action<SchemaOk> => ({
-  method: "DELETE",
+export const postCabinetReviewsDeleteById = (id: number): Action<SchemaOk> => ({
+  method: "POST",
   endpoint: `/cabinet/reviews/delete/${id}`
 })
 
@@ -389,8 +438,8 @@ export const getCabinetFavoriteUsers = (): Action<SchemaFavoriteUsers> => ({
 /**
  * Добавить Лот в избранное. Если он там уже есть, то лот удаляется.
  */
-export const putCabinetFavoriteAdd = (body: SchemaFavorite): Action<SchemaFavoriteAddResponse> => ({
-  method: "PUT",
+export const postCabinetFavoriteAdd = (body: SchemaFavorite): Action<SchemaFavoriteAddResponse> => ({
+  method: "POST",
   endpoint: `/cabinet/favorite/add`,
   body
 })
@@ -470,8 +519,8 @@ export const postCabinetClaimsAdd = (body: SchemaClaimsAdd): Action<SchemaOk> =>
 /**
  * Удалить жалобу. Удалить может тот пользователь который открыл жалобу.
  */
-export const deleteCabinetClaimsDeleteById = (id: number): Action<SchemaOk> => ({
-  method: "DELETE",
+export const postCabinetClaimsDeleteById = (id: number): Action<SchemaOk> => ({
+  method: "POST",
   endpoint: `/cabinet/claims/delete/${id}`
 })
 
