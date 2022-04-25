@@ -10,24 +10,24 @@ function SocialAuth() {
     <div className="social-auth">
       <div className="social-auth__text">Войти через</div>
       <div className="social-auth__socials">
-        {/* <ActionOuterLink action={getUsersSignupBySocialKey("yandex")}>
+        <ActionOuterLink action={getUsersSignupBySocialKey("yandex")}>
           <Icon name="yandex" />
-        </ActionOuterLink> */}
-        <ActionOuterLink action={getUsersSignupBySocialKey("google")}>
-          <Icon name="google" />
         </ActionOuterLink>
-        <ActionOuterLink action={getUsersSignupBySocialKey("vk")}>
+        {/* <ActionOuterLink action={getUsersSignupBySocialKey("google")}>
+            <Icon name="google" />
+          </ActionOuterLink> */}
+        <ActionOuterLink action={getUsersSignupBySocialKey("vkontakte")}>
           <Icon name="vk" />
         </ActionOuterLink>
-        <ActionOuterLink action={getUsersSignupBySocialKey("facebook")}>
-          <Icon name="facebook" />
-        </ActionOuterLink>
-        {/* <ActionOuterLink action={getUsersSignupBySocialKey("odnoklassniki")}>
+        {/* <ActionOuterLink action={getUsersSignupBySocialKey("facebook")}>
+              <Icon name="facebook" />
+            </ActionOuterLink> */}
+        <ActionOuterLink action={getUsersSignupBySocialKey("odnoklassniki")}>
           <Icon name="odnoklassniki" />
         </ActionOuterLink>
-        <ActionOuterLink action={getUsersSignupBySocialKey("apple")}>
-          <Icon name="apple" />
-        </ActionOuterLink> */}
+        {/* <ActionOuterLink action={getUsersSignupBySocialKey("apple")}>
+            <Icon name="apple" />
+          </ActionOuterLink> */}
       </div>
     </div>
   )

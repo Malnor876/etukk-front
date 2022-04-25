@@ -9,13 +9,13 @@ import { FileToURLDataBase64 } from "utils/file"
 type FormValue = string | string[] | number | number[] | boolean | null | undefined
 type FormValues = Record<string, FormValue>
 
-export interface FormState<V = FormValues> {
+export interface FormState<V = Record<string, unknown>> {
   keys: keyof V[]
   values: V
 }
-export interface FormStateEnum<E extends Enum<E>, V extends Record<ValuesOf<E>, FormValue>> {
+export interface FormStateEnum<E extends Enum<E>, V extends { [P in ValuesOf<E>]?: unknown }> { // Type-safe Values
   keys: keyof V[]
-  values: V
+  values: Pick<V, ValuesOf<E>> & Record<Exclude<keyof V, ValuesOf<E>>, unknown>
 }
 
 interface FormProps<V> extends Omit<DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>, "onSubmit"> {
@@ -50,7 +50,7 @@ async function getFormState(elements: HTMLFormControlsCollection): Promise<{
     }
   }
 
-  const values: FormState["values"] = {}
+  const values: FormValues = {}
   for (const key of keys) {
     const next = elements.namedItem(key)
 

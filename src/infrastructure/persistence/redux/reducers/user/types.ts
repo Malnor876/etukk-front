@@ -9,6 +9,7 @@ export interface UserSigned {
   lastName: string
   avatar: string
   city: string
+  confirm: boolean
 
   buyerRating: number
   sellerRating: number

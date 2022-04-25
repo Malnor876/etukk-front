@@ -1,11 +1,14 @@
+import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import SortingToggle from "app/components/UI/SortingToggle/SortingToggle"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import Buttons from "app/layouts/Buttons/Buttons"
 import Previews from "app/layouts/Previews/Previews"
-import { IMAGE_MOCKS, LOT_PREVIEW_MOCK } from "constants/mocks"
+import { IMAGE_MOCKS } from "constants/mocks"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
 import SellerPreview from "domain/seller/SellerPreview/SellerPreview"
+import { getCabinetFavorite, getCabinetFavoriteUsers } from "infrastructure/persistence/api/data/actions"
+import { mapLotsLists } from "infrastructure/persistence/api/mappings/lots"
 import { Outlet, Route, Routes } from "react-router"
 import { NavLink } from "react-router-dom"
 
@@ -14,11 +17,11 @@ function FavouritesView() {
     <>
       <h2 className="heading">избранное</h2>
       <Buttons>
-        <ButtonLink small outline nav to="lots">Лоты</ButtonLink>
+        <ButtonLink small outline nav to="all">Лоты</ButtonLink>
         <ButtonLink small outline nav to="sellers">Продавцы</ButtonLink>
       </Buttons>
       <Routes>
-        <Route path="lots/*" element={
+        <Route path="all/*" element={
           <>
             <Switcher>
               <NavLink to="" end>Все (6)</NavLink>
@@ -35,32 +38,39 @@ function FavouritesView() {
             <Outlet />
           </>
         }>
-          <Route index element={
-            <Previews>
-              {[...Array(16)].map((_, i) => (
-                <LotPreview {...LOT_PREVIEW_MOCK} key={i} />
-              ))}
-            </Previews>
-          } />
+          <Route index element={<FavouritesLotsAllContainer />} />
         </Route>
-        <Route path="sellers" element={
-          <Previews>
-            {[...Array(16)].map((_, i) => (
-              <SellerPreview
-                id={i}
-                avatar={IMAGE_MOCKS[1]}
-                name="ИП ПОВЕЛИТЕЛЬ МЕБЕЛИ и мира в целом"
-                city="Москва"
-                likes={5}
-                dislikes={1}
-                lotsCount={1}
-                key={i}
-              />
-            ))}
-          </Previews>
-        } />
+        <Route path="sellers" element={<FavouritesSellersContainer />} />
       </Routes>
     </>
+  )
+}
+
+function FavouritesLotsAllContainer() {
+  return (
+    <QueryContainer action={getCabinetFavorite()} mapping={mapLotsLists}>
+      {payload => (
+        <Previews>
+          {payload.items.map(lot => (
+            <LotPreview {...lot} key={lot.id} />
+          ))}
+        </Previews>
+      )}
+    </QueryContainer>
+  )
+}
+
+function FavouritesSellersContainer() {
+  return (
+    <QueryContainer action={getCabinetFavoriteUsers()} mapping={mapLotsLists}>
+      {payload => (
+        <Previews>
+          {payload.items.map(lot => (
+            <LotPreview {...lot} key={lot.id} />
+          ))}
+        </Previews>
+      )}
+    </QueryContainer>
   )
 }
 

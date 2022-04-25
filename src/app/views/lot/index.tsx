@@ -4,8 +4,8 @@ import { QueryErrorCoverBoundary } from "app/components/containers/QueryErrorCov
 import LotBidUp from "domain/Lot/LotBidUp"
 import LotInfo from "domain/Lot/LotInfo"
 import LotTrade from "domain/Lot/LotTrade"
-import { getGetLotsById, postCabinetLotsPlaceBet, putCabinetFavoriteAdd } from "infrastructure/persistence/api/data/actions"
-import { mapGetGetLotById } from "infrastructure/persistence/api/mappings/lots"
+import { getGetLotsById, postCabinetFavoriteAdd, postCabinetLotsPlaceBet } from "infrastructure/persistence/api/data/actions"
+import { mapLotsContentItem } from "infrastructure/persistence/api/mappings/lots"
 import { Mutation } from "react-fetching-library"
 import { useParams } from "react-router"
 
@@ -32,13 +32,13 @@ interface LotContainerProps {
 
 function LotContainer(props: LotContainerProps) {
   return (
-    <QueryContainer action={getGetLotsById(props.id)} mapping={mapGetGetLotById}>
+    <QueryContainer action={getGetLotsById(props.id)} mapping={mapLotsContentItem}>
       {payload => (
         <div className="lot-info-layout">
           <div className="lot-info-layout__section">
-            <Mutation actionCreator={putCabinetFavoriteAdd}>
+            <Mutation actionCreator={postCabinetFavoriteAdd}>
               {({ mutate }) => (
-                <LotInfo {...payload.info} onBookmark={() => mutate({ lots: props.id })} />
+                <LotInfo {...payload.info} onBookmark={() => mutate({ type: "lots", item: props.id })} />
               )}
             </Mutation>
           </div>

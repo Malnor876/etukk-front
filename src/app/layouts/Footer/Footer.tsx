@@ -10,7 +10,7 @@ function Footer() {
         <img src="/static/images/logo.svg" alt="etukk logo" />
       </Link>
       <div className="footer__group">
-        <Link className="footer__link" to="/favourites/lots">Избранное</Link>
+        <Link className="footer__link" to="/favourites/all">Избранное</Link>
         <Link className="footer__link" to="/lots/new/edit">Выставить лот</Link>
         <small>Все права защищены, 2022©</small>
       </div>

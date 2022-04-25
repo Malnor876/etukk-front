@@ -7,14 +7,15 @@ export function mapUser(user: SchemaUsersInfo): UserSigned {
   return {
     auth: true,
     id: user.id,
-    avatar: user.pricture,
+    avatar: user.picture,
     city: "Москва",
     fullName: user.name,
     firstName,
     lastName,
     type: user.type,
+    confirm: user.confirm,
     buyerRating: user.rating_buyer,
-    sellerRating: user.rating_seller,
+    sellerRating: user.rating_seller
   }
 }
 

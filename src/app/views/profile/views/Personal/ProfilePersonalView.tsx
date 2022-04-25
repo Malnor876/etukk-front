@@ -4,6 +4,7 @@ import CustomerRating from "app/components/UI/CustomerRating/CustomerRating"
 import EditAvatar from "app/components/UI/EditAvatar/EditAvatar"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import { IMAGE_MOCKS } from "constants/mocks"
+import { postCabinetSave } from "infrastructure/persistence/api/data/actions"
 import { Mutation } from "react-fetching-library"
 import { useSelector } from "react-redux"
 import { Route, Routes } from "react-router"
@@ -51,9 +52,9 @@ function GeneralInfo() {
     return (
       <>
         <div className="profile-view__general-info">
-          {/* <Mutation actionCreator={put}>
+          {/* <Mutation actionCreator={postCabinetSave}>
             {({mutate}) => (
-              <EditAvatar image={user.avatar} onChange={console.log} />
+              <EditAvatar image={user.avatar} onChange={() => postCabinetSave({  })} />
             )}
           </Mutation> */}
           <CustomerRating sellerRating={user.sellerRating} buyerRating={user.buyerRating} />

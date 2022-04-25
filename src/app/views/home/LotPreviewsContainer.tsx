@@ -4,7 +4,7 @@ import LotPreview from "domain/Lot/LotPreview/LotPreview"
 import { LotPreviewType } from "domain/Lot/types"
 import useScrollReach from "hooks/useScrollReach"
 import { getGetLots } from "infrastructure/persistence/api/data/actions"
-import { mapGetGetLots } from "infrastructure/persistence/api/mappings/lots"
+import { mapLotsLists } from "infrastructure/persistence/api/mappings/lots"
 import { useEffect, useState } from "react"
 import { QueryError, useQuery } from "react-fetching-library"
 
@@ -32,7 +32,7 @@ function LotPreviewsContainer() {
 
   useEffect(() => {
     if (payload == null) return
-    const mappedPayload = mapGetGetLots(payload)
+    const mappedPayload = mapLotsLists(payload)
 
     setLots(lots => [...lots, ...mappedPayload.items])
     setTimeout(() => resetReached())

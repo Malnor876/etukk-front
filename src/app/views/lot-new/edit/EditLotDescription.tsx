@@ -12,7 +12,7 @@ function EditLotDescription() {
         В описании необходимо отразить состояние лота, продолжительность владения, наличие нюансов и
         дефектов, габаритные размеры при междугородней доставке
       </p>
-      <Textarea placeholder="Описание..." defaultValue={description} onInput={inputValue(setDescription)}>Расскажите подробнее о выставляемом лоте</Textarea>
+      <Textarea rows={16} placeholder="Описание..." defaultValue={description} onInput={inputValue(setDescription)}>Расскажите подробнее о выставляемом лоте</Textarea>
     </section>
   )
 }

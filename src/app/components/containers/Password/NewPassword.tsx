@@ -1,4 +1,5 @@
 import Input from "app/components/UI/Input/Input"
+import _ from "lodash"
 import { useState } from "react"
 import { inputValue } from "utils/common"
 
@@ -20,12 +21,13 @@ function NewPassword(props: NewPasswordProps) {
     onIconClick: () => setHidden(!hidden),
 
     required: true,
-    ...props
+    autoComplete: "new-password",
+    ..._.omit(props, "nameConfirm"),
   }
   return (
     <>
-      <Input {...inputProps} pattern=".{6,}" placeholder="Пароль" onChange={inputValue(setPassword)} name={props.name} autoComplete="new-password" />
-      <Input {...inputProps} pattern={password} customValidity={PASSWORD_MISMATCH} placeholder="Повторите пароль" name={props.nameConfirm} autoComplete="new-password" />
+      <Input {...inputProps} pattern=".{6,}" placeholder="Пароль" onChange={inputValue(setPassword)} name={props.name} />
+      <Input {...inputProps} pattern={password} customValidity={PASSWORD_MISMATCH} placeholder="Повторите пароль" name={props.nameConfirm} />
     </>
   )
 }

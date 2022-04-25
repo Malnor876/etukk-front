@@ -52,7 +52,7 @@ export class ModalContainer extends Component<ModalContainerProps, ModalContaine
 
     const className = this.props.className || "modal"
     return (
-      <div className={classWithModifiers(className, isActive && "active")}>
+      <div className={classWithModifiers(className, isActive && "active")} aria-modal aria-hidden={!isActive}>
         <div className={className + "__container"} onClick={params?.closable !== false ? stopPropagation(close) : undefined}>
           <modalContext.Provider value={current || null}>
             {ModalComponent && <ModalComponent {...params} />}

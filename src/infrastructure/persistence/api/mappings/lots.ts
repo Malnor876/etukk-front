@@ -1,25 +1,30 @@
+import { IMAGE_MOCKS } from "constants/mocks"
 import { LotPreviewType, LotType } from "domain/Lot/types"
 import { PaginationType } from "interfaces/Nodejs"
 
-import { SchemaLotsContentItem, SchemaLotsLists } from "../data/schemas"
+import { SchemaLotsContentItem, SchemaLotsItem, SchemaLotsLists } from "../data/schemas"
 import { mapImageUrl } from "./helpers"
 
-export function mapGetGetLots({ result }: SchemaLotsLists): PaginationType<LotPreviewType> {
+export function mapLotsItem(item: SchemaLotsItem): LotPreviewType {
   return {
-    ...result,
-    items: result.items.map((item): LotPreviewType => ({
-      id: item.id,
-      bookmarked: item.id === 1,
-      image: item.picture,
-      city: item.address,
-      title: item.name,
-      price: item.price,
-      tradeStart: new Date(item.trading_start)
-    }))
+    id: item.id,
+    bookmarked: Boolean(item.favorite),
+    image: item.picture || IMAGE_MOCKS[0],
+    city: item.city,
+    title: item.name,
+    price: item.price,
+    tradeStart: new Date(item.trading_start)
   }
 }
 
-export function mapGetGetLotById({ result }: SchemaLotsContentItem): LotType {
+export function mapLotsLists({ result }: SchemaLotsLists): PaginationType<LotPreviewType> {
+  return {
+    ...result,
+    items: result.items.map(mapLotsItem)
+  }
+}
+
+export function mapLotsContentItem({ result }: SchemaLotsContentItem): LotType {
   return {
     info: {
       description: result.content,
@@ -28,7 +33,7 @@ export function mapGetGetLotById({ result }: SchemaLotsContentItem): LotType {
     },
     seller: {},
     trade: {
-      city: result.address,
+      city: result.city,
       price: result.price,
       title: result.name,
       tradeStart: new Date(result.trading_start),

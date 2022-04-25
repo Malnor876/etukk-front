@@ -11,8 +11,33 @@ import Selector from "app/components/UI/Selector/Selector"
 import Specifications from "app/components/UI/Specifications/Specifications"
 import Textarea from "app/components/UI/Textarea/Textarea"
 import Choices from "app/layouts/Choices/Choices"
-import { ReactNode } from "react"
-import { useParams } from "react-router"
+import Form, { FormStateEnum } from "app/layouts/Form/Form"
+import { postCabinetLotsAdd } from "infrastructure/persistence/api/data/actions"
+import { SchemaUsersLotsFormData } from "infrastructure/persistence/api/data/schemas"
+import { ReactNode, useState } from "react"
+import { useMutation } from "react-fetching-library"
+import { useNavigate, useParams } from "react-router"
+import { FileToURLDataBase64 } from "utils/file"
+
+enum FormInputs {
+  title = "name",
+  images = "picture",
+  video = "video",
+  startBid = "price",
+  publicationPeriod = "trading_start",
+  city = "city",
+  delivery = "delivery",
+  description = "content",
+  specifications = "specifications",
+  category = "category",
+
+
+
+  tradingStart = "trading_start",
+  tradingEnd = "trading_end",
+}
+
+interface FormValues extends SchemaUsersLotsFormData { }
 
 function LotEditView() {
   const { lotId } = useParams<"lotId">()
@@ -22,61 +47,74 @@ function LotEditView() {
   if (isNaN(+lotId)) {
     throw new ReactError(LotEditView, "lotId is not number")
   }
+
+  const navigate = useNavigate()
+  const { mutate } = useMutation(postCabinetLotsAdd)
+  const [files, setFiles] = useState<File[]>([])
+  async function onSubmit(state: FormStateEnum<typeof FormInputs, FormValues>) {
+    if (lotId == null) return
+
+    const { error } = await mutate({ ...state.values, id: +lotId, picture: await Promise.all(files.map(FileToURLDataBase64)) })
+    if (error) return
+
+    navigate("..")
+  }
+
   return (
-    <div className="lot-edit-view">
+    <Form className="lot-edit-view" onSubmit={onSubmit}>
       <div className="lot-edit-view__header">
         <h2 className="heading">Редактировать лот</h2>
         <Backward />
       </div>
       <div className="lot-edit-view__container">
         <LotEditSetting label="Название лота">
-          <Input width="18em" placeholder="Название лота" defaultValue="ВАЗ 2110 в шикарном состоянии" />
+          <Input width="18em" placeholder="Название лота" defaultValue="ВАЗ 2110 в шикарном состоянии" name={FormInputs.title} />
           <CloseButton />
         </LotEditSetting>
         <LotEditSetting label="Фото">
-          <ChooseImage />
+          <ChooseImage onChange={setFiles} />
         </LotEditSetting>
         <LotEditSetting label="Видео">
-          <Input width="35em" placeholder="Ссылка на видео..." />
+          <Input width="35em" placeholder="Ссылка на видео..." name={FormInputs.video} />
           <CloseButton />
         </LotEditSetting>
         <LotEditSetting label="Начальная ставка">
-          <Input width="16em" type="number" placeholder="Введите  сумму..." iconName="rub" />
+          <Input width="16em" type="number" placeholder="Введите  сумму..." iconName="rub" name={FormInputs.startBid} />
           <CloseButton />
         </LotEditSetting>
         <LotEditSetting label="Период публикации лота и проведения торгов">
           <div style={{ paddingTop: "0.5em" }}>
             <Choices>
-              <Radio name="2" value="1">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
-              <Radio name="2" value="2" defaultChecked>Сегодня 21.09.21 в 20:00 - 22:00</Radio>
-              <Radio name="2" value="3">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
-              <Radio name="2" value="4">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+              <Radio name={FormInputs.publicationPeriod} value="1">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+              <Radio name={FormInputs.publicationPeriod} value="2" defaultChecked>Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+              <Radio name={FormInputs.publicationPeriod} value="3">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+              <Radio name={FormInputs.publicationPeriod} value="4">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
             </Choices>
           </div>
         </LotEditSetting>
         <LotEditSetting label="Укажите ваш город">
-          <Input width="16em" placeholder="Укажите город..." />
+          <Input width="16em" placeholder="Укажите город..." name={FormInputs.city} />
           <CloseButton />
         </LotEditSetting>
         <LotEditSetting label="Вариант доставки">
-          <Selector width="16em" defaultValue="all">
+          <Selector width="16em" defaultValue="all" name={FormInputs.delivery}>
             <option value="all">Доставка в регионы</option>
             <option value="locally">Доставка по городу продажи</option>
           </Selector>
         </LotEditSetting>
         <LotEditSetting label="Описание лота">
-          <Textarea width="33.5em" rows={16} defaultValue="Продается шайтан-арба,не бит, не крашен, валиком подшаманен. Ездила девушка от дома до работы в Краснодарский край. От души отрываю, мамой клянусь. Арбузы не возил, все щапчасти заводские. Год выпуска 1985." />
+          <Textarea width="33.5em" rows={16} name={FormInputs.description} defaultValue="Продается шайтан-арба,не бит, не крашен, валиком подшаманен. Ездила девушка от дома до работы в Краснодарский край. От души отрываю, мамой клянусь. Арбузы не возил, все щапчасти заводские. Год выпуска 1985." />
           <CloseButton />
         </LotEditSetting>
         <LotEditSetting label="Характеристики">
-          <Specifications />
+          <Specifications name={FormInputs.specifications} />
         </LotEditSetting>
       </div>
       <div className="lot-edit-view__buttons">
-        <Button>Сохранить</Button>
+        <Button type="submit">Сохранить</Button>
         <Button outline>Отмена</Button>
       </div>
-    </div>
+    </Form>
   )
 }
 

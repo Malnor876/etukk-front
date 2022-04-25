@@ -37,7 +37,7 @@ function FullscreenPhoneConfirm() {
         <br />
         <br />
         <br />
-        <Button onClick={() => Modal.replace(FullscreenEmailConfirm)}>Подтвердить</Button>
+        <Button aria- onClick={() => Modal.replace(FullscreenEmailConfirm)}>Подтвердить</Button>
       </div>
     </FullscreenLayout>
   )

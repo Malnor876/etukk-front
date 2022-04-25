@@ -14,6 +14,7 @@ interface SpecificationType {
 }
 
 interface SpecificationsProps {
+  name?: string
   max?: number
   defaultValue?: SpecificationType[]
   onChange?: Dispatch<SpecificationType[]>
@@ -47,8 +48,8 @@ function Specifications(props: SpecificationsProps) {
       <div className="specifications__container">
         {specifications.map((specification, index) => (
           <div className="specifications__specification" key={specification.id}>
-            <Input placeholder="Название..." required defaultValue={specification.key} onChange={inputValue(editSpecificationKey(index))} />
-            <Input placeholder="Значение..." required defaultValue={specification.value} onChange={inputValue(editSpecificationValue(index))} />
+            <Input placeholder="Название..." required name={`${props.name}[${specification.id}].key`} defaultValue={specification.key} onChange={inputValue(editSpecificationKey(index))} />
+            <Input placeholder="Значение..." required name={`${props.name}[${specification.id}].value`} defaultValue={specification.value} onChange={inputValue(editSpecificationValue(index))} />
             {index > 0 && (
               <CloseButton onClick={() => removeSpecification(index)} />
             )}

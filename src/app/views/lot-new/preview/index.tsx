@@ -6,6 +6,7 @@ import LotTrade from "domain/Lot/LotTrade"
 import { LotInfoType, LotTradeType } from "domain/Lot/types"
 import { postCabinetLotsAdd } from "infrastructure/persistence/api/data/actions"
 import { useMutation } from "react-fetching-library"
+import { useNavigate } from "react-router-dom"
 import { FileToURLDataBase64 } from "utils/file"
 
 import { lotNewStorage } from "../edit"
@@ -37,7 +38,7 @@ function LotNewPreviewView() {
   return (
     <>
       <h2 className="heading">Просмотр лота перед публикацией</h2>
-      <div className="lot-layout">
+      <div className="lot-info-layout">
         <LotInfo specifications={specifications} description={description} slides={slides} />
         <LotTrade delivery={delivery} city={city} price={+price} title={title} tradeStart={new Date(date)} tradeEnd={new Date(date)}>
           <Buttons>
@@ -62,20 +63,26 @@ interface NewLotPayload {
   date: string | number | Date
 }
 
-function usePublishNewLot(payload: NewLotPayload) {
+function usePublishNewLot(requestPayload: NewLotPayload) {
+  const navigate = useNavigate()
   const { mutate } = useMutation(postCabinetLotsAdd)
   async function publish() {
-    mutate({
-      address: payload.city,
-      category: payload.category,
-      name: payload.title,
-      picture: await Promise.all(payload.files.map(FileToURLDataBase64)),
-      price: Number(payload.price),
-      specifications: payload.specifications.map(spec => ({ val: spec.value, key: spec.key })),
+    const { error, payload: responsePayload } = await mutate({
+      city: requestPayload.city,
+      category: requestPayload.category,
+      name: requestPayload.title,
+      picture: await Promise.all(requestPayload.files.map(FileToURLDataBase64)),
+      price: Number(requestPayload.price),
+      specifications: requestPayload.specifications.map(spec => ({ val: spec.value, key: spec.key })),
       trading_end: "",
-      trading_start: new Date(payload.date).toJSON(),
-      content: payload.description
+      trading_start: new Date(requestPayload.date).toJSON(),
+      content: requestPayload.description
     })
+
+    if (error) return
+    if (responsePayload == null) return
+
+    navigate(`../unknown`)
   }
   return publish
 }

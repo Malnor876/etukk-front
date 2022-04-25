@@ -578,7 +578,7 @@ export const getUsersSocial = (): Action<SchemaUsersAuthSocial> => ({
 /**
  * Ok
  */
-export const getUsersSignupBySocialKey = (social_key: "vk" | "facebook" | "google"): Action<SchemaUsersAuthOk> => ({
+export const getUsersSignupBySocialKey = (social_key: "vkontakte" | "yandex" | "odnoklassniki"): Action<SchemaUsersAuthOk> => ({
   method: "GET",
   endpoint: `/users/signup/${social_key}`
 })

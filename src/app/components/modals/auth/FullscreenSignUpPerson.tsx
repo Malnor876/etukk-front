@@ -59,7 +59,7 @@ function FullscreenSignUpPerson() {
           <Input placeholder="Имя" width="20em" name={FormInputs.name} required />
           <Input placeholder="ИНН" name={FormInputs.inn} width="20em" required />
           <Input placeholder="Номер телефона" name={FormInputs.phone} width="20em" type="tel" required />
-          <Input placeholder="Е-mail" name={FormInputs.email} width="20em" type="email" required />
+          <Input placeholder="Е-mail" name={FormInputs.email} width="20em" type="email" required autoComplete="username" />
           <NewPassword name={FormInputs.password} nameConfirm={FormInputs.passwordConfirm} width="20em" />
           <Checkbox required>
             <Link to="/terms" onClick={close}>Принимаю условия соглашения</Link>
