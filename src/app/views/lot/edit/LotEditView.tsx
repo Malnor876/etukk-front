@@ -11,7 +11,7 @@ import Selector from "app/components/UI/Selector/Selector"
 import Specifications from "app/components/UI/Specifications/Specifications"
 import Textarea from "app/components/UI/Textarea/Textarea"
 import Choices from "app/layouts/Choices/Choices"
-import Form, { FormStateEnum } from "app/layouts/Form/Form"
+import Form, { FormState } from "app/layouts/Form/Form"
 import { postCabinetLotsAdd } from "infrastructure/persistence/api/data/actions"
 import { SchemaUsersLotsFormData } from "infrastructure/persistence/api/data/schemas"
 import { ReactNode, useState } from "react"
@@ -31,10 +31,8 @@ enum FormInputs {
   specifications = "specifications",
   category = "category",
 
-
-
   tradingStart = "trading_start",
-  tradingEnd = "trading_end",
+  tradingEnd = "trading_end"
 }
 
 interface FormValues extends SchemaUsersLotsFormData { }
@@ -51,7 +49,7 @@ function LotEditView() {
   const navigate = useNavigate()
   const { mutate } = useMutation(postCabinetLotsAdd)
   const [files, setFiles] = useState<File[]>([])
-  async function onSubmit(state: FormStateEnum<typeof FormInputs, FormValues>) {
+  async function onSubmit(state: FormState<FormInputs, FormValues>) {
     if (lotId == null) return
 
     const { error } = await mutate({ ...state.values, id: +lotId, picture: await Promise.all(files.map(FileToURLDataBase64)) })

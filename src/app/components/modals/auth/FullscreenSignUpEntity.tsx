@@ -3,7 +3,7 @@ import Button from "app/components/UI/Button/Button"
 import Checkbox from "app/components/UI/Checkbox/Checkbox"
 import Input from "app/components/UI/Input/Input"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
-import Form, { FormStateEnum } from "app/layouts/Form/Form"
+import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { postUsersSignup } from "infrastructure/persistence/api/data/actions"
 import { mapUser } from "infrastructure/persistence/api/mappings/user"
@@ -28,7 +28,6 @@ enum FormInputs {
   password = "password",
   passwordConfirm = "password_confirm"
 }
-type FormValues = Record<ValuesOf<typeof FormInputs>, string>
 
 function FullscreenSignUpEntity() {
   const { close } = useModal()
@@ -36,7 +35,7 @@ function FullscreenSignUpEntity() {
   const { mutate: signUp } = useMutation(postUsersSignup)
   const [reCaptcha, setReCaptcha] = useState(false)
   const [validity, setValidity] = useState(false)
-  async function onSubmit(state: FormStateEnum<typeof FormInputs, FormValues>) {
+  async function onSubmit(state: FormState<FormInputs, string>) {
     const { error, payload } = await signUp(state.values)
 
     if (error) return
@@ -57,7 +56,7 @@ function FullscreenSignUpEntity() {
           <Input placeholder="ИНН" name={FormInputs.inn} width="20em" required />
           <Input placeholder="Номер телефона" name={FormInputs.phone} width="20em" type="tel" required />
           <Input placeholder="Е-mail" name={FormInputs.email} width="20em" type="email" required autoComplete="username" />
-          <NewPassword name={FormInputs.password} nameConfirm={FormInputs.passwordConfirm} width="20em" />
+          <NewPassword name={FormInputs.password} confirmName={FormInputs.passwordConfirm} width="20em" />
           <Checkbox required>
             <Link to="/terms" onClick={close}>Принимаю условия соглашения</Link>
           </Checkbox>

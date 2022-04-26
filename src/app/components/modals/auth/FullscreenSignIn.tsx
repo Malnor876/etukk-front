@@ -3,12 +3,11 @@ import Button from "app/components/UI/Button/Button"
 import Input from "app/components/UI/Input/Input"
 import SocialAuth from "app/components/UI/SocialAuth/SocialAuth"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
-import Form, { FormStateEnum } from "app/layouts/Form/Form"
+import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { postUsersSignin } from "infrastructure/persistence/api/data/actions"
 import { mapUser } from "infrastructure/persistence/api/mappings/user"
 import { updateUser } from "infrastructure/persistence/redux/reducers/user"
-import { ValuesOf } from "interfaces/utilities"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
 import { useState } from "react"
@@ -22,14 +21,13 @@ enum FormInputs {
   email = "email",
   password = "password"
 }
-type FormValues = Record<ValuesOf<typeof FormInputs>, string>
 
 function FullscreenSignIn() {
   const { close } = useModal()
   const dispatch = useDispatch()
   const [validity, setValidity] = useState(false)
   const { mutate: signIn } = useMutation(postUsersSignin)
-  async function onSubmit(state: FormStateEnum<typeof FormInputs, FormValues>) {
+  async function onSubmit(state: FormState<FormInputs, string>) {
     const { error, payload } = await signIn(state.values)
 
     if (error) return

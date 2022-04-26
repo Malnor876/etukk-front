@@ -1,6 +1,5 @@
 import "./Form.scss"
 
-import { Enum, ValuesOf } from "interfaces/utilities"
 import _ from "lodash"
 import { DetailedHTMLProps, FormEvent, FormHTMLAttributes } from "react"
 import { classWithModifiers } from "utils/common"
@@ -9,27 +8,23 @@ import { FileToURLDataBase64 } from "utils/file"
 type FormValue = string | string[] | number | number[] | boolean | null | undefined
 type FormValues = Record<string, FormValue>
 
-export interface FormState<V = Record<string, unknown>> {
-  keys: keyof V[]
-  values: V
-}
-export interface FormStateEnum<E extends Enum<E>, V extends { [P in ValuesOf<E>]?: unknown }> { // Type-safe Values
-  keys: keyof V[]
-  values: Pick<V, ValuesOf<E>> & Record<Exclude<keyof V, ValuesOf<E>>, unknown>
+export interface FormState<K extends keyof never, V> { // Type-safe Values
+  keys: (K extends (String) ? K : never)[]
+  values: V extends { [P in K]?: unknown } ? Pick<V, K> & Record<Exclude<keyof V, K>, unknown> : Record<K, V>
 }
 
-interface FormProps<V> extends Omit<DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>, "onSubmit"> {
+interface FormProps<K extends keyof never, V> extends Omit<DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>, "onSubmit"> {
   centered?: boolean
   gap?: "2em"
 
-  onSubmit?: (state: FormState<V>, event: FormEvent<HTMLFormElement>) => void
+  onSubmit?: (state: FormState<K, V>, event: FormEvent<HTMLFormElement>) => void
 }
 
-function Form<V>(props: FormProps<V>) {
+function Form<K extends keyof never, V>(props: FormProps<K, V>) {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    const formState = await getFormState(event.currentTarget.elements) as unknown as FormState<V>
+    const formState = await getFormState(event.currentTarget.elements) as unknown as FormState<K, V>
 
     props.onSubmit?.(formState, event)
   }

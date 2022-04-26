@@ -7,7 +7,7 @@ const PASSWORD_MISMATCH = "Пароли не совпадают!"
 
 interface NewPasswordProps {
   name?: string
-  nameConfirm?: string
+  confirmName?: string
   width?: string
 }
 
@@ -27,7 +27,7 @@ function NewPassword(props: NewPasswordProps) {
   return (
     <>
       <Input {...inputProps} pattern=".{6,}" placeholder="Пароль" onChange={inputValue(setPassword)} name={props.name} />
-      <Input {...inputProps} pattern={password} customValidity={PASSWORD_MISMATCH} placeholder="Повторите пароль" name={props.nameConfirm} />
+      <Input {...inputProps} pattern={password} customValidity={PASSWORD_MISMATCH} placeholder="Повторите пароль" name={props.confirmName} />
     </>
   )
 }
