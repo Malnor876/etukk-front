@@ -8,8 +8,8 @@ import { mapLotsLists } from "infrastructure/persistence/api/mappings/lots"
 import { useEffect, useState } from "react"
 import { QueryError, useQuery } from "react-fetching-library"
 
-interface LotsProps {
-
+interface LotPreviewsContainerProps {
+  search?: string
 }
 
 function LotPreviewsContainer() {

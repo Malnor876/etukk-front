@@ -1,5 +1,6 @@
 import "./LotPreview.scss"
 
+import BookmarkContainer from "app/components/containers/BookmarkContainer/BookmarkContainer"
 import Icon from "app/components/UI/Icon/Icon"
 import { LotPreviewType } from "domain/Lot/types"
 import { Link } from "react-router-dom"
@@ -32,11 +33,9 @@ function LotPreview(props: LotProps) {
           </div>
         </div>
         {props.onClick ?? (
-          <Link className="ghost" to="/lots/1" />
+          <Link className="ghost" to={`/lots/${props.id}`} />
         )}
-        <button className="lot-preview__bookmark" type="button">
-          <Icon name="bookmark-3d" />
-        </button>
+        <BookmarkContainer className="lot-preview__bookmark" defaultValue={props.bookmarked} id={props.id} type="lots" />
       </>
     </div>
   )

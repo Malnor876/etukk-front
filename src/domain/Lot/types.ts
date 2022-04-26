@@ -1,3 +1,5 @@
+import { UserType } from "infrastructure/persistence/redux/reducers/user/types"
+
 export interface LotPreviewType {
   id: number
   bookmarked?: boolean
@@ -33,7 +35,16 @@ export interface LotTradeType {
   tradeEnd: Date
 }
 
-export interface LotSellerType { }
+export interface LotSellerType {
+  id: number
+  name: string
+  type: UserType
+  reviews: {
+    likes: number
+    dislikes: number
+  }
+  rating: number
+}
 export interface LotBidType {
   start: number
   step: number

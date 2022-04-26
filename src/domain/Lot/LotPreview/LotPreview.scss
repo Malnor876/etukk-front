@@ -80,5 +80,9 @@
 	right: 10%;
 	transform: translateY(-25%);
 
-	color: $color-raspberry-1;
+	color: $color-gray-3;
+
+	&--active {
+		color: $color-raspberry-1;
+	}
 }

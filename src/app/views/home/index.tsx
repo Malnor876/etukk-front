@@ -1,7 +1,6 @@
 import FiltersContainer from "app/components/containers/Filters/FiltersContainer"
 import { QueryErrorCoverBoundary } from "app/components/containers/QueryErrorCoverBoundary/QueryErrorCoverBoundary"
 import SearchSuggest from "app/components/containers/SearchSuggest/SearchSuggest"
-import ErrorCover from "app/components/UI/ErrorCover/ErrorCover"
 import SortingToggle from "app/components/UI/SortingToggle/SortingToggle"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import Container from "app/layouts/Container/Container"

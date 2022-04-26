@@ -1,7 +1,7 @@
 import "./SellerPreview.scss"
 
+import BookmarkContainer from "app/components/containers/BookmarkContainer/BookmarkContainer"
 import CounterIcon from "app/components/UI/CounterIcon/CounterIcon"
-import Icon from "app/components/UI/Icon/Icon"
 import Entries from "app/layouts/Entries/Entries"
 import EntryCounter from "app/layouts/Entries/EntryCounter"
 import { Link } from "react-router-dom"
@@ -47,11 +47,7 @@ function SellerPreview(props: SellerPreviewProps) {
       {props.linkedTo && (
         <Link className="ghost" to={props.linkedTo} />
       )}
-      {props.bookmarked != null && (
-        <button className="lot-preview__bookmark" type="button">
-          <Icon name="bookmark-3d" />
-        </button>
-      )}
+      <BookmarkContainer className="lot-preview__bookmark" defaultValue={props.bookmarked} id={props.id} type="lots" />
     </div>
   )
 }

@@ -12,6 +12,7 @@ interface ButtonProps extends ButtonBaseProps {
   eventLabel?: string
   disabled?: boolean
   await?: boolean
+  pending?: boolean
   onClick?: MouseEventHandler<HTMLButtonElement>
 }
 
@@ -39,7 +40,7 @@ function Button(props: ButtonProps) {
   if (props.color) modifiers.push(props.color)
   if (props.small) modifiers.push("small")
   if (props.outline) modifiers.push("outline")
-  if (pending) modifiers.push("pending")
+  if (pending || props.pending) modifiers.push("pending")
 
   return (
     <button className={classMerge(classWithModifiers("button", ...modifiers), props.className)} type={props.type || "button"} disabled={props.disabled || pending} onClick={onClick}>

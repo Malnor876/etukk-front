@@ -8,7 +8,10 @@ interface SubjectLogProps {
   children: ReactNode
   onBackward?(): void
 }
-
+/**
+ * 
+ * Layout component mainly for `Details`
+ */
 function SubjectLog(props: SubjectLogProps) {
   return (
     <div className="subject-log">
