@@ -10,6 +10,7 @@ declare module "react-fetching-library" {
 export interface APIResponseError {
   status: boolean
   msg: string
+  uid: string
 }
 
 interface ActionConfig {

@@ -23,7 +23,7 @@ export function requestInterceptor() {
       ...action,
       endpoint: endpointTransform(action),
       headers: {
-        // Authorization: !action.config?.skipAuth && localStorage.getItem("token") || "",
+        Authorization: "Basic " + !action.config?.skipAuth && localStorage.getItem("uid") || "",
         "Content-Type": "application/json",
         // accept: "application/json",
         // "Accept-Language": Localization.lang
@@ -36,6 +36,11 @@ export function responseInterceptor() {
     if (isErrorOcurred(response)) {
       responseErrorHandling(response)
       return { ...response, error: true }
+    }
+
+
+    if (response.payload) {
+      localStorage.setItem("uid", response.payload.uid)
     }
 
     return response

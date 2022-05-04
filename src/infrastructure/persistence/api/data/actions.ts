@@ -14,19 +14,30 @@ import {
   SchemaContent,
   SchemaDeliveryPrice,
   SchemaDeliveryZone,
+  SchemaFaqLists,
   SchemaFavorite,
   SchemaFavoriteAddResponse,
   SchemaFavoriteList,
   SchemaFavoriteUsers,
   SchemaLikes,
   SchemaLikesGet,
+  SchemaLotArchiveLists,
+  SchemaLotDisputesLists,
   SchemaLotsBetsLists,
+  SchemaLotsConfirmLists,
   SchemaLotsContentItem,
+  SchemaLotsEquals,
   SchemaLotsGetFormData,
+  SchemaLotsInspectionLists,
   SchemaLotsLists,
+  SchemaLotSoldLists,
   SchemaLotsPlaceBet,
+  SchemaLotsPublishedLists,
+  SchemaLotsRejectedLists,
   SchemaLotsUsersBetsDetail,
   SchemaLotsUsersBetsPeriod,
+  SchemaLotsWayLists,
+  SchemaLotsWonLists,
   SchemaNewsItemContent,
   SchemaNewsLists,
   SchemaNotifications,
@@ -38,6 +49,8 @@ import {
   SchemaSearchLists,
   SchemaUsersAuthOk,
   SchemaUsersAuthSocial,
+  SchemaUsersAvatar,
+  SchemaUsersAvatarResp,
   SchemaUsersCabinet,
   SchemaUserSettings,
   SchemaUserSettingsGet,
@@ -45,6 +58,7 @@ import {
   SchemaUsersForgotReset,
   SchemaUsersLotsFormData,
   SchemaUsersLotsLists,
+  SchemaUsersLotsStatus,
   SchemaUsersPassword,
   SchemaUsersPhone,
   SchemaUsersPostData,
@@ -56,17 +70,17 @@ import {
 /**
  * Get content page data
  */
-export const getGetPagesByPagesId = (pages_id: number): Action<SchemaContent> => ({
+export const getGetPagesIdByPagesId = (pages_id: number): Action<SchemaContent> => ({
   method: "GET",
-  endpoint: `/get/pages/${pages_id}`
+  endpoint: `/get/pages/id/${pages_id}`
 })
 
 /**
  * Get content page data
  */
-export const getGetPagesByUrl = (url: string): Action<SchemaContent> => ({
+export const getGetPagesUrlByUrl = (url: string): Action<SchemaContent> => ({
   method: "GET",
-  endpoint: `/get/pages/${url}`
+  endpoint: `/get/pages/url/${url}`
 })
 
 /**
@@ -189,6 +203,15 @@ export const getGetNewsById = (id: number): Action<SchemaNewsItemContent> => ({
 })
 
 /**
+ * FAQ список
+ */
+export const getGetFaq = (limit?: number, current?: number, hashtags?: string[]): Action<SchemaFaqLists> => ({
+  method: "GET",
+  endpoint: `/get/faq`,
+  params: { limit, current, hashtags }
+})
+
+/**
  * Blogs lists
  */
 export const getGetBlogs = (limit?: number, current?: number): Action<SchemaBlogsLists> => ({
@@ -223,7 +246,16 @@ export const getGetUsersByIdReviews = (id: number, limit?: number, current?: num
 })
 
 /**
- * Список размещённых лотов
+ * Список завершённых лотов
+ */
+export const getGetUsersByIdCompleted = (id: number, limit?: number, current?: number): Action<SchemaLotsLists> => ({
+  method: "GET",
+  endpoint: `/get/users/${id}/completed`,
+  params: { limit, current }
+})
+
+/**
+ * Список завершённых лотов
  */
 export const getGetUsersByIdPlaced = (id: number, limit?: number, current?: number): Action<SchemaLotsLists> => ({
   method: "GET",
@@ -232,12 +264,11 @@ export const getGetUsersByIdPlaced = (id: number, limit?: number, current?: numb
 })
 
 /**
- * Список завершённых лотов
+ * Похожие лоты
  */
-export const getGetUsersByIdCompleted = (id: number, limit?: number, current?: number): Action<SchemaLotsLists> => ({
+export const getGetLotsEqualById = (id: number): Action<SchemaLotsEquals> => ({
   method: "GET",
-  endpoint: `/get/users/${id}/completed`,
-  params: { limit, current }
+  endpoint: `/get/lots/equal/${id}`
 })
 
 /**
@@ -310,6 +341,15 @@ export const postCabinetUsersSettings = (body: SchemaUserSettings): Action<Schem
 })
 
 /**
+ * Изменить фото пользователя
+ */
+export const postCabinetUsersPicture = (body: SchemaUsersAvatar): Action<SchemaUsersAvatarResp> => ({
+  method: "POST",
+  endpoint: `/cabinet/users/picture`,
+  body
+})
+
+/**
  * Изменить пароль
  */
 export const postCabinetUsersPassword = (body: SchemaUsersPassword): Action<SchemaOk> => ({
@@ -345,7 +385,16 @@ export const postCabinetLotsDeleteById = (id: number): Action<SchemaOk> => ({
 })
 
 /**
- * Публикация пользователем лота
+ * Публикация и редактирование лота
+ */
+export const postCabinetLotsStatus = (body: SchemaUsersLotsStatus): Action => ({
+  method: "POST",
+  endpoint: `/cabinet/lots/status`,
+  body
+})
+
+/**
+ * Публикация и редактирование лота
  */
 export const getCabinetLotsAdd = (id?: number): Action<{
   category: SchemaCategoryLists
@@ -357,7 +406,7 @@ export const getCabinetLotsAdd = (id?: number): Action<{
 })
 
 /**
- * Публикация пользователем лота
+ * Публикация и редактирование лота
  */
 export const postCabinetLotsAdd = (body: SchemaUsersLotsFormData): Action<SchemaOk> => ({
   method: "POST",
@@ -366,11 +415,101 @@ export const postCabinetLotsAdd = (body: SchemaUsersLotsFormData): Action<Schema
 })
 
 /**
- * Покупки пользователя
+ * На проверке
  */
-export const getCabinetLotsBuying = (limit?: number, current?: number): Action<SchemaLotsBetsLists> => ({
+export const getCabinetLotsPurchasesInspection = (limit?: number, current?: number): Action<SchemaLotsInspectionLists> => ({
   method: "GET",
-  endpoint: `/cabinet/lots/buying`,
+  endpoint: `/cabinet/lots/purchases/inspection`,
+  params: { limit, current }
+})
+
+/**
+ * Опубликовано
+ */
+export const getCabinetLotsPurchasesPublished = (limit?: number, current?: number): Action<SchemaLotsPublishedLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/lots/purchases/published`,
+  params: { limit, current }
+})
+
+/**
+ * Отклонено
+ */
+export const getCabinetLotsPurchasesRejected = (limit?: number, current?: number): Action<SchemaLotsRejectedLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/lots/purchases/rejected`,
+  params: { limit, current }
+})
+
+/**
+ * Продано
+ */
+export const getCabinetLotsPurchasesSold = (limit?: number, current?: number): Action<SchemaLotSoldLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/lots/purchases/sold`,
+  params: { limit, current }
+})
+
+/**
+ * Архив
+ */
+export const getCabinetLotsPurchasesArchive = (limit?: number, current?: number): Action<SchemaLotArchiveLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/lots/purchases/archive`,
+  params: { limit, current }
+})
+
+/**
+ * Открыто споров
+ */
+export const getCabinetLotsPurchasesDisputes = (limit?: number, current?: number): Action<SchemaLotDisputesLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/lots/purchases/disputes`,
+  params: { limit, current }
+})
+
+/**
+ * Выиграно
+ */
+export const getCabinetLotsSalesWon = (limit?: number, current?: number): Action<SchemaLotsWonLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/lots/sales/won`,
+  params: { limit, current }
+})
+
+/**
+ * В пути
+ */
+export const getCabinetLotsSalesWay = (limit?: number, current?: number): Action<SchemaLotsWayLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/lots/sales/way`,
+  params: { limit, current }
+})
+
+/**
+ * Подтвердить получение
+ */
+export const getCabinetLotsSalesConfirm = (limit?: number, current?: number): Action<SchemaLotsConfirmLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/lots/sales/confirm`,
+  params: { limit, current }
+})
+
+/**
+ * Открыто споров
+ */
+export const getCabinetLotsSalesDisputes = (limit?: number, current?: number): Action<SchemaLotDisputesLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/lots/sales/disputes`,
+  params: { limit, current }
+})
+
+/**
+ * Завершение покупки
+ */
+export const getCabinetLotsSalesCompleting = (limit?: number, current?: number): Action<SchemaLotDisputesLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/lots/sales/completing`,
   params: { limit, current }
 })
 
@@ -578,7 +717,7 @@ export const getUsersSocial = (): Action<SchemaUsersAuthSocial> => ({
 /**
  * Ok
  */
-export const getUsersSignupBySocialKey = (social_key: "vkontakte" | "yandex" | "odnoklassniki"): Action<SchemaUsersAuthOk> => ({
+export const getUsersSignupBySocialKey = (social_key: "vk" | "facebook" | "google"): Action<SchemaUsersAuthOk> => ({
   method: "GET",
   endpoint: `/users/signup/${social_key}`
 })
