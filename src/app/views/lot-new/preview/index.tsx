@@ -43,7 +43,7 @@ function LotNewPreviewView() {
         <LotTrade delivery={delivery} city={city} price={+price} title={title} tradeStart={new Date(date)} tradeEnd={new Date(date)}>
           <Buttons>
             <Button await onClick={publishNewLot}>Опубликовать</Button>
-            <ButtonLink outline to="../edit">Редактировать</ButtonLink>
+            <ButtonLink outline to="/lots/new/edit">Редактировать</ButtonLink>
           </Buttons>
         </LotTrade>
       </div>

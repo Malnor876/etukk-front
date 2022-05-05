@@ -7,7 +7,7 @@ import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { postUsersSignin } from "infrastructure/persistence/api/data/actions"
 import { mapUser } from "infrastructure/persistence/api/mappings/user"
-import { updateUser } from "infrastructure/persistence/redux/reducers/user"
+import { userUpdate } from "infrastructure/persistence/redux/reducers/user"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
 import { useState } from "react"
@@ -34,7 +34,7 @@ function FullscreenSignIn() {
     if (payload == null) return
 
     const mappedUser = mapUser(payload.result)
-    dispatch(updateUser(mappedUser))
+    dispatch(userUpdate(mappedUser))
 
     close()
   }

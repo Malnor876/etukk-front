@@ -7,7 +7,7 @@ import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { postUsersSignup } from "infrastructure/persistence/api/data/actions"
 import { mapUser } from "infrastructure/persistence/api/mappings/user"
-import { updateUser } from "infrastructure/persistence/redux/reducers/user"
+import { userUpdate } from "infrastructure/persistence/redux/reducers/user"
 import { ValuesOf } from "interfaces/utilities"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
@@ -42,7 +42,7 @@ function FullscreenSignUpEntity() {
     if (payload == null) return
 
     const mappedUser = mapUser(payload.result)
-    dispatch(updateUser(mappedUser))
+    dispatch(userUpdate(mappedUser))
 
     Modal.replace(FullscreenPhoneConfirm)
   }

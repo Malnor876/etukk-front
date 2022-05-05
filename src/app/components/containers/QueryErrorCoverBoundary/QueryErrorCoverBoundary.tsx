@@ -34,10 +34,8 @@ export class QueryErrorCoverBoundary extends Component<QueryErrorCoverBoundaryPr
     if (this.state.hasError && this.state.error) {
       return (
         <ErrorCover>
-          Произошла ошибка во время запроса:
-          <br />
+          <p>Произошла ошибка {this.state.error.response.status} во время запроса:</p>
           <em>{this.state.error.message}</em>
-          <br />
           <Button color="white" onClick={this.reset}>Попробовать ещё раз</Button>
         </ErrorCover>
       )

@@ -1,11 +1,11 @@
 import Button from "app/components/UI/Button/Button"
-import { updateUser } from "infrastructure/persistence/redux/reducers/user"
+import { userUpdate } from "infrastructure/persistence/redux/reducers/user"
 import { useDispatch } from "react-redux"
 
 function ProfilePersonalExit() {
   const dispatch = useDispatch()
   function logout() {
-    dispatch(updateUser({ auth: false }))
+    dispatch(userUpdate({ auth: false }))
   }
   return (
     <>

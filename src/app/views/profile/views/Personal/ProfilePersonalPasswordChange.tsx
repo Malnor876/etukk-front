@@ -25,7 +25,7 @@ function ProfilePersonalPasswordChange() {
     <>
       <h5 className="heading">Смена пароля</h5>
       <Form gap="2em" onChange={event => setValidity(event.currentTarget.checkValidity())} onSubmit={onSubmit}>
-        <Input name={FormInputs.passwordOld} placeholder="Текущий пароль" />
+        <Input name={FormInputs.passwordOld} type="password" placeholder="Текущий пароль" autoComplete="current-password" />
         <NewPassword name={FormInputs.password} confirmName={FormInputs.passwordConfirm} />
         <div><Button type="submit" disabled={!validity}>Сохранить</Button></div>
       </Form>
