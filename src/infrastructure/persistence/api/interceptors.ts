@@ -1,7 +1,7 @@
-import { updateUser } from "infrastructure/persistence/redux/reducers/user"
+import { userUpdate } from "infrastructure/persistence/redux/reducers/user"
 import store from "infrastructure/persistence/redux/store"
 import Localization from "modules/localization/controller"
-import { QueryResponse } from "react-fetching-library"
+import { QueryError, QueryResponse } from "react-fetching-library"
 import { toast } from "react-toastify"
 import { createQuery } from "utils/common"
 
@@ -23,7 +23,7 @@ export function requestInterceptor() {
       ...action,
       endpoint: endpointTransform(action),
       headers: {
-        Authorization: "Basic " + !action.config?.skipAuth && localStorage.getItem("uid") || "",
+        Authorization: "Basic " + !action.config?.skipAuth && localStorage.getItem("token") || "",
         "Content-Type": "application/json",
         // accept: "application/json",
         // "Accept-Language": Localization.lang
@@ -32,22 +32,23 @@ export function requestInterceptor() {
   }
 }
 export function responseInterceptor() {
-  return async (_action: Action, response: Response) => {
-    if (isErrorOcurred(response)) {
-      responseErrorHandling(response)
+  return async (action: Action, response: Response) => {
+    console.log(2)
+    if (responseHasError(response)) {
+      responseErrorHandling(action, response)
       return { ...response, error: true }
     }
 
 
-    if (response.payload) {
-      localStorage.setItem("uid", response.payload.uid)
+    if (response.payload?.uid) {
+      localStorage.setItem("token", response.payload.uid)
     }
 
     return response
   }
 }
 
-function isErrorOcurred(response: Response): boolean {
+function responseHasError(response: Response): boolean {
   if ((response.status || 0) >= 400) {
     return true
   }
@@ -63,13 +64,20 @@ function isErrorOcurred(response: Response): boolean {
   return false
 }
 
-function responseErrorHandling(response: Response) {
+function responseErrorHandling(action: Action, response: Response) {
+  console.log(1)
   if (response.status === 401) {
+    localStorage.removeItem("user")
     localStorage.removeItem("token")
     toast.error("Что-то не так с авторизацией")
     toast.info("Токен был сброшен, авторизуйтесь ещё раз")
-    store.dispatch(updateUser({ auth: false }))
+    store.dispatch(userUpdate({ auth: false }))
   }
+
   toast.error(response.payload?.msg)
-  return { ...response, error: true }
+
+  if (response.error) console.error(new QueryError(`${action.endpoint}: unexpected error`, response))
+  if (response.payload == null) console.error(new QueryError(`${action.endpoint}: no payload`, response))
+
+  // return { ...response, error: true }
 }

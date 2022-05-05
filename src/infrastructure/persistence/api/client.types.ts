@@ -10,7 +10,7 @@ declare module "react-fetching-library" {
 export interface APIResponseError {
   status: boolean
   msg: string
-  uid: string
+  uid?: string
 }
 
 interface ActionConfig {
@@ -23,4 +23,4 @@ export type ActionPayload<P> = P & APIResponseError
 export type Action<P = unknown> = BaseAction<ActionPayload<P>, Partial<ActionConfig>>
 export type ExtractActionPayload<A extends Action> = A extends Action<infer P> ? P : never
 
-export type MapPredicate<P, M> = (payload: P) => M
+export type MappingPredicate<P, M> = (payload: P) => M
