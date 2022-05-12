@@ -23,8 +23,8 @@ function Footer() {
         <Link className="footer__link" to="/about">О нас</Link>
       </div>
       <div className="footer__group">
-        <OuterLink className="footer__link" to="tel:+7 (900) 999-99-99" noTarget>+7 (900) 999-99-99</OuterLink>
-        <OuterLink className="footer__link" to="mailto:Etukk@mail.ru" noTarget>Etukk@mail.ru</OuterLink>
+        <OuterLink className="footer__link" to="tel:+7 (495) 324 -09-59" noTarget>+7 (495) 324 -09-59</OuterLink>
+        <OuterLink className="footer__link" to="mailto:info@etukk.ru" noTarget>info@etukk.ru</OuterLink>
       </div>
     </footer>
   )
