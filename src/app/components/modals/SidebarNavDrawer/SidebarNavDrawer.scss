@@ -22,6 +22,7 @@
 
 .sidebar-nav-drawer__nav {
 	display: grid;
+	justify-items: flex-start;
 	gap: 2em;
 }
 
@@ -30,6 +31,11 @@
 	font-size: $font-size-5;
 	font-weight: 500;
 	text-decoration: none;
+
+	&--underlined {
+		padding-bottom: 1px;
+		border-bottom: 1px solid;
+	}
 }
 
 .sidebar-nav-drawer__bottom {

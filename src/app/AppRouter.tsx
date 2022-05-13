@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router"
 
 import ViewLayout from "./layouts/ViewLayout/ViewLayout"
+import ContactsView from "./views/contacts"
 import ErrorView from "./views/error"
 import FavouritesView from "./views/favourites"
 import HomeView from "./views/home"
@@ -11,6 +12,7 @@ import LotNewPreviewView from "./views/lot-new/preview"
 import NotificationsView from "./views/notifications"
 import ProfileView from "./views/profile/ProfileView"
 import SupportView from "./views/support"
+import TermsView from "./views/terms"
 import UserView from "./views/user/UserView"
 
 function AppRouter() {
@@ -33,6 +35,9 @@ function AppRouter() {
           <Route path="support/*" element={<SupportView />} />
           <Route path="profile/*" element={<ProfileView />} />
           <Route path="user/:userId/*" element={<UserView />} />
+
+          <Route path="terms/*" element={<TermsView />} />
+          <Route path="contacts/*" element={<ContactsView />} />
         </Route>
       </Route>
     </Routes>

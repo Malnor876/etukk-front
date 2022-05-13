@@ -25,6 +25,9 @@ function SidebarNavDrawer() {
           <NavLink className="sidebar-nav-drawer__link" to="/profile/purchases" onClick={close}>Мои покупки</NavLink>
           <NavLink className="sidebar-nav-drawer__link" to="/support" onClick={close}>FAQ</NavLink>
           <NavLink className="sidebar-nav-drawer__link" to="/profile/personal/exit" onClick={close}>Выход</NavLink>
+          <NavLink className="sidebar-nav-drawer__link" to="/contacts">Контакты</NavLink>
+          <NavLink className="sidebar-nav-drawer__link sidebar-nav-drawer__link--underlined" to="/terms/policy">Политика конфиденциальности</NavLink>
+          <NavLink className="sidebar-nav-drawer__link sidebar-nav-drawer__link--underlined" to="/terms/rules">Правила пользования сайтом</NavLink>
         </nav>
         <div className="sidebar-nav-drawer__bottom">
           <nav className="sidebar-nav-drawer__nav">
