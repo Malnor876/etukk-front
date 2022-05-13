@@ -28,7 +28,7 @@ function SidebarNavDrawer() {
         </nav>
         <div className="sidebar-nav-drawer__bottom">
           <nav className="sidebar-nav-drawer__nav">
-            <OuterLink className="sidebar-nav-drawer__link" to="tel:+7 (900) 999-99-99" noTarget>+7 (900) 999-99-99</OuterLink>
+            <OuterLink className="sidebar-nav-drawer__link" to="tel:+7 (495) 324 -09-59" noTarget>+7 (495) 324 -09-59</OuterLink>
             <OuterLink className="sidebar-nav-drawer__link" to="mailto:Etukk@mail.ru">Etukk@mail.ru</OuterLink>
           </nav>
         </div>
