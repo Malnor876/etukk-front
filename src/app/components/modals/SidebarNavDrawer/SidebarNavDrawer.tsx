@@ -19,12 +19,12 @@ function SidebarNavDrawer() {
           </button>
         </div>
         <nav className="sidebar-nav-drawer__nav">
-          <NavLink className="sidebar-nav-drawer__link" to="/profile" onClick={close}>Личная информация</NavLink>
-          <NavLink className="sidebar-nav-drawer__link" to="/profile/bets" onClick={close}>Мои ставки</NavLink>
-          <NavLink className="sidebar-nav-drawer__link" to="/profile/sales" onClick={close}>Мои продажи</NavLink>
-          <NavLink className="sidebar-nav-drawer__link" to="/profile/purchases" onClick={close}>Мои покупки</NavLink>
-          <NavLink className="sidebar-nav-drawer__link" to="/support" onClick={close}>FAQ</NavLink>
-          <NavLink className="sidebar-nav-drawer__link" to="/profile/personal/exit" onClick={close}>Выход</NavLink>
+          <NavLink className="sidebar-nav-drawer__link" to="/profile">Личная информация</NavLink>
+          <NavLink className="sidebar-nav-drawer__link" to="/profile/bets">Мои ставки</NavLink>
+          <NavLink className="sidebar-nav-drawer__link" to="/profile/sales">Мои продажи</NavLink>
+          <NavLink className="sidebar-nav-drawer__link" to="/profile/purchases">Мои покупки</NavLink>
+          <NavLink className="sidebar-nav-drawer__link" to="/support">FAQ</NavLink>
+          <NavLink className="sidebar-nav-drawer__link" to="/profile/personal/exit">Выход</NavLink>
           <NavLink className="sidebar-nav-drawer__link" to="/contacts">Контакты</NavLink>
           <NavLink className="sidebar-nav-drawer__link sidebar-nav-drawer__link--underlined" to="/terms/policy">Политика конфиденциальности</NavLink>
           <NavLink className="sidebar-nav-drawer__link sidebar-nav-drawer__link--underlined" to="/terms/rules">Правила пользования сайтом</NavLink>
