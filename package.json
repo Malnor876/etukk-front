@@ -2,6 +2,8 @@
   "name": "etukk",
   "private": true,
   "dependencies": {
+    "@sentry/react": "^6.19.7",
+    "@sentry/tracing": "^6.19.7",
     "@types/react": "^18.0.2",
     "@types/redux": "^3.6.0",
     "buffer": "^6.0.3",

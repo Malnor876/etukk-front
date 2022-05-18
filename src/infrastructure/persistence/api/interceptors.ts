@@ -22,8 +22,14 @@ export function requestInterceptor() {
     return {
       ...action,
       endpoint: endpointTransform(action),
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+
       headers: {
-        Authorization: "Basic " + !action.config?.skipAuth && localStorage.getItem("token") || "",
+        Authorization: "Bearer " + !action.config?.skipAuth && localStorage.getItem("token") || "",
         "Content-Type": "application/json",
         // accept: "application/json",
         // "Accept-Language": Localization.lang
@@ -33,7 +39,6 @@ export function requestInterceptor() {
 }
 export function responseInterceptor() {
   return async (action: Action, response: Response) => {
-    console.log(2)
     if (responseHasError(response)) {
       responseErrorHandling(action, response)
       return { ...response, error: true }
@@ -65,8 +70,7 @@ function responseHasError(response: Response): boolean {
 }
 
 function responseErrorHandling(action: Action, response: Response) {
-  console.log(1)
-  if (response.status === 401) {
+  if (response.status === 401 && localStorage.getItem("token") !== null) {
     localStorage.removeItem("user")
     localStorage.removeItem("token")
     toast.error("Что-то не так с авторизацией")
@@ -74,10 +78,21 @@ function responseErrorHandling(action: Action, response: Response) {
     store.dispatch(userUpdate({ auth: false }))
   }
 
-  toast.error(response.payload?.msg)
+  toast.error(transformPayloadErrorMessage(response.payload?.msg))
 
   if (response.error) console.error(new QueryError(`${action.endpoint}: unexpected error`, response))
-  if (response.payload == null) console.error(new QueryError(`${action.endpoint}: no payload`, response))
+  if (response.payload == null) {
+    console.error(new QueryError(`${action.endpoint}: no payload`, response))
+  }
+}
 
-  // return { ...response, error: true }
+function transformPayloadErrorMessage(codeOrMessage?: string | null) {
+  if (codeOrMessage == null) return "Got no code nor message"
+  if (codeOrMessage in errors) return errors[codeOrMessage]
+
+  return codeOrMessage
+}
+
+const errors: Record<string, string> = {
+  UsersNotFound: "Пользователь не найден",
 }

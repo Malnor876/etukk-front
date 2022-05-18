@@ -1,5 +1,6 @@
 import "./CookiesNotice.scss"
 
+import { captureException, captureMessage, injectReportDialog } from "@sentry/react"
 import Button from "app/components/UI/Button/Button"
 import { useRef, useState } from "react"
 import { classWithModifiers } from "utils/common"
@@ -10,6 +11,9 @@ function CookiesNotice() {
   function onClick() {
     setCookies("accept")
     localStorage.setItem("cookies", "accept")
+
+    // captureMessage("T1")
+    injectReportDialog()
   }
   if (process.env.NODE_ENV === "production") {
     if (cookiesRef.current === "accept") {

@@ -47,9 +47,23 @@ export function createQuery(queryObject?: Record<string, unknown> | null): strin
   return queryArray.filter(Boolean).join("&")
 }
 
-export function toBase64<T = unknown>(value: T | null | undefined) {
+const getCircularReplacer = () => {
+  const seen = new WeakSet()
+  return (_key: string, value: unknown) => {
+    if (typeof value === "object" && value !== null) {
+      if (seen.has(value)) {
+        return
+      }
+      seen.add(value)
+    }
+    return value
+  }
+}
+
+export function toBase64<T = unknown>(value?: T | null) {
   if (value == null) return String(value)
-  return Buffer.from(JSON.stringify(value)).toString("base64")
+  const serializedValue = JSON.stringify(value, getCircularReplacer())
+  return Buffer.from(serializedValue).toString("base64")
 }
 
 

@@ -2,12 +2,17 @@
 /// <reference path="./store.d.ts" />
 
 
+import { createReduxEnhancer } from "@sentry/react"
 import { applyMiddleware, compose, createStore } from "redux"
 import thunk from "redux-thunk"
 
 import combinedReducers from "./combinedReducers"
 
+
 const enhancer = compose(applyMiddleware(thunk))
-const store = createStore(combinedReducers, enhancer)
+const sentryEnhancer = createReduxEnhancer({
+  stateTransformer: enhancer
+})
+const store = createStore(combinedReducers, sentryEnhancer)
 
 export default store

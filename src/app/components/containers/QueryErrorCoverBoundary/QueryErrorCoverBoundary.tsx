@@ -16,6 +16,8 @@ export class QueryErrorCoverBoundary extends Component<QueryErrorCoverBoundaryPr
     if (error instanceof QueryError) {
       return { hasError: true, error }
     }
+
+    throw error
   }
 
   state: QueryErrorCoverBoundaryState = {

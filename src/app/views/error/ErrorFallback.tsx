@@ -1,7 +1,9 @@
 import "./ErrorView.scss"
 
+import { showReportDialog, withScope } from "@sentry/react"
 import { ErrorBoundaryError, ErrorBoundaryReset } from "app/components/containers/ErrorBoundary/ErrorBoundary.types"
 import Button from "app/components/UI/Button/Button"
+import ButtonLink from "app/components/UI/Button/ButtonLink"
 import ClientAPI from "infrastructure/persistence/api/client"
 import { ErrorInfo } from "react"
 
@@ -20,17 +22,9 @@ interface FatalErrorProps {
 
 function FatalError(props: FatalErrorProps) {
   function report() {
-    const error = props.error
-    if (error == null) return
-    ClientAPI
-    //   .query(postError(error.name, error.message, [error.stack?.replace(/ \(.*\)/g, "").replace(/\t| {2}/g, "") || "", props.errorInfo?.componentStack.replace(/ \(.*\)/g, "").replace(/\t| {2}/g, "") || ""]))
-    //   .then(({ error, payload }) => {
-    //     if (error || !payload) {
-    //       alert("Ошибка во время отправки, попробуйте ещё раз")
-    //       return
-    //     }
-    //     alert("Отправлено")
-    //   })
+    if (props.error == null) return
+
+    showReportDialog({ lang: "ru" })
   }
   return (
     <div className="error-view">
@@ -49,7 +43,8 @@ function FatalError(props: FatalErrorProps) {
           <pre>{props.errorInfo?.componentStack}</pre>
         </div>
         <Button color="white" onClick={report}>Отправить отчёт</Button>
-        <button className="error-view__button" type="button" onClick={props.reset}>Попробовать ещё раз</button>
+        {/* <button className="error-view__button" type="button" onClick={props.reset}>Попробовать ещё раз</button> */}
+        <ButtonLink to="/" onClick={props.reset}>На главную</ButtonLink>
       </div>
       <div className="error-view__icon">
         <img src="/static/images/logo.svg" alt="etukk logo" />

@@ -8,12 +8,15 @@ import { ClientContextProvider } from "react-fetching-library"
 import { Provider } from "react-redux"
 import { BrowserRouter } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
+import { injectStyle } from "react-toastify/dist/inject-style"
 
 import AppEffects from "./AppEffects"
 import AppRouter from "./AppRouter"
 import CookiesNotice from "./components/containers/CookiesNotice/CookiesNotice"
 import ErrorBoundary from "./components/containers/ErrorBoundary/ErrorBoundary"
 import ErrorFallback from "./views/error/ErrorFallback"
+
+injectStyle()
 
 function App() {
   return (
