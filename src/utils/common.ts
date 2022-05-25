@@ -30,16 +30,23 @@ export function classWithModifiers(originClass: string, ...modifiers: Array<stri
 
 /**
  * Creates query from given object
+ * - Supports deep nesting
+ * - Removes empty fields
  * @returns `state1=6&state2=horse` without `?`
  */
-export function createQuery(queryObject?: Record<string, unknown> | null): string {
-  if (!queryObject || !Object.keys(queryObject).length) return ""
+export function createQuery(queryObject?: Record<string | number, unknown> | null, keyPrefix?: string): string {
+  if (queryObject == null || !Object.keys(queryObject).length) return ""
+  keyPrefix = keyPrefix ? (keyPrefix + "_") : ""
 
   const queryKeys = Object.keys(queryObject)
   const queryArray = queryKeys.map(key => {
     const value = queryObject[key]
     if (value) {
-      return encodeURIComponent(key) + "=" + encodeURIComponent(String(value))
+      if (isDictionary(value)) {
+        return createQuery(value, keyPrefix + key)
+      }
+
+      return keyPrefix + encodeURIComponent(key) + "=" + encodeURIComponent(String(value))
     }
     return ""
   })
@@ -95,4 +102,8 @@ export function inputValue(callback: Function) {
   return (event: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     callback(event.currentTarget.value)
   }
+}
+
+export function isDictionary(object: unknown): object is Record<keyof never, unknown> {
+  return object instanceof Object && object.constructor === Object
 }

@@ -6,7 +6,7 @@ import { Navigate, Route, Routes } from "react-router"
 
 import ProfileBidsView from "./views/Bids/ProfileBidsView"
 import ProfilePersonalView from "./views/Personal/ProfilePersonalView"
-import ProfileSalesView from "./views/Sales/ProfileSalesView"
+import ProfileSalesView, { ProfilePurchasesView } from "./views/Sales/ProfileSalesView"
 
 function ProfileView() {
   return (
@@ -24,7 +24,7 @@ function ProfileView() {
           <Route path="personal/*" element={<ProfilePersonalView />} />
           <Route path="bids/*" element={<ProfileBidsView />} />
           <Route path="sales/*" element={<ProfileSalesView />} />
-          <Route path="purchases/*" element={<ProfileSalesView />} />
+          <Route path="purchases/*" element={<ProfilePurchasesView />} />
         </Routes>
       </div>
     </div>

@@ -3,27 +3,35 @@ import "./Lot.scss"
 import Button from "app/components/UI/Button/Button"
 import { PopupBidAccepted } from "app/views/lot/modals/PopupBidAccepted"
 import PopupConfirmBidUp from "app/views/lot/modals/PopupConfirmBidUp"
+import { postCabinetLotsPlaceBet } from "infrastructure/persistence/api/data/actions"
 import { Modal } from "modules/modal/controller"
-import { Dispatch, useState } from "react"
+import { useState } from "react"
+import { useMutation } from "react-fetching-library"
 import { Link } from "react-router-dom"
 
 import { LotBidType } from "./types"
 
 interface LotBidUpProps extends LotBidType {
-  /** @param value - current bid */
-  onSubmit?: Dispatch<number>
+  id: number
 }
 
-function LotBidUp(props: LotBidUpProps) {
+function LotBidUpMutation(props: LotBidUpProps) {
+  const [bidMultiplier, setBidMultiplier] = useState(1)
   const [currentBid, setCurrentBid] = useState(props.current)
   const [stage, setStage] = useState<"default" | "choice" | "confirm">("default")
+  const { mutate } = useMutation(postCabinetLotsPlaceBet)
   function bidUp(on: number) {
     setCurrentBid(currentBid + (props.step * on))
     setStage("confirm")
   }
   function confirmBidUp() {
     async function onSubmit() {
-      await props.onSubmit?.(currentBid)
+      const { error, payload } = await mutate({ bet: bidMultiplier, lots: props.id })
+      if (error) return
+      if (payload == null) return
+
+      console.log(payload)
+
       await Modal.open(PopupBidAccepted)
       setStage("default")
     }
@@ -73,4 +81,4 @@ function LotBidUp(props: LotBidUpProps) {
   }
 }
 
-export default LotBidUp
+export default LotBidUpMutation

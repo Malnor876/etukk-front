@@ -6,7 +6,7 @@ import { classWithModifiers } from "utils/common"
 
 import Icon, { IconName } from "../Icon/Icon"
 
-interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+export interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   width?: string
   iconName?: IconName
   validity?: boolean

@@ -46,7 +46,7 @@ function FavouritesView() {
 
 function FavouritesLotsAllContainer() {
   return (
-    <QueryContainer requiredAuth action={getCabinetFavorite()} mapping={mapLotsLists}>
+    <QueryContainer action={getCabinetFavorite()} mapping={mapLotsLists}>
       {payload => (
         <Previews>
           {payload.items.map(lot => (
@@ -59,17 +59,18 @@ function FavouritesLotsAllContainer() {
 }
 
 function FavouritesSellersContainer() {
-  return (
-    <QueryContainer requiredAuth action={getCabinetFavoriteUsers()} mapping={mapLotsLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  // <QueryContainer action={getCabinetFavoriteUsers()} mapping={mapLotsLists}>
+  //   {payload => (
+  //     <Previews>
+  //       {payload.items.map(lot => (
+  //         <LotPreview {...lot} key={lot.id} />
+  //       ))}
+  //     </Previews>
+  //   )}
+  // </QueryContainer>
+  // )
 }
 
 export default FavouritesView

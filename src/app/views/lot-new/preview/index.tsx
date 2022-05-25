@@ -71,10 +71,9 @@ function usePublishNewLot(requestPayload: NewLotPayload) {
       city: requestPayload.city,
       category: requestPayload.category,
       name: requestPayload.title,
-      picture: await Promise.all(requestPayload.files.map(FileToURLDataBase64)),
+      picture: requestPayload.files as never,
       price: Number(requestPayload.price),
       specifications: requestPayload.specifications.map(spec => ({ val: spec.value, key: spec.key })),
-      trading_end: "",
       trading_start: new Date(requestPayload.date).toJSON(),
       content: requestPayload.description
     })
@@ -82,7 +81,7 @@ function usePublishNewLot(requestPayload: NewLotPayload) {
     if (error) return
     if (responsePayload == null) return
 
-    navigate(`../unknown`)
+    navigate(`/lots/${(responsePayload as unknown as { result?: { id?: string | number } })?.result?.id}`)
   }
   return publish
 }

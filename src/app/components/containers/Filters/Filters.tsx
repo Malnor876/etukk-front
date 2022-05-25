@@ -2,7 +2,7 @@ import "./Filters.scss"
 
 import Checkbox, { CheckboxProps } from "app/components/UI/Checkbox/Checkbox"
 import Icon from "app/components/UI/Icon/Icon"
-import Input from "app/components/UI/Input/Input"
+import Input, { InputProps } from "app/components/UI/Input/Input"
 import Radio, { RadioProps } from "app/components/UI/Radio/Radio"
 import ToolTip from "app/components/UI/ToolTip/ToolTip"
 import { Row } from "app/layouts/BaseLayouts/BaseLayouts"
@@ -25,10 +25,18 @@ export function Filter(props: FilterProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [expanded, setExpanded] = useState(false)
   const [contentHeight, setContentHeight] = useState<number>()
+
   useEffect(() => {
-    if (containerRef.current === null) return
     // console.log(containerRef.current.scrollHeight)
-    setContentHeight(containerRef.current.scrollHeight)
+    const interval = setInterval(() => {
+      // if (!expanded) return
+      if (containerRef.current === null) return
+      setContentHeight(containerRef.current.scrollHeight)
+    }, 150)
+
+    return () => {
+      clearInterval(interval)
+    }
   }, [])
   return (
     <div className={classWithModifiers("filter", props.group && "group")} aria-label="filter" aria-details="toggle filter">
@@ -119,7 +127,7 @@ export function FilterCheckboxes(props: FilterCheckboxesProps) {
   }
   return (
     <>
-      <Checkbox onChange={reset} checked={filterValue.length === 0}>Все</Checkbox>
+      {/* <Checkbox onChange={reset} checked={filterValue.length === 0}>Все</Checkbox> */}
       {Children.map(props.children, child => (
         cloneElement<CheckboxProps>(child, { ...child.props, checked: filterValue.includes(child.props.name || ""), onChange })
       ))}
@@ -153,13 +161,35 @@ export function FilterRadios(props: FilterRadiosProps) {
 }
 
 
+interface FilterInputsProps {
+  name: FilterKey
+  children: ReactElement<InputProps> | ReactElement<InputProps>[]
+}
+
+export function FilterInputs(props: FilterInputsProps) {
+  const [filters, setFilters] = useContext(filtersContext)
+  // const filterValue = filters[props.name]
+  function onChange(event: ChangeEvent<HTMLInputElement>) {
+    setFilters({ ...filters, [props.name]: event.currentTarget.value })
+  }
+  return (
+    <>
+      {Children.map(props.children, child => (
+        cloneElement<InputProps>(child, { ...child.props, onChange })
+      ))}
+    </>
+  )
+}
+
+
 interface FilterPriceRangeProps {
   name: FilterKey
+  defaultValue?: [number, number] // [min, max]
 }
 
 export function FilterPriceRange(props: FilterPriceRangeProps) {
   const [filters, setFilters] = useContext(filtersContext)
-  const [min, max] = (filters[props.name] || []) as (number)[]
+  const [min, max] = (filters[props.name] || props.defaultValue || []) as number[]
   function setMin(value: number) {
     // if (value > max) value = min
     setFilters({ ...filters, [props.name]: [value, max] })
@@ -179,5 +209,42 @@ export function FilterPriceRange(props: FilterPriceRangeProps) {
       <Input type="number" placeholder="Стоимость от" iconName="rub" value={min || ""} onInput={onChangeFactory(setMin)} />
       <Input type="number" placeholder="Стоимость до" iconName="rub" value={max || ""} onInput={onChangeFactory(setMax)} />
     </Row>
+  )
+}
+
+interface FilterDateRangeProps {
+  name: FilterKey
+  children: ReactElement<InputProps> | ReactElement<InputProps>[]
+}
+
+export function FilterDateRange(props: FilterDateRangeProps) {
+  const [filters, setFilters] = useContext(filtersContext)
+  const [min, max] = (filters[props.name] || []) as string[]
+  // // const filterValue = filters[props.name]
+  // function onChange(event: ChangeEvent<HTMLInputElement>) {
+  //   setFilters({ ...filters, [props.name]: event.currentTarget.value })
+  // }
+
+  function setStart(value: number) {
+    // if (value > max) value = min
+    setFilters({ ...filters, [props.name]: [value, max] })
+  }
+  function setEnd(value: number) {
+    // if (value < min) value = max
+    setFilters({ ...filters, [props.name]: [min, value] })
+  }
+  function onChangeFactory(factory: Dispatch<number>) {
+    return (event: ChangeEvent<HTMLInputElement>) => {
+      const target = event.currentTarget
+      factory(Number(target.value))
+    }
+  }
+  return (
+    <>
+      <Row>
+        <Input type="datetime-local" placeholder="Период от" onInput={onChangeFactory(setStart)} />
+        <Input type="datetime-local" placeholder="Период до" onInput={onChangeFactory(setEnd)} />
+      </Row>
+    </>
   )
 }

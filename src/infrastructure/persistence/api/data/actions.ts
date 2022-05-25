@@ -1,9 +1,19 @@
+/**
+ * 
+ * This is auto-generated file.
+ * All edits will not be preserved for the next generation.
+ * 
+ * GitHub: https://github.com/FrameMuse/swagger-export-rfl
+ * 
+*/
+
 import { Action } from "../client.types"
 import {
   SchemaAdvertising,
   SchemaAdvertisingFollowLink,
   SchemaBlogsContentItem,
   SchemaBlogsLists,
+  SchemaCaregoryBreadcrumbs,
   SchemaCategoryLists,
   SchemaChatUsers,
   SchemaChatUsersAdd,
@@ -92,11 +102,19 @@ export const getGetMenu = (): Action<SchemaPagesMenu> => ({
 })
 
 /**
- * Хлебные крошки
+ * Хлебные крошки разделов
  */
 export const getGetBreadcrumbsByPagesId = (pages_id: number): Action<SchemaPagesMenu> => ({
   method: "GET",
   endpoint: `/get/breadcrumbs/${pages_id}`
+})
+
+/**
+ * Хлебные крошки категори
+ */
+export const getGetBreadcrumbsByPagesIdCategory = (pages_id: number): Action<SchemaCaregoryBreadcrumbs> => ({
+  method: "GET",
+  endpoint: `/get/breadcrumbs/${pages_id}/category`
 })
 
 /**
@@ -108,16 +126,16 @@ export const getGetBreadcrumbsByPagesId = (pages_id: number): Action<SchemaPages
  * @param period - Дата публикации лотов 
  * @param started - Идентификатор статуса лота [началось,закончился,ожидание] 
  */
-export const getGetFilters = (price?: {
-  min: number
-  max: number
+export const getGetFilters = (current?: number, limit?: number, s?: string, price?: {
+  min?: number
+  max?: number
 }, category?: number[], seller?: "all" | "user" | "organization", delivery?: "all" | "other_regions" | "only_city", period?: {
-  date_start: string
-  date_end: string
+  date_start?: string
+  date_end?: string
 }, started?: "started" | "ended" | "waiting"): Action<SchemaSearchLists> => ({
   method: "GET",
   endpoint: `/get/filters`,
-  params: { price, category, seller, delivery, period, started }
+  params: { current, limit, s, price, category, seller, delivery, period, started }
 })
 
 /**
@@ -129,12 +147,11 @@ export const getGetFiltersCategory = (): Action<SchemaCategoryLists> => ({
 })
 
 /**
- * поисковый модуль в виде бесконечной ленты
+ * Список категорий
  */
-export const getGetSearch = (s?: string, limit?: number, current?: number): Action<SchemaSearchLists> => ({
+export const getGetCategory = (): Action<SchemaCategoryLists> => ({
   method: "GET",
-  endpoint: `/get/search`,
-  params: { s, limit, current }
+  endpoint: `/get/category`
 })
 
 /**
@@ -255,7 +272,7 @@ export const getGetUsersByIdCompleted = (id: number, limit?: number, current?: n
 })
 
 /**
- * Список завершённых лотов
+ * Список размещённых лотов
  */
 export const getGetUsersByIdPlaced = (id: number, limit?: number, current?: number): Action<SchemaLotsLists> => ({
   method: "GET",
@@ -269,15 +286,6 @@ export const getGetUsersByIdPlaced = (id: number, limit?: number, current?: numb
 export const getGetLotsEqualById = (id: number): Action<SchemaLotsEquals> => ({
   method: "GET",
   endpoint: `/get/lots/equal/${id}`
-})
-
-/**
- * Lots lists
- */
-export const getGetLots = (limit?: number, current?: number): Action<SchemaLotsLists> => ({
-  method: "GET",
-  endpoint: `/get/lots`,
-  params: { limit, current }
 })
 
 /**
@@ -617,6 +625,16 @@ export const getCabinetChat = (limit?: number, current?: number): Action<SchemaC
   method: "GET",
   endpoint: `/cabinet/chat`,
   params: { limit, current }
+})
+
+/**
+ * Поиск пользователей для начала переписки
+ * @param name - Имя пользователя, по которому будет происходить поиск 
+ */
+export const getCabinetChatUsers = (name: string): Action<SchemaChatUsersLists> => ({
+  method: "GET",
+  endpoint: `/cabinet/chat/users`,
+  params: { name }
 })
 
 /**

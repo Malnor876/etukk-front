@@ -1,4 +1,8 @@
-import { SchemaNotifications, SchemaUsersCabinet, SchemaUserSettingsGet } from "../data/schemas"
+import { LotPreviewType } from "domain/Lot/types"
+import { PaginationType } from "interfaces/Nodejs"
+
+import { SchemaLotDisputesLists, SchemaLotsConfirmLists, SchemaLotsWayLists, SchemaLotsWonLists, SchemaNotifications, SchemaUsersCabinet, SchemaUserSettingsGet } from "../data/schemas"
+import { mapLotsItem } from "./lots"
 import { mapUserType } from "./user"
 
 export function mapCabinet(payload: SchemaUsersCabinet) {
@@ -22,3 +26,15 @@ export function mapCabinetUsersSettings({ result }: SchemaUserSettingsGet): Reco
     smsOnBidChange: result.bidding
   }
 }
+
+/**
+ * 
+ * @deprecated should be rewritten
+ */
+export function mapLotDisputesLists({ result }: any): { items: LotPreviewType[] } {
+  return {
+    // ...result,
+    items: result.map(mapLotsItem)
+  }
+}
+

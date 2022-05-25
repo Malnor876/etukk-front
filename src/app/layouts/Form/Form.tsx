@@ -11,6 +11,7 @@ type FormValues = Record<string, FormValue>
 export interface FormState<K extends keyof never, V> { // Type-safe Values
   keys: (K extends (String) ? K : never)[]
   values: V extends { [P in K]?: unknown } ? Pick<V, K> & Record<Exclude<keyof V, K>, unknown> : Record<K, V>
+  formData: FormData
 }
 
 interface FormProps<K extends keyof never, V> extends Omit<DetailedHTMLProps<FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>, "onSubmit"> {
@@ -24,7 +25,7 @@ function Form<K extends keyof never, V>(props: FormProps<K, V>) {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    const formState = await getFormState(event.currentTarget.elements) as unknown as FormState<K, V>
+    const formState = (await getFormState(event.currentTarget)) as FormState<K, V>
 
     props.onSubmit?.(formState, event)
   }
@@ -33,12 +34,14 @@ function Form<K extends keyof never, V>(props: FormProps<K, V>) {
   )
 }
 
-async function getFormState(elements: HTMLFormControlsCollection): Promise<{
+async function getFormState(form: HTMLFormElement): Promise<{
   keys: string[]
   values: FormValues
+  formData: FormData
 }> {
+  const formData = new FormData(form)
   const keys: string[] = []
-  for (const element of elements) {
+  for (const element of form.elements) {
     if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
       if (keys.includes(element.name)) continue
       keys.push(element.name)
@@ -47,7 +50,7 @@ async function getFormState(elements: HTMLFormControlsCollection): Promise<{
 
   const values: FormValues = {}
   for (const key of keys) {
-    const next = elements.namedItem(key)
+    const next = form.elements.namedItem(key)
 
     if (next instanceof HTMLInputElement) {
       if (next.checked) {
@@ -74,7 +77,7 @@ async function getFormState(elements: HTMLFormControlsCollection): Promise<{
     }
   }
 
-  return { keys, values }
+  return { keys, values, formData }
 }
 
 export default Form

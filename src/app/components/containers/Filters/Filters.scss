@@ -205,4 +205,18 @@ $toggleSize: 1.5em;
 	gap: 1em;
 
 	padding-top: 1em;
+
+	& .filter {
+		margin-left: 1em;
+
+		.filter__inputs {
+			margin-left: 1em;
+		}
+	}
+}
+
+.filter__inputs {
+	display: grid;
+	align-content: baseline;
+	gap: 1em;
 }

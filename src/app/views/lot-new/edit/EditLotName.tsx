@@ -7,7 +7,7 @@ function EditLotName() {
   return (
     <section>
       <h4>Название лота</h4>
-      <Input defaultValue={title} placeholder="Напишите  назвние лота..." onInput={event => setTitle(event.currentTarget.value)} />
+      <Input defaultValue={title} placeholder="Напишите  название лота..." onInput={event => setTitle(event.currentTarget.value)} />
     </section>
   )
 }

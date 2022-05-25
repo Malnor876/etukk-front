@@ -5,6 +5,10 @@ declare module "react-fetching-library" {
   interface Action {
     params?: Record<string, unknown>
   }
+
+  interface ActionConfig {
+    requireAuth?: boolean
+  }
 }
 
 export interface APIResponseError {

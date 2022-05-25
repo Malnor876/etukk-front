@@ -62,10 +62,10 @@ function LotNewEditView() {
       <Container>
         {isCurrentRouteBase && <div />}
         {!isCurrentRouteBase && (
-          <Backward replace to={prevRoute} />
+          <Backward />
         )}
         {!isCurrentRouteLast && (
-          <ButtonLink replace to={nextRoute}>Далее</ButtonLink>
+          <ButtonLink to={nextRoute}>Далее</ButtonLink>
         )}
         {!isCurrentRouteBase && isCurrentRouteLast && (
           <ButtonLink to="/lots/new/preview">Предпросмотр</ButtonLink>

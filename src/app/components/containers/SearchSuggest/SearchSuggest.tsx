@@ -9,16 +9,16 @@ interface SearchSuggestProps {
   width?: string
   disabled?: boolean
   placeholder?: string
-  children: ReactElement<ComponentProps<"option">>[]
+  children?: ReactElement<ComponentProps<"option">>[]
   onSubmit?: Dispatch<string>
 }
 
 function SearchSuggest(props: SearchSuggestProps) {
-  const parentRef = useRef<HTMLDivElement>(null)
+  const parentRef = useRef<HTMLFormElement>(null)
   const [value, setValue] = useState("")
   const [expanded, setExpanded] = useState(false)
   function updateValue(value: string) {
-    if (value.length === 0) return
+    // if (value.length === 0) return
 
     props.onSubmit?.(value)
     setValue(value)
@@ -26,7 +26,7 @@ function SearchSuggest(props: SearchSuggestProps) {
   }
   useClickAway(parentRef, () => setExpanded(false))
   return (
-    <div className="search-suggest" style={{ "--search-width": props.width }} ref={parentRef}>
+    <form onSubmit={event => event.preventDefault()} className="search-suggest" style={{ "--search-width": props.width }} ref={parentRef}>
       <Search
         name="search"
         placeholder={props.placeholder}
@@ -35,8 +35,11 @@ function SearchSuggest(props: SearchSuggestProps) {
         onChange={event => setValue(event.currentTarget.value)}
         onSubmit={updateValue}
       />
-      <DropDown expanded={expanded} onChange={updateValue}>{props.children}</DropDown>
-    </div>
+
+      {props.children && (
+        <DropDown expanded={expanded} onChange={updateValue}>{props.children}</DropDown>
+      )}
+    </form>
   )
 }
 

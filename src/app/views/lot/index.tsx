@@ -1,7 +1,7 @@
 import { ReactError } from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import { QueryErrorCoverBoundary } from "app/components/containers/QueryErrorCoverBoundary/QueryErrorCoverBoundary"
-import LotBidUp from "domain/Lot/LotBidUp"
+import LotBidUpMutation from "domain/Lot/LotBidUp"
 import LotInfo from "domain/Lot/LotInfo"
 import LotTrade from "domain/Lot/LotTrade"
 import { getGetLotsById, postCabinetFavoriteAdd, postCabinetLotsPlaceBet } from "infrastructure/persistence/api/data/actions"
@@ -44,11 +44,7 @@ function LotContainer(props: LotContainerProps) {
           </div>
           <div className="lot-info-layout__section">
             <LotTrade {...payload.trade} />
-            <Mutation actionCreator={postCabinetLotsPlaceBet}>
-              {({ mutate }) => (
-                <LotBidUp {...payload.bid} onSubmit={bet => mutate({ lots: props.id, bet })} />
-              )}
-            </Mutation>
+            <LotBidUpMutation {...payload.bid} id={props.id} />
           </div>
         </div>
       )}
