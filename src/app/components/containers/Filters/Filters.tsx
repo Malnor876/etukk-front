@@ -73,7 +73,7 @@ export function FiltersToolbox(props: FiltersToolboxProps) {
   return (
     <div className="filters-toolbox" role="toolbar">
       <button className="filters-toolbox__reset" disabled={Object.keys(filters).length === 0} type="reset" onClick={reset}>Сбросить</button>
-      <button className="filters-toolbox__tool" type="button" onClick={onExpand}>
+      <button className="filters-toolbox__tool filters-toolbox__tool--expand" type="button" onClick={onExpand}>
         <Icon name={props.state === "expanded" ? "rectangle" : "rectangle-double"} />
         <ToolTip>
           {props.state === "expanded" ? "Вернуть как было" : "Развернуть фильтр на весь экран"}

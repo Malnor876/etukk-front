@@ -1,15 +1,15 @@
 import ButtonLink from "app/components/UI/Button/ButtonLink"
-import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
+import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
 import { useModal } from "modules/modal/hook"
 
-function PopupReviewAccepted() {
+function DialogReviewAccepted() {
   const { close } = useModal()
   return (
-    <PopupLayout centered width="25em">
+    <DialogLayout centered width="25em">
       <h3>Ваш отзыв отправлен! Вперед за новыми покупками?</h3>
       <ButtonLink to="/" onClick={close}>На главную</ButtonLink>
-    </PopupLayout>
+    </DialogLayout>
   )
 }
 
-export default PopupReviewAccepted
+export default DialogReviewAccepted

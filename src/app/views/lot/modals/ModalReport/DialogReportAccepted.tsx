@@ -1,13 +1,13 @@
 import ButtonLink from "app/components/UI/Button/ButtonLink"
-import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
+import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
 
-function PopupReportAccepted() {
+function DialogReportAccepted() {
   return (
-    <PopupLayout centered>
+    <DialogLayout centered>
       <h3>Ваша жалоба принята!</h3>
       <ButtonLink outline to="/">На главную</ButtonLink>
-    </PopupLayout>
+    </DialogLayout>
   )
 }
 
-export default PopupReportAccepted
+export default DialogReportAccepted

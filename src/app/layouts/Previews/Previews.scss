@@ -8,4 +8,8 @@
 	gap: 2em;
 
 	flex: 1;
+
+	@include Mobile {
+		grid-template-columns: repeat(2, 1fr);
+	}
 }

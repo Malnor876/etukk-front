@@ -6,7 +6,7 @@ import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
 
-import PopupReportAccepted from "./PopupReportAccepted"
+import DialogReportAccepted from "./DialogReportAccepted"
 
 interface PopupReportProps {
   onSubmit(): void | Promise<unknown>
@@ -18,12 +18,14 @@ function PopupReport(props: PopupReportProps) {
     await props.onSubmit()
 
     close()
-    Modal.open(PopupReportAccepted)
+    Modal.open(DialogReportAccepted)
   }
   return (
     <PopupLayout width="46.25em">
       <form>
-        <Icon name="attention" size="3.5em" color="red" />
+        <div>
+          <Icon name="attention" size="3.5em" color="red" />
+        </div>
         <h2>Пожаловаться</h2>
         <Selector >
           <option>1</option>

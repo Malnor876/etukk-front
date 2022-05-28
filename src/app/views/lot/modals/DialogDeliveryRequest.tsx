@@ -1,14 +1,14 @@
 import ButtonLink from "app/components/UI/Button/ButtonLink"
-import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
+import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
 import { useModal } from "modules/modal/hook"
 
 
-export function PopupDeliveryRequest() {
+export function DialogDeliveryRequest() {
   const { close } = useModal()
   return (
-    <PopupLayout centered width="25em">
+    <DialogLayout centered width="25em">
       <h3>Данные приняты.<br /> В ближайшее время с вами свяжется представитель службы доставки!</h3>
       <ButtonLink outline to="/" onClick={close}>На главную</ButtonLink>
-    </PopupLayout>
+    </DialogLayout>
   )
 }

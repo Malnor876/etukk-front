@@ -1,7 +1,7 @@
 import "./Lot.scss"
 
 import Icon from "app/components/UI/Icon/Icon"
-import PopupReport from "app/views/lot/modals/PopupReport/PopupReport"
+import PopupReport from "app/views/lot/modals/ModalReport/PopupReport"
 import ClientAPI from "infrastructure/persistence/api/client"
 import { Modal } from "modules/modal/controller"
 

@@ -51,47 +51,47 @@ function FiltersContainer(props: FiltersContainerProps) {
 
 function FiltersTreeContainer() {
   return (
-    <QueryContainer action={getGetFiltersCategory()} mapping={mapFiltersCategory}>
-      {payload => (
-        <>
-          <Filter group label="КАТЕГОРИИ">
-            {/* <FilterRecursion name="category" elements={payload.categories} /> */}
-          </Filter>
-          <Filter label="СТАТУС ТОРГОВ">
-            <FilterRadios name="started">
-              <Radio value="started">Торги начаты</Radio>
-              <Radio value="ended">Торги окончены</Radio>
-              <Radio value="waiting">Торги ожидают начала</Radio>
-            </FilterRadios>
-          </Filter>
-          <Filter label="СТОИМОСТЬ ЛОТА">
-            <FilterPriceRange name="price" defaultValue={[1, 2]} />
-          </Filter>
-          <Filter label="ПРОДАВЕЦ">
-            <FilterRadios name="seller">
-              <Radio value="user">Частное лицо</Radio>
-              <Radio value="organization">Юридическое лицо</Radio>
-            </FilterRadios>
-          </Filter>
-          <Filter label="ДОСТАВКА">
-            <FilterRadios name="delivery">
-              <Radio value="other_regions">В другие регионы</Radio>
-              <Radio value="only_city">Только по городу продажи</Radio>
-            </FilterRadios>
-          </Filter>
-          <Filter label="ПЕРИОД ПРОВЕДЕНИЯ">
-            <FilterInputs name="period">
-              <Input type="datetime-local">
-                Если необходимо уточните период начала торгов
-              </Input>
-              <Input type="datetime-local">
-                Если необходимо уточните период начала торгов
-              </Input>
-            </FilterInputs>
-          </Filter>
-        </>
-      )}
-    </QueryContainer>
+    // <QueryContainer action={getGetFiltersCategory()} mapping={mapFiltersCategory}>
+    //   {payload => (
+    <>
+      <Filter group label="КАТЕГОРИИ">
+        {/* <FilterRecursion name="category" elements={payload.categories} /> */}
+      </Filter>
+      <Filter label="СТАТУС ТОРГОВ">
+        <FilterRadios name="started">
+          <Radio value="started">Торги начаты</Radio>
+          <Radio value="ended">Торги окончены</Radio>
+          <Radio value="waiting">Торги ожидают начала</Radio>
+        </FilterRadios>
+      </Filter>
+      <Filter label="СТОИМОСТЬ ЛОТА">
+        <FilterPriceRange name="price" defaultValue={[1, 2]} />
+      </Filter>
+      <Filter label="ПРОДАВЕЦ">
+        <FilterRadios name="seller">
+          <Radio value="user">Частное лицо</Radio>
+          <Radio value="organization">Юридическое лицо</Radio>
+        </FilterRadios>
+      </Filter>
+      <Filter label="ДОСТАВКА">
+        <FilterRadios name="delivery">
+          <Radio value="other_regions">В другие регионы</Radio>
+          <Radio value="only_city">Только по городу продажи</Radio>
+        </FilterRadios>
+      </Filter>
+      <Filter label="ПЕРИОД ПРОВЕДЕНИЯ">
+        <FilterInputs name="period">
+          <Input type="datetime-local">
+            Если необходимо уточните период начала торгов
+          </Input>
+          <Input type="datetime-local">
+            Если необходимо уточните период начала торгов
+          </Input>
+        </FilterInputs>
+      </Filter>
+    </>
+    //   )}
+    // </QueryContainer>
   )
 }
 

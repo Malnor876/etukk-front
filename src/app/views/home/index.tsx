@@ -4,6 +4,9 @@ import SearchSuggest from "app/components/containers/SearchSuggest/SearchSuggest
 import SortingToggle from "app/components/UI/SortingToggle/SortingToggle"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import Container from "app/layouts/Container/Container"
+import Previews from "app/layouts/Previews/Previews"
+import { LOT_PREVIEW_MOCK } from "constants/mocks"
+import LotPreview from "domain/Lot/LotPreview/LotPreview"
 import { useState } from "react"
 // import { useMatch } from "react-router"
 import { Route, Routes } from "react-router"
@@ -37,9 +40,14 @@ function HomeView() {
               <option value="locally">Только по городу продажи</option>
             </SortingToggle>
             <Container>
-              <QueryErrorCoverBoundary>
+              <Previews>
+                {[...Array(15)].map((_, i) => (
+                  <LotPreview {...LOT_PREVIEW_MOCK} key={i} />
+                ))}
+              </Previews>
+              {/* <QueryErrorCoverBoundary>
                 <LotPreviewsContainer search={search} {...filters} />
-              </QueryErrorCoverBoundary>
+              </QueryErrorCoverBoundary> */}
               <FiltersContainer onSubmit={setFilters} />
             </Container>
           </Container>

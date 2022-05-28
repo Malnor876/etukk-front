@@ -3,9 +3,20 @@ import "./DropDown.scss"
 import { Children, ComponentProps, ReactElement, ReactNode, useEffect, useRef, useState } from "react"
 import { classWithModifiers } from "utils/common"
 
-interface DropDownProps<V> {
+export interface DropDownProps<V> {
   name?: string
   default?: V
+  /**
+   * Means that the element will behave as a normal element with
+   * ```
+   * position: "relative"
+   * ```
+   * By default the element has
+   * ```
+   * position: "absolute"
+   * ```
+   */
+  relative?: boolean
   expanded: boolean
   onChange(value: V, children: ReactNode): void
 
@@ -33,7 +44,7 @@ function DropDown<V = string | undefined>(props: DropDownProps<V>) {
     parentElement.scrollBy(0, middle)
   }, [props.expanded])
   return (
-    <div className={classWithModifiers("drop-down", props.expanded && "expanded")} role="listbox" aria-expanded={props.expanded} ref={parentRef}>
+    <div className={classWithModifiers("drop-down", props.expanded && "expanded", props.relative && "relative")} role="listbox" aria-expanded={props.expanded} ref={parentRef}>
       {options.map((option, index) => (
         <button
           className={classWithModifiers("drop-down__option", choice === index && "selected")}

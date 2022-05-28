@@ -6,6 +6,10 @@
 	gap: 2.5em;
 
 	height: 100%;
+
+	@include Mobile {
+		width: 50vw;
+	}
 }
 
 .sidebar-nav-drawer__header {

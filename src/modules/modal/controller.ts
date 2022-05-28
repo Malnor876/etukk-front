@@ -16,12 +16,24 @@ copies or substantial portions of the Software.
 
 */
 
+import _ from "lodash"
 import { Dispatch, SetStateAction } from "react"
 import { AnyIfEmpty } from "react-redux"
 import { toBase64 } from "utils/common"
 
 import { ModalContainerState } from "./container"
 import { ModalComponent, ModalParams, ModalWindow } from "./types"
+
+const DEFAULT_STATE: ModalContainerState = {
+  active: false,
+  queue: [],
+  forkedQueue: [],
+}
+const DEFAULT_PARAMS: ModalParams = {
+  closable: true,
+  weak: false,
+  fork: false,
+}
 
 export const modalPrivate: {
   dispatch: Dispatch<SetStateAction<ModalContainerState>>
@@ -36,16 +48,17 @@ export class Modal {
   >(
     component: ModalComponent<P>,
     ...[params]: AnyIfEmpty<P> extends object ? [AC] : [AC?]
-  ): Promise<void> {
-    return new Promise<void>(function (resolve) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const ModalWindow: ModalWindow<any> = { component, params, close }
-      Modal.add(ModalWindow)
-      function close() {
-        resolve()
-        Modal.remove(ModalWindow)
-      }
-    })
+  ): { promise: Promise<void>, window: ModalWindow<AC> } {
+    let resolveFunction: () => void = _.noop
+    const promise = new Promise<void>(resolve => resolveFunction = resolve)
+    const modal: ModalWindow<any> = { component, params: { ...DEFAULT_PARAMS, ...params }, close }
+    Modal.add(modal)
+    function close() {
+      resolveFunction()
+      Modal.remove(modal)
+    }
+
+    return { promise, window: modal }
   }
   public static replace<
     P extends object = {},
@@ -53,14 +66,25 @@ export class Modal {
   >(
     component: ModalComponent<P>,
     ...[params]: AnyIfEmpty<P> extends object ? [AC] : [AC?]
-  ): Promise<void> {
+  ): { promise: Promise<void>, window: ModalWindow<AC> } {
     modalPrivate.dispatch(state => ({
       ...state,
       queue: state.queue.slice(0, -1)
     }))
-    return Modal.open(component, params as never)
+    return Modal.open(component, params as never) as never
   }
   private static add(modalWindow: ModalWindow) {
+    if (modalWindow.params.fork) {
+      modalPrivate.dispatch(state => {
+        return {
+          ...state,
+          forkedQueue: [...state.forkedQueue, modalWindow]
+        }
+      })
+      return
+    }
+
+
     modalPrivate.dispatch(state => {
       // Make that we need it
       if (!modalWindow.params?.weak) {
@@ -69,31 +93,42 @@ export class Modal {
           const lastWindow = state.queue[state.queue.length - 1]
           if ((toBase64(lastWindow.params) === toBase64(modalWindow.params)) && lastWindow.component === modalWindow.component) {
             return {
-              isActive: true,
+              ...state,
+              active: true,
               queue: [modalWindow]
             }
           }
         }
       }
       // Replace stale window
-      if (state.isActive === false && state.queue.length === 1) {
+      if (state.active === false && state.queue.length === 1) {
         return {
-          isActive: true,
+          ...state,
+          active: true,
           queue: [modalWindow]
         }
       }
       return {
-        isActive: true,
+        ...state,
+        active: true,
         queue: [...state.queue, modalWindow]
       }
     })
   }
   private static remove(modalWindow: ModalWindow) {
+    if (modalWindow.params.fork) {
+      modalPrivate.dispatch(state => {
+        const forkedQueue = state.forkedQueue.filter(mw => mw !== modalWindow)
+        return { ...state, forkedQueue }
+      })
+      return
+    }
+
     modalPrivate.dispatch(state => {
       const queue = state.queue.filter(mw => mw !== modalWindow)
       // Hide modal without removing if it's the last window
       if (queue.length === 0) {
-        return { isActive: false, queue: [modalWindow] }
+        return { ...state, active: false, queue: [modalWindow] }
       }
       return { ...state, queue }
     })
@@ -101,10 +136,7 @@ export class Modal {
   public static closeAll() {
     modalPrivate.dispatch(state => {
       state.queue.forEach(modal => modal.close())
-      return {
-        isActive: false,
-        queue: []
-      }
+      return DEFAULT_STATE
     })
   }
 }

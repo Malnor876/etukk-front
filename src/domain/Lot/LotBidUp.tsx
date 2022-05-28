@@ -1,8 +1,8 @@
 import "./Lot.scss"
 
 import Button from "app/components/UI/Button/Button"
-import { PopupBidAccepted } from "app/views/lot/modals/PopupBidAccepted"
-import PopupConfirmBidUp from "app/views/lot/modals/PopupConfirmBidUp"
+import { DialogBidAccepted } from "app/views/lot/modals/DialogBidAccepted"
+import DialogConfirmBidUp from "app/views/lot/modals/DialogConfirmBidUp"
 import { postCabinetLotsPlaceBet } from "infrastructure/persistence/api/data/actions"
 import { Modal } from "modules/modal/controller"
 import { useState } from "react"
@@ -32,10 +32,10 @@ function LotBidUpMutation(props: LotBidUpProps) {
 
       console.log(payload)
 
-      await Modal.open(PopupBidAccepted)
+      await Modal.open(DialogBidAccepted)
       setStage("default")
     }
-    Modal.open(PopupConfirmBidUp, { onSubmit })
+    Modal.open(DialogConfirmBidUp, { onSubmit })
   }
   switch (stage) {
     case "choice":

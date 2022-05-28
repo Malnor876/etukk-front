@@ -11,6 +11,10 @@
 	border-radius: 1.5em 1.5em 0 0;
 	box-shadow: 0px 2px 8px -4px rgba($color-dark, 0.5);
 	transition: 250ms ease box-shadow;
+
+	@include Mobile {
+		max-width: unset;
+	}
 }
 
 .lot-preview__image {

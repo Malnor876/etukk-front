@@ -1,6 +1,10 @@
 @import "~app/assets/scss/bundle.scss";
 
-$gap: 1em;
+/// ------------------
+/// MOBILE STYLES ONLY
+/// ------------------
+
+$gap: 2em;
 
 .dialog-layout {
 	@keyframes show {
@@ -17,53 +21,43 @@ $gap: 1em;
 		}
 	}
 
-	position: absolute;
-	inset: 0;
 
-	display: grid;
-	align-items: center;
-	justify-content: center;
-
-	
+	margin-top: auto;
+	overflow: hidden;
 	animation: 200ms ease show forwards;
 	cursor: pointer;
-	
+
 	.modal:not(.modal--active) & {
 		animation: 200ms ease hide forwards;
-	}
-
-	@include Mobile {
-		margin: unset;
-		margin-top: auto;
-		overflow: hidden;
 	}
 }
 
 .dialog-layout__container {
-	@include Mobile {
-		width: 100vw;
-		padding: unset;
-		border-radius: $border-radius-2 $border-radius-2 0 0;
-	}
+	width: 100vw;
+	padding: unset;
+	border-radius: $border-radius-2 $border-radius-2 0 0;
 }
 
 .dialog-layout__close {
-	--icon-size: 1.25em;
-	margin-top: 1.5em;
+	--icon-size: 1.5em;
+
 	margin-left: auto;
-	margin-right: 1.5em;
+	color: #BCC2C7;
+
+	&--hidden {
+		visibility: hidden;
+	}
 }
 
 .dialog-layout__inner {
 	display: grid;
-	align-content: flex-start;
-	justify-items: center;
+	// align-content: flex-start;
+	// justify-items: center;
 	gap: $gap;
 
-	width: var(--dialog-width);
 	background: $color-white;
 	border: 1px solid $color-gray-3;
-	border-radius: $border-radius-1;
+	border-radius: $border-radius-2 $border-radius-2 0 0;
 	cursor: initial;
 
 	padding: 1em;
@@ -78,13 +72,13 @@ $gap: 1em;
 		text-align: center;
 	}
 
-	&--push-left {
-		justify-items: left;
-	}
+	// &--push-left {
+	// 	justify-items: left;
+	// }
 
-	&--push-right {
-		justify-items: right;
-	}
+	// &--push-right {
+	// 	justify-items: right;
+	// }
 
 	h1,
 	h2,
@@ -99,25 +93,19 @@ $gap: 1em;
 		text-transform: uppercase;
 	}
 
-	.checkbox__label {
-		font-size: $font-size-6;
-	}
+	:last-child {
+		.button {
+			width: 100%;
+			padding: 1em;
+		}
 
-	@include Mobile {
-		:last-child {
-			.button {
-				width: 100%;
-				padding: 1em;
-			}
+		.button__text {
+			font-size: 1em;
+		}
 
-			.button__text {
-				font-size: 1em;
-			}
-
-			.buttons {
-				width: 100%;
-				max-width: 50em;
-			}
+		.buttons {
+			width: 100%;
+			max-width: 50em;
 		}
 	}
 }

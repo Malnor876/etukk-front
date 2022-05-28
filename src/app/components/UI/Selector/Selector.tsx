@@ -1,10 +1,13 @@
 import "./Selector.scss"
 
 import useClickAway from "hooks/useClickAway"
-import { Children, ComponentProps, Dispatch, ReactElement, ReactNode, useRef, useState } from "react"
+import useResizeObserverSize, { DeviceWidths } from "hooks/useResizeObserverEntry"
+import { Modal } from "modules/modal/controller"
+import { Children, ComponentProps, Dispatch, ReactElement, ReactNode, useEffect, useRef, useState } from "react"
 import { classWithModifiers } from "utils/common"
 
 import DropDown from "../DropDown/DropDown"
+import DropDownDialog from "../DropDown/DropDownDialog"
 import Icon from "../Icon/Icon"
 
 interface SelectorProps<V> {
@@ -28,6 +31,29 @@ function Selector<V = string | undefined>(props: SelectorProps<V>) {
     setExpanded(false)
   }
   useClickAway(parentRef, () => setExpanded(false))
+
+  const { inlineSize: bodySize } = useResizeObserverSize(document.body)
+  const isMobile = bodySize <= DeviceWidths.Mobile
+
+  useEffect(() => {
+    if (!isMobile) return
+    if (!expanded) return
+
+    const modal = Modal.open(DropDownDialog, {
+      name: props.name,
+      default: props.defaultValue,
+      expanded,
+      onChange,
+      children: props.children,
+
+      fork: true,
+    })
+
+    return () => {
+      modal.window.close()
+    }
+  }, [isMobile, expanded])
+
   return (
     <div className="selector" style={{ "--selector-width": props.width }} ref={parentRef}>
       {props.label && (
@@ -37,7 +63,9 @@ function Selector<V = string | undefined>(props: SelectorProps<V>) {
         <div className={classWithModifiers("selector__current", !children && "empty")}>{children || "Выбрать из списка..."}</div>
         <Icon className={classWithModifiers("selector__icon", expanded && "up")} name="chevron" />
       </button>
-      <DropDown name={props.name} default={props.defaultValue} expanded={expanded} onChange={onChange}>{props.children}</DropDown>
+      {!isMobile && (
+        <DropDown name={props.name} default={props.defaultValue} expanded={expanded} onChange={onChange}>{props.children}</DropDown>
+      )}
     </div>
   )
 }

@@ -18,16 +18,17 @@ copies or substantial portions of the Software.
 
 import { FunctionComponent } from "react"
 
-export type ModalComponent<P = never> = FunctionComponent<P>
+export type ModalComponent<Props = never> = FunctionComponent<Props>
 
 export interface ModalParams {
-  id: string | number
+  id?: string | number
   closable: boolean
   weak: boolean
+  fork: boolean
 }
 
-export interface ModalWindow<P = unknown> {
-  component: ModalComponent<Partial<ModalParams> & P>
-  params?: Partial<ModalParams> & P
+export interface ModalWindow<Params extends Record<keyof never, unknown> = {}> {
+  component: ModalComponent<ModalParams & Params>
+  params: ModalParams & Params
   close: () => void
 }

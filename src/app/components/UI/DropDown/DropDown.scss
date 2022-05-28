@@ -26,6 +26,13 @@
 		pointer-events: none;
 		transform: translateY(0em);
 	}
+
+	&--relative {
+		position: relative;
+		inset: unset;
+
+		transform: unset;
+	}
 }
 
 .drop-down__option {

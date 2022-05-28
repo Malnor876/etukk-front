@@ -29,14 +29,16 @@ export interface ModalContainerProps {
   className?: string
 }
 export interface ModalContainerState {
-  isActive: boolean
-  queue: ModalWindow<unknown>[]
+  active: boolean
+  queue: ModalWindow[]
+  forkedQueue: ModalWindow[]
 }
 
 export class ModalContainer extends Component<ModalContainerProps, ModalContainerState> {
   state: ModalContainerState = {
-    isActive: false,
-    queue: []
+    active: false,
+    queue: [],
+    forkedQueue: []
   }
 
   constructor(props: ModalContainerProps) {
@@ -46,19 +48,34 @@ export class ModalContainer extends Component<ModalContainerProps, ModalContaine
   }
 
   render() {
-    const { isActive, queue } = this.state
+    const { active, queue, forkedQueue } = this.state
     const current = queue[queue.length - 1] as ModalWindow | undefined
     const { component: ModalComponent, params, close } = current || {}
 
     const className = this.props.className || "modal"
     return (
-      <div className={classWithModifiers(className, isActive && "active")} aria-modal aria-hidden={!isActive}>
-        <div className={className + "__container"} onClick={params?.closable !== false ? stopPropagation(close) : undefined}>
-          <modalContext.Provider value={current || null}>
-            {ModalComponent && <ModalComponent {...params} />}
-          </modalContext.Provider>
+      <>
+        <div className={classWithModifiers(className, active && "active")} aria-modal aria-hidden={!active} key={params?.id}>
+          <div className={className + "__container"} onClick={params?.closable ? stopPropagation(close) : undefined}>
+            <modalContext.Provider value={current || null}>
+              {ModalComponent && params && <ModalComponent {...params} />}
+            </modalContext.Provider>
+          </div>
         </div>
-      </div>
+
+
+        {forkedQueue.map((modal, index) => (
+          <div className={classWithModifiers(className, "active")} aria-modal key={modal.params?.id || index}>
+            <div className={className + "__container"} onClick={modal.params?.closable ? stopPropagation(modal.close) : undefined}>
+              <modalContext.Provider value={modal}>
+                {<modal.component {...modal.params} />}
+              </modalContext.Provider>
+            </div>
+          </div>
+        ))}
+      </>
     )
   }
 }
+
+// function ModalWrapper() { }

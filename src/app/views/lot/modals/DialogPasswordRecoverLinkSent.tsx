@@ -1,14 +1,14 @@
 import Button from "app/components/UI/Button/Button"
-import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
+import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
 import { useModal } from "modules/modal/hook"
 
 
-export function PopupPasswordRecoverLinkSent() {
+export function DialogPasswordRecoverLinkSent() {
   const { close } = useModal()
   return (
-    <PopupLayout centered width="27em">
+    <DialogLayout centered width="27em">
       <h3>Ссылка для смены пароля отправлена на почту</h3>
       <Button onClick={close}>Ок</Button>
-    </PopupLayout>
+    </DialogLayout>
   )
 }

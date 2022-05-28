@@ -22,11 +22,6 @@ $gap: 2em;
 	.modal:not(.modal--active) & {
 		animation: 250ms ease hide forwards;
 	}
-
-	@include Mobile {
-		margin: unset;
-		overflow: hidden;
-	}
 }
 
 .popup-layout__container {
@@ -41,8 +36,11 @@ $gap: 2em;
 
 	@include Mobile {
 		width: 100vw;
-		padding: unset;
-		border-radius: $border-radius-2 $border-radius-2 0 0;
+		height: 100vh;
+
+
+		border-radius: unset;
+		padding-inline: 3em;
 	}
 }
 
@@ -51,6 +49,10 @@ $gap: 2em;
 	margin-top: -1em;
 	margin-left: auto;
 	margin-right: -4.5em;
+
+	@include Mobile {
+		margin-right: unset;
+	}
 }
 
 .popup-layout__inner {
@@ -61,6 +63,7 @@ $gap: 2em;
 	/* When passing only one child, it shows a desire to pass a wrapper (e.g. form element) */
 	&>:only-child {
 		display: grid;
+		align-content: baseline;
 		gap: $gap;
 	}
 
@@ -91,7 +94,11 @@ $gap: 2em;
 		text-transform: uppercase;
 	}
 
-	.checkbox__label {
-		font-size: $font-size-6;
+	@include Mobile {
+		// justify-items: center;
+
+		&>:only-child {
+			justify-items: stretch;
+		}
 	}
 }

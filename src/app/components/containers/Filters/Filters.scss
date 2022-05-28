@@ -36,21 +36,37 @@ $toggleSize: 1.5em;
 		}
 	}
 
-	&--expanded {
+	@include DesktopOnly {
+		&--expanded {
+			position: absolute;
+			top: -7em;
+
+			width: 100%;
+			animation: unset;
+
+			.filters__title {
+				display: none;
+			}
+
+			.filters__toggle {
+				left: 0;
+				display: unset;
+			}
+		}
+	}
+
+	@include Mobile {
 		position: absolute;
-		top: -7em;
+		top: -3.5em;
 
-		width: 100%;
-		animation: unset;
+		outline: unset;
+		overflow: hidden;
 
-		.filters__title {
-			display: none;
+		&--shrunken {
+			height: $toggleSize;
 		}
 
-		.filters__toggle {
-			left: 0;
-			display: unset;
-		}
+		&--expanded {}
 	}
 }
 
@@ -71,6 +87,11 @@ $toggleSize: 1.5em;
 
 	width: 100%;
 	transition: 500ms ease opacity;
+
+	@include Mobile {
+		position: absolute;
+		inset: 0;
+	}
 }
 
 .filters__header {
@@ -130,6 +151,12 @@ $toggleSize: 1.5em;
 
 	&:disabled {
 		color: $color-gray-3;
+	}
+
+	&--expand {
+		@include Mobile {
+			display: none;
+		}
 	}
 }
 

@@ -32,6 +32,10 @@
 .error-view__desc {
 	display: grid;
 	gap: 0.75em;
+
+	@include Mobile {
+		padding: 0 4vw;
+	}
 }
 
 .error-view__button {
@@ -61,5 +65,9 @@
 		// height: 100vh;
 		// margin-left: auto;
 		mix-blend-mode: color-dodge;
+	}
+
+	@include Mobile {
+		display: none;
 	}
 }

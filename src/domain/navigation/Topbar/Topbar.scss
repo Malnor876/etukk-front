@@ -19,6 +19,12 @@
 	font-size: $font-size-5;
 
 	text-decoration: none;
+
+	@include Mobile {
+		&:not(:first-child) {
+			display: none;
+		}
+	}
 }
 
 .topbar-actions {
@@ -28,6 +34,10 @@
 
 	&>:first-child {
 		margin-right: 1.5em;
+	}
+
+	@include Mobile {
+		display: none;
 	}
 }
 

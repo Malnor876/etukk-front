@@ -1,16 +1,16 @@
 import Button from "app/components/UI/Button/Button"
 import Checkbox from "app/components/UI/Checkbox/Checkbox"
 import Buttons from "app/layouts/Buttons/Buttons"
-import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
+import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
 import useLocalStorage from "hooks/useLocalStorage"
 import { useModal } from "modules/modal/hook"
 import { useLayoutEffect } from "react"
 
-interface PopupConfirmBidUpProps {
+interface DialogConfirmBidUpProps {
   onSubmit(): void
 }
 
-function PopupConfirmBidUp(props: PopupConfirmBidUpProps) {
+function DialogConfirmBidUp(props: DialogConfirmBidUpProps) {
   const [getConfirm, setConfirm] = useLocalStorage("bid-up-confirm", "yes")
   const { close } = useModal()
   function onSubmit() {
@@ -26,15 +26,15 @@ function PopupConfirmBidUp(props: PopupConfirmBidUpProps) {
     if (shouldRequestConfirm === false) onSubmit()
   }, [])
   return (
-    <PopupLayout centered>
+    <DialogLayout centered>
       <h3>Подтвердите повышение ставки</h3>
+      <Checkbox defaultChecked={!shouldRequestConfirm} onChange={onShouldRequestBidConfirm}>Больше не запрашивать подтверждение о повышении ставки</Checkbox>
       <Buttons>
         <Button outline onClick={close}>Отмена</Button>
         <Button onClick={onSubmit}>Поднять</Button>
       </Buttons>
-      <Checkbox defaultChecked={!shouldRequestConfirm} onChange={onShouldRequestBidConfirm}>Больше не запрашивать подтверждение о повышении ставки</Checkbox>
-    </PopupLayout>
+    </DialogLayout>
   )
 }
 
-export default PopupConfirmBidUp
+export default DialogConfirmBidUp

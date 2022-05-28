@@ -16,6 +16,11 @@
 	padding: 0.625rem 0.75rem;
 	border: 1px solid $color-gray-4;
 	border-radius: $border-radius-1;
+
+	@include Mobile {
+		padding: 1rem;
+		text-align: center;
+	}
 }
 
 @mixin Badge($size: 1em, $float: true) {
@@ -52,13 +57,19 @@
 /* Adaptive */
 
 @mixin Mobile {
-	@media screen and (max-width: #{$width-tablet}) {
+	@media screen and (max-width: #{$width-mobile}) {
 		@content;
 	}
 }
 
 @mixin Tablet {
 	@media screen and (max-width: #{$width-desktop}) {
+		@content;
+	}
+}
+
+@mixin DesktopOnly {
+	@media screen and (min-width: #{$width-desktop} + 1px) {
 		@content;
 	}
 }

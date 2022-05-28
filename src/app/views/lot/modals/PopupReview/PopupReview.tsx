@@ -7,13 +7,13 @@ import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
 
-import PopupReviewAccepted from "./PopupReviewAccepted"
+import DialogReviewAccepted from "./DialogReviewAccepted"
 
 function PopupReview() {
   const { close } = useModal()
   function onSubmit() {
     // close()
-    Modal.open(PopupReviewAccepted)
+    Modal.open(DialogReviewAccepted)
   }
   return (
     <PopupLayout width="46.25em">

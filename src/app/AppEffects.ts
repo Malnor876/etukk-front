@@ -1,11 +1,15 @@
 import useLocalStorage from "hooks/useLocalStorage"
+import useResizeObserverSize from "hooks/useResizeObserverEntry"
 import Localization from "modules/localization/controller"
 import { useEffect } from "react"
 // import ReactGA from "react-ga4"
 import { useDispatch } from "react-redux"
 
 function AppEffects() {
-
+  // const { inlineSize: bodySize } = useResizeObserverSize(document.body)
+  // useEffect(() => {
+  //   document.head.gete
+  // }, [bodySize])
 
   return null
 }

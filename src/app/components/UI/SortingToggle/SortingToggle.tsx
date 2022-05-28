@@ -1,5 +1,6 @@
 import "./SortingToggle.scss"
 
+import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
 import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
@@ -25,7 +26,7 @@ function SortingToggle<V extends string>(props: SortingToggleProps<V>) {
   }
   const options = Children.map(props.children, child => child.props)
   return (
-    <button className="sorting-toggle" type="button" onClick={() => Modal.open(PopupApplyFilters, { children: props.children, onApply, weak: true })}>
+    <button className="sorting-toggle" type="button" onClick={() => Modal.open(DialogApplyFilters, { children: props.children, onApply, weak: true })}>
       <div className="sorting-toggle__text">{options.find(option => option.value === current)?.children || "Выберите фильтр"}</div>
       <Icon className="sorting-toggle__icon" name="sort" />
     </button>
@@ -33,12 +34,12 @@ function SortingToggle<V extends string>(props: SortingToggleProps<V>) {
 }
 
 
-interface PopupApplyFiltersProps {
+interface DialogApplyFiltersProps {
   children: ReactElement<{ value: string, children: ReactNode }>[]
   onApply?: Dispatch<SortValueType>
 }
 
-function PopupApplyFilters(props: PopupApplyFiltersProps) {
+function DialogApplyFilters(props: DialogApplyFiltersProps) {
   const { close } = useModal()
   const [value, setValue] = useState<SortValueType>()
   function onApply() {
@@ -46,11 +47,11 @@ function PopupApplyFilters(props: PopupApplyFiltersProps) {
     close()
   }
   return (
-    <PopupLayout centered>
+    <DialogLayout centered>
       <h3>Применить сортировку</h3>
       <Selector width="17em" onChange={setValue}>{props.children}</Selector>
       <Button outline onClick={onApply}>Применить</Button>
-    </PopupLayout>
+    </DialogLayout>
   )
 }
 
