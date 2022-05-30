@@ -2,11 +2,11 @@ import { ReactError } from "app/components/containers/ErrorBoundary/ErrorBoundar
 import { QueryErrorCoverBoundary } from "app/components/containers/QueryErrorCoverBoundary/QueryErrorCoverBoundary"
 import Button from "app/components/UI/Button/Button"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
-import { IMAGE_MOCKS } from "constants/mocks"
-import LotInfo from "domain/Lot/LotInfo"
-import LotTrade from "domain/Lot/LotTrade"
+import { LotInfoLayout } from "domain/Lot/Lot"
 import { Modal } from "modules/modal/controller"
 import { useParams } from "react-router"
+import { DateInterval } from "utils/date"
+import { Price } from "utils/extensions"
 
 import DialogArchiveLot from "./modals/DialogArchiveLot"
 import { DialogBidAccepted } from "./modals/DialogBidAccepted"
@@ -30,30 +30,11 @@ function LotView() {
   }
 
   return (
-    <QueryErrorCoverBoundary>
-      <LotContainer id={+lotId} />
-    </QueryErrorCoverBoundary>
-  )
-}
+    <div className="lot-view">
+      <QueryErrorCoverBoundary>
+        <LotContainer id={+lotId} />
+      </QueryErrorCoverBoundary>
 
-
-interface LotContainerProps {
-  id: number
-}
-
-function LotContainer(props: LotContainerProps) {
-  return (
-    // <QueryContainer action={getGetLotsById(props.id)} mapping={mapLotsContentItem}>
-    //   {payload => (
-    <div className="lot-info-layout">
-      {/* <Mutation actionCreator={postCabinetFavoriteAdd}>
-          {({ mutate }) => (
-            <LotInfo {...payload.info} onBookmark={() => mutate({ type: "lots", item: props.id })} />
-          )}
-        </Mutation> */}
-      <LotInfo description="" slides={IMAGE_MOCKS} specifications={[]} bookmarked />
-      <LotTrade city="" price={100} title="asd" tradeEnd={new Date} tradeStart={new Date} delivery="" />
-      {/* <LotBidUpMutation {...payload.bid} id={props.id} /> */}
       <Column>
         <Button onClick={() => Modal.open(PopupReport, { onSubmit: () => { 1 } })}>PopupReport</Button>
         <Button onClick={() => Modal.open(DialogReportAccepted)}>PopupReportAccepted</Button>
@@ -70,54 +51,22 @@ function LotContainer(props: LotContainerProps) {
         <Button onClick={() => Modal.open(DialogPasswordRecoverLinkSent)}>PopupPasswordRecoverLinkSent</Button>
       </Column>
     </div>
-    //   )}
-    // </QueryContainer>
   )
 }
 
-function LotContainerDesktop(props: LotContainerProps) {
-  return (
-    // <QueryContainer action={getGetLotsById(props.id)} mapping={mapLotsContentItem}>
-    //   {payload => (
-    <div className="lot-info-layout">
-      <div className="lot-info-layout__section">
-        {/* <Mutation actionCreator={postCabinetFavoriteAdd}>
-          {({ mutate }) => (
-            <LotInfo {...payload.info} onBookmark={() => mutate({ type: "lots", item: props.id })} />
-          )}
-        </Mutation> */}
-        <LotInfo description="" slides={IMAGE_MOCKS} specifications={[]} bookmarked />
-      </div>
-      <div className="lot-info-layout__section">
-        <LotTrade city="" price={100} title="asd" tradeEnd={new Date} tradeStart={new Date} delivery="" />
-        {/* <LotBidUpMutation {...payload.bid} id={props.id} /> */}
-      </div>
-    </div>
-    //   )}
-    // </QueryContainer>
-  )
+
+interface LotContainerProps {
+  id: number
 }
 
-function LotContainerMobile(props: LotContainerProps) {
+function LotContainer(props: LotContainerProps) {
   return (
-    // <QueryContainer action={getGetLotsById(props.id)} mapping={mapLotsContentItem}>
-    //   {payload => (
-    <div className="lot-info-layout">
-      <div className="lot-info-layout__section">
-        {/* <Mutation actionCreator={postCabinetFavoriteAdd}>
-          {({ mutate }) => (
-            <LotInfo {...payload.info} onBookmark={() => mutate({ type: "lots", item: props.id })} />
-          )}
-        </Mutation> */}
-        <LotInfo description="" slides={IMAGE_MOCKS} specifications={[]} bookmarked />
-      </div>
-      <div className="lot-info-layout__section">
-        <LotTrade city="" price={100} title="asd" tradeEnd={new Date} tradeStart={new Date} delivery="" />
-        {/* <LotBidUpMutation {...payload.bid} id={props.id} /> */}
-      </div>
-    </div>
-    //   )}
-    // </QueryContainer>
+    <LotInfoLayout slides={[]} description={""} specifications={[]} title={"asd"} city={""} price={new Price(100)} startEndInterval={new DateInterval(new Date, new Date)} delivery={"all"} id={0} name={""} type={"organization"} reviews={{
+      likes: 0,
+      dislikes: 0
+    }} rating={0} start={0} step={0} current={new Price(100)}
+
+    />
   )
 }
 

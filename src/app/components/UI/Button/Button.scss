@@ -97,6 +97,10 @@
 			visibility: visible;
 		}
 	}
+
+	@include Mobile {
+		padding: 0.85em 1.25em;
+	}
 }
 
 a.button {

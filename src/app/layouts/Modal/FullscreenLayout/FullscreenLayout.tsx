@@ -1,6 +1,7 @@
 import "./FullscreenLayout.scss"
 
 import Icon from "app/components/UI/Icon/Icon"
+import useResizeObserverSize, { DeviceWidths } from "hooks/useResizeObserverEntry"
 import { useModal } from "modules/modal/hook"
 import { ReactNode } from "react"
 
@@ -11,6 +12,23 @@ interface FullscreenLayoutProps {
 
 function FullscreenLayout(props: FullscreenLayoutProps) {
   const { close } = useModal()
+  const { inlineSize: bodySize } = useResizeObserverSize(document.body)
+
+  if (bodySize <= DeviceWidths.Mobile) {
+    return (
+      <div className="fullscreen-layout">
+        <div className="fullscreen-layout__container">
+          <button className="fullscreen-layout__close" type="button" onClick={close}>
+            <Icon name="cross" />
+          </button>
+          <div className="fullscreen-layout__inner">
+            <img className="fullscreen-layout__logo" src="/static/images/logo-white.svg" alt="etukk logo white" />
+            {props.children}
+          </div>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="fullscreen-layout" style={{ "--fullscreen-width": props.width }}>
       <div className="fullscreen-layout__icon">

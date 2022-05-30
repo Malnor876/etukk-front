@@ -1,4 +1,6 @@
 import { UserType } from "infrastructure/persistence/redux/reducers/user/types"
+import { DateInterval } from "utils/date"
+import { Price } from "utils/extensions"
 
 export interface LotPreviewType {
   id: number
@@ -10,32 +12,23 @@ export interface LotPreviewType {
   tradeStart: Date
 }
 
-export interface LotType {
-  info: LotInfoType
-  trade: LotTradeType
-  seller: LotSellerType
-  bid: LotBidType
-}
-
+export type LotInfoSpecificationsType = {
+  key: string
+  value: string
+}[]
 export interface LotInfoType {
   slides: string[]
   bookmarked?: boolean
   description: string
-  specifications: {
-    key: string
-    value: string
-  }[]
-}
+  specifications: LotInfoSpecificationsType
 
-export interface LotTradeType {
   title: string
   city: string
-  price: number
-  tradeStart: Date
-  tradeEnd: Date
-}
+  price: Price
+  startEndInterval: DateInterval
 
-export interface LotSellerType {
+  delivery: "all" | (string & {})
+
   id: number
   name: string
   type: UserType
@@ -44,9 +37,8 @@ export interface LotSellerType {
     dislikes: number
   }
   rating: number
-}
-export interface LotBidType {
+
   start: number
   step: number
-  current: number
+  current: Price
 }

@@ -1,6 +1,8 @@
-import { LotPreviewType, LotType } from "domain/Lot/types"
+import { LotInfoType, LotPreviewType } from "domain/Lot/types"
 import { PaginationType } from "interfaces/Nodejs"
 import { DeepPartial } from "redux"
+import { DateInterval } from "utils/date"
+import { Price } from "utils/extensions"
 
 import { SchemaCategoryLists, SchemaLotsContentItem, SchemaLotsItem, SchemaLotsLists } from "../data/schemas"
 import { mapImageUrl } from "./helpers"
@@ -25,27 +27,28 @@ export function mapLotsLists({ result }: DeepPartial<SchemaLotsLists>): Paginati
   }
 }
 
-export function mapLotsContentItem({ result }: SchemaLotsContentItem): LotType {
+export function mapLotsContentItem({ result }: SchemaLotsContentItem): LotInfoType {
   return {
-    info: {
-      bookmarked: Boolean(result.favorite),
-      description: result.content,
-      slides: result.picture.map(mapImageUrl),
-      specifications: result.specifications?.map(s => ({ key: s.key, value: s.val })) || []
-    },
-    seller: result.users_info,
-    trade: {
-      city: result.city,
-      price: result.price,
-      title: result.name,
-      tradeStart: new Date(result.trading_start),
-      tradeEnd: new Date(result.trading_end)
-    },
-    bid: {
-      start: result.price_step,
-      current: result.price,
-      step: result.price_step
-    }
+    id: result.id,
+    delivery: result.delivery,
+    name: result.name,
+    rating: 10,
+    reviews: { dislikes: 1, likes: 1 },
+    type: "organization",
+
+    bookmarked: Boolean(result.favorite),
+    description: result.content,
+    slides: result.picture.map(mapImageUrl),
+    specifications: result.specifications?.map(s => ({ key: s.key, value: s.val })) || [],
+
+    city: result.city,
+    price: new Price(result.price),
+    title: result.name,
+    startEndInterval: new DateInterval(new Date(result.trading_start), new Date(result.trading_end)),
+
+    start: result.price_step,
+    current: new Price(result.price),
+    step: result.price_step
   }
 }
 

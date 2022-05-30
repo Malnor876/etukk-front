@@ -1,13 +1,13 @@
 import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
-import LotInfo from "domain/Lot/LotInfo"
-import LotTrade from "domain/Lot/LotTrade"
-import { LotInfoType, LotTradeType } from "domain/Lot/types"
+import { LotInfoLayout, LotInfoSummary } from "domain/Lot/Lot"
+import { LotInfoType } from "domain/Lot/types"
 import { postCabinetLotsAdd } from "infrastructure/persistence/api/data/actions"
 import { useMutation } from "react-fetching-library"
 import { useNavigate } from "react-router-dom"
-import { FileToURLDataBase64 } from "utils/file"
+import { DateInterval } from "utils/date"
+import { Price } from "utils/extensions"
 
 import { lotNewStorage } from "../edit"
 
@@ -17,9 +17,9 @@ function LotNewPreviewView() {
   const description = lotNewStorage.get<LotInfoType["description"]>("description") || ""
 
   const category = lotNewStorage.get<number>("category") || -1
-  const city = lotNewStorage.get<LotTradeType["city"]>("city") || ""
+  const city = lotNewStorage.get<LotInfoType["city"]>("city") || ""
   const price = lotNewStorage.get<string>("price") || ""
-  const title = lotNewStorage.get<LotTradeType["title"]>("title") || ""
+  const title = lotNewStorage.get<LotInfoType["title"]>("title") || ""
   const date = lotNewStorage.get<string>("date") || "12-20-20"
   const delivery = lotNewStorage.get<string>("delivery") || "all"
 
@@ -38,15 +38,15 @@ function LotNewPreviewView() {
   return (
     <>
       <h2 className="heading">Просмотр лота перед публикацией</h2>
-      <div className="lot-info-layout">
-        <LotInfo specifications={specifications} description={description} slides={slides} />
-        <LotTrade delivery={delivery} city={city} price={+price} title={title} tradeStart={new Date(date)} tradeEnd={new Date(date)}>
-          <Buttons>
-            <Button await onClick={publishNewLot}>Опубликовать</Button>
-            <ButtonLink outline to="/lots/new/edit">Редактировать</ButtonLink>
-          </Buttons>
-        </LotTrade>
-      </div>
+      <LotInfoLayout slides={[]} description={""} specifications={[]} title={"asd"} city={""} price={new Price(100)} startEndInterval={new DateInterval(new Date, new Date)} delivery={"all"} id={0} name={""} type={"organization"} reviews={{
+        likes: 0,
+        dislikes: 0
+      }} rating={0} start={0} step={0} current={new Price(100)} >
+        <Buttons>
+          <Button await onClick={publishNewLot}>Опубликовать</Button>
+          <ButtonLink outline to="/lots/new/edit">Редактировать</ButtonLink>
+        </Buttons>
+      </LotInfoLayout>
     </>
   )
 }

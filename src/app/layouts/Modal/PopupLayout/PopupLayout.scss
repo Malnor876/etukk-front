@@ -100,5 +100,9 @@ $gap: 2em;
 		&>:only-child {
 			justify-items: stretch;
 		}
+
+		& .buttons .button {
+			padding: 1em 1.25em;
+		}
 	}
 }

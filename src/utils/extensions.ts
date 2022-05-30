@@ -25,4 +25,35 @@ Number.prototype.toPrice = function (this: number, locale = "EN", currency = "US
 }
 
 
+export class Price {
+  constructor(
+    private value: number,
+    public originLocale?: string,
+    public originCurrency?: Intl.NumberFormatOptions["currency"]
+  ) { }
+
+  format(locale = "RU", currency: Intl.NumberFormatOptions["currency"] = "RUB"): string {
+    try {
+      return this.value.toLocaleString(locale, { style: "currency", currency, minimumFractionDigits: 0 })
+    } catch (error) {
+      if (process.env.NODE_ENV === "production") {
+        if (error instanceof Error) {
+          if (error.message.includes("tag") || error.message.includes("locale")) {
+            return "Invalid language tag"
+          }
+
+          return "Invalid currency code"
+        }
+      }
+
+      throw error
+    }
+  }
+
+  valueOf(): number {
+    return this.value
+  }
+}
+
+
 export default {}

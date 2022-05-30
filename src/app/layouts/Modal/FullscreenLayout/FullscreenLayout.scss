@@ -7,6 +7,10 @@
 	display: flex;
 	background: $color-white;
 	cursor: initial;
+
+	@include Mobile {
+		background: linear-gradient(180deg, #ED1D4A 0%, rgba(237, 29, 74, 0) 100%);
+	}
 }
 
 .fullscreen-layout__container {

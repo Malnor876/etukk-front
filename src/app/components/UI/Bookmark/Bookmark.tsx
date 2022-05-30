@@ -5,14 +5,14 @@ import { useState } from "react"
 import { useMutation } from "react-fetching-library"
 import { classWithModifiers } from "utils/common"
 
-interface BookmarkContainerProps {
+interface BookmarkProps {
   id: `${number}` | number
   type: SchemaFavorite["type"]
   className: string
   defaultValue?: boolean
 }
 
-function BookmarkContainer(props: BookmarkContainerProps) {
+function Bookmark(props: BookmarkProps) {
   const [bookmarked, setBookmarked] = useState(props.defaultValue)
   const { mutate } = useMutation(postCabinetFavoriteAdd)
   async function onClick() {
@@ -30,4 +30,4 @@ function BookmarkContainer(props: BookmarkContainerProps) {
   )
 }
 
-export default BookmarkContainer
+export default Bookmark

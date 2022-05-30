@@ -27,7 +27,7 @@ export interface ModalParams {
   fork: boolean
 }
 
-export interface ModalWindow<Params extends Record<keyof never, unknown> = {}> {
+export interface ModalWindow<Params = unknown> {
   component: ModalComponent<ModalParams & Params>
   params: ModalParams & Params
   close: () => void

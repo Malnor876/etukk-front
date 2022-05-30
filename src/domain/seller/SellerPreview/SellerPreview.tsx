@@ -1,6 +1,6 @@
 import "./SellerPreview.scss"
 
-import BookmarkContainer from "app/components/containers/BookmarkContainer/BookmarkContainer"
+import Bookmark from "app/components/UI/Bookmark/Bookmark"
 import CounterIcon from "app/components/UI/CounterIcon/CounterIcon"
 import Entries from "app/layouts/Entries/Entries"
 import EntryCounter from "app/layouts/Entries/EntryCounter"
@@ -47,7 +47,7 @@ function SellerPreview(props: SellerPreviewProps) {
       {props.linkedTo && (
         <Link className="ghost" to={props.linkedTo} />
       )}
-      <BookmarkContainer className="lot-preview__bookmark" defaultValue={props.bookmarked} id={props.id} type="lots" />
+      <Bookmark className="lot-preview__bookmark" defaultValue={props.bookmarked} id={props.id} type="lots" />
     </div>
   )
 }

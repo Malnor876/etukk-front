@@ -70,11 +70,11 @@ function LotEditView() {
           </div>
           <div className="lot-edit-view__container">
             <LotEditSetting label="Название лота">
-              <Input width="18em" placeholder="Название лота" defaultValue={payload.trade.title} name={FormInputs.title} />
+              <Input width="18em" placeholder="Название лота" defaultValue={payload.title} name={FormInputs.title} />
               <CloseButton />
             </LotEditSetting>
             <LotEditSetting label="Фото">
-              <AwaitPromise state={Promise.all(payload.info.slides.map(getFileFromURL))}>
+              <AwaitPromise state={Promise.all(payload.slides.map(getFileFromURL))}>
                 {files => (
                   <ChooseImage defaultValue={files} onChange={setFiles} />
                 )}

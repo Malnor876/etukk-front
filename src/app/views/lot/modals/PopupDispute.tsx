@@ -3,6 +3,7 @@ import Selector from "app/components/UI/Selector/Selector"
 import TextareaAttachments from "app/components/UI/Textarea/TextareaAttachments"
 import ToolTipBadge from "app/components/UI/ToolTipBadge/ToolTipBadge"
 import You from "app/components/UI/You/You"
+import Buttons from "app/layouts/Buttons/Buttons"
 import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { useModal } from "modules/modal/hook"
 
@@ -21,9 +22,9 @@ function PopupDispute() {
         <option>Иная причина</option>
       </Selector>
       <TextareaAttachments placeholder="Введите комментарий ..." />
-      <div>
+      <Buttons>
         <Button onClick={onSubmit}>Открыть спор</Button>
-      </div>
+      </Buttons>
       <ToolTipBadge>
         Для закрытия сделки Вам необходимо оставить отзыв и прикрепить фото полученного лота.
         {"\n\n"}
