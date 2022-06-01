@@ -1,5 +1,7 @@
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
+import { IMAGE_MOCKS } from "constants/mocks"
+import DetailedSellers from "domain/seller/DetailedSellers"
 import { Route, Routes } from "react-router"
 
 function NotificationsView() {
@@ -13,8 +15,8 @@ function NotificationsView() {
       </Buttons>
       <Routes>
         <Route path="lots" element={<NotificationsLotsContainer />} />
-        {/* <Route path="subs" element={<DetailedSellers sellers={sellers} />} />
-        <Route path="support" element={<DetailedSellers sellers={sellers} />} /> */}
+        <Route path="subs" element={<DetailedSellers sellers={[{ id: 0, avatar: IMAGE_MOCKS[0], city: "asd", dislikes: 1, likes: 1, name: "asdasdsd", bookmarked: false, linkedTo: "", lotsCount: 1 }]} />} />
+        {/* <Route path="support" element={<DetailedSellers sellers={[]} />} /> */}
       </Routes>
     </>
   )

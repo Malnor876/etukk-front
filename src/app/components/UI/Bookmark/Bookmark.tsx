@@ -1,24 +1,25 @@
 import Icon from "app/components/UI/Icon/Icon"
-import { postCabinetFavoriteAdd } from "infrastructure/persistence/api/data/actions"
-import { SchemaFavorite } from "infrastructure/persistence/api/data/schemas"
+import { postUserFavoriteLots, postUserFavoriteUser } from "infrastructure/persistence/api/data/actions"
 import { useState } from "react"
-import { useMutation } from "react-fetching-library"
+import { useClient } from "react-fetching-library"
 import { classWithModifiers } from "utils/common"
 
 interface BookmarkProps {
   id: `${number}` | number
-  type: SchemaFavorite["type"]
+  type: "lot" | "user"
   className: string
   defaultValue?: boolean
 }
 
 function Bookmark(props: BookmarkProps) {
+  const client = useClient()
   const [bookmarked, setBookmarked] = useState(props.defaultValue)
-  const { mutate } = useMutation(postCabinetFavoriteAdd)
   async function onClick() {
     setBookmarked(!bookmarked)
 
-    const { error } = await mutate({ type: props.type, item: Number(props.id) })
+    const action = props.type === "lot" ? postUserFavoriteLots({ lot_id: Number(props.id) }) : postUserFavoriteUser({ fav_user_id: Number(props.id) })
+
+    const { error } = await client.query(action)
     if (error) setBookmarked(bookmarked)
   }
 

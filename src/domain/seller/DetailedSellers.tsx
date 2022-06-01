@@ -19,7 +19,7 @@ function DetailedSellers(props: DetailedSellersProps) {
   return (
     <>
       {expandedSeller === null && (
-        <Previews>
+        <Previews asd>
           {props.sellers.map(seller => (
             <button type="button" onClick={() => onSellerClick(seller)} key={seller.id}>
               <SellerPreview {...seller} />

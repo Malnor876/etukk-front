@@ -1,3 +1,5 @@
+import "./FullscreenAuth.scss"
+
 import NewPassword from "app/components/containers/Password/NewPassword"
 import Button from "app/components/UI/Button/Button"
 import Checkbox from "app/components/UI/Checkbox/Checkbox"
@@ -5,10 +7,9 @@ import Input from "app/components/UI/Input/Input"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
-import { postUsersSignup } from "infrastructure/persistence/api/data/actions"
+import { postRegistrationUser } from "infrastructure/persistence/api/data/actions"
 import { mapUser } from "infrastructure/persistence/api/mappings/user"
 import { userUpdate } from "infrastructure/persistence/redux/reducers/user"
-import { ValuesOf } from "interfaces/utilities"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
 import { useState } from "react"
@@ -24,7 +25,7 @@ enum FormInputs {
   name = "name",
   inn = "inn",
   email = "email",
-  phone = "phone",
+  phone = "phonenumber",
   password = "password",
   passwordConfirm = "password_confirm"
 }
@@ -32,22 +33,22 @@ enum FormInputs {
 function FullscreenSignUpEntity() {
   const { close } = useModal()
   const dispatch = useDispatch()
-  const { mutate: signUp } = useMutation(postUsersSignup)
+  const { mutate: signUp } = useMutation(postRegistrationUser)
   const [reCaptcha, setReCaptcha] = useState(false)
   const [validity, setValidity] = useState(false)
   async function onSubmit(state: FormState<FormInputs, string>) {
-    const { error, payload } = await signUp(state.values)
+    // const { error, payload } = await signUp(state.values)
 
-    if (error) return
-    if (payload == null) return
+    // if (error) return
+    // if (payload == null) return
 
-    const mappedUser = mapUser(payload.result)
-    dispatch(userUpdate(mappedUser))
+    // const mappedUser = mapUser(payload.result)
+    // dispatch(userUpdate(mappedUser))
 
-    Modal.replace(FullscreenPhoneConfirm)
+    // Modal.replace(FullscreenPhoneConfirm)
   }
   return (
-    <FullscreenLayout>
+    <FullscreenLayout className="fullscreen-auth">
       <h3 className="heading center">Регистрация</h3>
       {/* <SocialAuth /> */}
       <Form centered onChange={event => setValidity(event.currentTarget.checkValidity())} onSubmit={onSubmit}>

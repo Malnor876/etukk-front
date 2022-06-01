@@ -1,6 +1,5 @@
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Picker from "app/components/UI/Picker/Picker"
-import { getGetCategory } from "infrastructure/persistence/api/data/actions"
 
 import { lotNewStorage } from "."
 
@@ -9,7 +8,7 @@ function EditLotCategory() {
   return (
     <section>
       <h4>Выберите категорию</h4>
-      <QueryContainer action={getGetCategory()}>
+      {/* <QueryContainer action={getGetCategory()}>
         {payload => (
           <Picker defaultValue={category} onChange={setCategory}>
             {payload.result.map(category => (
@@ -17,7 +16,7 @@ function EditLotCategory() {
             ))}
           </Picker>
         )}
-      </QueryContainer>
+      </QueryContainer> */}
     </section>
   )
 }

@@ -1,6 +1,7 @@
 import Backward from "app/components/UI/Backward/Backward"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Quote from "app/components/UI/Quote/Quote"
+import Buttons from "app/layouts/Buttons/Buttons"
 import Container from "app/layouts/Container/Container"
 import ViewNarrow from "app/layouts/ViewNarrow/ViewNarrow"
 import EditLotCategory from "app/views/lot-new/edit/EditLotCategory"
@@ -49,7 +50,7 @@ function LotNewEditView() {
   return (
     <ViewNarrow>
       <div>
-        <h2 className="heading">Выставить лот</h2>
+        <h2 className="heading">Разместить лот</h2>
         <Routes>
           <Route index element={<EditLotCategory />} />
           <Route path="name" element={<EditLotName />} />
@@ -59,7 +60,7 @@ function LotNewEditView() {
           <Route path="trade" element={<EditLotTrade />} />
         </Routes>
       </div>
-      <Container>
+      <Buttons centered>
         {isCurrentRouteBase && <div />}
         {!isCurrentRouteBase && (
           <Backward />
@@ -70,10 +71,10 @@ function LotNewEditView() {
         {!isCurrentRouteBase && isCurrentRouteLast && (
           <ButtonLink to="/lots/new/preview">Предпросмотр</ButtonLink>
         )}
-      </Container>
-      <Quote author="В.И. Ленин">
+      </Buttons>
+      {/* <Quote author="В.И. Ленин">
         <p>Проблема цитат в интернете в том, что люди безоговорочно верят в их подлинность</p>
-      </Quote>
+      </Quote> */}
     </ViewNarrow>
   )
 }

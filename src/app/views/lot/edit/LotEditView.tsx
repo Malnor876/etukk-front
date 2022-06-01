@@ -7,37 +7,49 @@ import Button from "app/components/UI/Button/Button"
 import ChooseImage from "app/components/UI/ChooseImage/ChooseImage"
 import CloseButton from "app/components/UI/CloseButton/CloseButton"
 import Input from "app/components/UI/Input/Input"
+import Loader from "app/components/UI/Loader/Loader"
 import Radio from "app/components/UI/Radio/Radio"
 import Selector from "app/components/UI/Selector/Selector"
 import Specifications from "app/components/UI/Specifications/Specifications"
 import Textarea from "app/components/UI/Textarea/Textarea"
 import Choices from "app/layouts/Choices/Choices"
 import Form, { FormState } from "app/layouts/Form/Form"
-import { getGetLotsById, postCabinetLotsAdd } from "infrastructure/persistence/api/data/actions"
-import { SchemaUsersLotsFormData } from "infrastructure/persistence/api/data/schemas"
-import { mapLotsContentItem } from "infrastructure/persistence/api/mappings/lots"
+import { getLotByLotId, patchLotDraftByDraftId } from "infrastructure/persistence/api/data/actions"
+import { SchemaLotDeliveryOptions } from "infrastructure/persistence/api/data/schemas"
+import { mapLotByLotId } from "infrastructure/persistence/api/mappings/lots"
 import { ReactNode, useEffect, useState } from "react"
-import { useMutation } from "react-fetching-library"
+import { useClient } from "react-fetching-library"
 import { useNavigate, useParams } from "react-router"
 import { FileToURLDataBase64, getFileFromURL } from "utils/file"
 
 enum FormInputs {
   title = "name",
-  images = "picture",
-  video = "video",
-  startBid = "price",
-  publicationPeriod = "trading_start",
+  images = "photos",
+  video = "video_url",
+  startBid = "start_price",
+  // publicationPeriod = "trading_start",
   city = "city",
-  delivery = "delivery",
-  description = "content",
+  delivery = "delivery_options",
+  description = "description",
   specifications = "specifications",
-  category = "category",
+  category = "categories",
 
-  tradingStart = "trading_start",
-  tradingEnd = "trading_end"
+  biddingStartTime = "bidding_start_time",
+  biddingEndTime = "bidding_end_time"
 }
 
-interface FormValues extends SchemaUsersLotsFormData { }
+interface FormValues {
+  name: string
+  description: string
+  start_price: number
+  categories: number[] | number
+  city: string
+  delivery_options: SchemaLotDeliveryOptions
+  bidding_start_time: string
+  bidding_end_time: string
+  video_url: string
+  photos: string[]
+}
 
 function LotEditView() {
   const { lotId } = useParams<"lotId">()
@@ -49,80 +61,82 @@ function LotEditView() {
   }
 
   const navigate = useNavigate()
-  const { mutate } = useMutation(postCabinetLotsAdd)
+  const client = useClient()
   const [files, setFiles] = useState<File[]>([])
   async function onSubmit(state: FormState<FormInputs, FormValues>) {
     if (lotId == null) return
 
-    const { error } = await mutate({ ...state.values, id: +lotId, picture: await Promise.all(files.map(FileToURLDataBase64)) })
+    const { error } = await client.query(patchLotDraftByDraftId(+lotId, state.values))
     if (error) return
 
     navigate("..")
   }
 
   return (
-    <QueryContainer action={getGetLotsById(+lotId)} mapping={mapLotsContentItem}>
-      {payload => (
-        <Form className="lot-edit-view" onSubmit={onSubmit}>
-          <div className="lot-edit-view__header">
-            <h2 className="heading">Редактировать лот</h2>
-            <Backward />
-          </div>
-          <div className="lot-edit-view__container">
-            <LotEditSetting label="Название лота">
-              <Input width="18em" placeholder="Название лота" defaultValue={payload.title} name={FormInputs.title} />
-              <CloseButton />
-            </LotEditSetting>
-            <LotEditSetting label="Фото">
-              <AwaitPromise state={Promise.all(payload.slides.map(getFileFromURL))}>
+    // <QueryContainer action={getLotByLotId(+lotId)} mapping={mapLotByLotId}>
+    //   {payload => (
+    <Form className="lot-edit-view" onSubmit={onSubmit}>
+      <div className="lot-edit-view__header">
+        <h2 className="heading">Редактировать лот</h2>
+        <Backward />
+      </div>
+      <div className="lot-edit-view__container">
+        <LotEditSetting label="Название лота">
+          {/* <Input width="18em" placeholder="Название лота" defaultValue={payload.title} name={FormInputs.title} /> */}
+          <Input width="18em" placeholder="Название лота" name={FormInputs.title} />
+          <CloseButton />
+        </LotEditSetting>
+        <LotEditSetting label="Фото">
+          {/* <AwaitPromise state={Promise.all(payload.slides.map(getFileFromURL))}>
                 {files => (
-                  <ChooseImage defaultValue={files} onChange={setFiles} />
-                )}
-              </AwaitPromise>
-            </LotEditSetting>
-            <LotEditSetting label="Видео">
-              <Input width="35em" placeholder="Ссылка на видео..." name={FormInputs.video} />
-              <CloseButton />
-            </LotEditSetting>
-            <LotEditSetting label="Начальная ставка">
-              <Input width="16em" type="number" placeholder="Введите  сумму..." iconName="rub" name={FormInputs.startBid} />
-              <CloseButton />
-            </LotEditSetting>
-            <LotEditSetting label="Период публикации лота и проведения торгов">
-              <div style={{ paddingTop: "0.5em" }}>
-                <Choices>
-                  <Radio name={FormInputs.publicationPeriod} value="1">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
+                  <ChooseImage name={FormInputs.images} defaultValue={files} onChange={setFiles} />
+                  )}
+                </AwaitPromise> */}
+          <ChooseImage name={FormInputs.images} defaultValue={files} onChange={setFiles} />
+        </LotEditSetting>
+        <LotEditSetting label="Видео">
+          <Input width="35em" placeholder="Ссылка на видео..." name={FormInputs.video} />
+          <CloseButton />
+        </LotEditSetting>
+        <LotEditSetting label="Начальная ставка">
+          <Input width="16em" type="number" placeholder="Введите  сумму..." iconName="rub" name={FormInputs.startBid} />
+          <CloseButton />
+        </LotEditSetting>
+        <LotEditSetting label="Период публикации лота и проведения торгов">
+          <div style={{ paddingTop: "0.5em" }}>
+            <Choices>
+              {/* <Radio name={FormInputs.publicationPeriod} value="1">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
                   <Radio name={FormInputs.publicationPeriod} value="2" defaultChecked>Сегодня 21.09.21 в 20:00 - 22:00</Radio>
                   <Radio name={FormInputs.publicationPeriod} value="3">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
-                  <Radio name={FormInputs.publicationPeriod} value="4">Сегодня 21.09.21 в 20:00 - 22:00</Radio>
-                </Choices>
-              </div>
-            </LotEditSetting>
-            <LotEditSetting label="Укажите ваш город">
-              <Input width="16em" placeholder="Укажите город..." name={FormInputs.city} />
-              <CloseButton />
-            </LotEditSetting>
-            <LotEditSetting label="Вариант доставки">
-              <Selector width="16em" defaultValue="all" name={FormInputs.delivery}>
-                <option value="all">Доставка в регионы</option>
-                <option value="locally">Доставка по городу продажи</option>
-              </Selector>
-            </LotEditSetting>
-            <LotEditSetting label="Описание лота">
-              <Textarea width="33.5em" rows={16} name={FormInputs.description} defaultValue="Продается шайтан-арба,не бит, не крашен, валиком подшаманен. Ездила девушка от дома до работы в Краснодарский край. От души отрываю, мамой клянусь. Арбузы не возил, все щапчасти заводские. Год выпуска 1985." />
-              <CloseButton />
-            </LotEditSetting>
-            <LotEditSetting label="Характеристики">
-              <Specifications name={FormInputs.specifications} />
-            </LotEditSetting>
+                  <Radio name={FormInputs.publicationPeriod} value="4">Сегодня 21.09.21 в 20:00 - 22:00</Radio> */}
+            </Choices>
           </div>
-          <div className="lot-edit-view__buttons">
-            <Button type="submit">Сохранить</Button>
-            <Button outline>Отмена</Button>
-          </div>
-        </Form>
-      )}
-    </QueryContainer>
+        </LotEditSetting>
+        <LotEditSetting label="Укажите ваш город">
+          <Input width="16em" placeholder="Укажите город..." name={FormInputs.city} />
+          <CloseButton />
+        </LotEditSetting>
+        <LotEditSetting label="Вариант доставки">
+          <Selector width="16em" defaultValue="all" name={FormInputs.delivery}>
+            <option value="all">Доставка в регионы</option>
+            <option value="locally">Доставка по городу продажи</option>
+          </Selector>
+        </LotEditSetting>
+        <LotEditSetting label="Описание лота">
+          <Textarea width="33.5em" rows={16} name={FormInputs.description} defaultValue="Продается шайтан-арба,не бит, не крашен, валиком подшаманен. Ездила девушка от дома до работы в Краснодарский край. От души отрываю, мамой клянусь. Арбузы не возил, все щапчасти заводские. Год выпуска 1985." />
+          <CloseButton />
+        </LotEditSetting>
+        <LotEditSetting label="Характеристики">
+          <Specifications name={FormInputs.specifications} />
+        </LotEditSetting>
+      </div>
+      <div className="lot-edit-view__buttons">
+        <Button type="submit">Сохранить</Button>
+        <Button outline>Отмена</Button>
+      </div>
+    </Form>
+    //   )}
+    // </QueryContainer>
   )
 }
 
@@ -161,7 +175,7 @@ function AwaitPromise<T>(props: AwaitPromiseProps<T>) {
     awaitPromises().then(setResult)
   }, [props.children])
 
-  if (result === null) return null
+  if (result === null) return <Loader />
   return <>{props.children(result)}</>
 }
 

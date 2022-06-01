@@ -5,7 +5,7 @@ import SocialAuth from "app/components/UI/SocialAuth/SocialAuth"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
-import { postUsersSignin } from "infrastructure/persistence/api/data/actions"
+import { postAuthUser } from "infrastructure/persistence/api/data/actions"
 import { mapUser } from "infrastructure/persistence/api/mappings/user"
 import { userUpdate } from "infrastructure/persistence/redux/reducers/user"
 import { Modal } from "modules/modal/controller"
@@ -26,25 +26,26 @@ function FullscreenSignIn() {
   const { close } = useModal()
   const dispatch = useDispatch()
   const [validity, setValidity] = useState(false)
-  const { mutate: signIn } = useMutation(postUsersSignin)
+  const { mutate: signIn } = useMutation(postAuthUser)
   async function onSubmit(state: FormState<FormInputs, string>) {
     const { error, payload } = await signIn(state.values)
 
     if (error) return
     if (payload == null) return
 
-    const mappedUser = mapUser(payload.result)
+    const mappedUser = mapUser(payload.access_token)
     dispatch(userUpdate(mappedUser))
 
     close()
   }
+
   return (
-    <FullscreenLayout>
+    <FullscreenLayout className="fullscreen-auth">
       <h3 className="heading" style={{ textAlign: "center" }}>ВХОД</h3>
       <SocialAuth />
       <Form centered onChange={event => setValidity(event.currentTarget.checkValidity())} onSubmit={onSubmit}>
         <Column>
-          <Input type="email" name={FormInputs.email} width="20em" placeholder="Е-mail или номер телефона" required />
+          <Input name={FormInputs.email} width="20em" placeholder="Е-mail или номер телефона" required />
           <Password name={FormInputs.password} width="20em" />
           <a className="gray" onClick={() => Modal.open(FullscreenPasswordRecovery)}>Забыли пароль?</a>
           <div><Button type="submit" disabled={!validity}>Войти</Button></div>

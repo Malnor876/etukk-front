@@ -1,23 +1,11 @@
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
-import Slider from "app/components/containers/Slider/Slider"
-import Author from "app/components/UI/Author/Author"
-import Backward from "app/components/UI/Backward/Backward"
-import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Dropper from "app/components/UI/Dropper/Dropper"
-import { FAQ, FAQClause } from "app/components/UI/FAQ/FAQ"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Container from "app/layouts/Container/Container"
-import Entries from "app/layouts/Entries/Entries"
-import Entry from "app/layouts/Entries/Entry"
-import LotPage from "app/layouts/LotPage/LotPage"
 import Previews from "app/layouts/Previews/Previews"
-import { IMAGE_MOCKS } from "constants/mocks"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
-import { LotPreviewType } from "domain/Lot/types"
-import { getCabinetLotsPurchasesArchive, getCabinetLotsPurchasesDisputes, getCabinetLotsPurchasesInspection, getCabinetLotsPurchasesPublished, getCabinetLotsPurchasesRejected, getCabinetLotsPurchasesSold, getCabinetLotsSalesCompleting, getCabinetLotsSalesConfirm, getCabinetLotsSalesDisputes, getCabinetLotsSalesWay, getCabinetLotsSalesWon } from "infrastructure/persistence/api/data/actions"
 import { mapLotDisputesLists } from "infrastructure/persistence/api/mappings/cabinet"
-import { useState } from "react"
 import { Route, Routes } from "react-router-dom"
 
 // function ProfileSalesView() {
@@ -124,157 +112,168 @@ export function ProfilePurchasesView() {
 }
 
 function ProfileSalesCompleting() {
-  return (
-    <QueryContainer action={getCabinetLotsSalesCompleting(15)} mapping={mapLotDisputesLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  //   <QueryContainer action={getCabinetLotsSalesCompleting(15)} mapping={mapLotDisputesLists}>
+  //     {payload => (
+  //       <Previews>
+  //         {payload.items.map(lot => (
+  //           <LotPreview {...lot} key={lot.id} />
+  //         ))}
+  //       </Previews>
+  //     )}
+  //   </QueryContainer>
+  // )
 }
 
 function ProfileSalesConfirm() {
-  return (
-    <QueryContainer action={getCabinetLotsSalesConfirm(15)} mapping={mapLotDisputesLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  //   <QueryContainer action={getCabinetLotsSalesConfirm(15)} mapping={mapLotDisputesLists}>
+  //     {payload => (
+  //       <Previews>
+  //         {payload.items.map(lot => (
+  //           <LotPreview {...lot} key={lot.id} />
+  //         ))}
+  //       </Previews>
+  //     )}
+  //   </QueryContainer>
+  // )
 }
 
 function ProfileSalesDisputes() {
-  return (
-    <QueryContainer action={getCabinetLotsSalesDisputes(15)} mapping={mapLotDisputesLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  //   <QueryContainer action={getCabinetLotsSalesDisputes(15)} mapping={mapLotDisputesLists}>
+  //     {payload => (
+  //       <Previews>
+  //         {payload.items.map(lot => (
+  //           <LotPreview {...lot} key={lot.id} />
+  //         ))}
+  //       </Previews>
+  //     )}
+  //   </QueryContainer>
+  // )
 }
 
 function ProfileSalesWay() {
-  return (
-    <QueryContainer action={getCabinetLotsSalesWay(15)} mapping={mapLotDisputesLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  //   <QueryContainer action={getCabinetLotsSalesWay(15)} mapping={mapLotDisputesLists}>
+  //     {payload => (
+  //       <Previews>
+  //         {payload.items.map(lot => (
+  //           <LotPreview {...lot} key={lot.id} />
+  //         ))}
+  //       </Previews>
+  //     )}
+  //   </QueryContainer>
+  // )
 }
 
 function ProfileSalesWon() {
-  return (
-    <QueryContainer action={getCabinetLotsSalesWon(15)} mapping={mapLotDisputesLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  //   <QueryContainer action={getCabinetLotsSalesWon(15)} mapping={mapLotDisputesLists}>
+  //     {payload => (
+  //       <Previews>
+  //         {payload.items.map(lot => (
+  //           <LotPreview {...lot} key={lot.id} />
+  //         ))}
+  //       </Previews>
+  //     )}
+  //   </QueryContainer>
+  // )
 }
 
 function ProfilePurchasesArchive() {
-  return (
-    <QueryContainer action={getCabinetLotsPurchasesArchive(15)} mapping={mapLotDisputesLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  //   <QueryContainer action={getCabinetLotsPurchasesArchive(15)} mapping={mapLotDisputesLists}>
+  //     {payload => (
+  //       <Previews>
+  //         {payload.items.map(lot => (
+  //           <LotPreview {...lot} key={lot.id} />
+  //         ))}
+  //       </Previews>
+  //     )}
+  //   </QueryContainer>
+  // )
 }
 
 function ProfilePurchasesDisputes() {
-  return (
-    <QueryContainer action={getCabinetLotsPurchasesDisputes(15)} mapping={mapLotDisputesLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  //   <QueryContainer action={getCabinetLotsPurchasesDisputes(15)} mapping={mapLotDisputesLists}>
+  //     {payload => (
+  //       <Previews>
+  //         {payload.items.map(lot => (
+  //           <LotPreview {...lot} key={lot.id} />
+  //         ))}
+  //       </Previews>
+  //     )}
+  //   </QueryContainer>
+  // )
 }
 
 function ProfilePurchasesInspection() {
-  return (
-    <QueryContainer action={getCabinetLotsPurchasesInspection(15)} mapping={mapLotDisputesLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  //   <QueryContainer action={getCabinetLotsPurchasesInspection(15)} mapping={mapLotDisputesLists}>
+  //     {payload => (
+  //       <Previews>
+  //         {payload.items.map(lot => (
+  //           <LotPreview {...lot} key={lot.id} />
+  //         ))}
+  //       </Previews>
+  //     )}
+  //   </QueryContainer>
+  // )
 }
 
 function ProfilePurchasesPublished() {
-  return (
-    <QueryContainer action={getCabinetLotsPurchasesPublished(15)} mapping={mapLotDisputesLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  //   <QueryContainer action={getCabinetLotsPurchasesPublished(15)} mapping={mapLotDisputesLists}>
+  //     {payload => (
+  //       <Previews>
+  //         {payload.items.map(lot => (
+  //           <LotPreview {...lot} key={lot.id} />
+  //         ))}
+  //       </Previews>
+  //     )}
+  //   </QueryContainer>
+  // )
 }
 
 function ProfilePurchasesRejected() {
-  return (
-    <QueryContainer action={getCabinetLotsPurchasesRejected(15)} mapping={mapLotDisputesLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  //   <QueryContainer action={getCabinetLotsPurchasesRejected(15)} mapping={mapLotDisputesLists}>
+  //     {payload => (
+  //       <Previews>
+  //         {payload.items.map(lot => (
+  //           <LotPreview {...lot} key={lot.id} />
+  //         ))}
+  //       </Previews>
+  //     )}
+  //   </QueryContainer>
+  // )
 }
 
 function ProfilePurchasesSold() {
-  return (
-    <QueryContainer action={getCabinetLotsPurchasesSold(15)} mapping={mapLotDisputesLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  //   <QueryContainer action={getCabinetLotsPurchasesSold(15)} mapping={mapLotDisputesLists}>
+  //     {payload => (
+  //       <Previews>
+  //         {payload.items.map(lot => (
+  //           <LotPreview {...lot} key={lot.id} />
+  //         ))}
+  //       </Previews>
+  //     )}
+  //   </QueryContainer>
+  // )
 }
 
 export default ProfileSalesView

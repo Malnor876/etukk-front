@@ -3,7 +3,6 @@ import Button from "app/components/UI/Button/Button"
 import Checkbox from "app/components/UI/Checkbox/Checkbox"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Form, { FormState } from "app/layouts/Form/Form"
-import { getCabinetUsersSettings, postCabinetUsersSettings } from "infrastructure/persistence/api/data/actions"
 import { mapCabinetUsersSettings } from "infrastructure/persistence/api/mappings/cabinet"
 import { useState } from "react"
 import { useMutation } from "react-fetching-library"
@@ -15,18 +14,18 @@ enum FormInputs {
 }
 
 function ProfilePersonalSettings() {
-  const { mutate } = useMutation(postCabinetUsersSettings)
-  const [pending, setPending] = useState(false)
-  async function onSubmit(state: FormState<FormInputs, boolean>) {
-    setPending(true)
-    const { error } = await mutate(state.values)
-    setPending(false)
-    if (error) return
-  }
+  // const { mutate } = useMutation(postCabinetUsersSettings)
+  // const [pending, setPending] = useState(false)
+  // async function onSubmit(state: FormState<FormInputs, boolean>) {
+  //   setPending(true)
+  //   const { error } = await mutate(state.values)
+  //   setPending(false)
+  //   if (error) return
+  // }
   return (
     <>
       <h5 className="heading">Настройки</h5>
-      <Form onSubmit={onSubmit}>
+      {/* <Form onSubmit={onSubmit}>
         <QueryContainer action={getCabinetUsersSettings()} mapping={mapCabinetUsersSettings}>
           {payload => (
             <Column>
@@ -37,7 +36,7 @@ function ProfilePersonalSettings() {
             </Column>
           )}
         </QueryContainer>
-      </Form>
+      </Form> */}
     </>
   )
 }

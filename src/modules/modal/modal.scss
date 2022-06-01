@@ -10,6 +10,11 @@
 		opacity: 0;
 		pointer-events: none;
 	}
+
+	@include Mobile {
+		// width: 100vw;
+		// height: 100vh;
+	}
 }
 
 .modal__container {

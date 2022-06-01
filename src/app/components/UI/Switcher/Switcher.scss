@@ -4,9 +4,15 @@
 	display: flex;
 	align-items: center;
 	gap: 1.5em;
+
+	overflow: auto;
+
+	padding-bottom: 0.25em; // Scrollbar margin
 }
 
 .switcher__item {
+	flex-shrink: 0;
+
 	padding-bottom: 0.5em;
 	border-bottom: 2px solid transparent;
 	color: $color-gray-2;

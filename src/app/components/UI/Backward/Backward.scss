@@ -16,9 +16,9 @@
 	flex-shrink: 0;
 	transform: rotate(90deg);
 
-	@include Mobile {
-		display: none;
-	}
+	// @include Mobile {
+	// 	display: none;
+	// }
 }
 
 .get-back__text {

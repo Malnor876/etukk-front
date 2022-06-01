@@ -1,5 +1,6 @@
 import "app/assets/scss/base.scss"
 
+import MobileNavigator from "domain/navigation/MobileNavigator/MobileNavigator"
 import ClientAPI from "infrastructure/persistence/api/client"
 import store from "infrastructure/persistence/redux/store"
 import { ModalContainer } from "modules/modal/container"
@@ -24,6 +25,7 @@ function App() {
       <Suspense fallback="Loading...">
         <ErrorBoundary fallback={ErrorFallback}>
           <AppRouter />
+          <MobileNavigator />
 
           <CookiesNotice />
           <ModalContainer />

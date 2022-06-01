@@ -25,29 +25,33 @@ export interface SellerPreviewProps {
 function SellerPreview(props: SellerPreviewProps) {
   return (
     <div className="seller-preview">
-      <img src={props.avatar} alt="avatar" className="seller-preview__avatar" />
-      <div className="seller-preview__name">{props.name}</div>
-      <div className="seller-preview__city">{props.city}</div>
-      <div className="seller-preview__entries">
-        <Entries>
-          <EntryCounter title="Рейтинг продавца">
-            <CounterIcon icon="star" count={getRating(props.likes, props.dislikes)} />
-          </EntryCounter>
-          <EntryCounter title="Отзывы">
-            <CounterIcon icon="like" count={props.likes} />
-            <CounterIcon icon="dislike" count={props.dislikes} />
-          </EntryCounter>
-          {props.lotsCount && (
-            <EntryCounter title="Размещено лотов">
-              <CounterIcon icon="hammer" count={props.lotsCount} />
+      <div className="seller-preview-avatar">
+        <img src={props.avatar} alt="avatar" className="seller-preview-avatar__image" />
+      </div>
+      <div className="seller-preview__details">
+        <div className="seller-preview__name">{props.name}</div>
+        <div className="seller-preview__city">{props.city}</div>
+        <div className="seller-preview__entries">
+          <Entries>
+            <EntryCounter title="Рейтинг продавца">
+              <CounterIcon icon="star" count={getRating(props.likes, props.dislikes)} />
             </EntryCounter>
-          )}
-        </Entries>
+            <EntryCounter title="Отзывы">
+              <CounterIcon icon="like" count={props.likes} />
+              <CounterIcon icon="dislike" count={props.dislikes} />
+            </EntryCounter>
+            {props.lotsCount && (
+              <EntryCounter title="Размещено лотов">
+                <CounterIcon icon="hammer" count={props.lotsCount} />
+              </EntryCounter>
+            )}
+          </Entries>
+        </div>
       </div>
       {props.linkedTo && (
         <Link className="ghost" to={props.linkedTo} />
       )}
-      <Bookmark className="lot-preview__bookmark" defaultValue={props.bookmarked} id={props.id} type="lots" />
+      <Bookmark className="lot-preview__bookmark" type="lot" id={props.id} defaultValue={props.bookmarked} />
     </div>
   )
 }

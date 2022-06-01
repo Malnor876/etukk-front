@@ -3,4 +3,18 @@
 .buttons {
 	display: flex;
 	gap: 1em;
+
+	&--centered {
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	@include Mobile {
+		overflow: auto;
+		padding-bottom: 0.25em; // Scrollbar margin
+
+		&>* {
+			flex-shrink: 0;
+		}
+	}
 }

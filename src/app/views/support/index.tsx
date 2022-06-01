@@ -3,7 +3,6 @@ import QueryContainer from "app/components/containers/QueryContainer/QueryContai
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import { FAQ, FAQClause } from "app/components/UI/FAQ/FAQ"
 import Buttons from "app/layouts/Buttons/Buttons"
-import { getCabinetChat } from "infrastructure/persistence/api/data/actions"
 import { Route, Routes } from "react-router"
 
 import moderPNG from "./moder.png"
@@ -57,13 +56,14 @@ function SupportViewFAQ() {
   )
 }
 function SupportViewChatContainer() {
-  return (
-    <QueryContainer action={getCabinetChat(20, 0)}>
-      {payload => (
-        <Chat messages={[]} recipient={{ avatar: moderPNG, firstName: "Модератор" }} />
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  // <QueryContainer action={getCabinetChat(20, 0)}>
+  //   {payload => (
+  //     <Chat messages={[]} recipient={{ avatar: moderPNG, firstName: "Модератор" }} />
+  //   )}
+  // </QueryContainer>
+  // )
 }
 
 export default SupportView

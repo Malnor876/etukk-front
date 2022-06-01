@@ -24,13 +24,11 @@ export interface LotInfoType {
 
   title: string
   city: string
-  price: Price
   startEndInterval: DateInterval
 
-  delivery: "all" | (string & {})
+  delivery: "all" | "local"
 
   id: number
-  name: string
   type: UserType
   reviews: {
     likes: number
@@ -38,7 +36,6 @@ export interface LotInfoType {
   }
   rating: number
 
-  start: number
-  step: number
-  current: Price
+  startPrice: Price
+  currentBid: Price
 }

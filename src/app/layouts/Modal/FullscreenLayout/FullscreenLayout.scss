@@ -7,10 +7,6 @@
 	display: flex;
 	background: $color-white;
 	cursor: initial;
-
-	@include Mobile {
-		background: linear-gradient(180deg, #ED1D4A 0%, rgba(237, 29, 74, 0) 100%);
-	}
 }
 
 .fullscreen-layout__container {
@@ -50,8 +46,8 @@
 	--icon-size: 1.25em;
 
 	position: absolute;
-	top: 5em;
-	right: 5em;
+	top: 1.5em;
+	right: 1.5em;
 }
 
 .fullscreen-layout__logo {

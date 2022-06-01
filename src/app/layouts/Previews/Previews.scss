@@ -9,7 +9,13 @@
 
 	flex: 1;
 
+
 	@include Mobile {
 		grid-template-columns: repeat(2, 1fr);
+
+		&--asd {
+			justify-content: unset;
+			grid-template-columns: unset;
+		}
 	}
 }

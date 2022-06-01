@@ -1,14 +1,7 @@
-import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Button from "app/components/UI/Button/Button"
-import Details from "app/components/UI/Details/Details"
 import Previews from "app/layouts/Previews/Previews"
-import SubjectLog from "app/layouts/SubjectLog/SubjectLog"
-import { IMAGE_MOCKS } from "constants/mocks"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
-import SellerPreview from "domain/seller/SellerPreview/SellerPreview"
-import { getGetLotsByIdDetail } from "infrastructure/persistence/api/data/actions"
 import { useState } from "react"
-import { Link } from "react-router-dom"
 
 import { LotPreviewType } from "./types"
 

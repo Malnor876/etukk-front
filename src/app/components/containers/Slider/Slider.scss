@@ -21,7 +21,8 @@ $arrow-icon-size: 1em;
 
 .slider__arrows {
 	position: absolute;
-	inset: 0 -$arrow-icon-size;
+	inset-block: 0;
+	inset-inline: -$arrow-icon-size;
 
 	display: flex;
 	align-items: center;

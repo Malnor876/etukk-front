@@ -8,6 +8,12 @@
 	gap: 2em;
 
 	flex: 1;
+
+	@include Mobile {
+		.attention {
+			order: -1;
+		}
+	}
 }
 
 .profile-view__cover {
@@ -23,10 +29,18 @@
 	display: flex;
 	justify-content: space-between;
 	gap: 2em;
+
+	@include Mobile {
+		display: grid;
+	}
 }
 
 .profile-view__general-info {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+
+	@include Mobile {
+		order: -1;
+	}
 }

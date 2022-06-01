@@ -7,6 +7,7 @@ function EditLotName() {
   return (
     <section>
       <h4>Название лота</h4>
+      <p>*не более 40 символов</p>
       <Input defaultValue={title} placeholder="Напишите  название лота..." onInput={event => setTitle(event.currentTarget.value)} />
     </section>
   )

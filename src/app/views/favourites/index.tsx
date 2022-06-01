@@ -5,7 +5,6 @@ import Switcher from "app/components/UI/Switcher/Switcher"
 import Buttons from "app/layouts/Buttons/Buttons"
 import Previews from "app/layouts/Previews/Previews"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
-import { getCabinetFavorite, getCabinetFavoriteUsers } from "infrastructure/persistence/api/data/actions"
 import { mapLotsLists } from "infrastructure/persistence/api/mappings/lots"
 import { Outlet, Route, Routes } from "react-router"
 import { NavLink } from "react-router-dom"
@@ -45,17 +44,18 @@ function FavouritesView() {
 }
 
 function FavouritesLotsAllContainer() {
-  return (
-    <QueryContainer action={getCabinetFavorite()} mapping={mapLotsLists}>
-      {payload => (
-        <Previews>
-          {payload.items.map(lot => (
-            <LotPreview {...lot} key={lot.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
+  return null
+  // return (
+  //   <QueryContainer action={getCabinetFavorite()} mapping={mapLotsLists}>
+  //     {payload => (
+  //       <Previews>
+  //         {payload.items.map(lot => (
+  //           <LotPreview {...lot} key={lot.id} />
+  //         ))}
+  //       </Previews>
+  //     )}
+  //   </QueryContainer>
+  // )
 }
 
 function FavouritesSellersContainer() {

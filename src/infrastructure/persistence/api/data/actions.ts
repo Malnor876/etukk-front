@@ -9,751 +9,1119 @@
 
 import { Action } from "../client.types"
 import {
-  SchemaAdvertising,
-  SchemaAdvertisingFollowLink,
-  SchemaBlogsContentItem,
-  SchemaBlogsLists,
-  SchemaCaregoryBreadcrumbs,
-  SchemaCategoryLists,
-  SchemaChatUsers,
-  SchemaChatUsersAdd,
-  SchemaChatUsersFormAdd,
-  SchemaChatUsersLists,
-  SchemaClaims,
-  SchemaClaimsAdd,
-  SchemaContent,
-  SchemaDeliveryPrice,
-  SchemaDeliveryZone,
-  SchemaFaqLists,
-  SchemaFavorite,
-  SchemaFavoriteAddResponse,
-  SchemaFavoriteList,
-  SchemaFavoriteUsers,
-  SchemaLikes,
-  SchemaLikesGet,
-  SchemaLotArchiveLists,
-  SchemaLotDisputesLists,
-  SchemaLotsBetsLists,
-  SchemaLotsConfirmLists,
-  SchemaLotsContentItem,
-  SchemaLotsEquals,
-  SchemaLotsGetFormData,
-  SchemaLotsInspectionLists,
-  SchemaLotsLists,
-  SchemaLotSoldLists,
-  SchemaLotsPlaceBet,
-  SchemaLotsPublishedLists,
-  SchemaLotsRejectedLists,
-  SchemaLotsUsersBetsDetail,
-  SchemaLotsUsersBetsPeriod,
-  SchemaLotsWayLists,
-  SchemaLotsWonLists,
-  SchemaNewsItemContent,
-  SchemaNewsLists,
-  SchemaNotifications,
-  SchemaOk,
-  SchemaPagesMenu,
-  SchemaRecommendations,
-  SchemaReviewsAdd,
-  SchemaReviewSeller,
-  SchemaSearchLists,
-  SchemaUsersAuthOk,
-  SchemaUsersAuthSocial,
-  SchemaUsersAvatar,
-  SchemaUsersAvatarResp,
-  SchemaUsersCabinet,
-  SchemaUserSettings,
-  SchemaUserSettingsGet,
-  SchemaUsersForgotRequest,
-  SchemaUsersForgotReset,
-  SchemaUsersLotsFormData,
-  SchemaUsersLotsLists,
-  SchemaUsersLotsStatus,
-  SchemaUsersPassword,
-  SchemaUsersPhone,
-  SchemaUsersPostData,
-  SchemaUsersPublicInfo,
-  SchemaUsersSignin,
-  SchemaUsersSignUp
+  SchemaLotDeliveryOptions
 } from "./schemas"
 
 /**
- * Get content page data
+ * OK
  */
-export const getGetPagesIdByPagesId = (pages_id: number): Action<SchemaContent> => ({
-  method: "GET",
-  endpoint: `/get/pages/id/${pages_id}`
-})
-
-/**
- * Get content page data
- */
-export const getGetPagesUrlByUrl = (url: string): Action<SchemaContent> => ({
-  method: "GET",
-  endpoint: `/get/pages/url/${url}`
-})
-
-/**
- * Меню
- */
-export const getGetMenu = (): Action<SchemaPagesMenu> => ({
-  method: "GET",
-  endpoint: `/get/menu`
-})
-
-/**
- * Хлебные крошки разделов
- */
-export const getGetBreadcrumbsByPagesId = (pages_id: number): Action<SchemaPagesMenu> => ({
-  method: "GET",
-  endpoint: `/get/breadcrumbs/${pages_id}`
-})
-
-/**
- * Хлебные крошки категори
- */
-export const getGetBreadcrumbsByPagesIdCategory = (pages_id: number): Action<SchemaCaregoryBreadcrumbs> => ({
-  method: "GET",
-  endpoint: `/get/breadcrumbs/${pages_id}/category`
-})
-
-/**
- * Вывод лотов из выбранных параметров
- * @param price - Цена [минимальная, максимальная] 
- * @param category - Категории 
- * @param seller - Тип пользователя [физическое лицо, юридическое лицо] 
- * @param delivery - Доставка во [все, регионы, по городу] 
- * @param period - Дата публикации лотов 
- * @param started - Идентификатор статуса лота [началось,закончился,ожидание] 
- */
-export const getGetFilters = (current?: number, limit?: number, s?: string, price?: {
-  min?: number
-  max?: number
-}, category?: number[], seller?: "all" | "user" | "organization", delivery?: "all" | "other_regions" | "only_city", period?: {
-  date_start?: string
-  date_end?: string
-}, started?: "started" | "ended" | "waiting"): Action<SchemaSearchLists> => ({
-  method: "GET",
-  endpoint: `/get/filters`,
-  params: { current, limit, s, price, category, seller, delivery, period, started }
-})
-
-/**
- * Параметры фильтра
- */
-export const getGetFiltersCategory = (): Action<SchemaCategoryLists> => ({
-  method: "GET",
-  endpoint: `/get/filters/category`
-})
-
-/**
- * Список категорий
- */
-export const getGetCategory = (): Action<SchemaCategoryLists> => ({
-  method: "GET",
-  endpoint: `/get/category`
-})
-
-/**
- * Recommendations
- */
-export const getGetRecommendations = (): Action<SchemaRecommendations> => ({
-  method: "GET",
-  endpoint: `/get/recommendations`
-})
-
-/**
- * Получении стоимости доставки по координатам
- */
-export const getGetDeliveryAddress = (users_coordinate?: {
-  latitude: number
-  longitude: number
-}): Action<SchemaDeliveryPrice> => ({
-  method: "GET",
-  endpoint: `/get/delivery/address`,
-  params: { users_coordinate }
-})
-
-/**
- * Зоны доставки
- */
-export const getGetDeliveryZone = (users_coordinate?: {
-  latitude: number
-  longitude: number
-}, city?: string): Action<SchemaDeliveryZone> => ({
-  method: "GET",
-  endpoint: `/get/delivery/zone`,
-  params: { users_coordinate, city }
-})
-
-/**
- * Advertising
- */
-export const getGetAdvertising = (): Action<SchemaAdvertising> => ({
-  method: "GET",
-  endpoint: `/get/advertising`
-})
-
-/**
- * follow the link
- */
-export const getGetAdvertisingFollowLinkByUid = (uid: string): Action<SchemaAdvertisingFollowLink> => ({
-  method: "GET",
-  endpoint: `/get/advertising/follow_link/${uid}`
-})
-
-/**
- * News lists
- */
-export const getGetNews = (limit?: number, current?: number): Action<SchemaNewsLists> => ({
-  method: "GET",
-  endpoint: `/get/news`,
-  params: { limit, current }
-})
-
-/**
- * News item
- */
-export const getGetNewsById = (id: number): Action<SchemaNewsItemContent> => ({
-  method: "GET",
-  endpoint: `/get/news/${id}`
-})
-
-/**
- * FAQ список
- */
-export const getGetFaq = (limit?: number, current?: number, hashtags?: string[]): Action<SchemaFaqLists> => ({
-  method: "GET",
-  endpoint: `/get/faq`,
-  params: { limit, current, hashtags }
-})
-
-/**
- * Blogs lists
- */
-export const getGetBlogs = (limit?: number, current?: number): Action<SchemaBlogsLists> => ({
-  method: "GET",
-  endpoint: `/get/blogs`,
-  params: { limit, current }
-})
-
-/**
- * Blogs item content
- */
-export const getGetBlogsById = (id: number): Action<SchemaBlogsContentItem> => ({
-  method: "GET",
-  endpoint: `/get/blogs/${id}`
-})
-
-/**
- * Данные пользователя
- */
-export const getGetUsersById = (id: number): Action<SchemaUsersPublicInfo> => ({
-  method: "GET",
-  endpoint: `/get/users/${id}`
-})
-
-/**
- * Страница отзывов
- */
-export const getGetUsersByIdReviews = (id: number, limit?: number, current?: number): Action<SchemaReviewSeller> => ({
-  method: "GET",
-  endpoint: `/get/users/${id}/reviews`,
-  params: { limit, current }
-})
-
-/**
- * Список завершённых лотов
- */
-export const getGetUsersByIdCompleted = (id: number, limit?: number, current?: number): Action<SchemaLotsLists> => ({
-  method: "GET",
-  endpoint: `/get/users/${id}/completed`,
-  params: { limit, current }
-})
-
-/**
- * Список размещённых лотов
- */
-export const getGetUsersByIdPlaced = (id: number, limit?: number, current?: number): Action<SchemaLotsLists> => ({
-  method: "GET",
-  endpoint: `/get/users/${id}/placed`,
-  params: { limit, current }
-})
-
-/**
- * Похожие лоты
- */
-export const getGetLotsEqualById = (id: number): Action<SchemaLotsEquals> => ({
-  method: "GET",
-  endpoint: `/get/lots/equal/${id}`
-})
-
-/**
- * Данные лота
- */
-export const getGetLotsById = (id: number): Action<SchemaLotsContentItem> => ({
-  method: "GET",
-  endpoint: `/get/lots/${id}`
-})
-
-/**
- * Данные лота | Подробная таблица
- */
-export const getGetLotsByIdDetail = (id: number, period?: number): Action<SchemaLotsUsersBetsDetail> => ({
-  method: "GET",
-  endpoint: `/get/lots/${id}/detail`,
-  params: { period }
-})
-
-/**
- * Данные лота
- */
-export const getGetLotsByIdStats = (id: number, period?: number): Action<SchemaLotsUsersBetsPeriod> => ({
-  method: "GET",
-  endpoint: `/get/lots/${id}/stats`,
-  params: { period }
-})
-
-/**
- * Задание пользователем своей ставки
- */
-export const postCabinetLotsPlaceBet = (body: SchemaLotsPlaceBet): Action<SchemaOk> => ({
+export const postAuthUser = (body: {
+  email: string
+  password: string
+}): Action<{
+  access_token: string
+  refresh_token: string
+}> => ({
   method: "POST",
-  endpoint: `/cabinet/lots/place_bet`,
+  endpoint: `/auth/user`,
   body
 })
 
 /**
- * Личная страница пользователя
+ * OK
  */
-export const getCabinet = (): Action<SchemaUsersCabinet> => ({
-  method: "GET",
-  endpoint: `/cabinet`
-})
-
-/**
- * Настройки подписок
- */
-export const getCabinetUsersSettings = (): Action<SchemaUserSettingsGet> => ({
-  method: "GET",
-  endpoint: `/cabinet/users/settings`
-})
-
-/**
- * Сохранение настроек по подпискам
- */
-export const postCabinetUsersSettings = (body: SchemaUserSettings): Action<SchemaUserSettingsGet> => ({
+export const postRegistrationUser = (body: {
+  password: string
+  fullname: string
+  phonenumber?: string
+  email?: string
+  inn?: string
+  organization?: boolean
+}): Action => ({
   method: "POST",
-  endpoint: `/cabinet/users/settings`,
+  endpoint: `/registration/user`,
   body
 })
 
 /**
- * Изменить фото пользователя
+ * OK
  */
-export const postCabinetUsersPicture = (body: SchemaUsersAvatar): Action<SchemaUsersAvatarResp> => ({
+export const postAuthTokenRefresh = (body: {
+  refresh_token: string
+}): Action<{
+  access_token: string
+  refresh_token: string
+}> => ({
   method: "POST",
-  endpoint: `/cabinet/users/picture`,
+  endpoint: `/auth/token/refresh`,
   body
 })
 
 /**
- * Изменить пароль
+ * OK
  */
-export const postCabinetUsersPassword = (body: SchemaUsersPassword): Action<SchemaOk> => ({
-  method: "POST",
-  endpoint: `/cabinet/users/password`,
-  body
-})
-
-/**
- * Сохранение информации о пользователе
- */
-export const postCabinetSave = (body: SchemaUsersPostData): Action<SchemaUsersCabinet> => ({
-  method: "POST",
-  endpoint: `/cabinet/save`,
-  body
-})
-
-/**
- * Список лотов пользователя
- */
-export const getCabinetLots = (limit?: number, current?: number, status?: number): Action<SchemaUsersLotsLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots`,
-  params: { limit, current, status }
-})
-
-/**
- * Удаление лота пользователем
- */
-export const postCabinetLotsDeleteById = (id: number): Action<SchemaOk> => ({
-  method: "POST",
-  endpoint: `/cabinet/lots/delete/${id}`
-})
-
-/**
- * Публикация и редактирование лота
- */
-export const postCabinetLotsStatus = (body: SchemaUsersLotsStatus): Action => ({
-  method: "POST",
-  endpoint: `/cabinet/lots/status`,
-  body
-})
-
-/**
- * Публикация и редактирование лота
- */
-export const getCabinetLotsAdd = (id?: number): Action<{
-  category: SchemaCategoryLists
-  data: SchemaLotsGetFormData
+export const getUser = (): Action<{
+  id: number
+  password: string
+  salt: string
+  fullname: string
+  phonenumber: string
+  email?: string | null
+  city?: string | null
+  address?: string | null
+  inn?: string | null
+  organization?: boolean
+  created_at: string
+  last_login?: string | null
+  last_active: string
+  last_logout?: string | null
+  seller_rating?: number
+  verified?: boolean
+  banned?: boolean
+  user_pic_id?: number | null
 }> => ({
   method: "GET",
-  endpoint: `/cabinet/lots/add`,
-  params: { id }
+  endpoint: `/user`
 })
 
 /**
- * Публикация и редактирование лота
+ * OK
  */
-export const postCabinetLotsAdd = (body: SchemaUsersLotsFormData): Action<SchemaOk> => ({
-  method: "POST",
-  endpoint: `/cabinet/lots/add`,
-  body
-})
-
-/**
- * На проверке
- */
-export const getCabinetLotsPurchasesInspection = (limit?: number, current?: number): Action<SchemaLotsInspectionLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots/purchases/inspection`,
-  params: { limit, current }
-})
-
-/**
- * Опубликовано
- */
-export const getCabinetLotsPurchasesPublished = (limit?: number, current?: number): Action<SchemaLotsPublishedLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots/purchases/published`,
-  params: { limit, current }
-})
-
-/**
- * Отклонено
- */
-export const getCabinetLotsPurchasesRejected = (limit?: number, current?: number): Action<SchemaLotsRejectedLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots/purchases/rejected`,
-  params: { limit, current }
-})
-
-/**
- * Продано
- */
-export const getCabinetLotsPurchasesSold = (limit?: number, current?: number): Action<SchemaLotSoldLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots/purchases/sold`,
-  params: { limit, current }
-})
-
-/**
- * Архив
- */
-export const getCabinetLotsPurchasesArchive = (limit?: number, current?: number): Action<SchemaLotArchiveLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots/purchases/archive`,
-  params: { limit, current }
-})
-
-/**
- * Открыто споров
- */
-export const getCabinetLotsPurchasesDisputes = (limit?: number, current?: number): Action<SchemaLotDisputesLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots/purchases/disputes`,
-  params: { limit, current }
-})
-
-/**
- * Выиграно
- */
-export const getCabinetLotsSalesWon = (limit?: number, current?: number): Action<SchemaLotsWonLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots/sales/won`,
-  params: { limit, current }
-})
-
-/**
- * В пути
- */
-export const getCabinetLotsSalesWay = (limit?: number, current?: number): Action<SchemaLotsWayLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots/sales/way`,
-  params: { limit, current }
-})
-
-/**
- * Подтвердить получение
- */
-export const getCabinetLotsSalesConfirm = (limit?: number, current?: number): Action<SchemaLotsConfirmLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots/sales/confirm`,
-  params: { limit, current }
-})
-
-/**
- * Открыто споров
- */
-export const getCabinetLotsSalesDisputes = (limit?: number, current?: number): Action<SchemaLotDisputesLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots/sales/disputes`,
-  params: { limit, current }
-})
-
-/**
- * Завершение покупки
- */
-export const getCabinetLotsSalesCompleting = (limit?: number, current?: number): Action<SchemaLotDisputesLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots/sales/completing`,
-  params: { limit, current }
-})
-
-/**
- * Ставки пользователя
- */
-export const getCabinetLotsBets = (limit?: number, current?: number): Action<SchemaLotsBetsLists> => ({
-  method: "GET",
-  endpoint: `/cabinet/lots/bets`,
-  params: { limit, current }
-})
-
-/**
- * Удаление отзыва пользователем
- */
-export const postCabinetReviewsDeleteById = (id: number): Action<SchemaOk> => ({
-  method: "POST",
-  endpoint: `/cabinet/reviews/delete/${id}`
-})
-
-/**
- * Добавить отзыв
- */
-export const postCabinetReviewsAdd = (body: SchemaReviewsAdd): Action<SchemaOk> => ({
-  method: "POST",
-  endpoint: `/cabinet/reviews/add`,
-  body
-})
-
-/**
- * Уведомления для пользователя
- */
-export const getCabinetNotifications = (): Action<SchemaNotifications> => ({
-  method: "GET",
-  endpoint: `/cabinet/notifications`
-})
-
-/**
- * Пометить уведомление прочитанным после прочтения
- */
-export const postCabinetNotificationsRead = (body: {
+export const getUserFavoriteLots = (): Action<{
   id: number
-}): Action<SchemaOk> => ({
+  created_at: string
+  lot_id: number
+  user_id: number
+}> => ({
+  method: "GET",
+  endpoint: `/user/favorite/lots`
+})
+
+/**
+ * OK
+ */
+export const postUserFavoriteLots = (body: {
+  lot_id: number
+}): Action<{
+  id: number
+  created_at: string
+  lot_id: number
+  user_id: number
+}> => ({
   method: "POST",
-  endpoint: `/cabinet/notifications/read`,
+  endpoint: `/user/favorite/lots`,
   body
 })
 
 /**
- * Вывод списка лотов, которые находятся в избранном пользователя
+ * OK
  */
-export const getCabinetFavorite = (): Action<SchemaFavoriteList> => ({
+export const getUserFavoriteUser = (): Action<{
+  id: number
+  created_at: string
+  fav_user_id: number
+  user_id: number
+}> => ({
   method: "GET",
-  endpoint: `/cabinet/favorite`
+  endpoint: `/user/favorite/user`
 })
 
 /**
- * Вывод списка лотов, которые находятся в избранном пользователя
+ * OK
  */
-export const getCabinetFavoriteUsers = (): Action<SchemaFavoriteUsers> => ({
-  method: "GET",
-  endpoint: `/cabinet/favorite/users`
-})
-
-/**
- * Добавить Лот в избранное. Если он там уже есть, то лот удаляется.
- */
-export const postCabinetFavoriteAdd = (body: SchemaFavorite): Action<SchemaFavoriteAddResponse> => ({
+export const postUserFavoriteUser = (body: {
+  fav_user_id: number
+}): Action<{
+  id: number
+  created_at: string
+  fav_user_id: number
+  user_id: number
+}> => ({
   method: "POST",
-  endpoint: `/cabinet/favorite/add`,
+  endpoint: `/user/favorite/user`,
   body
 })
 
 /**
- * Получить лайки сущности
+ * OK
  */
-export const getCabinetLikes = (entity: string, id: number): Action<SchemaLikesGet> => ({
+export const getUserNotifications = (): Action<{
+  id: number
+  user_id: number
+  text: string
+  lot_id: number
+  event_time: string
+}> => ({
   method: "GET",
-  endpoint: `/cabinet/likes`,
-  params: { entity, id }
+  endpoint: `/user/notifications`
 })
 
 /**
- * Передать/Отозвать лайк
+ * OK
  */
-export const postCabinetDislikesAdd = (body: SchemaLikes): Action<SchemaLikesGet> => ({
+export const getUserReview = (): Action<{
+  id: number
+  text?: string | null
+  score: number
+  created_at: string
+  banned?: boolean
+  to_user_id: number
+  user_id: number
+}> => ({
+  method: "GET",
+  endpoint: `/user/review`
+})
+
+/**
+ * OK
+ */
+export const postUserReview = (body: {
+  to_user_id: number
+  text?: string
+  score: number
+}): Action<{
+  id: number
+  text?: string | null
+  score: number
+  created_at: string
+  banned?: boolean
+  to_user_id: number
+  user_id: number
+}> => ({
   method: "POST",
-  endpoint: `/cabinet/dislikes/add`,
+  endpoint: `/user/review`,
   body
 })
 
 /**
- * Передать/Отозвать лайк
+ * OK
  */
-export const postCabinetLikesAdd = (body: SchemaLikes): Action<SchemaLikesGet> => ({
+export const getLotDraft = (): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
+  method: "GET",
+  endpoint: `/lot/draft`
+})
+
+/**
+ * OK
+ */
+export const postLotDraft = (body: {
+  name: string
+  description: string
+  start_price: number
+  categories: number[] | number
+  city: string
+  delivery_options: SchemaLotDeliveryOptions
+  bidding_start_time: string
+  bidding_end_time: string
+  video_url: string
+  lotphotos: string[]
+}): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
   method: "POST",
-  endpoint: `/cabinet/likes/add`,
+  endpoint: `/lot/draft`,
   body
 })
 
 /**
- * Чат сообщений пользователя
+ * OK
  */
-export const getCabinetChat = (limit?: number, current?: number): Action<SchemaChatUsersLists> => ({
+export const getLot = (): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
   method: "GET",
-  endpoint: `/cabinet/chat`,
-  params: { limit, current }
+  endpoint: `/lot`
 })
 
 /**
- * Поиск пользователей для начала переписки
- * @param name - Имя пользователя, по которому будет происходить поиск 
+ * OK
  */
-export const getCabinetChatUsers = (name: string): Action<SchemaChatUsersLists> => ({
+export const getLotReview = (): Action<{
+  id: number
+  text?: string | null
+  score: number
+  created_at: string
+  banned?: boolean
+  to_lot_id: number
+  user_id: number
+}> => ({
   method: "GET",
-  endpoint: `/cabinet/chat/users`,
-  params: { name }
+  endpoint: `/lot/review`
 })
 
 /**
- * Чат сообщений пользователя
+ * OK
  */
-export const getCabinetChatByChatUsers = (chat_users: number, limit?: number, current?: number): Action<SchemaChatUsers> => ({
-  method: "GET",
-  endpoint: `/cabinet/chat/${chat_users}`,
-  params: { limit, current }
-})
-
-/**
- * Сообщение пользователя
- */
-export const postCabinetChatByChatUsersAdd = (chat_users: number, body: SchemaChatUsersFormAdd): Action<SchemaChatUsersAdd> => ({
+export const postLotReview = (body: {
+  to_lot_id: number
+  text?: string
+  score: number
+}): Action<{
+  id: number
+  text?: string | null
+  score: number
+  created_at: string
+  banned?: boolean
+  to_lot_id: number
+  user_id: number
+}> => ({
   method: "POST",
-  endpoint: `/cabinet/chat/${chat_users}/add`,
+  endpoint: `/lot/review`,
   body
 })
 
 /**
- * Жалобы
+ * of the given arguments and keywords.
  */
-export const getCabinetClaims = (limit?: number, current?: number): Action<SchemaClaims> => ({
+export const getDocsSwagger = (): Action => ({
   method: "GET",
-  endpoint: `/cabinet/claims`,
-  params: { limit, current }
+  endpoint: `/docs/swagger`
 })
 
 /**
- * Открыть жалобу или ответить в открытой жалобе
+ * of the given arguments and keywords.
  */
-export const postCabinetClaimsAdd = (body: SchemaClaimsAdd): Action<SchemaOk> => ({
+export const getDocsRedoc = (): Action => ({
+  method: "GET",
+  endpoint: `/docs/redoc`
+})
+
+/**
+ * of the given arguments and keywords.
+ */
+export const getDocs = (): Action => ({
+  method: "GET",
+  endpoint: `/docs`
+})
+
+/**
+ * else - return false
+ */
+export const getRegistrationEmailConfirmByToken = (token: {
+  bytes: {
+
+  }
+  bytes_le: {
+
+  }
+  fields: {
+
+  }
+  time_low: {
+
+  }
+  time_mid: {
+
+  }
+  time_hi_version: {
+
+  }
+  clock_seq_hi_variant: {
+
+  }
+  clock_seq_low: {
+
+  }
+  time: {
+
+  }
+  clock_seq: {
+
+  }
+  node: {
+
+  }
+  hex: {
+
+  }
+  urn: {
+
+  }
+  variant: {
+
+  }
+  version: {
+
+  }
+  int: {
+
+  }
+  is_safe: {
+
+  }
+}): Action => ({
+  method: "GET",
+  endpoint: `/registration/email/confirm/${token}`
+})
+
+/**
+ * OK
+ */
+export const postLotDraftByLotIdModerate = (lot_id: number): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
   method: "POST",
-  endpoint: `/cabinet/claims/add`,
+  endpoint: `/lot/draft/${lot_id}/moderate`
+})
+
+/**
+ * OK
+ */
+export const patchLotDraftByLotIdUnpublish = (lot_id: number): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
+  method: "PATCH",
+  endpoint: `/lot/draft/${lot_id}/unpublish`
+})
+
+/**
+ * OK
+ */
+export const patchLotDraftByLotIdArchive = (lot_id: number): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
+  method: "PATCH",
+  endpoint: `/lot/draft/${lot_id}/archive`
+})
+
+/**
+ * OK
+ */
+export const getLotByLotIdBet = (lot_id: number): Action<{
+  id: number
+  amount: number
+  created_at: string
+  lot_id: number
+  user_id: number
+}> => ({
+  method: "GET",
+  endpoint: `/lot/${lot_id}/bet`
+})
+
+/**
+ * OK
+ */
+export const postLotByLotIdBet = (lot_id: number, multiply?: string): Action<{
+  id: number
+  amount: number
+  created_at: string
+  lot_id: number
+  user_id: number
+}> => ({
+  method: "POST",
+  endpoint: `/lot/${lot_id}/bet`,
+  params: { multiply }
+})
+
+/**
+ * OK
+ */
+export const deleteAdminLotByLotIdModerate = (lot_id: number): Action => ({
+  method: "DELETE",
+  endpoint: `/admin/lot/${lot_id}/moderate`
+})
+
+/**
+ * OK
+ */
+export const postAdminLotByLotIdModerate = (lot_id: number): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
+  method: "POST",
+  endpoint: `/admin/lot/${lot_id}/moderate`
+})
+
+/**
+ * OK
+ */
+export const deleteAdminLotByLotIdBan = (lot_id: number): Action => ({
+  method: "DELETE",
+  endpoint: `/admin/lot/${lot_id}/ban`
+})
+
+/**
+ * OK
+ */
+export const postAdminLotByLotIdBan = (lot_id: number): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
+  method: "POST",
+  endpoint: `/admin/lot/${lot_id}/ban`
+})
+
+/**
+ * OK
+ */
+export const deleteAdminUserByUserIdBan = (user_id: number): Action => ({
+  method: "DELETE",
+  endpoint: `/admin/user/${user_id}/ban`
+})
+
+/**
+ * OK
+ */
+export const postAdminUserByUserIdBan = (user_id: number): Action<{
+  id: number
+  password: string
+  salt: string
+  fullname: string
+  phonenumber: string
+  email?: string | null
+  city?: string | null
+  address?: string | null
+  inn?: string | null
+  organization?: boolean
+  created_at: string
+  last_login?: string | null
+  last_active: string
+  last_logout?: string | null
+  seller_rating?: number
+  verified?: boolean
+  banned?: boolean
+  user_pic_id?: number | null
+}> => ({
+  method: "POST",
+  endpoint: `/admin/user/${user_id}/ban`
+})
+
+/**
+ * OK
+ */
+export const deleteAdminUserReviewByUserReviewIdBan = (user_review_id: number): Action => ({
+  method: "DELETE",
+  endpoint: `/admin/user_review/${user_review_id}/ban`
+})
+
+/**
+ * OK
+ */
+export const postAdminUserReviewByUserReviewIdBan = (user_review_id: number): Action<{
+  id: number
+  password: string
+  salt: string
+  fullname: string
+  phonenumber: string
+  email?: string | null
+  city?: string | null
+  address?: string | null
+  inn?: string | null
+  organization?: boolean
+  created_at: string
+  last_login?: string | null
+  last_active: string
+  last_logout?: string | null
+  seller_rating?: number
+  verified?: boolean
+  banned?: boolean
+  user_pic_id?: number | null
+}> => ({
+  method: "POST",
+  endpoint: `/admin/user_review/${user_review_id}/ban`
+})
+
+/**
+ * OK
+ */
+export const deleteAdminLotReviewByUserReviewIdBan = (user_review_id: number): Action => ({
+  method: "DELETE",
+  endpoint: `/admin/lot_review/${user_review_id}/ban`
+})
+
+/**
+ * OK
+ */
+export const postAdminLotReviewByUserReviewIdBan = (user_review_id: number): Action<{
+  id: number
+  password: string
+  salt: string
+  fullname: string
+  phonenumber: string
+  email?: string | null
+  city?: string | null
+  address?: string | null
+  inn?: string | null
+  organization?: boolean
+  created_at: string
+  last_login?: string | null
+  last_active: string
+  last_logout?: string | null
+  seller_rating?: number
+  verified?: boolean
+  banned?: boolean
+  user_pic_id?: number | null
+}> => ({
+  method: "POST",
+  endpoint: `/admin/lot_review/${user_review_id}/ban`
+})
+
+/**
+ * OK
+ */
+export const getUserByUserId = (user_id?: number): Action<{
+  id: number
+  password: string
+  salt: string
+  fullname: string
+  phonenumber: string
+  email?: string | null
+  city?: string | null
+  address?: string | null
+  inn?: string | null
+  organization?: boolean
+  created_at: string
+  last_login?: string | null
+  last_active: string
+  last_logout?: string | null
+  seller_rating?: number
+  verified?: boolean
+  banned?: boolean
+  user_pic_id?: number | null
+}> => ({
+  method: "GET",
+  endpoint: `/user/${user_id}`
+})
+
+/**
+ * OK
+ */
+export const patchUserByUserId = (user_id: number, body: Partial<{
+  password: string
+  firstname: string
+  surname: string
+  lastname: string
+  phonenumber: string
+  email: string
+  city: string
+  address: string
+  user_pic: string
+}>): Action<{
+  id: number
+  password: string
+  salt: string
+  fullname: string
+  phonenumber: string
+  email?: string | null
+  city?: string | null
+  address?: string | null
+  inn?: string | null
+  organization?: boolean
+  created_at: string
+  last_login?: string | null
+  last_active: string
+  last_logout?: string | null
+  seller_rating?: number
+  verified?: boolean
+  banned?: boolean
+  user_pic_id?: number | null
+}> => ({
+  method: "PATCH",
+  endpoint: `/user/${user_id}`,
   body
 })
 
 /**
- * Удалить жалобу. Удалить может тот пользователь который открыл жалобу.
+ * OK
  */
-export const postCabinetClaimsDeleteById = (id: number): Action<SchemaOk> => ({
-  method: "POST",
-  endpoint: `/cabinet/claims/delete/${id}`
+export const deleteUserByUserIdPictureByPictureId = (picture_id: number, user_id: number): Action => ({
+  method: "DELETE",
+  endpoint: `/user/${user_id}/picture/${picture_id}`
 })
 
 /**
- * Запрос на смену телефона
+ * OK
  */
-export const postUsersPhoneSet = (body: SchemaUsersPhone): Action<SchemaOk> => ({
-  method: "POST",
-  endpoint: `/users/phone_set`,
+export const deleteUserFavoriteLotsByLotsId = (lots_id?: number): Action => ({
+  method: "DELETE",
+  endpoint: `/user/favorite/lots/${lots_id}`
+})
+
+/**
+ * OK
+ */
+export const getUserFavoriteLotsByLotsId = (lots_id?: number): Action<{
+  id: number
+  created_at: string
+  lot_id: number
+  user_id: number
+}> => ({
+  method: "GET",
+  endpoint: `/user/favorite/lots/${lots_id}`
+})
+
+/**
+ * OK
+ */
+export const deleteUserFavoriteUserByUserId = (user_id?: number): Action => ({
+  method: "DELETE",
+  endpoint: `/user/favorite/user/${user_id}`
+})
+
+/**
+ * OK
+ */
+export const getUserFavoriteUserByUserId = (user_id?: number): Action<{
+  id: number
+  created_at: string
+  fav_user_id: number
+  user_id: number
+}> => ({
+  method: "GET",
+  endpoint: `/user/favorite/user/${user_id}`
+})
+
+/**
+ * OK
+ */
+export const getUserNotificationsByNotificationsId = (notifications_id?: number): Action<{
+  id: number
+  user_id: number
+  text: string
+  lot_id: number
+  event_time: string
+}> => ({
+  method: "GET",
+  endpoint: `/user/notifications/${notifications_id}`
+})
+
+/**
+ * OK
+ */
+export const deleteUserReviewByReviewId = (review_id?: number): Action => ({
+  method: "DELETE",
+  endpoint: `/user/review/${review_id}`
+})
+
+/**
+ * OK
+ */
+export const getUserReviewByReviewId = (review_id?: number): Action<{
+  id: number
+  text?: string | null
+  score: number
+  created_at: string
+  banned?: boolean
+  to_user_id: number
+  user_id: number
+}> => ({
+  method: "GET",
+  endpoint: `/user/review/${review_id}`
+})
+
+/**
+ * OK
+ */
+export const patchUserReviewByReviewId = (review_id: number, body: {
+  text: string
+  score: number
+}): Action<{
+  id: number
+  text?: string | null
+  score: number
+  created_at: string
+  banned?: boolean
+  to_user_id: number
+  user_id: number
+}> => ({
+  method: "PATCH",
+  endpoint: `/user/review/${review_id}`,
   body
 })
 
 /**
- * Users confirm email
+ * OK
  */
-export const getUsersConfirmByConfirmKey = (confirm_key: string): Action<SchemaOk> => ({
-  method: "GET",
-  endpoint: `/users/confirm/${confirm_key}`
+export const deleteLotDraftByDraftId = (draft_id?: number): Action => ({
+  method: "DELETE",
+  endpoint: `/lot/draft/${draft_id}`
 })
 
 /**
- * Users forgot request
+ * OK
  */
-export const postUsersForgot = (body: SchemaUsersForgotRequest): Action<SchemaOk> => ({
-  method: "POST",
-  endpoint: `/users/forgot`,
+export const getLotDraftByDraftId = (draft_id?: number): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
+  method: "GET",
+  endpoint: `/lot/draft/${draft_id}`
+})
+
+/**
+ * OK
+ */
+export const patchLotDraftByDraftId = (draft_id: number, body: {
+  name: string
+  description: string
+  start_price: number
+  categories: number[] | number
+  city: string
+  delivery_options: SchemaLotDeliveryOptions
+  bidding_start_time: string
+  bidding_end_time: string
+  video_url: string
+  photos: string[]
+}): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
+  method: "PATCH",
+  endpoint: `/lot/draft/${draft_id}`,
   body
 })
 
 /**
- * Users reset password
+ * OK
  */
-export const postUsersForgotByConfirmKey = (confirm_key: string, body: SchemaUsersForgotReset): Action<SchemaOk> => ({
+export const deleteLotByLotIdPhotoByPhotoId = (photo_id: number, lot_id: number): Action => ({
+  method: "DELETE",
+  endpoint: `/lot/${lot_id}/photo/${photo_id}`
+})
+
+/**
+ * OK
+ */
+export const getLotByLotId = (lot_id?: number): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
+  method: "GET",
+  endpoint: `/lot/${lot_id}`
+})
+
+/**
+ * OK
+ */
+export const getLotDraftByLotIdSpecification = (lot_id: number): Action<{
+  id: number
+  name: string
+  units?: string | null
+  value: string
+  lot_id: number
+}> => ({
+  method: "GET",
+  endpoint: `/lot/draft/${lot_id}/specification`
+})
+
+/**
+ * OK
+ */
+export const postLotDraftByLotIdSpecification = (lot_id: number, body: {
+  name: string
+  units?: string
+  value: string
+  lot_id: number
+}): Action<{
+  id: number
+  name: string
+  units?: string | null
+  value: string
+  lot_id: number
+}> => ({
   method: "POST",
-  endpoint: `/users/forgot/${confirm_key}`,
+  endpoint: `/lot/draft/${lot_id}/specification`,
   body
 })
 
 /**
- * Users forgot confirm
+ * OK
  */
-export const getUsersForgotByConfirmKey = (confirm_key: string): Action<SchemaOk> => ({
-  method: "GET",
-  endpoint: `/users/forgot/${confirm_key}`
+export const deleteLotDraftByLotIdSpecificationBySpecificationId = (specification_id: number, lot_id: number): Action => ({
+  method: "DELETE",
+  endpoint: `/lot/draft/${lot_id}/specification/${specification_id}`
 })
 
 /**
- * Авторизация через социальную сеть
+ * OK
  */
-export const getUsersSocial = (): Action<SchemaUsersAuthSocial> => ({
+export const getLotDraftByLotIdSpecificationBySpecificationId = (specification_id: number, lot_id: number): Action<{
+  id: number
+  name: string
+  units?: string | null
+  value: string
+  lot_id: number
+}> => ({
   method: "GET",
-  endpoint: `/users/social`
+  endpoint: `/lot/draft/${lot_id}/specification/${specification_id}`
 })
 
 /**
- * Ok
+ * OK
  */
-export const getUsersSignupBySocialKey = (social_key: "vk" | "facebook" | "google" | (string & {})): Action<SchemaUsersAuthOk> => ({
-  method: "GET",
-  endpoint: `/users/signup/${social_key}`
-})
-
-/**
- * Users send signup data
- */
-export const postUsersSignup = (body: SchemaUsersSignUp): Action<SchemaUsersAuthOk> => ({
-  method: "POST",
-  endpoint: `/users/signup`,
+export const patchLotDraftByLotIdSpecificationBySpecificationId = (specification_id: number, lot_id: number, body: {
+  name: string
+  units: string
+  value: string
+}): Action<{
+  id: number
+  name: string
+  units?: string | null
+  value: string
+  lot_id: number
+}> => ({
+  method: "PATCH",
+  endpoint: `/lot/draft/${lot_id}/specification/${specification_id}`,
   body
 })
 
 /**
- * Users sign in
+ * OK
  */
-export const postUsersSignin = (body: SchemaUsersSignin): Action<SchemaUsersAuthOk> => ({
-  method: "POST",
-  endpoint: `/users/signin`,
+export const deleteLotReviewByReviewId = (review_id?: number): Action => ({
+  method: "DELETE",
+  endpoint: `/lot/review/${review_id}`
+})
+
+/**
+ * OK
+ */
+export const getLotReviewByReviewId = (review_id?: number): Action<{
+  id: number
+  text?: string | null
+  score: number
+  created_at: string
+  banned?: boolean
+  to_lot_id: number
+  user_id: number
+}> => ({
+  method: "GET",
+  endpoint: `/lot/review/${review_id}`
+})
+
+/**
+ * OK
+ */
+export const patchLotReviewByReviewId = (review_id: number, body: {
+  text: string
+  score: number
+}): Action<{
+  id: number
+  text?: string | null
+  score: number
+  created_at: string
+  banned?: boolean
+  to_lot_id: number
+  user_id: number
+}> => ({
+  method: "PATCH",
+  endpoint: `/lot/review/${review_id}`,
   body
 })

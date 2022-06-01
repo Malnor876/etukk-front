@@ -1,3 +1,5 @@
+import "./FullscreenAuth.scss"
+
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { useModal } from "modules/modal/hook"
@@ -5,7 +7,7 @@ import { useModal } from "modules/modal/hook"
 function FullscreenEmailConfirm() {
   const { close } = useModal()
   return (
-    <FullscreenLayout>
+    <FullscreenLayout className="fullscreen-auth">
       <div className="center">
         <h3 className="heading">ПОДТВЕРДИТЕ <br /> E-mail</h3>
         <p>

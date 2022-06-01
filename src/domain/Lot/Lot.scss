@@ -43,13 +43,13 @@
 
 .lot-info-layout__fixed {
 	@include Mobile {
-		position: fixed;
-		inset-inline: 0;
+		position: sticky;
+		// inset-inline: 0;
 		bottom: 0;
 
-		padding: 4vw;
+		padding: 4vw 0;
 		background: $color-white;
-		box-shadow: 0 0 12px 0px #ccc;
+		// box-shadow: 0 0 12px 0px #ccc;
 
 		z-index: 1;
 	}

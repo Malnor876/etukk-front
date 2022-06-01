@@ -3,7 +3,6 @@ import Previews from "app/layouts/Previews/Previews"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
 import { LotPreviewType } from "domain/Lot/types"
 import useScrollReach from "hooks/useScrollReach"
-import { getGetFilters } from "infrastructure/persistence/api/data/actions"
 import { mapLotsLists } from "infrastructure/persistence/api/mappings/lots"
 import { useEffect, useState } from "react"
 import { QueryError, useQuery } from "react-fetching-library"
@@ -27,43 +26,45 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
   console.log(props.price)
 
-  const [lots, setLots] = useState<LotPreviewType[]>([])
-  const response = useQuery(getGetFilters(page, pageSize, props.search, { min: props.price?.[0], max: props.price?.[1] }, props.category?.map(Number), props.seller, props.delivery, props.period, props.started))
-  const { error, loading, payload } = response
-  if (error) throw new QueryError("Error during sending request or handling response.", response)
+  // const [lots, setLots] = useState<LotPreviewType[]>([])
+  // const response = useQuery(getLots(page, pageSize, props.search, { min: props.price?.[0], max: props.price?.[1] }, props.category?.map(Number), props.seller, props.delivery, props.period, props.started))
+  // const { error, loading, payload } = response
+  // if (error) throw new QueryError("Error during sending request or handling response.", response)
 
-  const [reached, resetReached] = useScrollReach(loading || payload?.result.items.length === 0, window.innerHeight / 4)
+  // const [reached, resetReached] = useScrollReach(loading || payload?.result.items.length === 0, window.innerHeight / 4)
 
-  useEffect(() => {
-    if (page > 1) {
-      setPage(1)
-    }
-    setLots([])
-  }, [props])
+  // useEffect(() => {
+  //   if (page > 1) {
+  //     setPage(1)
+  //   }
+  //   setLots([])
+  // }, [props])
 
-  useEffect(() => {
-    if (!reached) return
-    if (loading) return
+  // useEffect(() => {
+  //   if (!reached) return
+  //   if (loading) return
 
-    setPage(page => page + 1)
-  }, [reached, loading])
+  //   setPage(page => page + 1)
+  // }, [reached, loading])
 
-  useEffect(() => {
-    if (payload == null) return
-    const mappedPayload = mapLotsLists(payload)
+  // useEffect(() => {
+  //   if (payload == null) return
+  //   const mappedPayload = mapLotsLists(payload)
 
-    setLots(lots => [...lots, ...mappedPayload.items])
-    setTimeout(() => resetReached())
-  }, [payload])
+  //   setLots(lots => [...lots, ...mappedPayload.items])
+  //   setTimeout(() => resetReached())
+  // }, [payload])
 
-  return (
-    <Previews>
-      {lots.map(lot => (
-        <LotPreview {...lot} key={lot.id} />
-      ))}
-      {loading && <LoaderCover absolute />}
-    </Previews>
-  )
+  // return (
+  //   <Previews>
+  //     {lots.map(lot => (
+  //       <LotPreview {...lot} key={lot.id} />
+  //     ))}
+  //     {loading && <LoaderCover absolute />}
+  //   </Previews>
+  // )
+
+  return null
 }
 
 export default LotPreviewsContainer

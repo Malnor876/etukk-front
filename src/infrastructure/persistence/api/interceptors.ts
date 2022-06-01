@@ -8,7 +8,7 @@ import { Action, APIResponseError } from "./client.types"
 
 
 
-type Response<T = unknown> = QueryResponse<T & APIResponseError>
+type Response<T = unknown> = QueryResponse<T>
 
 export function endpointTransform(action: Action) {
   const endpoint = process.env.REACT_APP_API_HOST + action.endpoint + "/"
@@ -69,12 +69,12 @@ export function requestInterceptor() {
     return {
       ...action,
       endpoint: endpointTransform(action),
-      cache: "no-cache",
+      // cache: "no-cache",
       credentials: "same-origin",
-      redirect: "follow",
+      // redirect: "follow",
       referrerPolicy: "no-referrer",
 
-      body: bodyTransform(action.body, "multipart/form-data"),
+      body: bodyTransform(action.body, "application/json"),
 
       headers: {
         Authorization: "Bearer " + !action.config?.skipAuth && localStorage.getItem("token") || "",
@@ -93,9 +93,9 @@ export function responseInterceptor() {
     }
 
 
-    if (response.payload?.uid) {
-      localStorage.setItem("token", response.payload.uid)
-    }
+    // if (response.payload?.uid) {
+    //   localStorage.setItem("token", response.payload.uid)
+    // }
 
     return response
   }
@@ -110,9 +110,9 @@ function responseHasError(response: Response): boolean {
     return true
   }
 
-  if (response.payload?.status !== true) {
-    return true
-  }
+  // if (response.payload?.status !== true) {
+  //   return true
+  // }
 
   return false
 }
@@ -129,7 +129,7 @@ function responseErrorHandling(action: Action, response: Response) {
     return // Should be handled by initializer
   }
 
-  toast.error(transformPayloadErrorMessage(response.payload?.msg))
+  // toast.error(transformPayloadErrorMessage(response.payload?.msg))
 
   if (response.error) console.error(new QueryError(`${action.endpoint}: unexpected error`, response))
   if (response.payload == null) {

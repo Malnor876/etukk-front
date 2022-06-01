@@ -14,7 +14,8 @@
 	cursor: auto;
 
 	@include Mobile {
-		width: 100%;
+		width: fit-content;
+		padding: 0 5vw;
 	}
 }
 

@@ -1,3 +1,5 @@
+import "./FullscreenAuth.scss"
+
 import Button from "app/components/UI/Button/Button"
 import Input from "app/components/UI/Input/Input"
 import Buttons from "app/layouts/Buttons/Buttons"
@@ -8,7 +10,7 @@ import FullscreenEmailConfirm from "./FullscreenEmailConfirm"
 
 function FullscreenPhoneConfirm() {
   return (
-    <FullscreenLayout>
+    <FullscreenLayout className="fullscreen-auth">
       <div className="center">
         <h3 className="heading">ПОДТВЕРДИТЕ <br /> НОМЕР ТЕЛЕФОНА</h3>
         <p>

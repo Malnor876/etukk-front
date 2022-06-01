@@ -4,10 +4,9 @@ import { DeepPartial } from "redux"
 import { DateInterval } from "utils/date"
 import { Price } from "utils/extensions"
 
-import { SchemaCategoryLists, SchemaLotsContentItem, SchemaLotsItem, SchemaLotsLists } from "../data/schemas"
 import { mapImageUrl } from "./helpers"
 
-export function mapLotsItem(item?: Partial<SchemaLotsItem>): LotPreviewType {
+export function mapLotsItem(item?: any): LotPreviewType {
   return {
     id: item?.id || -1,
     bookmarked: Boolean(item?.favorite),
@@ -19,7 +18,7 @@ export function mapLotsItem(item?: Partial<SchemaLotsItem>): LotPreviewType {
   }
 }
 
-export function mapLotsLists({ result }: DeepPartial<SchemaLotsLists>): PaginationType<LotPreviewType> {
+export function mapLotsLists({ result }: any): PaginationType<LotPreviewType> {
   return {
     current: result?.current || -1,
     limit: result?.limit || -1,
@@ -27,34 +26,52 @@ export function mapLotsLists({ result }: DeepPartial<SchemaLotsLists>): Paginati
   }
 }
 
-export function mapLotsContentItem({ result }: SchemaLotsContentItem): LotInfoType {
+export function mapLotByLotId(payload: {
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}): LotInfoType {
   return {
-    id: result.id,
-    delivery: result.delivery,
-    name: result.name,
-    rating: 10,
-    reviews: { dislikes: 1, likes: 1 },
-    type: "organization",
+    id: payload.id,
+    delivery: payload.delivery_options === "in_city" ? "local" : "all",
+    title: payload.name || "unknown",
+    rating: -1,//! default
+    reviews: { dislikes: 1, likes: 1 }, //! default
+    type: "organization", //! default
 
-    bookmarked: Boolean(result.favorite),
-    description: result.content,
-    slides: result.picture.map(mapImageUrl),
-    specifications: result.specifications?.map(s => ({ key: s.key, value: s.val })) || [],
+    bookmarked: false, //! default
+    description: payload.description || "unknown",
+    slides: [], //! default
+    specifications: [], //! default
 
-    city: result.city,
-    price: new Price(result.price),
-    title: result.name,
-    startEndInterval: new DateInterval(new Date(result.trading_start), new Date(result.trading_end)),
+    city: payload.city || "unknown",
+    startEndInterval: new DateInterval(payload.bidding_start_time, payload.bidding_end_time),
 
-    start: result.price_step,
-    current: new Price(result.price),
-    step: result.price_step
+    startPrice: new Price(payload.start_price || -1),
+    currentBid: new Price(payload.now_price || -1),
   }
 }
 
 // export function map
 
-export function mapFiltersCategory({ result }: SchemaCategoryLists) {
+export function mapFiltersCategory({ result }: any) {
   return {}
   // return {
   //   ...result,

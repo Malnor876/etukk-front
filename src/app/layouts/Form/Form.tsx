@@ -8,9 +8,16 @@ import { FileToURLDataBase64 } from "utils/file"
 type FormValue = string | string[] | number | number[] | boolean | null | undefined
 type FormValues = Record<string, FormValue>
 
-export interface FormState<K extends keyof never, V> { // Type-safe Values
-  keys: (K extends (String) ? K : never)[]
-  values: V extends { [P in K]?: unknown } ? Pick<V, K> & Record<Exclude<keyof V, K>, unknown> : Record<K, V>
+/**
+ * @param Key - Keys union (may be Enum)
+ * @param Value - Values union (may be any)
+ * 
+ * @example FormState<MyEnum, string>
+ * @example FormState<"myKey1" | "myKey2", number>
+ */
+export interface FormState<Key extends keyof never, Value> { // Type-safe Values
+  keys: (Key extends (String) ? Key : never)[]
+  values: Value extends { [P in Key]?: unknown } ? Pick<Value, Key> & Record<Exclude<keyof Value, Key>, unknown> : Record<Key, Value>
   formData: FormData
 }
 

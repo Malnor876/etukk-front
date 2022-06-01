@@ -11,6 +11,9 @@ export interface UserSigned {
   city: string
   confirm: boolean
 
+  email: string
+  phone: string
+
   buyerRating: number
   sellerRating: number
 }

@@ -1,8 +1,7 @@
 import { UserSigned } from "infrastructure/persistence/redux/reducers/user/types"
 
-import { SchemaUsersInfo } from "../data/schemas"
 
-export function mapUser(user: SchemaUsersInfo): UserSigned {
+export function mapUser(user: any): UserSigned {
   const [firstName, lastName] = user.name.split(" ")
   return {
     auth: true,
@@ -15,11 +14,13 @@ export function mapUser(user: SchemaUsersInfo): UserSigned {
     type: user.type,
     confirm: user.confirm,
     buyerRating: user.rating_buyer,
-    sellerRating: user.rating_seller
+    sellerRating: user.rating_seller,
+    email: user.email,
+    phone: user.phone,
   }
 }
 
-export function mapUserType(userType: SchemaUsersInfo["type"]) {
+export function mapUserType(userType: any) {
   switch (userType) {
     case "user": return "Физическое Лицо"
     case "organization": return "Юридическое Лицо"

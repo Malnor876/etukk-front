@@ -12,4 +12,8 @@
 		display: grid;
 		justify-content: unset;
 	}
+
+	@include Mobile {
+		display: grid;
+	}
 }

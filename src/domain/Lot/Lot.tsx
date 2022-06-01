@@ -7,14 +7,14 @@ import Button from "app/components/UI/Button/Button"
 import Icon from "app/components/UI/Icon/Icon"
 import Entries from "app/layouts/Entries/Entries"
 import Entry from "app/layouts/Entries/Entry"
-import { DialogBidAccepted } from "app/views/lot/modals/DialogBidAccepted"
+import DialogBidAccepted, { DialogError } from "app/views/lot/modals/DialogBidAccepted"
 import DialogConfirmBidUp from "app/views/lot/modals/DialogConfirmBidUp"
 import useResizeObserverSize, { DeviceWidths } from "hooks/useResizeObserverEntry"
-import { postCabinetLotsPlaceBet } from "infrastructure/persistence/api/data/actions"
+import { postLotByLotIdBet } from "infrastructure/persistence/api/data/actions"
 import _ from "lodash"
 import { Modal } from "modules/modal/controller"
 import { ReactNode, useState } from "react"
-import { useMutation } from "react-fetching-library"
+import { useClient } from "react-fetching-library"
 import { Link } from "react-router-dom"
 import { Price } from "utils/extensions"
 
@@ -27,9 +27,9 @@ interface LotInfoProps extends LotInfoType {
 export function LotInfoLayout(props: LotInfoProps) {
   const Preview = <LotInfoPreview {..._.pick(props, "id", "slides")} />
   const Summary = <LotInfoSummary {..._.pick(props, "description", "specifications")} />
-  const Details = <LotInfoDetails {..._.pick(props, "title", "city", "price", "startEndInterval", "delivery")} />
+  const Details = <LotInfoDetails {..._.pick(props, "title", "city", "startPrice", "startEndInterval", "delivery")} />
   const BidOrChildren = props.children || (
-    <LotInfoBid {..._.pick(props, "id", "current", "step", "price")} />
+    <LotInfoBid {..._.pick(props, "id", "currentBid", "startPrice")} />
   )
 
   const { inlineSize: bodySize } = useResizeObserverSize(document.body)
@@ -65,7 +65,7 @@ export function LotInfoPreview(props: LotInfoPreviewProps) {
   return (
     <div className="lot-info-preview">
       <Slider slides={props.slides} />
-      <Bookmark className="lot-info-preview__bookmark" type="lots" id={props.id} defaultValue={props.bookmarked} />
+      <Bookmark className="lot-info-preview__bookmark" type="lot" id={props.id} defaultValue={props.bookmarked} />
     </div>
   )
 }
@@ -92,7 +92,7 @@ export function LotInfoSummary(props: LotInfoSummaryProps) {
 }
 
 
-interface LotInfoDetailsProps extends Pick<LotInfoType, "title" | "city" | "price" | "startEndInterval" | "delivery"> { }
+interface LotInfoDetailsProps extends Pick<LotInfoType, "title" | "city" | "startPrice" | "startEndInterval" | "delivery"> { }
 
 export function LotInfoDetails(props: LotInfoDetailsProps) {
   return (
@@ -105,7 +105,7 @@ export function LotInfoDetails(props: LotInfoDetailsProps) {
       <Entries>
         <Entry>
           <span>Начальная ставка</span>
-          <big>{props.price.format()}</big>
+          <big>{props.startPrice.format()}</big>
         </Entry>
         <Entry>
           <span>Начало торгов</span>
@@ -121,29 +121,29 @@ export function LotInfoDetails(props: LotInfoDetailsProps) {
 }
 
 
-interface LotInfoBidProps extends Pick<LotInfoType, "id" | "current" | "step" | "price"> { }
+interface LotInfoBidProps extends Pick<LotInfoType, "id" | "currentBid" | "startPrice"> { }
 
 
 function LotInfoBid(props: LotInfoBidProps) {
   const [bidMultiplier, setBidMultiplier] = useState(1)
-  const [currentBid, setCurrentBid] = useState(props.current)
+  const [currentBid, setCurrentBid] = useState(props.currentBid)
   const [stage, setStage] = useState<"default" | "choice" | "confirm">("default")
-  const { mutate } = useMutation(postCabinetLotsPlaceBet)
+  const client = useClient()
   function bidUp(on: number) {
-    setCurrentBid(new Price(+currentBid + (props.step * on)))
+    setCurrentBid(new Price(+currentBid + (+props.startPrice * on)))
     setStage("confirm")
   }
   function confirmBidUp() {
     async function onSubmit() {
-      await Modal.open(DialogBidAccepted)
-      const { error, payload } = await mutate({ bet: bidMultiplier, lots: props.id })
-      if (error) return
-      if (payload == null) return
-      console.log(error, payload)
-
-      console.log(payload)
-
+      const { error, payload } = await client.query(postLotByLotIdBet(props.id))
       setStage("default")
+      if (error) {
+        await Modal.open(DialogError)
+        return
+      }
+      if (payload == null) return
+
+      await Modal.open(DialogBidAccepted)
     }
 
     Modal.open(DialogConfirmBidUp, { onSubmit })
@@ -170,7 +170,7 @@ function LotInfoBid(props: LotInfoBidProps) {
       return (
         <div className="lot-info-bid">
           <div className="lot-info-bid__entries">
-            <div className="lot-info-bid__entry"><span>Текущая ставка</span><span>{props.current.format()}</span></div>
+            <div className="lot-info-bid__entry"><span>Текущая ставка</span><span>{props.currentBid.format()}</span></div>
             <div className="lot-info-bid__entry"><span>Ваша ставка</span><span>{currentBid.format()}</span></div>
           </div>
           <br />

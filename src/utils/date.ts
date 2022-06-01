@@ -4,10 +4,29 @@ export function humanizeDate(date: Date, lang?: string) {
 }
 
 export class DateInterval {
-  constructor(
-    public date1: Date,
-    public date2: Date
-  ) { }
+  public date1: Date
+  public date2: Date
+
+  constructor(date1?: string | number | Date | null, date2?: string | number | Date | null) {
+    if (date1 == null) {
+      date1 = new Date
+
+      if (process.env.NODE_ENV !== "production") {
+        console.warn("`date1` was null, replaced with `new Date`")
+      }
+    }
+
+    if (date2 == null) {
+      date2 = new Date
+
+      if (process.env.NODE_ENV !== "production") {
+        console.warn("`date2` was null, replaced with `new Date`")
+      }
+    }
+
+    this.date1 = new Date(date1)
+    this.date2 = new Date(date2)
+  }
 
   get difference(): Date {
     return new Date(this.date1.getUTCMilliseconds() - this.date2.getUTCMilliseconds())

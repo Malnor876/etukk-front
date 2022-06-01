@@ -1,3 +1,5 @@
+import "./FullscreenAuth.scss"
+
 import Button from "app/components/UI/Button/Button"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
@@ -8,7 +10,7 @@ import FullscreenSignUpPerson from "./FullscreenSignUpPerson"
 
 function FullscreenSignUp() {
   return (
-    <FullscreenLayout width="20em">
+    <FullscreenLayout className="fullscreen-auth" width="20em">
       <div className="center">
         <h3 className="heading">Регистрация</h3>
         <br />

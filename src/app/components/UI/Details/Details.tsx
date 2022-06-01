@@ -29,8 +29,8 @@ function Details(props: DetailsProps) {
           )}
           <div className="details__summary">{props.summary}</div>
         </div>
-        <div className="details__right" onClick={() => setExpanded(!expanded)}>
-          <Icon className={classWithModifiers("details__chevron", expanded && "up")} name="chevron" />
+        <div className="details__right">
+          <Icon className={classWithModifiers("details__chevron", expanded && "up")} name="chevron" onClick={() => setExpanded(!expanded)} />
           <Icon className="details__more" name="dots" />
         </div>
       </div>

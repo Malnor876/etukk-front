@@ -1,3 +1,5 @@
+import "./FullscreenAuth.scss"
+
 import Button from "app/components/UI/Button/Button"
 import Input from "app/components/UI/Input/Input"
 import Form from "app/layouts/Form/Form"
@@ -5,7 +7,7 @@ import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayou
 
 function FullscreenPasswordRecovery() {
   return (
-    <FullscreenLayout>
+    <FullscreenLayout className="fullscreen-auth">
       <div className="center">
         <h3 className="heading">Восстановление пароля</h3>
         <Form>

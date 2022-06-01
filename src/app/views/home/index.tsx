@@ -7,6 +7,8 @@ import Container from "app/layouts/Container/Container"
 import Previews from "app/layouts/Previews/Previews"
 import { LOT_PREVIEW_MOCK } from "constants/mocks"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
+import useDeviceWidth from "hooks/useDeviceWidth"
+import { DeviceWidths } from "hooks/useResizeObserverEntry"
 import { useState } from "react"
 // import { useMatch } from "react-router"
 import { Route, Routes } from "react-router"
@@ -19,6 +21,7 @@ function HomeView() {
   const [search, setSearch] = useState("")
   const [filters, setFilters] = useState<any>({})
   // const isHot = !!matchHot
+  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
   return (
     <>
       <SearchSuggest width="65%" placeholder="Поиск по Москве..." onSubmit={setSearch}>

@@ -52,7 +52,7 @@ function QueryContainer<P, M>(props: QueryContainerProps<P, M>) {
     )
   }
   if (response.error) {
-    if (response.status === 404 || response.payload?.msg === "Not Found") {
+    if (response.status === 404) {
       return (
         <ErrorCover>
           <p>По вашему запросу ничего не найдено</p>

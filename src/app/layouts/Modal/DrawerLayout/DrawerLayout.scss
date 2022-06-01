@@ -16,7 +16,7 @@
 
 
 	padding: 1em 1.5em;
-	padding-right: max(1.5em, calc((100% - $width-desktop) / 2));
+	padding-right: max(4vw, calc((100% - $width-desktop) / 2));
 	background: $color-white;
 	border: 1px solid rgba($color-white, 0.35);
 	transition: 250ms ease opacity, 350ms ease transform;
@@ -28,5 +28,10 @@
 		opacity: 0;
 		transform: translateX(100%);
 		pointer-events: none;
+	}
+
+	@include Mobile {
+		left: 0;
+		padding-right: 4vw;
 	}
 }

@@ -1,3 +1,11 @@
+/**
+ * SCSS Preload to stop unexpected overwriting styles
+*/
+// import "app/layouts/Modal/FullscreenLayout/FullscreenLayout.scss"
+
+/**
+ * Effects Dependencies
+ */
 import useLocalStorage from "hooks/useLocalStorage"
 import useResizeObserverSize from "hooks/useResizeObserverEntry"
 import Localization from "modules/localization/controller"

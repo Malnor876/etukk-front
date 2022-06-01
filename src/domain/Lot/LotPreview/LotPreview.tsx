@@ -35,7 +35,7 @@ function LotPreview(props: LotProps) {
         {props.onClick ?? (
           <Link className="ghost" to={`/lots/${props.id}`} />
         )}
-        <Bookmark className="lot-preview__bookmark" defaultValue={props.bookmarked} id={props.id} type="lots" />
+        <Bookmark className="lot-preview__bookmark" type="lot" id={props.id} defaultValue={props.bookmarked} />
       </>
     </div>
   )

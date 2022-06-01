@@ -4,6 +4,10 @@
 	display: flex;
 	align-items: flex-start;
 	gap: 5em;
+
+	@include Mobile {
+		display: grid;
+	}
 }
 
 .user-view__container {
@@ -37,8 +41,8 @@
 }
 
 .user-view__avatar {
-	width: 10em;
-	height: 10em;
+	width: 7.5em;
+	height: 7.5em;
 
 	border-radius: 50%;
 	object-fit: cover;

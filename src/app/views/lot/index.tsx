@@ -9,7 +9,7 @@ import { DateInterval } from "utils/date"
 import { Price } from "utils/extensions"
 
 import DialogArchiveLot from "./modals/DialogArchiveLot"
-import { DialogBidAccepted } from "./modals/DialogBidAccepted"
+import DialogBidAccepted from "./modals/DialogBidAccepted"
 import DialogConfirmBidUp from "./modals/DialogConfirmBidUp"
 import { DialogDataAccepted } from "./modals/DialogDataAccepted"
 import { DialogDeliveryRequest } from "./modals/DialogDeliveryRequest"
@@ -61,10 +61,10 @@ interface LotContainerProps {
 
 function LotContainer(props: LotContainerProps) {
   return (
-    <LotInfoLayout slides={[]} description={""} specifications={[]} title={"asd"} city={""} price={new Price(100)} startEndInterval={new DateInterval(new Date, new Date)} delivery={"all"} id={0} name={""} type={"organization"} reviews={{
+    <LotInfoLayout slides={[]} description={""} specifications={[]} title={"asd"} city={""} startEndInterval={new DateInterval(new Date, new Date)} delivery={"all"} id={0} type={"organization"} reviews={{
       likes: 0,
       dislikes: 0
-    }} rating={0} start={0} step={0} current={new Price(100)}
+    }} rating={0} startPrice={new Price(100)} currentBid={new Price(100)}
 
     />
   )

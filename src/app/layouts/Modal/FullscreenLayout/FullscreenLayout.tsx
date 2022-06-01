@@ -4,9 +4,11 @@ import Icon from "app/components/UI/Icon/Icon"
 import useResizeObserverSize, { DeviceWidths } from "hooks/useResizeObserverEntry"
 import { useModal } from "modules/modal/hook"
 import { ReactNode } from "react"
+import { classMerge } from "utils/common"
 
 interface FullscreenLayoutProps {
   width?: string
+  className?: string
   children: ReactNode
 }
 
@@ -16,7 +18,7 @@ function FullscreenLayout(props: FullscreenLayoutProps) {
 
   if (bodySize <= DeviceWidths.Mobile) {
     return (
-      <div className="fullscreen-layout">
+      <div className={classMerge("fullscreen-layout", props.className)}>
         <div className="fullscreen-layout__container">
           <button className="fullscreen-layout__close" type="button" onClick={close}>
             <Icon name="cross" />
