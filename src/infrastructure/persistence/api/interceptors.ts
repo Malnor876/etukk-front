@@ -129,7 +129,7 @@ function responseErrorHandling(action: Action, response: Response) {
     return // Should be handled by initializer
   }
 
-  // toast.error(transformPayloadErrorMessage(response.payload?.msg))
+  toast.error(transformPayloadErrorMessage((response.payload as any).message))
 
   if (response.error) console.error(new QueryError(`${action.endpoint}: unexpected error`, response))
   if (response.payload == null) {

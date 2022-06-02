@@ -11,7 +11,9 @@ declare module "react-fetching-library" {
   }
 }
 
-export interface APIResponseError { }
+export interface APIResponseError {
+  message?: string
+}
 
 interface ActionConfig {
   skipAuth: boolean
