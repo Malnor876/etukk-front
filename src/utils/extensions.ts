@@ -1,30 +1,3 @@
-declare global {
-  interface Number {
-    /**
-     * Converts a number to price formatted string
-     * @returns error message for error
-     */
-    toPrice(this: number, locale?: string, currency?: string): string
-  }
-}
-
-Number.prototype.toPrice = function (this: number, locale = "EN", currency = "USD"): string {
-  try {
-    return this.toLocaleString(locale, { style: "currency", currency, minimumFractionDigits: 0 })
-  } catch (error) {
-    if (error instanceof Error) {
-      if (error.message.includes("tag") || error.message.includes("locale")) {
-        return "Invalid language tag"
-      }
-
-      return "Invalid currency code"
-    }
-
-    throw error
-  }
-}
-
-
 export class Price {
   constructor(
     private value: number,
@@ -55,5 +28,56 @@ export class Price {
   }
 }
 
+export class Phone {
+  constructor(
+    private phone: number
+  ) { }
+
+  format(template?: string): string {
+    if (this.phone <= 0) return ""
+
+    if (template) {
+      // template = "+# (###) ### ##-##"
+
+      const phone = [...String(this.phone)]
+      // if (phone.length < (template.match(/#/g) || []).length) return String(this.phone)
+      let formattedPhone = phone.reduce((result, next) => result.replace("#", next), template)
+      if (formattedPhone.search("#") > -1) {
+        formattedPhone = formattedPhone.slice(0, formattedPhone.search("#"))
+      }
+      return formattedPhone
+    }
+
+    const numberString = String(this.phone)
+    let phoneNumberArray = []
+    switch (numberString.length) {
+      case 0: return ""
+      // Skip some numbers
+      case 1:
+      case 2:
+      case 3:
+        return numberString
+      case 4:
+        phoneNumberArray = numberString.split(/^(\d{1})(\d{3})$/)
+        break
+      case 6:
+        return numberString.match(/\d{2}/g)?.join(" ") ?? ""
+
+      default:
+        phoneNumberArray = numberString.split(/^(\d+?)(\d{3})?(\d{3})?(\d{2})?(\d{2})?$/)
+        break
+    }
+
+    return "+" + phoneNumberArray.filter(Boolean).join(" ").trim()
+  }
+
+  static parse(phone: string): Phone {
+    return new Phone(parseInt(phone.replace(/[^\d]/g, "")) || 0)
+  }
+
+  valueOf(): number {
+    return this.phone
+  }
+}
 
 export default {}

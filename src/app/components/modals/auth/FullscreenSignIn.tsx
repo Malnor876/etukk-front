@@ -6,15 +6,14 @@ import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { postAuthUser } from "infrastructure/persistence/api/data/actions"
-import { mapUser } from "infrastructure/persistence/api/mappings/user"
-import { userUpdate } from "infrastructure/persistence/redux/reducers/user"
+import { userFetch } from "infrastructure/persistence/redux/reducers/user"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
 import { useState } from "react"
-import { useMutation } from "react-fetching-library"
+import { useClient, useMutation } from "react-fetching-library"
 import { useDispatch } from "react-redux"
 
-import FullscreenPasswordRecovery from "./FullscreenPasswordRecovery"
+import FullscreenPasswordRecoveryRequest from "./FullscreenPasswordRecoveryRequest"
 import FullscreenSignUp from "./FullscreenSignUp"
 
 enum FormInputs {
@@ -27,14 +26,14 @@ function FullscreenSignIn() {
   const dispatch = useDispatch()
   const [validity, setValidity] = useState(false)
   const { mutate: signIn } = useMutation(postAuthUser)
+  const client = useClient()
   async function onSubmit(state: FormState<FormInputs, string>) {
     const { error, payload } = await signIn(state.values)
 
     if (error) return
     if (payload == null) return
 
-    const mappedUser = mapUser(payload.access_token)
-    dispatch(userUpdate(mappedUser))
+    dispatch(userFetch(payload))
 
     close()
   }
@@ -47,12 +46,12 @@ function FullscreenSignIn() {
         <Column>
           <Input name={FormInputs.email} width="20em" placeholder="Е-mail или номер телефона" required />
           <Password name={FormInputs.password} width="20em" />
-          <a className="gray" onClick={() => Modal.open(FullscreenPasswordRecovery)}>Забыли пароль?</a>
+          <a className="gray" onClick={() => Modal.open(FullscreenPasswordRecoveryRequest)}>Забыли пароль?</a>
           <div><Button type="submit" disabled={!validity}>Войти</Button></div>
         </Column>
       </Form>
       <Button color="white" onClick={() => Modal.replace(FullscreenSignUp)}>Регистрация</Button>
-    </FullscreenLayout >
+    </FullscreenLayout>
   )
 }
 

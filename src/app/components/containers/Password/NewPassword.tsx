@@ -9,6 +9,8 @@ interface NewPasswordProps {
   name?: string
   confirmName?: string
   width?: string
+
+  new?: boolean
 }
 
 function NewPassword(props: NewPasswordProps) {
@@ -24,10 +26,11 @@ function NewPassword(props: NewPasswordProps) {
     autoComplete: "new-password",
     ..._.omit(props, "nameConfirm"),
   }
+  const placeholder = props.new ? "Новый пароль" : "Пароль"
   return (
     <>
-      <Input {...inputProps} pattern=".{6,}" placeholder="Пароль" onChange={inputValue(setPassword)} name={props.name} />
-      <Input {...inputProps} pattern={password} customValidity={PASSWORD_MISMATCH} placeholder="Повторите пароль" name={props.confirmName} />
+      <Input {...inputProps} pattern=".{6,}" placeholder={placeholder} onChange={inputValue(setPassword)} name={props.name} />
+      <Input {...inputProps} pattern={password} customValidity={PASSWORD_MISMATCH} placeholder={"Повторите " + placeholder} name={props.confirmName} />
     </>
   )
 }

@@ -10,9 +10,6 @@ import combinedReducers from "./combinedReducers"
 
 
 const enhancer = compose(applyMiddleware(thunk))
-const sentryEnhancer = createReduxEnhancer({
-  stateTransformer: enhancer
-})
-const store = createStore(combinedReducers, sentryEnhancer)
+const store = createStore(combinedReducers, enhancer)
 
 export default store

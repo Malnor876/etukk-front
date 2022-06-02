@@ -9,13 +9,15 @@ export interface UserSigned {
   lastName: string
   avatar: string
   city: string
-  confirm: boolean
+  verified: boolean
 
   email: string
   phone: string
 
   buyerRating: number
   sellerRating: number
+
+  expires?: Date
 }
 
 export interface UserAnonymous {

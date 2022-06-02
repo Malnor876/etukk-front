@@ -97,6 +97,12 @@ export interface SchemaLotReview {
   user_id: number
 }
 
+export interface SchemaCategory {
+  id: number
+  name: string
+  parent_category_id?: number | null
+}
+
 export interface SchemaBet {
   id: number
   amount: number

@@ -3,6 +3,7 @@ import Button from "app/components/UI/Button/Button"
 import Checkbox from "app/components/UI/Checkbox/Checkbox"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Form, { FormState } from "app/layouts/Form/Form"
+import useLocalStorage from "hooks/useLocalStorage"
 import { mapCabinetUsersSettings } from "infrastructure/persistence/api/mappings/cabinet"
 import { useState } from "react"
 import { useMutation } from "react-fetching-library"
@@ -14,6 +15,8 @@ enum FormInputs {
 }
 
 function ProfilePersonalSettings() {
+  const [getConfirm, setConfirm] = useLocalStorage("bid-up-confirm", "yes")
+
   // const { mutate } = useMutation(postCabinetUsersSettings)
   // const [pending, setPending] = useState(false)
   // async function onSubmit(state: FormState<FormInputs, boolean>) {
@@ -25,18 +28,18 @@ function ProfilePersonalSettings() {
   return (
     <>
       <h5 className="heading">Настройки</h5>
-      {/* <Form onSubmit={onSubmit}>
-        <QueryContainer action={getCabinetUsersSettings()} mapping={mapCabinetUsersSettings}>
-          {payload => (
-            <Column>
-              <Checkbox name={FormInputs.bidUpConfirm} defaultChecked={payload.bidUpConfirm}>Не запрашивать подтверждение о повышении ставки</Checkbox>
-              <Checkbox name={FormInputs.smsOnSubscriptionsChange} defaultChecked={payload.smsOnSubscriptionsChange}>Получать смс-уведомления о изменениях в моих подписках</Checkbox>
-              <Checkbox name={FormInputs.smsOnBidChange} defaultChecked={payload.smsOnBidChange}>Получать смс-уведомления о изменениях в торгах в которых я принял участие</Checkbox>
-              <div><Button pending={pending} type="submit">Сохранить</Button></div>
-            </Column>
-          )}
-        </QueryContainer>
-      </Form> */}
+      {/* <Form onSubmit={onSubmit}> */}
+      {/* <QueryContainer action={getCabinetUsersSettings()} mapping={mapCabinetUsersSettings}>
+          {payload => ( */}
+      <Column>
+        <Checkbox name={FormInputs.bidUpConfirm} defaultChecked={getConfirm() === "yes"} onChange={event => setConfirm(event.currentTarget.checked ? "yes" : "no")}>Не запрашивать подтверждение о повышении ставки</Checkbox>
+        {/* <Checkbox name={FormInputs.smsOnSubscriptionsChange} defaultChecked={payload.smsOnSubscriptionsChange}>Получать смс-уведомления о изменениях в моих подписках</Checkbox>
+          <Checkbox name={FormInputs.smsOnBidChange} defaultChecked={payload.smsOnBidChange}>Получать смс-уведомления о изменениях в торгах в которых я принял участие</Checkbox> */}
+        {/* <div><Button pending={pending} type="submit">Сохранить</Button></div> */}
+      </Column>
+      {/* )}
+        </QueryContainer> */}
+      {/* </Form> */}
     </>
   )
 }

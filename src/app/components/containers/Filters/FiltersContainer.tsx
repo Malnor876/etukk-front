@@ -5,8 +5,10 @@ import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"
 import Radio from "app/components/UI/Radio/Radio"
 import ToolTip from "app/components/UI/ToolTip/ToolTip"
+import { LotDelivery } from "domain/Lot/types"
+import { getCategory } from "infrastructure/persistence/api/data/actions"
 import { mapFiltersCategory, RecursiveTreeElement } from "infrastructure/persistence/api/mappings/lots"
-import { Dispatch, useState } from "react"
+import { Dispatch, useEffect, useState } from "react"
 import { classWithModifiers } from "utils/common"
 
 import QueryContainer from "../QueryContainer/QueryContainer"
@@ -36,7 +38,7 @@ function FiltersContainer(props: FiltersContainerProps) {
         <div className="filters__inner">
           <div className="filters__header">
             <div className="filters__title">Фильтр</div>
-            <FiltersToolbox state={state} onChange={setState} />
+            <FiltersToolbox state={state} onChange={setState} onReset={onSubmit} />
           </div>
           <div className="filters__container">
             <FiltersTreeContainer />
@@ -50,11 +52,13 @@ function FiltersContainer(props: FiltersContainerProps) {
 
 function FiltersTreeContainer() {
   return (
-    // <QueryContainer action={getGetFiltersCategory()} mapping={mapFiltersCategory}>
-    //   {payload => (
     <>
       <Filter group label="КАТЕГОРИИ">
-        {/* <FilterRecursion name="category" elements={payload.categories} /> */}
+        <QueryContainer action={getCategory()} mapping={mapFiltersCategory}>
+          {payload => (
+            <FilterRecursion name="categories" elements={payload} />
+          )}
+        </QueryContainer>
       </Filter>
       <Filter label="СТАТУС ТОРГОВ">
         <FilterRadios name="started">
@@ -74,8 +78,8 @@ function FiltersTreeContainer() {
       </Filter>
       <Filter label="ДОСТАВКА">
         <FilterRadios name="delivery">
-          <Radio value="other_regions">В другие регионы</Radio>
-          <Radio value="only_city">Только по городу продажи</Radio>
+          <Radio value={LotDelivery.all}>В другие регионы</Radio>
+          <Radio value={LotDelivery.local}>Только по городу продажи</Radio>
         </FilterRadios>
       </Filter>
       <Filter label="ПЕРИОД ПРОВЕДЕНИЯ">
@@ -89,8 +93,6 @@ function FiltersTreeContainer() {
         </FilterInputs>
       </Filter>
     </>
-    //   )}
-    // </QueryContainer>
   )
 }
 

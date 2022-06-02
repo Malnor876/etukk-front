@@ -3,6 +3,7 @@ import "./Input.scss"
 import _ from "lodash"
 import { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, ReactNode, useState } from "react"
 import { classWithModifiers } from "utils/common"
+import { Phone } from "utils/extensions"
 
 import Icon, { IconName } from "../Icon/Icon"
 
@@ -18,6 +19,11 @@ export interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLIn
 function Input(props: InputProps) {
   const [invalid, setInvalid] = useState(false)
   function onChange(event: ChangeEvent<HTMLInputElement>) {
+    const target = event.currentTarget
+    if (props.type === "tel") {
+      target.value = Phone.parse(target.value).format()
+    }
+
     props.onChange?.(event)
     setInvalid(!event.currentTarget.checkValidity())
   }

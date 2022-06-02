@@ -1,8 +1,11 @@
 import { ReactError } from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
+import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import { QueryErrorCoverBoundary } from "app/components/containers/QueryErrorCoverBoundary/QueryErrorCoverBoundary"
 import Button from "app/components/UI/Button/Button"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import { LotInfoLayout } from "domain/Lot/Lot"
+import { getLotByLotId } from "infrastructure/persistence/api/data/actions"
+import { mapLotByLotId } from "infrastructure/persistence/api/mappings/lots"
 import { Modal } from "modules/modal/controller"
 import { useParams } from "react-router"
 import { DateInterval } from "utils/date"
@@ -35,7 +38,7 @@ function LotView() {
         <LotContainer id={+lotId} />
       </QueryErrorCoverBoundary>
 
-      <Column>
+      {/* <Column>
         <Button onClick={() => Modal.open(PopupReport, { onSubmit: () => { 1 } })}>PopupReport</Button>
         <Button onClick={() => Modal.open(DialogReportAccepted)}>PopupReportAccepted</Button>
         <br />
@@ -49,7 +52,7 @@ function LotView() {
         <Button onClick={() => Modal.open(DialogDataAccepted)}>PopupDataAccepted</Button>
         <Button onClick={() => Modal.open(DialogDeliveryRequest)}>PopupDeliveryRequest</Button>
         <Button onClick={() => Modal.open(DialogPasswordRecoverLinkSent)}>PopupPasswordRecoverLinkSent</Button>
-      </Column>
+      </Column> */}
     </div>
   )
 }
@@ -61,12 +64,11 @@ interface LotContainerProps {
 
 function LotContainer(props: LotContainerProps) {
   return (
-    <LotInfoLayout slides={[]} description={""} specifications={[]} title={"asd"} city={""} startEndInterval={new DateInterval(new Date, new Date)} delivery={"all"} id={0} type={"organization"} reviews={{
-      likes: 0,
-      dislikes: 0
-    }} rating={0} startPrice={new Price(100)} currentBid={new Price(100)}
-
-    />
+    <QueryContainer action={getLotByLotId(props.id)} mapping={mapLotByLotId}>
+      {payload => (
+        <LotInfoLayout {...payload} />
+      )}
+    </QueryContainer>
   )
 }
 

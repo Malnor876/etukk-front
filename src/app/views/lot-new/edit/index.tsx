@@ -19,6 +19,8 @@ export const lotNewStorage = new TemporaryStorage("lot-new")
 const LotNewEditSectionsOrder = ["", "name", "specifications", "description", "files", "trade"]
 
 function LotNewEditView() {
+  const [category] = lotNewStorage.state<number | undefined>("category")
+
   const params = useParams<"*">()
   /**
    * 

@@ -1,29 +1,22 @@
 import "./FullscreenAuth.scss"
 
-import NewPassword from "app/components/containers/Password/NewPassword"
 import Button from "app/components/UI/Button/Button"
 import Input from "app/components/UI/Input/Input"
 import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
-import { useModal } from "modules/modal/hook"
 
 enum FormInputs {
-  password = "password",
+  email = "email",
 }
 
-interface FullscreenPasswordRecoveryProps {
-  recoveryToken: string
-}
-
-function FullscreenPasswordRecovery(props: FullscreenPasswordRecoveryProps) {
-  const modal = useModal()
+function FullscreenPasswordRecoveryRequest() {
   async function onSubmit(state: FormState<FormInputs, string>) {
     // const { error, payload } = await signIn(state.values)
 
     // if (error) return
     // if (payload == null) return
 
-    modal.close()
+    // close()
   }
   return (
     <FullscreenLayout className="fullscreen-auth">
@@ -32,13 +25,13 @@ function FullscreenPasswordRecovery(props: FullscreenPasswordRecoveryProps) {
         <Form>
           <br />
           <br />
-          <NewPassword name={FormInputs.password} width="21.25em" />
+          <Input type="email" placeholder="Е-mail" width="21.25em" />
           <br />
-          <div style={{ display: "grid", margin: "auto", width: "11em" }}><Button disabled>Сохранить</Button></div>
+          <div style={{ display: "grid", margin: "auto", width: "11em" }}><Button disabled>Восстановить</Button></div>
         </Form>
       </div>
     </FullscreenLayout>
   )
 }
 
-export default FullscreenPasswordRecovery
+export default FullscreenPasswordRecoveryRequest

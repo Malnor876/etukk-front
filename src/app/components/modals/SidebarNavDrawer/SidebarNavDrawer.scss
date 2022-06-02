@@ -21,14 +21,28 @@
 	margin-left: auto;
 
 	@include Mobile {
+
 		// margin-right: 1.5em;
+	}
+
+	.topbar-actions {
+		&>:first-child {
+			display: none;
+		}
 	}
 }
 
 .sidebar-nav-drawer__close {
 	--icon-size: 1.25em;
 
+	margin: 1em;
 	color: $color-dark;
+}
+
+.sidebar-nav-drawer__logo {
+	width: 10em;
+	margin-left: 2.5em;
+	// margin-bottom: 2.5em;
 }
 
 .sidebar-nav-drawer__nav {
@@ -36,8 +50,10 @@
 	justify-items: flex-start;
 	gap: 2em;
 
+
 	@include Mobile {
-		justify-items: center;
+		padding: 2.5em;
+		// justify-items: center;
 	}
 }
 

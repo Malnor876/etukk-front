@@ -4,10 +4,13 @@ import CustomerRating from "app/components/UI/CustomerRating/CustomerRating"
 import EditAvatar from "app/components/UI/EditAvatar/EditAvatar"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import { IMAGE_MOCKS } from "constants/mocks"
+import { patchUser, patchUserByUserId } from "infrastructure/persistence/api/data/actions"
+import { Mutation } from "react-fetching-library"
 import { useSelector } from "react-redux"
 import { Route, Routes } from "react-router"
 import { NavLink } from "react-router-dom"
 import { Link } from "react-router-dom"
+import { FileToURLDataBase64 } from "utils/file"
 
 import ProfilePersonalExit from "./ProfilePersonalExit"
 import ProfilePersonalMe from "./ProfilePersonalMe"
@@ -50,11 +53,11 @@ function GeneralInfo() {
     return (
       <>
         <div className="profile-view__general-info">
-          {/* <Mutation actionCreator={postCabinetSave}>
-            {({mutate}) => (
-              <EditAvatar image={user.avatar} onChange={() => postCabinetSave({  })} />
+          <Mutation actionCreator={patchUser}>
+            {({ mutate }) => (
+              <EditAvatar image={user.avatar} onChange={async file => mutate({ user_pic: await FileToURLDataBase64(file) })} />
             )}
-          </Mutation> */}
+          </Mutation>
           <CustomerRating sellerRating={user.sellerRating} buyerRating={user.buyerRating} />
         </div>
       </>

@@ -13,18 +13,18 @@ interface PickerProps<V> {
 
 function Picker<V>(props: PickerProps<V>) {
   const [options, setOptions] = useState(Children.map(props.children, child => child.props))
-  const [choice, setChoice] = useState(options.findIndex(option => option.value === props.defaultValue))
+  const [choice, setChoice] = useState<unknown>(props.defaultValue)
   useEffect(() => setOptions(Children.map(props.children, child => child.props)), [props.children])
   function choose(index: number) {
     const value = options[index].value as unknown as V
 
-    setChoice(index)
+    setChoice(value)
     props.onChange?.(value)
   }
   return (
     <div className="picker" role="list" aria-details="pick a value">
       {options.map((option, index) => (
-        <div className={classWithModifiers("picker__entry", choice === index && "active")} aria-selected={choice === index} role="option" onClick={() => choose(index)} key={index}>{option.children}</div>
+        <div className={classWithModifiers("picker__entry", choice === option.value && "active")} aria-selected={choice === index} role="option" onClick={() => choose(index)} key={index}>{option.children}</div>
       ))}
     </div>
   )

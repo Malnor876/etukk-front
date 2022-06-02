@@ -42,6 +42,10 @@ export function createQuery(queryObject?: Record<string | number, unknown> | nul
   const queryArray = queryKeys.map(key => {
     const value = queryObject[key]
     if (value) {
+      if (value instanceof Array) {
+        return keyPrefix + encodeURIComponent(key) + "=" + encodeURIComponent(`[${String(value)}]`)
+      }
+
       if (isDictionary(value)) {
         return createQuery(value, keyPrefix + key)
       }

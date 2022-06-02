@@ -2,7 +2,7 @@ import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
 import { LotInfoLayout } from "domain/Lot/Lot"
-import { LotInfoType } from "domain/Lot/types"
+import { LotDelivery, LotInfoType } from "domain/Lot/types"
 import { postLotDraft } from "infrastructure/persistence/api/data/actions"
 import { SchemaLotDeliveryOptions } from "infrastructure/persistence/api/data/schemas"
 import { useMutation } from "react-fetching-library"
@@ -23,7 +23,7 @@ function LotNewPreviewView() {
   const price = lotNewStorage.get<string>("price") || ""
   const title = lotNewStorage.get<LotInfoType["title"]>("title") || ""
   const date = lotNewStorage.get<string>("date") || "12-20-20"
-  const delivery = lotNewStorage.get<string>("delivery") || "all" as any
+  const delivery = (lotNewStorage.get<string>("delivery") || "all") as LotDelivery
 
   const slides = (files.some(file => !(file instanceof File)) ? [] : files).map(file => URL.createObjectURL(file))
 
@@ -36,7 +36,7 @@ function LotNewPreviewView() {
     price,
     title,
     date,
-    delivery
+    delivery: delivery === LotDelivery.all ? "intercity" : "in_city"
   })
   return (
     <>
@@ -57,7 +57,7 @@ function LotNewPreviewView() {
         }}
         rating={0}
         startPrice={new Price(+price)}
-        currentBid={new Price(+price)}
+        currentPrice={new Price(+price)}
       >
         <Buttons>
           <Button await onClick={publishNewLot}>Опубликовать</Button>
@@ -103,7 +103,7 @@ function usePublishNewLot(requestPayload: NewLotPayload) {
     if (error) return
     if (responsePayload == null) return
 
-    navigate(`/lots/${(responsePayload as unknown as { result?: { id?: string | number } })?.result?.id}`)
+    navigate(`/lots/${responsePayload.id} `)
   }
   return publish
 }

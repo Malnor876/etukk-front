@@ -38,19 +38,10 @@ function HomeView() {
       <Routes>
         <Route index element={
           <Container row>
-            <SortingToggle>
-              <option value="all">С доставкой в другие регионы</option>
-              <option value="locally">Только по городу продажи</option>
-            </SortingToggle>
             <Container>
-              <Previews>
-                {[...Array(15)].map((_, i) => (
-                  <LotPreview {...LOT_PREVIEW_MOCK} key={i} />
-                ))}
-              </Previews>
-              {/* <QueryErrorCoverBoundary>
+              <QueryErrorCoverBoundary>
                 <LotPreviewsContainer search={search} {...filters} />
-              </QueryErrorCoverBoundary> */}
+              </QueryErrorCoverBoundary>
               <FiltersContainer onSubmit={setFilters} />
             </Container>
           </Container>

@@ -1,5 +1,9 @@
+import ClientAPI from "infrastructure/persistence/api/client"
+import { getUser } from "infrastructure/persistence/api/data/actions"
+import { mapUser } from "infrastructure/persistence/api/mappings/user"
 import { MapActions } from "infrastructure/persistence/redux/store.types"
 import { ValuesOf } from "interfaces/utilities"
+import { Dispatch } from "redux"
 
 import { User } from "./types"
 
@@ -51,3 +55,20 @@ export const userUpdate = (payload: Actions["USER_UPDATE"]) => ({
 
 /* Thunk Actions */
 
+export function userFetch(access: { access_token: string, refresh_token?: string, expire_timestamp?: number }) {
+  localStorage.setItem("token", access.access_token)
+
+  return async (dispatch: Dispatch) => {
+    const { error, errorObject, payload } = await ClientAPI.query(getUser())
+
+    if (error) throw errorObject
+    if (payload == null) return
+
+    const mappedUser = mapUser(payload)
+    dispatch(userUpdate({
+      ...mappedUser,
+      auth: true,
+      expires: new Date(access.expire_timestamp || (Date.now() + 12 * 1000 * 60 * 60)) // 12 Hours
+    }))
+  }
+}

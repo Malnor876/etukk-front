@@ -26,7 +26,7 @@ enum FormInputs {
   title = "name",
   images = "photos",
   video = "video_url",
-  startBid = "start_price",
+  startPrice = "start_price",
   // publicationPeriod = "trading_start",
   city = "city",
   delivery = "delivery_options",
@@ -99,7 +99,7 @@ function LotEditView() {
           <CloseButton />
         </LotEditSetting>
         <LotEditSetting label="Начальная ставка">
-          <Input width="16em" type="number" placeholder="Введите  сумму..." iconName="rub" name={FormInputs.startBid} />
+          <Input width="16em" type="number" placeholder="Введите  сумму..." iconName="rub" name={FormInputs.startPrice} />
           <CloseButton />
         </LotEditSetting>
         <LotEditSetting label="Период публикации лота и проведения торгов">

@@ -1,7 +1,7 @@
 import Details from "app/components/UI/Details/Details"
 import Previews from "app/layouts/Previews/Previews"
 import SubjectLog from "app/layouts/SubjectLog/SubjectLog"
-import { IMAGE_MOCKS } from "constants/mocks"
+import { IMAGE_MOCKS, LOT_PREVIEW_MOCK } from "constants/mocks"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
 import SellerPreview, { SellerPreviewProps } from "domain/seller/SellerPreview/SellerPreview"
 import { useState } from "react"
@@ -34,14 +34,7 @@ function DetailedSellers(props: DetailedSellersProps) {
           <Details date={new Date} summary={
             <>Продавец разместил новый лот в категории <Link to="/catalog">Мебель</Link></>
           }>
-            <LotPreview
-              image={IMAGE_MOCKS[1]}
-              city="Moscow"
-              title="Test Preview"
-              id={1}
-              price={123}
-              tradeStart={new Date}
-            />
+            <LotPreview {...LOT_PREVIEW_MOCK} />
           </Details>
         </SubjectLog>
       )}

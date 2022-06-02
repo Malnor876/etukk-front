@@ -8,8 +8,6 @@ import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { postRegistrationUser } from "infrastructure/persistence/api/data/actions"
-import { mapUser } from "infrastructure/persistence/api/mappings/user"
-import { userUpdate } from "infrastructure/persistence/redux/reducers/user"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
 import { useState } from "react"
@@ -18,16 +16,15 @@ import ReCAPTCHA from "react-google-recaptcha"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 
-import FullscreenPhoneConfirm from "./FullscreenPhoneConfirm"
+import FullscreenEmailConfirm from "./FullscreenEmailConfirm"
 import FullscreenSignIn from "./FullscreenSignIn"
 
 enum FormInputs {
-  name = "name",
+  fullName = "fullname",
   inn = "inn",
   email = "email",
   phone = "phonenumber",
   password = "password",
-  passwordConfirm = "password_confirm"
 }
 
 function FullscreenSignUpEntity() {
@@ -37,15 +34,18 @@ function FullscreenSignUpEntity() {
   const [reCaptcha, setReCaptcha] = useState(false)
   const [validity, setValidity] = useState(false)
   async function onSubmit(state: FormState<FormInputs, string>) {
-    // const { error, payload } = await signUp(state.values)
+    const { error, payload } = await signUp({
+      ...state.values,
+      organization: true
+    })
 
-    // if (error) return
-    // if (payload == null) return
+    if (error) return
+    if (payload == null) return
 
-    // const mappedUser = mapUser(payload.result)
-    // dispatch(userUpdate(mappedUser))
+    console.log(payload)
+    localStorage.setItem("token", payload.access_token)
 
-    // Modal.replace(FullscreenPhoneConfirm)
+    Modal.replace(FullscreenEmailConfirm)
   }
   return (
     <FullscreenLayout className="fullscreen-auth">
@@ -53,11 +53,11 @@ function FullscreenSignUpEntity() {
       {/* <SocialAuth /> */}
       <Form centered onChange={event => setValidity(event.currentTarget.checkValidity())} onSubmit={onSubmit}>
         <Column>
-          <Input placeholder="Название организации" name={FormInputs.name} width="20em" required />
+          <Input placeholder="Название организации" name={FormInputs.fullName} width="20em" required />
           <Input placeholder="ИНН" name={FormInputs.inn} width="20em" required />
           <Input placeholder="Номер телефона" name={FormInputs.phone} width="20em" type="tel" required />
           <Input placeholder="Е-mail" name={FormInputs.email} width="20em" type="email" required autoComplete="username" />
-          <NewPassword name={FormInputs.password} confirmName={FormInputs.passwordConfirm} width="20em" />
+          <NewPassword name={FormInputs.password} width="20em" />
           <Checkbox required>
             <Link to="/terms" onClick={close}>Принимаю условия соглашения</Link>
           </Checkbox>

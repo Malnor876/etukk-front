@@ -91,3 +91,29 @@
 		color: $color-raspberry-1;
 	}
 }
+
+/* Status */
+
+.lot-preview-status {
+	display: flex;
+	align-items: center;
+}
+
+.lot-preview-status__icon {
+	--icon-size: 1em;
+
+	margin-right: 0.5em;
+
+	&--truck {
+		color: $color-orange;
+	}
+}
+
+.lot-preview-status__label {
+	font-size: $font-size-5;
+	line-height: 1.35;
+
+	em {
+		font-weight: 600;
+	}
+}

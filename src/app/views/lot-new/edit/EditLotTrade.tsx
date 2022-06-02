@@ -32,7 +32,7 @@ function EditLotTrade() {
       <br />
       <Selector label="Выберите вариант возможной доставки" defaultValue={delivery} onChange={setDelivery}>
         <option value="all">Доставка в регионы</option>
-        <option value="locally">Доставка по городу продажи</option>
+        <option value="local">Доставка по городу продажи</option>
       </Selector>
     </section>
   )

@@ -8,8 +8,13 @@ export interface LotPreviewType {
   image: string
   title: string
   city: string
-  price: number
-  tradeStart: Date
+  startPrice: Price
+  currentPrice: Price
+  tradeStartTime: Date
+  tradeEndTime: Date
+  betsCount: number
+
+  status: LotStatus
 }
 
 export type LotInfoSpecificationsType = {
@@ -26,7 +31,7 @@ export interface LotInfoType {
   city: string
   startEndInterval: DateInterval
 
-  delivery: "all" | "local"
+  delivery: LotDelivery
 
   id: number
   type: UserType
@@ -37,5 +42,23 @@ export interface LotInfoType {
   rating: number
 
   startPrice: Price
-  currentBid: Price
+  currentPrice: Price
+}
+
+
+
+
+export enum LotStatus {
+  UNKNOWN = "unknown",
+  DRAFTED = "drafted",
+  MODERATION = "moderation",
+  REJECTED = "rejected",
+  PUBLISHED = "published",
+  SOLD = "sold",
+  CLOSED = "closed"
+}
+
+export enum LotDelivery {
+  all = "intercity",
+  local = "in_city"
 }

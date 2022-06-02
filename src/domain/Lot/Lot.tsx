@@ -18,7 +18,7 @@ import { useClient } from "react-fetching-library"
 import { Link } from "react-router-dom"
 import { Price } from "utils/extensions"
 
-import { LotInfoType } from "./types"
+import { LotDelivery, LotInfoType } from "./types"
 
 interface LotInfoProps extends LotInfoType {
   children?: ReactNode
@@ -29,7 +29,7 @@ export function LotInfoLayout(props: LotInfoProps) {
   const Summary = <LotInfoSummary {..._.pick(props, "description", "specifications")} />
   const Details = <LotInfoDetails {..._.pick(props, "title", "city", "startPrice", "startEndInterval", "delivery")} />
   const BidOrChildren = props.children || (
-    <LotInfoBid {..._.pick(props, "id", "currentBid", "startPrice")} />
+    <LotInfoBid {..._.pick(props, "id", "currentPrice", "startPrice")} />
   )
 
   const { inlineSize: bodySize } = useResizeObserverSize(document.body)
@@ -100,7 +100,7 @@ export function LotInfoDetails(props: LotInfoDetailsProps) {
       <Backward>{props.title}</Backward>
       <div className="lot-info-details__city">
         <span>г. {props.city}</span>
-        <Icon name={props.delivery === "all" ? "truck" : "building"} />
+        <Icon name={props.delivery === LotDelivery.all ? "truck" : "building"} />
       </div>
       <Entries>
         <Entry>
@@ -121,28 +121,31 @@ export function LotInfoDetails(props: LotInfoDetailsProps) {
 }
 
 
-interface LotInfoBidProps extends Pick<LotInfoType, "id" | "currentBid" | "startPrice"> { }
+interface LotInfoBidProps extends Pick<LotInfoType, "id" | "currentPrice" | "startPrice"> { }
 
 
 function LotInfoBid(props: LotInfoBidProps) {
   const [bidMultiplier, setBidMultiplier] = useState(1)
-  const [currentBid, setCurrentBid] = useState(props.currentBid)
+  const [currentPrice, setCurrentPrice] = useState(props.currentPrice)
   const [stage, setStage] = useState<"default" | "choice" | "confirm">("default")
   const client = useClient()
   function bidUp(on: number) {
-    setCurrentBid(new Price(+currentBid + (+props.startPrice * on)))
+    setBidMultiplier(on)
+    setCurrentPrice(new Price(+currentPrice + (+props.startPrice * on)))
     setStage("confirm")
   }
   function confirmBidUp() {
     async function onSubmit() {
-      const { error, payload } = await client.query(postLotByLotIdBet(props.id))
+      const { error, payload } = await client.query(postLotByLotIdBet(props.id, bidMultiplier))
       setStage("default")
       if (error) {
         await Modal.open(DialogError)
+        setCurrentPrice(new Price(+currentPrice + +props.startPrice))
         return
       }
       if (payload == null) return
 
+      setCurrentPrice(new Price(payload.amount))
       await Modal.open(DialogBidAccepted)
     }
 
@@ -152,11 +155,11 @@ function LotInfoBid(props: LotInfoBidProps) {
     case "choice":
       return (
         <div className="lot-info-bid">
-          <div className="lot-info-bid__entry"><span>Текущая ставка</span><span>{currentBid.format()}</span></div>
+          <div className="lot-info-bid__entry"><span>Текущая ставка</span><span>{currentPrice.format()}</span></div>
           <p className="lot-info-bid__text">
             *Нажимая “поднять ставку” вы соглашаетесь с <Link to="terms">политикой предоставления услуг</Link>.
             <br />
-            Минимальная стоимость услуг площадки по организации доставки и безопасной сделки для данного лота составит от {currentBid.format()}
+            Минимальная стоимость услуг площадки по организации доставки и безопасной сделки для данного лота составит от {currentPrice.format()}
           </p>
           <div className="lot-info-bid__buttons">
             <Button onClick={() => bidUp(1)}>Поднять на  шаг</Button>
@@ -170,8 +173,8 @@ function LotInfoBid(props: LotInfoBidProps) {
       return (
         <div className="lot-info-bid">
           <div className="lot-info-bid__entries">
-            <div className="lot-info-bid__entry"><span>Текущая ставка</span><span>{props.currentBid.format()}</span></div>
-            <div className="lot-info-bid__entry"><span>Ваша ставка</span><span>{currentBid.format()}</span></div>
+            <div className="lot-info-bid__entry"><span>Текущая ставка</span><span>{props.currentPrice.format()}</span></div>
+            <div className="lot-info-bid__entry"><span>Ваша ставка</span><span>{currentPrice.format()}</span></div>
           </div>
           <br />
           <br />
@@ -184,7 +187,7 @@ function LotInfoBid(props: LotInfoBidProps) {
         <div className="lot-info-bid lot-info-bid--box">
           <div className="lot-info-bid__entry lot-info-bid__entry--column">
             <span>Текущая ставка</span>
-            <span>{currentBid.format()}</span>
+            <span>{currentPrice.format()}</span>
           </div>
           <Button onClick={() => setStage("choice")}>Поднять ставку</Button>
         </div>

@@ -9,8 +9,6 @@ import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { postRegistrationUser } from "infrastructure/persistence/api/data/actions"
-import { mapUser } from "infrastructure/persistence/api/mappings/user"
-import { userUpdate } from "infrastructure/persistence/redux/reducers/user"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
 import { useState } from "react"
@@ -19,16 +17,14 @@ import ReCAPTCHA from "react-google-recaptcha"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 
-import FullscreenPhoneConfirm from "./FullscreenPhoneConfirm"
+import FullscreenEmailConfirm from "./FullscreenEmailConfirm"
 import FullscreenSignIn from "./FullscreenSignIn"
 
 enum FormInputs {
-  name = "name",
-  inn = "inn",
+  fullName = "fullname",
   email = "email",
-  phone = "phone",
-  password = "password",
-  passwordConfirm = "password_confirm"
+  phone = "phonenumber",
+  password = "password"
 }
 
 function FullscreenSignUpPerson() {
@@ -38,15 +34,18 @@ function FullscreenSignUpPerson() {
   const [reCaptcha, setReCaptcha] = useState(false)
   const [validity, setValidity] = useState(false)
   async function onSubmit(state: FormState<FormInputs, string>) {
-    // const { error, payload } = await signUp(state.values)
+    const { error, payload } = await signUp({
+      ...state.values,
+      organization: false
+    })
 
-    // if (error) return
-    // if (payload == null) return
+    if (error) return
+    if (payload == null) return
 
-    // const mappedUser = mapUser(payload.result)
-    // dispatch(userUpdate(mappedUser))
+    console.log(payload)
+    localStorage.setItem("token", payload.access_token)
 
-    // Modal.replace(FullscreenPhoneConfirm)
+    Modal.replace(FullscreenEmailConfirm)
   }
   return (
     <FullscreenLayout className="fullscreen-auth">
@@ -56,11 +55,10 @@ function FullscreenSignUpPerson() {
       <SocialAuth />
       <Form centered onChange={event => setValidity(event.currentTarget.checkValidity())} onSubmit={onSubmit}>
         <Column>
-          <Input placeholder="Имя" width="20em" name={FormInputs.name} required />
-          <Input placeholder="ИНН" name={FormInputs.inn} width="20em" required />
+          <Input placeholder="Имя" width="20em" name={FormInputs.fullName} required />
           <Input placeholder="Номер телефона" name={FormInputs.phone} width="20em" type="tel" required />
           <Input placeholder="Е-mail" name={FormInputs.email} width="20em" type="email" required autoComplete="username" />
-          <NewPassword name={FormInputs.password} confirmName={FormInputs.passwordConfirm} width="20em" />
+          <NewPassword name={FormInputs.password} width="20em" />
           <Checkbox required>
             <Link to="/terms" onClick={close}>Принимаю условия соглашения</Link>
           </Checkbox>
@@ -72,7 +70,7 @@ function FullscreenSignUpPerson() {
         onChange={value => setReCaptcha(!!value)}
       />
       <Button color="white" onClick={() => Modal.replace(FullscreenSignIn)}>Войти</Button>
-    </FullscreenLayout >
+    </FullscreenLayout>
   )
 }
 
