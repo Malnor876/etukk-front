@@ -3,7 +3,7 @@
 .get-back {
 	display: flex;
 	align-items: baseline;
-	gap: 0.5em;
+	@include gap(0.5em);
 
 	color: $color-main-text;
 	text-decoration: none;

@@ -3,7 +3,7 @@
 .sidebar-nav-drawer {
 	display: flex;
 	flex-direction: column;
-	gap: 2.5em;
+	@include gap(2.5em);
 
 	height: 100%;
 
@@ -16,7 +16,7 @@
 	display: flex;
 	align-items: center;
 	// justify-content: space-between;
-	gap: 1.5em;
+	@include gap(1.5em);
 
 	margin-left: auto;
 
@@ -48,7 +48,7 @@
 .sidebar-nav-drawer__nav {
 	display: grid;
 	justify-items: flex-start;
-	gap: 2em;
+	@include gap(2em);
 
 
 	@include Mobile {

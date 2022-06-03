@@ -5,7 +5,7 @@
 .profile-view__container {
 	display: grid;
 	align-content: baseline;
-	gap: 2em;
+	@include gap(2em);
 
 	flex: 1;
 
@@ -28,7 +28,7 @@
 .profile-view__personal {
 	display: flex;
 	justify-content: space-between;
-	gap: 2em;
+	@include gap(2em);
 
 	@include Mobile {
 		display: grid;

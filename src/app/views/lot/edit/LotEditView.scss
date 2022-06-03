@@ -3,7 +3,7 @@
 .lot-edit-view {
 	display: grid;
 	align-content: flex-start;
-	gap: 3em;
+	@include gap(3em);
 }
 
 .lot-edit-view__header {
@@ -19,12 +19,12 @@
 .lot-edit-view__container {
 	display: grid;
 	align-content: flex-start;
-	gap: 2.5em;
+	@include gap(2.5em);
 }
 
 .lot-edit-view__buttons {
 	display: flex;
-	gap: 2em;
+	@include gap(2em);
 
 	margin-left: calc(20ch - 0.25em);
 
@@ -48,7 +48,7 @@
 
 	@include Mobile {
 		display: grid;
-		gap: 1em;
+		@include gap(1em);
 	}
 }
 
@@ -71,7 +71,7 @@
 .lot-edit-setting__container {
 	display: flex;
 	align-items: flex-start;
-	gap: 1.5em;
+	@include gap(1.5em);
 
 	&>.close-button {
 		margin-top: 0.35em;

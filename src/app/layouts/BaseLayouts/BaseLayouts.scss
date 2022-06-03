@@ -3,7 +3,7 @@
 .row {
 	display: flex;
 	align-items: baseline;
-	gap: 1em;
+	@include gap(1em);
 
 	@include Mobile {
 		display: grid;
@@ -13,5 +13,5 @@
 .column {
 	display: grid;
 	align-content: baseline;
-	gap: 1.5em;
+	@include gap(1.5em);
 }

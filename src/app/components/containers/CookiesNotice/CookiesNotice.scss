@@ -18,7 +18,7 @@
 
 	@include Mobile {
 		display: grid;
-		gap: 1em;
+		@include gap(1em);
 
 		padding: 1em;
 	}
@@ -27,7 +27,7 @@
 .cookies-notice__container {
 	display: flex;
 	align-items: center;
-	gap: 3.5em;
+	@include gap(3.5em);
 	@include WidthLimit;
 }
 

@@ -3,7 +3,7 @@
 .terms {
 
 	display: grid;
-	gap: 2em;
+	@include gap(2em);
 
 	h3,
 	h4,

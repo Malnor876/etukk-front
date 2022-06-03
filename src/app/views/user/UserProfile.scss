@@ -3,7 +3,7 @@
 .user-profile {
 	display: flex;
 	align-items: flex-start;
-	gap: 5em;
+	@include gap(5em);
 
 	@include Mobile {
 		display: grid;
@@ -13,7 +13,7 @@
 .user-profile__container {
 	display: grid;
 	align-content: baseline;
-	gap: 2em;
+	@include gap(2em);
 
 	flex: 1;
 }
@@ -37,7 +37,7 @@
 
 .user-profile__info {
 	display: grid;
-	gap: 2em;
+	@include gap(2em);
 }
 
 .user-profile__avatar {

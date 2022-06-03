@@ -55,7 +55,7 @@ $gap: 2em;
 	display: grid;
 	// align-content: flex-start;
 	// justify-items: center;
-	gap: $gap;
+	@include gap($gap);
 
 	background: $color-white;
 	border: 1px solid $color-gray-3;
@@ -67,7 +67,7 @@ $gap: 2em;
 	/* When passing only one child, it shows a desire to pass a wrapper (e.g. form element) */
 	&>:only-child {
 		display: grid;
-		gap: $gap;
+		@include gap($gap);
 	}
 
 	&--centered {

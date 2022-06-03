@@ -26,7 +26,7 @@ $gap: 2em;
 
 .popup-layout__container {
 	display: grid;
-	gap: $gap;
+	@include gap($gap);
 
 	width: var(--popup-width);
 	min-width: 15em;
@@ -58,13 +58,13 @@ $gap: 2em;
 .popup-layout__inner {
 	display: grid;
 	align-content: baseline;
-	gap: $gap;
+	@include gap($gap);
 
 	/* When passing only one child, it shows a desire to pass a wrapper (e.g. form element) */
 	&>:only-child {
 		display: grid;
 		align-content: baseline;
-		gap: $gap;
+		@include gap($gap);
 	}
 
 	&--centered {

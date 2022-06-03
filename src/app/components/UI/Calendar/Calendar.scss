@@ -2,13 +2,13 @@
 
 .calendar {
 	display: grid;
-	gap: 1.5em;
+	@include gap(1.5em);
 	width: 15em;
 }
 
 .calendar__header {
 	display: flex;
-	gap: 0.75em;
+	@include gap(0.75em);
 
 	.selector {
 		min-width: unset;
@@ -31,7 +31,7 @@
 .calendar__grid {
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
-	gap: 0 0.5em;
+	@include gap(0 0.5em);
 
 	text-align: center;
 }

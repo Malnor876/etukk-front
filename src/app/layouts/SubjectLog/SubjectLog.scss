@@ -2,7 +2,7 @@
 
 .subject-log {
 	display: grid;
-	gap: 2.5em;
+	@include gap(2.5em);
 }
 
 .subject-log__subject {
@@ -14,7 +14,7 @@
 .subject-log__container {
 	display: flex;
 	align-items: flex-start;
-	gap: 2.5em;
+	@include gap(2.5em);
 
 	background: $color-white;
 	transition: 500ms ease opacity;
@@ -22,7 +22,7 @@
 
 .subject-log__log {
 	display: grid;
-	gap: 1em;
+	@include gap(1em);
 
 	flex: 1;
 }

@@ -3,7 +3,7 @@
 .footer {
 	display: flex;
 	justify-content: space-between;
-	gap: 1em;
+	@include gap(1em);
 
 	padding: 2em 0;
 	margin-top: 10em;
@@ -13,7 +13,7 @@
 		display: grid;
 		justify-items: center;
 		justify-content: center;
-		gap: 2em;
+		@include gap(2em);
 
 		text-align: center;
 
@@ -29,13 +29,13 @@
 .footer__group {
 	display: grid;
 	align-content: baseline;
-	gap: 2em;
+	@include gap(2em);
 
 	color: $color-gray-2;
 
 	&--s {
 		display: flex;
-		gap: 4em;
+		@include gap(4em);
 	}
 }
 

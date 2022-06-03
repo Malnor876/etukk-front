@@ -3,7 +3,7 @@
 .radio {
 	display: flex;
 	align-items: center;
-	gap: 0.75em;
+	@include gap(0.75em);
 }
 
 .radio__input {

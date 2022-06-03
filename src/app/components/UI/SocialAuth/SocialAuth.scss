@@ -2,7 +2,7 @@
 
 .social-auth {
 	display: grid;
-	gap: 1em;
+	@include gap(1em);
 }
 
 .social-auth__text {
@@ -16,7 +16,7 @@
 
 	display: flex;
 	justify-content: center;
-	gap: 1em;
+	@include gap(1em);
 
 	color: #DDE4E8;
 }

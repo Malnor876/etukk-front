@@ -4,7 +4,7 @@
 	--star-rating-size: 2.5em;
 
 	display: grid;
-	gap: 1em;
+	@include gap(1em);
 
 	&--small {
 		font-size: 50%;
@@ -18,7 +18,7 @@
 
 .star-rating__stars {
 	display: flex;
-	gap: 0.5em;
+	@include gap(0.5em);
 }
 
 .star-rating__star {
