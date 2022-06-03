@@ -1,6 +1,6 @@
 @import "~app/assets/scss/bundle.scss";
 
-.user-view {
+.user-profile {
 	display: flex;
 	align-items: flex-start;
 	gap: 5em;
@@ -10,7 +10,7 @@
 	}
 }
 
-.user-view__container {
+.user-profile__container {
 	display: grid;
 	align-content: baseline;
 	gap: 2em;
@@ -18,29 +18,29 @@
 	flex: 1;
 }
 
-.user-view__row {
+.user-profile__row {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
 
-.user-view__entry {
+.user-profile__entry {
 	color: $color-gray-2;
 	font-size: $font-size-5;
 }
 
-.user-view__general-info {
+.user-profile__general-info {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
 
-.user-view__info {
+.user-profile__info {
 	display: grid;
 	gap: 2em;
 }
 
-.user-view__avatar {
+.user-profile__avatar {
 	width: 7.5em;
 	height: 7.5em;
 
@@ -48,7 +48,7 @@
 	object-fit: cover;
 }
 
-.user-view__cover {
+.user-profile__cover {
 	flex: 1;
 	height: 35em;
 	background: $color-gray-4;

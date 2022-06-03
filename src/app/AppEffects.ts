@@ -1,7 +1,7 @@
 /**
  * SCSS Preload to stop unexpected overwriting styles
 */
-// import "app/layouts/Modal/FullscreenLayout/FullscreenLayout.scss"
+import "app/layouts/Modal/FullscreenLayout/FullscreenLayout.scss"
 
 /**
  * Effects Dependencies

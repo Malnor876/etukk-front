@@ -4,9 +4,10 @@ import { DeepPartial } from "redux"
 import { DateInterval } from "utils/date"
 import { Price } from "utils/extensions"
 
+import { SchemaLot } from "../data/schemas"
 import { mapImageUrl } from "./helpers"
 
-export function mapLotsItem(lot?: {
+export function mapLotPreview(lot?: {
   id: number
   name?: string | null
   description?: string | null
@@ -70,32 +71,11 @@ export function mapLotsLists(lots: {
   return {
     current: 1,
     limit: 100,
-    items: lots.map(mapLotsItem)
+    items: lots.map(mapLotPreview)
   }
 }
 
-export function mapLotByLotId(payload: {
-  id: number
-  name?: string | null
-  description?: string | null
-  start_price?: number | null
-  city?: string | null
-  delivery_options?: string | null
-  video_url?: string | null
-  archived?: boolean
-  bidding_start_time?: string | null
-  bidding_end_time?: string | null
-  reject_reason?: string | null
-  now_price?: number | null
-  status?: string
-  trade_status?: string | null
-  views?: number
-  favorites?: number
-  created_at: string
-  edited_at: string
-  buyer_id?: number | null
-  user_id: number
-}): LotInfoType {
+export function mapLot(payload: SchemaLot): LotInfoType {
   return {
     id: payload.id,
     delivery: payload.delivery_options as LotDelivery,

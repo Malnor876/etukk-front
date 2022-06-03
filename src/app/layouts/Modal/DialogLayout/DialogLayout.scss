@@ -7,6 +7,8 @@
 $gap: 2em;
 
 .dialog-layout {
+	all: unset;
+
 	@keyframes show {
 		from {
 			transform: translateY(25%);

@@ -69,7 +69,7 @@
 }
 
 @mixin DesktopOnly {
-	@media screen and (min-width: #{$width-desktop} + 1px) {
+	@media screen and (min-width: calc(#{$width-desktop} + 1px)) {
 		@content;
 	}
 }

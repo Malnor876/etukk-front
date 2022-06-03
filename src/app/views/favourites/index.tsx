@@ -5,9 +5,10 @@ import Switcher from "app/components/UI/Switcher/Switcher"
 import Buttons from "app/layouts/Buttons/Buttons"
 import Previews from "app/layouts/Previews/Previews"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
+import { LotStatus } from "domain/Lot/types"
 import SellerPreview from "domain/seller/SellerPreview/SellerPreview"
-import { getUserFavoriteLots, getUserFavoriteUser } from "infrastructure/persistence/api/data/actions"
-import { mapLotsLists } from "infrastructure/persistence/api/mappings/lots"
+import { getUserFavoriteLot, getUserFavoriteUser } from "infrastructure/persistence/api/data/actions"
+import { mapLot, mapLotPreview, mapLotsLists } from "infrastructure/persistence/api/mappings/lots"
 import { mapUser } from "infrastructure/persistence/api/mappings/user"
 import { Outlet, Route, Routes } from "react-router"
 import { NavLink } from "react-router-dom"
@@ -17,69 +18,114 @@ function FavouritesView() {
     <>
       <h2 className="heading">избранное</h2>
       <Buttons>
-        <ButtonLink small outline nav to="all">Лоты</ButtonLink>
+        <ButtonLink small outline nav to="lots">Лоты</ButtonLink>
         <ButtonLink small outline nav to="sellers">Продавцы</ButtonLink>
       </Buttons>
-      <QueryContainer action={getUserFavoriteLots()}>
-        {payload => {
-          // const waiting = payload.find(item =>item.)
-          return (
-            <Routes>
-              <Route path="all/*" element={
-                <>
-                  <Switcher>
-                    <NavLink to="" end>Все ({payload.length})</NavLink>
-                    <NavLink to="pending">Ожидающие (2)</NavLink>
-                    <NavLink to="bidding">Торги (0)</NavLink>
-                    <NavLink to="sold">Проданы (4)</NavLink>
-                  </Switcher>
-                  <SortingToggle>
-                    <option value="all">Все отзывы</option>
-                    <option value="new">Новые отзывы</option>
-                    <option value="positive">Положительные</option>
-                    <option value="negative">Отрицательные</option>
-                  </SortingToggle>
-                  <Outlet />
-                </>
-              }>
-                <Route index element={<FavouritesLotsContainer />} />
-              </Route>
-              <Route path="sellers" element={<FavouritesSellersContainer />} />
-            </Routes>
-          )
-        }}
-      </QueryContainer>
+      <Routes>
+        <Route path="lots/*" element={(
+          <QueryContainer action={getUserFavoriteLot()} key="lots">
+            {all => {
+              const sold = all.filter(item => item.lot.status === LotStatus.SOLD)
+              return (
+                <Routes>
+                  <Route element={(
+                    <>
+                      <Switcher>
+                        <NavLink to="" end>Все ({all.length})</NavLink>
+                        <NavLink to="pending">Ожидающие (2)</NavLink>
+                        <NavLink to="trading">Торги (0)</NavLink>
+                        <NavLink to="sold">Проданы ({sold.length})</NavLink>
+                      </Switcher>
+                      <SortingToggle>
+                        <option value="all">Все отзывы</option>
+                        <option value="new">Новые отзывы</option>
+                        <option value="positive">Положительные</option>
+                        <option value="negative">Отрицательные</option>
+                      </SortingToggle>
+                      <Outlet />
+                    </>
+                  )}>
+                    <Route index element={(
+                      <Previews>
+                        {all.map(item => (
+                          <LotPreview {...mapLotPreview(item.lot)} key={item.id} />
+                        ))}
+                      </Previews>
+                    )} />
+                    <Route path="pending" element={(
+                      <Previews>
+                        {all.map(item => (
+                          <LotPreview {...mapLotPreview(item.lot)} key={item.id} />
+                        ))}
+                      </Previews>
+                    )} />
+                    <Route path="trading" element={(
+                      <Previews>
+                        {all.map(item => (
+                          <LotPreview {...mapLotPreview(item.lot)} key={item.id} />
+                        ))}
+                      </Previews>
+                    )} />
+                    <Route path="sold" element={(
+                      <Previews>
+                        {sold.map(item => (
+                          <LotPreview {...mapLotPreview(item.lot)} key={item.id} />
+                        ))}
+                      </Previews>
+                    )} />
+                  </Route>
+                </Routes>
+              )
+            }}
+          </QueryContainer>
+        )} />
+        <Route path="sellers" element={(
+          <QueryContainer action={getUserFavoriteUser()} key="sellers">
+            {payload => (
+              <Previews>
+                {payload.map(item => (
+                  <SellerPreview dislikes={1} likes={2} {...mapUser(item.fav_user)} key={item.id} />
+                ))}
+              </Previews>
+            )}
+          </QueryContainer>
+        )} />
+      </Routes>
     </>
   )
 }
 
-function FavouritesLotsContainer() {
-  return null
-  // return (
-  //   <QueryContainer action={getCabinetFavorite()} mapping={mapLotsLists}>
-  //     {payload => (
-  //       <Previews>
-  //         {payload.items.map(lot => (
-  //           <LotPreview {...lot} key={lot.id} />
-  //         ))}
-  //       </Previews>
-  //     )}
-  //   </QueryContainer>
-  // )
-}
 
-function FavouritesSellersContainer() {
-  return (
-    <QueryContainer action={getUserFavoriteUser()} mapping={payload => payload.map(mapUser as never)}>
-      {payload => (
-        <Previews>
-          {payload.map(seller => (
-            <SellerPreview {...seller as any} key={seller.id} />
-          ))}
-        </Previews>
-      )}
-    </QueryContainer>
-  )
-}
+// interface FavouritesLotsContainerProps {
+//   status: LotStatus
+// }
+
+// function FavouritesLotsContainer(props: FavouritesLotsContainerProps) {
+//   return (
+//     <QueryContainer action={getUserFavoriteLot()}>
+//       {payload => (
+//         <Previews>
+//           {payload.map(item => (
+//             <LotPreview {...mapLotPreview(item.lot)} key={item.id} />
+//           ))}
+//         </Previews>
+//       )}
+//     </QueryContainer>
+//   )
+// }
+
+// function FavouritesSellersContainer() {
+//   return (
+//     <QueryContainer action={getUserFavoriteUser()} mapping={payload => payload.map(mapUser as never)}>
+//       {payload => (
+//         <Previews>
+//           {payload.map(seller => (
+//             <SellerPreview {...seller as any} key={seller.id} />
+//           ))}
+//         </Previews>
+//       )}
+//     </QueryContainer>
+//   )
+// }
 
 export default FavouritesView

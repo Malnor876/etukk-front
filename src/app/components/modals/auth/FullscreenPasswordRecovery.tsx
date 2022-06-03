@@ -1,4 +1,4 @@
-import "./FullscreenAuth.scss"
+// import "./FullscreenAuth.scss"
 
 import NewPassword from "app/components/containers/Password/NewPassword"
 import Button from "app/components/UI/Button/Button"

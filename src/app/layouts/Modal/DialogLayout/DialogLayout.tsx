@@ -34,7 +34,7 @@ function DialogLayout(props: DialogLayoutProps) {
   if (props.pushLeft) modifiers.push("push-left")
   if (props.pushRight) modifiers.push("push-right")
   return (
-    <div className="dialog-layout">
+    <dialog className="dialog-layout">
       <div className="dialog-layout__container">
         <div className={classWithModifiers("dialog-layout__inner", ...modifiers)}>
           <button className={classWithModifiers("dialog-layout__close", !params.closable && "hidden")} type="button" onClick={close}>
@@ -43,7 +43,7 @@ function DialogLayout(props: DialogLayoutProps) {
           {props.children}
         </div>
       </div>
-    </div>
+    </dialog>
   )
 }
 

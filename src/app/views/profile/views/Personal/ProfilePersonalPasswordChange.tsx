@@ -4,7 +4,8 @@ import Button from "app/components/UI/Button/Button"
 import Input from "app/components/UI/Input/Input"
 import Form, { FormState } from "app/layouts/Form/Form"
 import { DialogPasswordRecoverLinkSent } from "app/views/lot/modals/DialogPasswordRecoverLinkSent"
-import { patchUserByUserId } from "infrastructure/persistence/api/data/actions"
+import { isValidResponse } from "infrastructure/persistence/api/client"
+import { patchUserByUserId, postPasswordReset } from "infrastructure/persistence/api/data/actions"
 import { Modal } from "modules/modal/controller"
 import { useState } from "react"
 import { useClient } from "react-fetching-library"
@@ -28,10 +29,11 @@ function ProfilePersonalPasswordChange() {
 
   // }
   async function requestPasswordRecovery() {
-    // const {error, payload} = client.query(postReco)
+    if (!user.auth) return
 
-    // if (error) return
-    // if (payload == null) return
+    const response = await client.query(postPasswordReset(user.email))
+
+    if (!isValidResponse(response)) return
 
     Modal.open(DialogPasswordRecoverLinkSent)
   }

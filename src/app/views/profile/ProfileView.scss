@@ -40,6 +40,8 @@
 	align-items: center;
 	justify-content: space-between;
 
+	margin-right: 3.5em;
+
 	@include Mobile {
 		order: -1;
 	}

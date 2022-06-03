@@ -62,13 +62,12 @@ export function Filter(props: FilterProps) {
 interface FiltersToolboxProps {
   state: FiltersState
   onChange: Dispatch<FiltersState>
-  onReset(): void
 }
 
 export function FiltersToolbox(props: FiltersToolboxProps) {
   const [filters, setFilters] = useContext(filtersContext)
 
-  const reset = () => { setFilters({}); props.onReset() }
+  const reset = () => setFilters({})
   const onExpand = () => props.onChange(props.state === "expanded" ? undefined : "expanded")
   const onShrink = () => props.onChange("shrunken")
   return (

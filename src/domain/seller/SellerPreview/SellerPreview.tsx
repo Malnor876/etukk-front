@@ -11,7 +11,7 @@ export interface SellerPreviewProps {
   id: number
 
   avatar: string
-  name: string
+  fullName: string
   city: string
 
   likes: number
@@ -29,7 +29,7 @@ function SellerPreview(props: SellerPreviewProps) {
         <img src={props.avatar} alt="avatar" className="seller-preview-avatar__image" />
       </div>
       <div className="seller-preview__details">
-        <div className="seller-preview__name">{props.name}</div>
+        <div className="seller-preview__name">{props.fullName}</div>
         <div className="seller-preview__city">{props.city}</div>
         <div className="seller-preview__entries">
           <Entries>

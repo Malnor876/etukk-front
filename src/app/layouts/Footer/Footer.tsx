@@ -12,7 +12,7 @@ function Footer() {
       <div className="footer__group">
         <Link className="footer__link" to="/favourites/all">Избранное</Link>
         <Link className="footer__link" to="/lots/new/edit">Выставить лот</Link>
-        <small>Все права защищены, 2022©</small>
+        <small className="footer__copyright">Все права защищены, 2022©</small>
       </div>
       <div className="footer__group">
         <Link className="footer__link" to="/notifications">Уведомления</Link>
@@ -22,10 +22,13 @@ function Footer() {
         <Link className="footer__link" to="/support">Тех. поддержка</Link>
         <Link className="footer__link" to="/about">О нас</Link>
       </div>
-      <div className="footer__group">
+      <div className="footer__group footer__group--s">
         <OuterLink className="footer__link" to="tel:+7 (495) 324 -09-59" noTarget>+7 (495) 324 -09-59</OuterLink>
         <OuterLink className="footer__link" to="mailto:info@etukk.ru" noTarget>info@etukk.ru</OuterLink>
       </div>
+      <Link className="footer__link footer__link--underline" to="/terms/policy">Политика конфиденциальности</Link>
+      <Link className="footer__link footer__link--underline" to="/terms/rules">Правила пользования сайтом</Link>
+      <small className="footer__copyright-mobile">Все права защищены, 2022©</small>
     </footer>
   )
 }

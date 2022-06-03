@@ -35,9 +35,9 @@ function DetailedLots(props: DetailedLotsProps) {
     </>
   )
 
-  // return (
-
-  // )
+  return (
+    subject
+  )
 }
 
 

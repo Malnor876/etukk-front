@@ -5,7 +5,7 @@ import Button from "app/components/UI/Button/Button"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import { LotInfoLayout } from "domain/Lot/Lot"
 import { getLotByLotId } from "infrastructure/persistence/api/data/actions"
-import { mapLotByLotId } from "infrastructure/persistence/api/mappings/lots"
+import { mapLot } from "infrastructure/persistence/api/mappings/lots"
 import { Modal } from "modules/modal/controller"
 import { useParams } from "react-router"
 import { DateInterval } from "utils/date"
@@ -64,7 +64,7 @@ interface LotContainerProps {
 
 function LotContainer(props: LotContainerProps) {
   return (
-    <QueryContainer action={getLotByLotId(props.id)} mapping={mapLotByLotId}>
+    <QueryContainer action={getLotByLotId(props.id)} mapping={mapLot}>
       {payload => (
         <LotInfoLayout {...payload} />
       )}

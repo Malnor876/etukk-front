@@ -1,4 +1,4 @@
-import "./FullscreenAuth.scss"
+// import "./FullscreenAuth.scss"
 
 import Button from "app/components/UI/Button/Button"
 import Input from "app/components/UI/Input/Input"

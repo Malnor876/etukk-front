@@ -17,7 +17,7 @@ function MobileNavigator() {
   return (
     <nav className="mobile-navigator">
       <MobileNavigatorLink iconName="search-filled" to="/">Главная</MobileNavigatorLink>
-      <MobileNavigatorLink iconName="bookmark" to="/profile/bookmarks">Закладки</MobileNavigatorLink>
+      <MobileNavigatorLink iconName="bookmark" to="/favourites/lots">Закладки</MobileNavigatorLink>
       <MobileNavigatorLink iconName="hammer" to="/profile/bids">Ставки</MobileNavigatorLink>
       <MobileNavigatorLink iconName="bell" to="/notifications">Оповещения</MobileNavigatorLink>
       <MobileNavigatorLink iconName="user" to="/profile/personal">Профиль</MobileNavigatorLink>

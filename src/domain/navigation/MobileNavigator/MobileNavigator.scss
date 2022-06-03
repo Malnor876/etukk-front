@@ -19,7 +19,6 @@
 .mobile-navigator-link {
 	display: flex;
 	align-items: center;
-	// padding: 1em;
 
 	color: $color-main-text;
 	text-decoration: none;
@@ -27,20 +26,20 @@
 
 .mobile-navigator-link__circle {
 	top: 0;
-	padding: 1em;
+	padding: 0.75em;
 	background: $color-white;
 	border-radius: 50%;
 
 	transition: 200ms ease top, 200ms ease background-color;
 
 	.mobile-navigator-link--active & {
-		top: -3.25em;
+		top: -2.5em;
 		background-color: $color-raspberry-1;
 	}
 }
 
 .mobile-navigator-link__icon {
-	--icon-size: 1.75rem;
+	--icon-size: 1.25rem;
 	color: $color-gray-3;
 	transition: 200ms ease color;
 
@@ -49,7 +48,7 @@
 	}
 
 	&--bookmark {
-		--icon-size: 1.5rem;
+		--icon-size: 1rem;
 	}
 }
 

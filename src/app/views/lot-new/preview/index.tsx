@@ -93,7 +93,7 @@ function usePublishNewLot(requestPayload: NewLotPayload) {
       start_price: Number(requestPayload.price),
       // specifications: requestPayload.specifications.map(spec => ({ val: spec.value, key: spec.key })),
       bidding_start_time: new Date(requestPayload.date).toJSON(),
-      bidding_end_time: new Date(requestPayload.date).toJSON(),
+      bidding_end_time: new Date(new Date(requestPayload.date).getTime() + (1 * 1000 * 60 * 60 * 24)).toJSON(),
       description: requestPayload.description,
       delivery_options: requestPayload.delivery,
       video_url: "",

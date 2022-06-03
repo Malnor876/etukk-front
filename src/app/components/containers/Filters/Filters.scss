@@ -20,23 +20,24 @@ $toggleSize: 1.5em;
 	background: $color-white;
 	outline: 1em solid white;
 	transition: 500ms ease width, 500ms ease top;
-	animation: 200ms 0ms from-absolute;
-
-	&--shrunken {
-		width: $toggleSize;
-
-		.filters__toggle {
-			display: unset;
-		}
-
-		.filters__inner {
-			opacity: 0;
-			overflow: hidden;
-			pointer-events: none;
-		}
-	}
 
 	@include DesktopOnly {
+		animation: 200ms 0ms from-absolute;
+
+		&--shrunken {
+			width: $toggleSize;
+
+			.filters__toggle {
+				display: unset;
+			}
+
+			.filters__inner {
+				opacity: 0;
+				overflow: hidden;
+				pointer-events: none;
+			}
+		}
+
 		&--expanded {
 			position: absolute;
 			top: -7em;
@@ -56,17 +57,26 @@ $toggleSize: 1.5em;
 	}
 
 	@include Mobile {
-		position: absolute;
-		top: -3.5em;
+		width: $toggleSize;
+		height: $toggleSize;
 
-		outline: unset;
-		overflow: hidden;
-
-		&--shrunken {
-			height: $toggleSize;
+		.filters__toggle {
+			display: unset;
 		}
 
-		&--expanded {}
+		.filters__inner {
+			opacity: 0;
+			overflow: hidden;
+			pointer-events: none;
+		}
+
+		&--expanded {
+			position: absolute;
+			top: -3.5em;
+
+			outline: unset;
+			overflow: hidden;
+		}
 	}
 }
 
@@ -176,7 +186,13 @@ $toggleSize: 1.5em;
 
 			padding-right: 1.5em;
 
-			@include Scrollbar;
+			@include DesktopOnly {
+				@include Scrollbar;
+			}
+
+			@include Mobile {
+				max-height: unset;
+			}
 
 			&>.filter__inner {
 				align-content: baseline;
@@ -246,4 +262,104 @@ $toggleSize: 1.5em;
 	display: grid;
 	align-content: baseline;
 	gap: 1em;
+}
+
+
+/* Mobile Filters */
+
+.mobile-filters {
+	overflow: hidden;
+
+	&--expanded {
+		position: fixed;
+		inset: 0;
+
+		padding: 1.5em;
+		background: $color-white;
+		transition: 200ms ease opacity, 200ms ease transform;
+		overflow: auto;
+
+		z-index: 1;
+	}
+}
+
+.mobile-filters__container {
+	display: flex;
+	align-items: center;
+
+	gap: 1em;
+
+	.mobile-filters--expanded & {
+		display: none;
+	}
+}
+
+.mobile-filters__toggle {
+	--icon-size: #{$toggleSize};
+
+	color: $color-raspberry-1;
+}
+
+.mobile-filters__categories {
+	display: flex;
+	gap: 0.75em;
+
+	overflow: auto;
+
+	&>.button {
+		flex-shrink: 0;
+	}
+}
+
+.mobile-filters__window {
+	display: none;
+
+	.mobile-filters--expanded & {
+		display: grid;
+		gap: 2.5em;
+	}
+}
+
+.mobile-filters__close {
+	margin-left: auto;
+}
+
+.mobile-filters__tree {
+	$gap: 1.5em;
+
+	display: grid;
+	// gap: 1em;
+
+	&>*:not(:last-child) {
+		padding-bottom: $gap;
+		margin-bottom: $gap;
+
+		border-bottom: 1px solid $color-gray-4;
+	}
+}
+
+
+.mobile-filters__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+
+.mobile-filters__title {
+	font-size: $font-size-3;
+	font-weight: 600;
+
+	text-transform: uppercase;
+}
+
+.mobile-filters__clear {
+	font-size: $font-size-5;
+
+	color: $color-raspberry-1;
+	text-decoration: underline;
+
+	&:active {
+		text-decoration: none;
+	}
 }

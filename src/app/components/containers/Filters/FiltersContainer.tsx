@@ -8,7 +8,7 @@ import ToolTip from "app/components/UI/ToolTip/ToolTip"
 import { LotDelivery } from "domain/Lot/types"
 import { getCategory } from "infrastructure/persistence/api/data/actions"
 import { mapFiltersCategory, RecursiveTreeElement } from "infrastructure/persistence/api/mappings/lots"
-import { Dispatch, useEffect, useState } from "react"
+import { Dispatch, useState } from "react"
 import { classWithModifiers } from "utils/common"
 
 import QueryContainer from "../QueryContainer/QueryContainer"
@@ -38,9 +38,57 @@ function FiltersContainer(props: FiltersContainerProps) {
         <div className="filters__inner">
           <div className="filters__header">
             <div className="filters__title">Фильтр</div>
-            <FiltersToolbox state={state} onChange={setState} onReset={onSubmit} />
+            <FiltersToolbox state={state} onChange={setState} />
           </div>
           <div className="filters__container">
+            <FiltersTreeContainer />
+          </div>
+          <Button className="filters__submit" pending={props.pending} await onClick={onSubmit}>Применить</Button>
+        </div>
+      </div>
+    </filtersContext.Provider>
+  )
+}
+
+export function FiltersContainerMobile(props: FiltersContainerProps) {
+  const [state, setState] = useState<FiltersState>()
+  const reducer = useState<FiltersType>({})
+  const [filters, setFilters] = reducer
+  async function onSubmit() {
+    await props.onSubmit?.(filters)
+    setState(undefined)
+  }
+
+  function clear() {
+    setFilters({})
+  }
+  return (
+    <filtersContext.Provider value={reducer}>
+      <div className={classWithModifiers("mobile-filters", state)}>
+        <div className="mobile-filters__container">
+          <button className="mobile-filters__toggle" type="button" onClick={() => setState("expanded")}>
+            <Icon name="filter" />
+            <ToolTip>Развернуть фильтр</ToolTip>
+          </button>
+          <QueryContainer action={getCategory()} mapping={mapFiltersCategory}>
+            {payload => (
+              <div className="mobile-filters__categories">
+                {payload.filter(item => item.parent_category_id == null).map(category => (
+                  <Button small outline key={category.id}>{category.name}</Button>
+                ))}
+              </div>
+            )}
+          </QueryContainer>
+        </div>
+        <div className="mobile-filters__window">
+          <button className="mobile-filters__close" type="button" onClick={() => setState(undefined)}>
+            <Icon name="cross" />
+          </button>
+          <div className="mobile-filters__header">
+            <div className="mobile-filters__title">Фильтр</div>
+            <button className="mobile-filters__clear" type="button" onClick={clear}>Сбросить фильтр</button>
+          </div>
+          <div className="mobile-filters__tree">
             <FiltersTreeContainer />
           </div>
           <Button className="filters__submit" pending={props.pending} await onClick={onSubmit}>Применить</Button>

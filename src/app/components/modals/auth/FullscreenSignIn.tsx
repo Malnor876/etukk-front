@@ -1,3 +1,5 @@
+import "./FullscreenAuth.scss"
+
 import Password from "app/components/containers/Password/Password"
 import Button from "app/components/UI/Button/Button"
 import Input from "app/components/UI/Input/Input"

@@ -1,7 +1,7 @@
 import { LotPreviewType } from "domain/Lot/types"
 import { PaginationType } from "interfaces/Nodejs"
 
-import { mapLotsItem } from "./lots"
+import { mapLotPreview } from "./lots"
 import { mapUserType } from "./user"
 
 export function mapCabinet(payload: any) {
@@ -33,7 +33,7 @@ export function mapCabinetUsersSettings({ result }: any): Record<"bidUpConfirm" 
 export function mapLotDisputesLists({ result }: any): { items: LotPreviewType[] } {
   return {
     // ...result,
-    items: result.map(mapLotsItem)
+    items: result.map(mapLotPreview)
   }
 }
 

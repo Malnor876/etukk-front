@@ -211,7 +211,7 @@ export const getUser = (): Action<{
 /**
  * OK
  */
-export const postUserFavoriteLots = (body: {
+export const postUserFavoriteLot = (body: {
   lot_id: number
 }): Action<{
   id: number
@@ -220,21 +220,27 @@ export const postUserFavoriteLots = (body: {
   user_id: number
 }> => ({
   method: "POST",
-  endpoint: `/user/favorite/lots`,
+  endpoint: `/user/favorite/lot`,
   body
 })
 
 /**
  * OK
  */
-export const getUserFavoriteLots = (): Action<{
+export const getUserFavoriteLot = (): Action<{
   id: number
   created_at: string
   lot_id: number
   user_id: number
+  lot: SchemaLot
 }[]> => ({
   method: "GET",
-  endpoint: `/user/favorite/lots`
+  endpoint: `/user/favorite/lot`,
+  // config: {
+  //   mapping: {
+  //     asd: mapLot
+  //   }
+  // }
 })
 
 /**
@@ -261,6 +267,7 @@ export const getUserFavoriteUser = (): Action<{
   created_at: string
   fav_user_id: number
   user_id: number
+  fav_user: SchemaUser
 }[]> => ({
   method: "GET",
   endpoint: `/user/favorite/user`
@@ -304,18 +311,20 @@ export const postUserReview = (body: {
 /**
  * OK
  */
-export const getUserReview = (): Action<{
-  id: number
-  text?: string | null
-  score: number
-  created_at: string
-  banned?: boolean
-  to_user_id: number
-  user_id: number
-}> => ({
-  method: "GET",
-  endpoint: `/user/review`
-})
+export const getUserReview = <Filters = unknown>
+  (filters?: Filters): Action<{
+    id: number
+    text?: string | null
+    score: number
+    created_at: string
+    banned?: boolean
+    to_user_id: number
+    user_id: number
+  }[]> => ({
+    method: "GET",
+    endpoint: `/user/review`,
+    params: { ...filters }
+  })
 
 /**
  * OK
@@ -445,18 +454,20 @@ export const postLotReview = (body: {
 /**
  * OK
  */
-export const getLotReview = (): Action<{
-  id: number
-  text?: string | null
-  score: number
-  created_at: string
-  banned?: boolean
-  to_lot_id: number
-  user_id: number
-}> => ({
-  method: "GET",
-  endpoint: `/lot/review`
-})
+export const getLotReview = <Filters = unknown>
+  (filters?: Filters): Action<{
+    id: number
+    text?: string | null
+    score: number
+    created_at: string
+    banned?: boolean
+    to_lot_id: number
+    user_id: number
+  }[]> => ({
+    method: "GET",
+    endpoint: `/lot/review`,
+    params: { ...filters }
+  })
 
 /**
  * OK
@@ -865,6 +876,7 @@ export const getUserByUserId = (user_id?: number): Action<{
   seller_rating?: number
   verified?: boolean
   banned?: boolean
+  user_pic?: { filename: string }
   user_pic_id?: number | null
 }> => ({
   method: "GET",
@@ -1226,4 +1238,21 @@ export const getCategoryByCategoryId = (category_id?: number): Action<{
 }> => ({
   method: "GET",
   endpoint: `/category/${category_id}`
+})
+
+
+export const getUserBets = (): Action => ({
+  method: "GET",
+  endpoint: "/user/bets",
+})
+
+export const postPasswordReset = (email: string): Action => ({
+  method: "POST",
+  endpoint: "/password/reset",
+  body: { email }
+})
+
+export const postPasswordResetByToken = (token: string): Action => ({
+  method: "POST",
+  endpoint: `/password/reset/${token}`,
 })

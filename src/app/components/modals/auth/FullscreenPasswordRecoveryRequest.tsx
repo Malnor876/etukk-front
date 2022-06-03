@@ -1,28 +1,33 @@
-import "./FullscreenAuth.scss"
+// import "./FullscreenAuth.scss"
 
 import Button from "app/components/UI/Button/Button"
 import Input from "app/components/UI/Input/Input"
 import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
+import { isValidResponse } from "infrastructure/persistence/api/client"
+import { postPasswordReset } from "infrastructure/persistence/api/data/actions"
+import { useModal } from "modules/modal/hook"
+import { useClient } from "react-fetching-library"
 
 enum FormInputs {
   email = "email",
 }
 
 function FullscreenPasswordRecoveryRequest() {
+  const modal = useModal()
+  const client = useClient()
   async function onSubmit(state: FormState<FormInputs, string>) {
-    // const { error, payload } = await signIn(state.values)
+    const response = await client.query(postPasswordReset(state.values.email))
 
-    // if (error) return
-    // if (payload == null) return
+    if (!isValidResponse(response)) return
 
-    // close()
+    modal.close()
   }
   return (
     <FullscreenLayout className="fullscreen-auth">
       <div className="center">
         <h3 className="heading">Восстановление пароля</h3>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <br />
           <br />
           <Input type="email" placeholder="Е-mail" width="21.25em" />

@@ -1,4 +1,4 @@
-import FiltersContainer from "app/components/containers/Filters/FiltersContainer"
+import FiltersContainer, { FiltersContainerMobile } from "app/components/containers/Filters/FiltersContainer"
 import { QueryErrorCoverBoundary } from "app/components/containers/QueryErrorCoverBoundary/QueryErrorCoverBoundary"
 import SearchSuggest from "app/components/containers/SearchSuggest/SearchSuggest"
 import SortingToggle from "app/components/UI/SortingToggle/SortingToggle"
@@ -31,6 +31,9 @@ function HomeView() {
         <option value="Стул мягкий3">Стул мягкий3</option>
         <option value="Стул мягкий4">Стул мягкий4</option> */}
       </SearchSuggest>
+      {isMobile && (
+        <FiltersContainerMobile onSubmit={setFilters} />
+      )}
       <Switcher>
         <NavLink to="/">Все торги</NavLink>
         <NavLink to="/hot">Горячие торги</NavLink>
@@ -42,7 +45,9 @@ function HomeView() {
               <QueryErrorCoverBoundary>
                 <LotPreviewsContainer search={search} {...filters} />
               </QueryErrorCoverBoundary>
-              <FiltersContainer onSubmit={setFilters} />
+              {!isMobile && (
+                <FiltersContainer onSubmit={setFilters} />
+              )}
             </Container>
           </Container>
         } />
