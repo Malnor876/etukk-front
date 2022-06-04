@@ -36,7 +36,8 @@
 .seller-compact__entry {
 	display: flex;
 	align-items: center;
-	gap: 0.5em;
+	// gap: 0.5em;
+	@include column-gap(0.5em);
 
 	font-size: $font-size-6;
 	font-weight: 500;

@@ -28,7 +28,8 @@
 .profile-view__personal {
 	display: flex;
 	justify-content: space-between;
-	gap: 2em;
+	// gap: 2em;
+	@include column-gap(2em);
 
 	@include Mobile {
 		display: grid;
@@ -43,6 +44,7 @@
 	margin-right: 3.5em;
 
 	@include Mobile {
+		margin-right: unset;
 		order: -1;
 	}
 }

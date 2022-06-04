@@ -33,3 +33,44 @@
 		border-radius: 1em;
 	}
 }
+
+/* Flex Gap Compatibility */
+
+// gap utility for cross-browser compatibility (Safari) 
+@mixin gap($gap) {
+	@supports (scroll-behavior: smooth) {
+		gap: $gap;
+	}
+
+	@supports not (scroll-behavior: smooth) {
+		&>*:not(:first-child) {
+			margin: $gap;
+		}
+	}
+}
+
+// row-gap utility for cross-browser compatibility (Safari) 
+@mixin row-gap($gap) {
+	@supports (scroll-behavior: smooth) {
+		row-gap: $gap;
+	}
+
+	@supports not (scroll-behavior: smooth) {
+		&>*:not(:first-child) {
+			margin-top: $gap;
+		}
+	}
+}
+
+// column-gap utility for cross-browser compatibility (Safari) 
+@mixin column-gap($gap) {
+	@supports (scroll-behavior: smooth) {
+		// column-gap: $gap;
+	}
+
+	&>*:not(:first-child) {
+		margin-left: $gap;
+	}
+
+	@supports not (scroll-behavior: smooth) {}
+}

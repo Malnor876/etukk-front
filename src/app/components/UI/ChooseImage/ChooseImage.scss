@@ -5,7 +5,8 @@ $image-height: 8.75em;
 .choose-image {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 1em;
+	// gap: 1em;
+	@include column-gap(1em);
 }
 
 .choose-image__chooser {

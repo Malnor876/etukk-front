@@ -24,7 +24,8 @@
 
 .lot-edit-view__buttons {
 	display: flex;
-	gap: 2em;
+	// gap: 2em;
+	@include column-gap(2em);
 
 	margin-left: calc(20ch - 0.25em);
 
@@ -71,7 +72,8 @@
 .lot-edit-setting__container {
 	display: flex;
 	align-items: flex-start;
-	gap: 1.5em;
+	// gap: 1.5em;
+	@include column-gap(1.5em);
 
 	&>.close-button {
 		margin-top: 0.35em;

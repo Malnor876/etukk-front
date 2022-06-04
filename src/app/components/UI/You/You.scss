@@ -3,7 +3,8 @@
 .you {
 	display: flex;
 	align-items: center;
-	gap: 0.5em;
+	// gap: 0.5em;
+	@include column-gap(0.5em);
 }
 
 .you__avatar {

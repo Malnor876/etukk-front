@@ -14,7 +14,8 @@
 .subject-log__container {
 	display: flex;
 	align-items: flex-start;
-	gap: 2.5em;
+	// gap: 2.5em;
+	@include column-gap(2.5em);
 
 	background: $color-white;
 	transition: 500ms ease opacity;

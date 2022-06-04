@@ -29,7 +29,8 @@
 
 .review__attachments {
 	display: flex;
-	gap: 0.5em;
+	// gap: 0.5em;
+	@include column-gap(0.5em);
 
 	cursor: pointer;
 }
@@ -46,7 +47,7 @@
 
 .review-user {
 	display: flex;
-	gap: 1em;
+	@include column-gap(1em);
 }
 
 .review-user__avatar {

@@ -15,7 +15,7 @@ function Footer() {
         <small className="footer__copyright">Все права защищены, 2022©</small>
       </div>
       <div className="footer__group">
-        <Link className="footer__link" to="/notifications">Уведомления</Link>
+        <Link className="footer__link" to="/notifications/lots">Уведомления</Link>
         <Link className="footer__link" to="/user">Профиль</Link>
       </div>
       <div className="footer__group">

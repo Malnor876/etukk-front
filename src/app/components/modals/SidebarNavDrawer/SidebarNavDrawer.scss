@@ -3,7 +3,8 @@
 .sidebar-nav-drawer {
 	display: flex;
 	flex-direction: column;
-	gap: 2.5em;
+	// gap: 2.5em;
+	@include row-gap(2.5em);
 
 	height: 100%;
 

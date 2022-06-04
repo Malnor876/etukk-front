@@ -3,7 +3,8 @@
 .switcher {
 	display: flex;
 	align-items: center;
-	gap: 2em;
+	// gap: 2em;
+	@include column-gap(2em);
 
 	overflow: auto;
 

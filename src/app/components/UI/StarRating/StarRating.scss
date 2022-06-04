@@ -18,7 +18,8 @@
 
 .star-rating__stars {
 	display: flex;
-	gap: 0.5em;
+	// gap: 0.5em;
+	@include column-gap(0.5em);
 }
 
 .star-rating__star {

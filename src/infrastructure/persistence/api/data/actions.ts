@@ -84,7 +84,10 @@ export const postAuthUser = (body: {
 }> => ({
   method: "POST",
   endpoint: `/auth/user`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -100,7 +103,10 @@ export const postRegistrationUser = (body: {
 }): Action<{ access_token: string }> => ({
   method: "POST",
   endpoint: `/registration/user`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -114,7 +120,10 @@ export const postAuthTokenRefresh = (body: {
 }> => ({
   method: "POST",
   endpoint: `/auth/token/refresh`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -177,7 +186,10 @@ export const patchUser = (body: Partial<{
 }> => ({
   method: "PATCH",
   endpoint: `/user`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -205,7 +217,10 @@ export const getUser = (): Action<{
   user_pic_id?: number | null
 }> => ({
   method: "GET",
-  endpoint: `/user`
+  endpoint: `/user`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -221,7 +236,10 @@ export const postUserFavoriteLot = (body: {
 }> => ({
   method: "POST",
   endpoint: `/user/favorite/lot`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -236,11 +254,9 @@ export const getUserFavoriteLot = (): Action<{
 }[]> => ({
   method: "GET",
   endpoint: `/user/favorite/lot`,
-  // config: {
-  //   mapping: {
-  //     asd: mapLot
-  //   }
-  // }
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -256,7 +272,10 @@ export const postUserFavoriteUser = (body: {
 }> => ({
   method: "POST",
   endpoint: `/user/favorite/user`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -270,7 +289,10 @@ export const getUserFavoriteUser = (): Action<{
   fav_user: SchemaUser
 }[]> => ({
   method: "GET",
-  endpoint: `/user/favorite/user`
+  endpoint: `/user/favorite/user`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -284,7 +306,10 @@ export const getUserNotifications = (): Action<{
   event_time: string
 }> => ({
   method: "GET",
-  endpoint: `/user/notifications`
+  endpoint: `/user/notifications`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -305,7 +330,10 @@ export const postUserReview = (body: {
 }> => ({
   method: "POST",
   endpoint: `/user/review`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -323,7 +351,10 @@ export const getUserReview = <Filters = unknown>
   }[]> => ({
     method: "GET",
     endpoint: `/user/review`,
-    params: { ...filters }
+    params: { ...filters },
+    config: {
+      requireAuth: true
+    }
   })
 
 /**
@@ -365,7 +396,10 @@ export const postLotDraft = (body: {
 }> => ({
   method: "POST",
   endpoint: `/lot/draft`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -395,7 +429,10 @@ export const getLotDraft = (): Action<{
   user_id: number
 }> => ({
   method: "GET",
-  endpoint: `/lot/draft`
+  endpoint: `/lot/draft`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -448,7 +485,10 @@ export const postLotReview = (body: {
 }> => ({
   method: "POST",
   endpoint: `/lot/review`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -466,7 +506,10 @@ export const getLotReview = <Filters = unknown>
   }[]> => ({
     method: "GET",
     endpoint: `/lot/review`,
-    params: { ...filters }
+    params: { ...filters },
+    config: {
+      requireAuth: true
+    }
   })
 
 /**
@@ -517,7 +560,10 @@ export const postLotDraftByLotIdModerate = (lot_id: number): Action<{
   user_id: number
 }> => ({
   method: "POST",
-  endpoint: `/lot/draft/${lot_id}/moderate`
+  endpoint: `/lot/draft/${lot_id}/moderate`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -547,7 +593,10 @@ export const patchLotDraftByLotIdUnpublish = (lot_id: number): Action<{
   user_id: number
 }> => ({
   method: "PATCH",
-  endpoint: `/lot/draft/${lot_id}/unpublish`
+  endpoint: `/lot/draft/${lot_id}/unpublish`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -577,7 +626,10 @@ export const patchLotDraftByLotIdArchive = (lot_id: number): Action<{
   user_id: number
 }> => ({
   method: "PATCH",
-  endpoint: `/lot/draft/${lot_id}/archive`
+  endpoint: `/lot/draft/${lot_id}/archive`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -592,7 +644,10 @@ export const postLotByLotIdBet = (lot_id: number, multiply?: number): Action<{
 }> => ({
   method: "POST",
   endpoint: `/lot/${lot_id}/bet`,
-  params: { multiply }
+  params: { multiply },
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -606,7 +661,10 @@ export const getLotByLotIdBet = (lot_id: number): Action<{
   user_id: number
 }> => ({
   method: "GET",
-  endpoint: `/lot/${lot_id}/bet`
+  endpoint: `/lot/${lot_id}/bet`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -614,7 +672,10 @@ export const getLotByLotIdBet = (lot_id: number): Action<{
  */
 export const deleteAdminLotByLotIdModerate = (lot_id: number): Action => ({
   method: "DELETE",
-  endpoint: `/admin/lot/${lot_id}/moderate`
+  endpoint: `/admin/lot/${lot_id}/moderate`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -644,7 +705,10 @@ export const postAdminLotByLotIdModerate = (lot_id: number): Action<{
   user_id: number
 }> => ({
   method: "POST",
-  endpoint: `/admin/lot/${lot_id}/moderate`
+  endpoint: `/admin/lot/${lot_id}/moderate`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -652,7 +716,10 @@ export const postAdminLotByLotIdModerate = (lot_id: number): Action<{
  */
 export const deleteAdminLotByLotIdBan = (lot_id: number): Action => ({
   method: "DELETE",
-  endpoint: `/admin/lot/${lot_id}/ban`
+  endpoint: `/admin/lot/${lot_id}/ban`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -682,7 +749,10 @@ export const postAdminLotByLotIdBan = (lot_id: number): Action<{
   user_id: number
 }> => ({
   method: "POST",
-  endpoint: `/admin/lot/${lot_id}/ban`
+  endpoint: `/admin/lot/${lot_id}/ban`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -690,7 +760,10 @@ export const postAdminLotByLotIdBan = (lot_id: number): Action<{
  */
 export const deleteAdminUserByUserIdBan = (user_id: number): Action => ({
   method: "DELETE",
-  endpoint: `/admin/user/${user_id}/ban`
+  endpoint: `/admin/user/${user_id}/ban`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -717,7 +790,10 @@ export const postAdminUserByUserIdBan = (user_id: number): Action<{
   user_pic_id?: number | null
 }> => ({
   method: "POST",
-  endpoint: `/admin/user/${user_id}/ban`
+  endpoint: `/admin/user/${user_id}/ban`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -725,7 +801,10 @@ export const postAdminUserByUserIdBan = (user_id: number): Action<{
  */
 export const deleteAdminUserReviewByUserReviewIdBan = (user_review_id: number): Action => ({
   method: "DELETE",
-  endpoint: `/admin/user_review/${user_review_id}/ban`
+  endpoint: `/admin/user_review/${user_review_id}/ban`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -752,7 +831,10 @@ export const postAdminUserReviewByUserReviewIdBan = (user_review_id: number): Ac
   user_pic_id?: number | null
 }> => ({
   method: "POST",
-  endpoint: `/admin/user_review/${user_review_id}/ban`
+  endpoint: `/admin/user_review/${user_review_id}/ban`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -760,7 +842,10 @@ export const postAdminUserReviewByUserReviewIdBan = (user_review_id: number): Ac
  */
 export const deleteAdminLotReviewByUserReviewIdBan = (user_review_id: number): Action => ({
   method: "DELETE",
-  endpoint: `/admin/lot_review/${user_review_id}/ban`
+  endpoint: `/admin/lot_review/${user_review_id}/ban`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -787,7 +872,10 @@ export const postAdminLotReviewByUserReviewIdBan = (user_review_id: number): Act
   user_pic_id?: number | null
 }> => ({
   method: "POST",
-  endpoint: `/admin/lot_review/${user_review_id}/ban`
+  endpoint: `/admin/lot_review/${user_review_id}/ban`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -814,7 +902,10 @@ export const getUsersByUsersId = (users_id?: number): Action<{
   user_pic_id?: number | null
 }> => ({
   method: "GET",
-  endpoint: `/users/${users_id}`
+  endpoint: `/users/${users_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -852,7 +943,10 @@ export const patchUserByUserId = (user_id: number, body: {
 }> => ({
   method: "PATCH",
   endpoint: `/user/${user_id}`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -880,7 +974,10 @@ export const getUserByUserId = (user_id?: number): Action<{
   user_pic_id?: number | null
 }> => ({
   method: "GET",
-  endpoint: `/user/${user_id}`
+  endpoint: `/user/${user_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -888,7 +985,10 @@ export const getUserByUserId = (user_id?: number): Action<{
  */
 export const deleteUserByUserIdPictureByPictureId = (picture_id: number, user_id: number): Action => ({
   method: "DELETE",
-  endpoint: `/user/${user_id}/picture/${picture_id}`
+  endpoint: `/user/${user_id}/picture/${picture_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -896,7 +996,10 @@ export const deleteUserByUserIdPictureByPictureId = (picture_id: number, user_id
  */
 export const deleteUserFavoriteLotsByLotsId = (lots_id?: number): Action => ({
   method: "DELETE",
-  endpoint: `/user/favorite/lots/${lots_id}`
+  endpoint: `/user/favorite/lots/${lots_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -909,7 +1012,10 @@ export const getUserFavoriteLotsByLotsId = (lots_id?: number): Action<{
   user_id: number
 }> => ({
   method: "GET",
-  endpoint: `/user/favorite/lots/${lots_id}`
+  endpoint: `/user/favorite/lots/${lots_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -917,7 +1023,10 @@ export const getUserFavoriteLotsByLotsId = (lots_id?: number): Action<{
  */
 export const deleteUserFavoriteUserByUserId = (user_id?: number): Action => ({
   method: "DELETE",
-  endpoint: `/user/favorite/user/${user_id}`
+  endpoint: `/user/favorite/user/${user_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -930,7 +1039,10 @@ export const getUserFavoriteUserByUserId = (user_id?: number): Action<{
   user_id: number
 }> => ({
   method: "GET",
-  endpoint: `/user/favorite/user/${user_id}`
+  endpoint: `/user/favorite/user/${user_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -944,7 +1056,10 @@ export const getUserNotificationsByNotificationsId = (notifications_id?: number)
   event_time: string
 }> => ({
   method: "GET",
-  endpoint: `/user/notifications/${notifications_id}`
+  endpoint: `/user/notifications/${notifications_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -952,7 +1067,10 @@ export const getUserNotificationsByNotificationsId = (notifications_id?: number)
  */
 export const deleteUserReviewByReviewId = (review_id?: number): Action => ({
   method: "DELETE",
-  endpoint: `/user/review/${review_id}`
+  endpoint: `/user/review/${review_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -972,7 +1090,10 @@ export const patchUserReviewByReviewId = (review_id: number, body: {
 }> => ({
   method: "PATCH",
   endpoint: `/user/review/${review_id}`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -988,7 +1109,10 @@ export const getUserReviewByReviewId = (review_id?: number): Action<{
   user_id: number
 }> => ({
   method: "GET",
-  endpoint: `/user/review/${review_id}`
+  endpoint: `/user/review/${review_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -996,7 +1120,10 @@ export const getUserReviewByReviewId = (review_id?: number): Action<{
  */
 export const deleteLotDraftByDraftId = (draft_id?: number): Action => ({
   method: "DELETE",
-  endpoint: `/lot/draft/${draft_id}`
+  endpoint: `/lot/draft/${draft_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1038,7 +1165,10 @@ export const patchLotDraftByDraftId = (draft_id: number, body: {
 }> => ({
   method: "PATCH",
   endpoint: `/lot/draft/${draft_id}`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1068,7 +1198,10 @@ export const getLotDraftByDraftId = (draft_id?: number): Action<{
   user_id: number
 }> => ({
   method: "GET",
-  endpoint: `/lot/draft/${draft_id}`
+  endpoint: `/lot/draft/${draft_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1076,7 +1209,10 @@ export const getLotDraftByDraftId = (draft_id?: number): Action<{
  */
 export const deleteLotByLotIdPhotoByPhotoId = (photo_id: number, lot_id: number): Action => ({
   method: "DELETE",
-  endpoint: `/lot/${lot_id}/photo/${photo_id}`
+  endpoint: `/lot/${lot_id}/photo/${photo_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1106,7 +1242,10 @@ export const getLotByLotId = (lot_id?: number): Action<{
   user_id: number
 }> => ({
   method: "GET",
-  endpoint: `/lot/${lot_id}`
+  endpoint: `/lot/${lot_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1126,7 +1265,10 @@ export const postLotDraftByLotIdSpecification = (lot_id: number, body: {
 }> => ({
   method: "POST",
   endpoint: `/lot/draft/${lot_id}/specification`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1140,7 +1282,10 @@ export const getLotDraftByLotIdSpecification = (lot_id: number): Action<{
   lot_id: number
 }> => ({
   method: "GET",
-  endpoint: `/lot/draft/${lot_id}/specification`
+  endpoint: `/lot/draft/${lot_id}/specification`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1148,7 +1293,10 @@ export const getLotDraftByLotIdSpecification = (lot_id: number): Action<{
  */
 export const deleteLotDraftByLotIdSpecificationBySpecificationId = (specification_id: number, lot_id: number): Action => ({
   method: "DELETE",
-  endpoint: `/lot/draft/${lot_id}/specification/${specification_id}`
+  endpoint: `/lot/draft/${lot_id}/specification/${specification_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1167,7 +1315,10 @@ export const patchLotDraftByLotIdSpecificationBySpecificationId = (specification
 }> => ({
   method: "PATCH",
   endpoint: `/lot/draft/${lot_id}/specification/${specification_id}`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1181,7 +1332,10 @@ export const getLotDraftByLotIdSpecificationBySpecificationId = (specification_i
   lot_id: number
 }> => ({
   method: "GET",
-  endpoint: `/lot/draft/${lot_id}/specification/${specification_id}`
+  endpoint: `/lot/draft/${lot_id}/specification/${specification_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1189,7 +1343,10 @@ export const getLotDraftByLotIdSpecificationBySpecificationId = (specification_i
  */
 export const deleteLotReviewByReviewId = (review_id?: number): Action => ({
   method: "DELETE",
-  endpoint: `/lot/review/${review_id}`
+  endpoint: `/lot/review/${review_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1209,7 +1366,10 @@ export const patchLotReviewByReviewId = (review_id: number, body: {
 }> => ({
   method: "PATCH",
   endpoint: `/lot/review/${review_id}`,
-  body
+  body,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1225,7 +1385,10 @@ export const getLotReviewByReviewId = (review_id?: number): Action<{
   user_id: number
 }> => ({
   method: "GET",
-  endpoint: `/lot/review/${review_id}`
+  endpoint: `/lot/review/${review_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 /**
@@ -1237,22 +1400,34 @@ export const getCategoryByCategoryId = (category_id?: number): Action<{
   parent_category_id?: number | null
 }> => ({
   method: "GET",
-  endpoint: `/category/${category_id}`
+  endpoint: `/category/${category_id}`,
+  config: {
+    requireAuth: true
+  }
 })
 
 
 export const getUserBets = (): Action => ({
   method: "GET",
   endpoint: "/user/bets",
+  config: {
+    requireAuth: true
+  }
 })
 
 export const postPasswordReset = (email: string): Action => ({
   method: "POST",
   endpoint: "/password/reset",
-  body: { email }
+  body: { email },
+  config: {
+    requireAuth: true
+  }
 })
 
 export const postPasswordResetByToken = (token: string): Action => ({
   method: "POST",
   endpoint: `/password/reset/${token}`,
+  config: {
+    requireAuth: true
+  }
 })

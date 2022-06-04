@@ -3,7 +3,8 @@
 .checkbox {
 	display: flex;
 	align-items: center;
-	gap: 0.75em;
+	@include column-gap(0.75em);
+	// gap: 0.75em;
 }
 
 .checkbox__input {

@@ -3,7 +3,8 @@
 .counter-icon {
 	display: flex;
 	align-items: center;
-	gap: 0.25em;
+	// gap: 0.25em;
+	@include column-gap(0.25em);
 }
 
 .counter-icon__count {

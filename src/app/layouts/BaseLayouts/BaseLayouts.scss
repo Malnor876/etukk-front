@@ -3,7 +3,7 @@
 .row {
 	display: flex;
 	align-items: baseline;
-	gap: 1em;
+	@include column-gap(1em);
 
 	@include Mobile {
 		display: grid;

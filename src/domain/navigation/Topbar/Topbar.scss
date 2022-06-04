@@ -3,13 +3,14 @@
 .topbar {
 	display: flex;
 	align-items: center;
-	gap: 1.5em;
+	@include column-gap(1.5em);
 }
 
 .topbar-menu {
 	display: flex;
 	align-items: center;
-	gap: 2em;
+	// gap: 2em;
+	@include column-gap(2em);
 
 	margin-right: auto;
 }
@@ -30,7 +31,7 @@
 .topbar-actions {
 	display: flex;
 	align-items: center;
-	gap: 1em;
+	@include column-gap(1em);
 
 	&>:first-child {
 		margin-right: 1.5em;

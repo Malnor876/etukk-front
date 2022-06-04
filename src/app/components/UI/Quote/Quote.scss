@@ -3,7 +3,8 @@
 .quote {
 	display: flex;
 	align-items: flex-end;
-	gap: 2em;
+	// gap: 2em;
+	@include column-gap(2em);
 }
 
 .quote__icon {

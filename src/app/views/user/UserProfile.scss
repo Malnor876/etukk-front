@@ -3,7 +3,8 @@
 .user-profile {
 	display: flex;
 	align-items: flex-start;
-	gap: 5em;
+	// gap: 5em;
+	@include column-gap(5em);
 
 	@include Mobile {
 		display: grid;

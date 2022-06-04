@@ -137,7 +137,7 @@ $toggleSize: 1.5em;
 .filters-toolbox {
 	display: flex;
 	align-items: center;
-	gap: 1em;
+	@include column-gap(1em);
 
 	margin-left: auto;
 }
@@ -287,7 +287,7 @@ $toggleSize: 1.5em;
 	display: flex;
 	align-items: center;
 
-	gap: 1em;
+	@include column-gap(1em);
 
 	.mobile-filters--expanded & {
 		display: none;
@@ -302,7 +302,7 @@ $toggleSize: 1.5em;
 
 .mobile-filters__categories {
 	display: flex;
-	gap: 0.75em;
+	@include column-gap(0.75em);
 
 	overflow: auto;
 
