@@ -92,8 +92,8 @@ function usePublishNewLot(requestPayload: NewLotPayload) {
       // picture: requestPayload.files as never,
       start_price: Number(requestPayload.price),
       // specifications: requestPayload.specifications.map(spec => ({ val: spec.value, key: spec.key })),
-      bidding_start_time: new Date(requestPayload.date).toJSON(),
-      bidding_end_time: new Date(new Date(requestPayload.date).getTime() + (1 * 1000 * 60 * 60 * 24)).toJSON(),
+      bidding_start_time: new Date().toJSON(),
+      bidding_end_time: new Date(new Date().getTime() + (1 * 1000 * 60 * 60 * 24)).toJSON(),
       description: requestPayload.description,
       delivery_options: requestPayload.delivery,
       video_url: "",
@@ -103,7 +103,7 @@ function usePublishNewLot(requestPayload: NewLotPayload) {
     if (error) return
     if (responsePayload == null) return
 
-    navigate(`/lots/${responsePayload.id} `)
+    navigate(`/lots/${responsePayload.id}`)
   }
   return publish
 }

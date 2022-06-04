@@ -339,7 +339,7 @@ export const postUserReview = (body: {
 /**
  * OK
  */
-export const getUserReview = <Filters = unknown>
+export const getUserReview = <Filters extends object>
   (filters?: Filters): Action<{
     id: number
     text?: string | null
@@ -347,6 +347,7 @@ export const getUserReview = <Filters = unknown>
     created_at: string
     banned?: boolean
     to_user_id: number
+    user: SchemaUser
     user_id: number
   }[]> => ({
     method: "GET",
@@ -502,6 +503,7 @@ export const getLotReview = <Filters = unknown>
     created_at: string
     banned?: boolean
     to_lot_id: number
+    user: SchemaUser
     user_id: number
   }[]> => ({
     method: "GET",
@@ -1106,6 +1108,7 @@ export const getUserReviewByReviewId = (review_id?: number): Action<{
   created_at: string
   banned?: boolean
   to_user_id: number
+  user: SchemaUser
   user_id: number
 }> => ({
   method: "GET",

@@ -6,7 +6,7 @@ import { Navigate, Route, Routes } from "react-router"
 
 import ProfileBidsView from "./views/Bids/ProfileBidsView"
 import ProfilePersonalView from "./views/Personal/ProfilePersonalView"
-import ProfileSalesView, { ProfilePurchasesView } from "./views/Sales/ProfileSalesView"
+import ProfileLotsReviewsView from "./views/Sales/ProfileSalesView"
 
 function ProfileView() {
   return (
@@ -20,11 +20,12 @@ function ProfileView() {
           <ButtonLink small outline nav to="purchases">Покупки</ButtonLink>
         </Buttons>
         <Routes>
-          <Route path="" element={<Navigate replace to="personal" />} />
+          <Route index element={<Navigate replace to="personal" />} />
           <Route path="personal/*" element={<ProfilePersonalView />} />
           <Route path="bids/*" element={<ProfileBidsView />} />
-          <Route path="sales/*" element={<ProfileSalesView />} />
-          <Route path="purchases/*" element={<ProfilePurchasesView />} />
+
+          <Route path="sales/*" element={<ProfileLotsReviewsView type="sales" />} />
+          <Route path="purchases/*" element={<ProfileLotsReviewsView type="purchases" />} />
         </Routes>
       </div>
     </div>
