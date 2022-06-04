@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux"
 function ProfilePersonalExit() {
   const dispatch = useDispatch()
   function logout() {
+    localStorage.removeItem("token")
     dispatch(userUpdate({ auth: false }))
   }
   return (

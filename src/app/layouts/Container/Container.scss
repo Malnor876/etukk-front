@@ -15,6 +15,6 @@
 	}
 
 	@include Mobile {
-		display: grid;
+		flex-direction: column;
 	}
 }
