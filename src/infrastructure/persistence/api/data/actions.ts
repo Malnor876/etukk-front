@@ -347,6 +347,7 @@ export const getUserReview = <Filters extends object>
     created_at: string
     banned?: boolean
     to_user_id: number
+    user: SchemaUser
     user_id: number
   }[]> => ({
     method: "GET",
@@ -502,6 +503,7 @@ export const getLotReview = <Filters = unknown>
     created_at: string
     banned?: boolean
     to_lot_id: number
+    user: SchemaUser
     user_id: number
   }[]> => ({
     method: "GET",
@@ -1106,6 +1108,7 @@ export const getUserReviewByReviewId = (review_id?: number): Action<{
   created_at: string
   banned?: boolean
   to_user_id: number
+  user: SchemaUser
   user_id: number
 }> => ({
   method: "GET",

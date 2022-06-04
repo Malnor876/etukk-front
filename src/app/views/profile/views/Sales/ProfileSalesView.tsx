@@ -2,6 +2,7 @@ import QueryContainer from "app/components/containers/QueryContainer/QueryContai
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Dropper from "app/components/UI/Droppers/Dropper"
 import Droppers from "app/components/UI/Droppers/Droppers"
+import Review from "app/components/UI/Review/Review"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import Previews from "app/layouts/Previews/Previews"
 import Reviews from "app/layouts/Reviews/Reviews"
@@ -11,6 +12,7 @@ import useDeviceWidth from "hooks/useDeviceWidth"
 import { DeviceWidths } from "hooks/useResizeObserverEntry"
 import { getLot, getUserReview } from "infrastructure/persistence/api/data/actions"
 import { mapLotsLists } from "infrastructure/persistence/api/mappings/lots"
+import { mapUser } from "infrastructure/persistence/api/mappings/user"
 import { useSelector } from "react-redux"
 import { Route, Routes } from "react-router-dom"
 
@@ -62,19 +64,28 @@ function ProfileLotsReviewsView(props: ProfileLotsReviewsViewProps) {
         <ButtonLink to="reviews">Отзывы</ButtonLink>
       </Switcher>
       <Routes>
-        <Route index element={<ProfileSalesLotsByStatusView />} />
-        <Route path="reviews" element={<ProfileSalesReviewsView />} />
+        <Route index element={<ProfileSalesLotsByStatusView {...props} />} />
+        <Route path="reviews" element={<ProfileSalesReviewsView {...props} />} />
       </Routes>
     </>
   )
 }
 
-function ProfileSalesLotsByStatusView() {
+
+interface ProfileSalesLotsByStatusViewProps {
+  type: ProfileLotsReviewsType
+}
+
+function ProfileSalesLotsByStatusView(props: ProfileSalesLotsByStatusViewProps) {
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
   const user = useSelector(state => state.user)
   if (!user.auth) return null
+  const action = getLot<{
+    user_id?: number
+    buyer_id?: number
+  }>(0, 0, props.type === "sales" ? ({ user_id: user.id }) : ({ buyer_id: user.id }))
   return (
-    <QueryContainer action={getLot<{ user_id: number }>(0, 0, { user_id: user.id })} mapping={mapLotsLists}>
+    <QueryContainer action={action} mapping={mapLotsLists}>
       {payload => {
         const moderation = payload.items.filter(item => item.status === LotStatus.MODERATION)
         const published = payload.items.filter(item => item.status === LotStatus.PUBLISHED)
@@ -111,23 +122,33 @@ function ProfileSalesLotsByStatusView() {
 }
 
 
-function ProfileSalesReviewsView() {
+interface ProfileSalesReviewsViewProps {
+  type: ProfileLotsReviewsType
+}
+
+function ProfileSalesReviewsView(props: ProfileSalesReviewsViewProps) {
   const user = useSelector(state => state.user)
   if (!user.auth) return null
+
+  const action = getUserReview<{
+    user_id?: number
+    to_user_id?: number
+  }>(props.type === "sales" ? ({ user_id: user.id }) : ({ to_user_id: user.id }))
+
   return (
-    <QueryContainer action={getUserReview<{ user_id: number }>({ user_id: user.id })}>
+    <QueryContainer action={action}>
       {payload => (
         <Reviews>
-          {/* {payload.map(review => (
+          {payload.map(review => (
             <Review
-              user={ }
+              user={mapUser(review.user)}
               attachments={[]}
               comment={review.text || "..."}
               date={new Date(review.created_at)}
-              product={"review."}
+              product={"product"}
               key={review.id}
             />
-          ))} */}
+          ))}
         </Reviews>
       )}
     </QueryContainer>
