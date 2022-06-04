@@ -1,10 +1,16 @@
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
+import Previews from "app/layouts/Previews/Previews"
 import { IMAGE_MOCKS, LOT_PREVIEW_MOCK } from "constants/mocks"
 import DetailedLots from "domain/Lot/DetailedLots"
+import LotNotification from "domain/Lot/LotNotification"
+import LotPreview from "domain/Lot/LotPreview/LotPreview"
+import { LotPreviewType } from "domain/Lot/types"
 import DetailedSellers from "domain/seller/DetailedSellers"
 import { getUserNotifications } from "infrastructure/persistence/api/data/actions"
+import { mapLotPreview } from "infrastructure/persistence/api/mappings/lots"
+import { useState } from "react"
 import { Route, Routes } from "react-router"
 
 function NotificationsView() {
@@ -26,10 +32,24 @@ function NotificationsView() {
 }
 
 function NotificationsLotsContainer() {
+  const [chosenNotification, setChosenNotification] = useState<{ id: number; lot: LotPreviewType } | null>(null)
+
+  if (chosenNotification !== null) {
+    return (
+      <LotNotification {...chosenNotification} />
+    )
+  }
+
   return (
     <QueryContainer action={getUserNotifications()}>
       {payload => (
-        <DetailedLots lots={Array(16).fill(LOT_PREVIEW_MOCK)} key={payload.id} />
+        <Previews>
+          {payload.filter(item => item.lot != null).map(notification => (
+            <button type="button" key={notification.lot.id}>
+              <LotPreview {...mapLotPreview(notification.lot)} onClick={() => setChosenNotification({ id: notification.id, lot: mapLotPreview(notification.lot) })} />
+            </button>
+          ))}
+        </Previews>
       )}
     </QueryContainer>
   )

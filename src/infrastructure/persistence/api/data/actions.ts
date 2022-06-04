@@ -302,9 +302,10 @@ export const getUserNotifications = (): Action<{
   id: number
   user_id: number
   text: string
+  lot: SchemaLot
   lot_id: number
   event_time: string
-}> => ({
+}[]> => ({
   method: "GET",
   endpoint: `/user/notifications`,
   config: {
