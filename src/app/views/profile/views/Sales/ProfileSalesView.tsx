@@ -1,10 +1,14 @@
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
-import Dropper from "app/components/UI/Dropper/Dropper"
+import Dropper from "app/components/UI/Droppers/Dropper"
+import Droppers from "app/components/UI/Droppers/Droppers"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Container from "app/layouts/Container/Container"
 import Previews from "app/layouts/Previews/Previews"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
+import useDeviceWidth from "hooks/useDeviceWidth"
+import { DeviceWidths } from "hooks/useResizeObserverEntry"
+import { getUserNotifications } from "infrastructure/persistence/api/data/actions"
 import { mapLotDisputesLists } from "infrastructure/persistence/api/mappings/cabinet"
 import { Route, Routes } from "react-router-dom"
 
@@ -54,30 +58,25 @@ import { Route, Routes } from "react-router-dom"
 // }
 
 function ProfileSalesView() {
+  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
   return (
-    <Container>
-      <Routes>
-        <Route index element={<ProfileSalesWon />} />
-        <Route path="way" element={<ProfileSalesWay />} />
-        <Route path="confirm" element={<ProfileSalesConfirm />} />
-        <Route path="completing" element={<ProfileSalesCompleting />} />
-        <Route path="disputes" element={<ProfileSalesDisputes />} />
-      </Routes>
-      <div style={{ width: "18.75em" }}>
-        <Column>
-          <div style={{ display: "grid" }}>
-            <Dropper to="" amount="1">Выиграно</Dropper>
-            <Dropper to="way" amount="1">В пути</Dropper>
-            <Dropper to="confirm" amount="1">Подтвердить получение</Dropper>
-            <Dropper to="completing" amount="1">Завершенные покупки</Dropper>
-            <Dropper to="disputes" amount="1">Открыто споров</Dropper>
-          </div>
-          <div>
-            <ButtonLink to="/support">Перейти в FAQ</ButtonLink>
-          </div>
-        </Column>
-      </div>
-    </Container>
+    <QueryContainer action={getUserNotifications()}>
+      {all => {
+        // const 
+        return (
+          <Droppers type={isMobile ? "__NAMING__1" : "__NAMING__2"}>
+            <Dropper name="won" label="Выиграно" amount="1">
+              asdasdasdsad
+              asdasdasdsad
+            </Dropper>
+            <Dropper name="way" label="В пути" amount="1">
+              asdawrv 23qc
+              asdawrv 23qc
+            </Dropper>
+          </Droppers>
+        )
+      }}
+    </QueryContainer>
   )
 }
 
@@ -95,12 +94,12 @@ export function ProfilePurchasesView() {
       <div style={{ width: "18.75em" }}>
         <Column>
           <div style={{ display: "grid" }}>
-            <Dropper to="" amount="1">На проверке</Dropper>
-            <Dropper to="published" amount="1">Опубликовано</Dropper>
-            <Dropper to="rejected" amount="1">Отклонено</Dropper>
-            <Dropper to="sold" amount="1">Продано</Dropper>
-            <Dropper to="archive" amount="1">Архив</Dropper>
-            <Dropper to="disputes" amount="1">Открыто споров</Dropper>
+            {/* <Droppers name="" amount="1">На проверке</Droppers>
+            <Droppers name="published" amount="1">Опубликовано</Droppers>
+            <Droppers name="rejected" amount="1">Отклонено</Droppers>
+            <Droppers name="sold" amount="1">Продано</Droppers>
+            <Droppers name="archive" amount="1">Архив</Droppers>
+            <Droppers name="disputes" amount="1">Открыто споров</Droppers> */}
           </div>
           <div>
             <ButtonLink to="/support">Перейти в FAQ</ButtonLink>
