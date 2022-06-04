@@ -3,7 +3,7 @@
 .sorting-toggle {
 	display: flex;
 	align-items: center;
-	@include gap(0.25em);
+	gap: 0.25em;
 }
 
 .sorting-toggle__text {

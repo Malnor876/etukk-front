@@ -2,12 +2,12 @@
 
 .slider {
 	display: grid;
-	@include gap(2.5em);
+	gap: 2.5em;
 }
 
 .slider__container {
 	display: grid;
-	@include gap(0.5em);
+	gap: 0.5em;
 }
 
 .slider__current {
@@ -57,7 +57,7 @@ $arrow-icon-size: 1em;
 .slider__slides {
 	display: flex;
 	flex-wrap: nowrap;
-	@include gap(0.25em);
+	gap: 0.25em;
 
 	width: 100%;
 	overflow: auto;

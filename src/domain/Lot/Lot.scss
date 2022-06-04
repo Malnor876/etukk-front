@@ -2,7 +2,7 @@
 
 .lot-view {
 	display: grid;
-	@include gap(5em);
+	gap: 5em;
 }
 
 .lot-info-layout {
@@ -22,7 +22,7 @@
 	@include Mobile {
 		display: grid;
 		justify-content: unset;
-		@include gap(5em);
+		gap: 5em;
 
 		&>:nth-child(1),
 		&>:nth-child(2) {
@@ -34,7 +34,7 @@
 
 .lot-info-layout__section {
 	display: grid;
-	@include gap(2em);
+	gap: 2em;
 
 	&>h4 {
 		margin: unset;
@@ -85,7 +85,7 @@
 
 .lot-info-details {
 	display: grid;
-	@include gap(2em);
+	gap: 2em;
 
 	.buttons {
 		justify-content: space-between;
@@ -149,7 +149,7 @@
 
 .lot-info-bid__entries {
 	display: grid;
-	@include gap(1em);
+	gap: 1em;
 }
 
 .lot-info-bid__entry {
@@ -169,7 +169,7 @@
 	&--column {
 		display: grid;
 		justify-content: unset;
-		@include gap(0.5em);
+		gap: 0.5em;
 	}
 }
 
@@ -186,12 +186,12 @@
 
 .lot-actions {
 	display: flex;
-	@include gap(2em);
+	gap: 2em;
 }
 
 .lot-actions__button {
 	display: flex;
-	@include gap(0.5em);
+	gap: 0.5em;
 
 	padding: 0.75em 1.25em;
 	background-color: $color-white;

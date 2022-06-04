@@ -3,7 +3,7 @@
 .picker {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	@include gap(1.5em 1em);
+	gap: 1.5em 1em;
 }
 
 .picker__entry {

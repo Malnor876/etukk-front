@@ -2,5 +2,5 @@
 
 .view-layout {
 	display: grid;
-	@include gap(2em);
+	gap: 2em;
 }

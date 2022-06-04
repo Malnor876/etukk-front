@@ -2,7 +2,7 @@
 
 header.header {
 	display: grid;
-	@include gap(2em);
+	gap: 2em;
 
 	@include WidthLimit;
 	margin-top: 1em;

@@ -2,7 +2,7 @@
 
 .entries {
 	display: grid;
-	@include gap(1em);
+	gap: 1em;
 }
 
 .entry {
@@ -41,7 +41,7 @@
 	&--column {
 		display: grid;
 		justify-content: unset;
-		@include gap(0.5em);
+		gap: 0.5em;
 	}
 }
 
@@ -58,7 +58,7 @@
 
 .entry-counter__value {
 	display: flex;
-	@include gap(0.5em);
+	gap: 0.5em;
 
 	font-size: $font-size-5;
 }

@@ -15,13 +15,13 @@
 	@include Mobile {
 		display: grid;
 		justify-content: unset;
-		@include gap(1em);
+		gap: 1em;
 	}
 }
 
 .seller-compact__entries {
 	display: grid;
-	@include gap(0.5em);
+	gap: 0.5em;
 
 	&--right {
 		justify-items: flex-end;
@@ -36,7 +36,7 @@
 .seller-compact__entry {
 	display: flex;
 	align-items: center;
-	@include gap(0.5em);
+	gap: 0.5em;
 
 	font-size: $font-size-6;
 	font-weight: 500;

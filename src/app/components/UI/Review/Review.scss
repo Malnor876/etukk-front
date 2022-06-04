@@ -3,7 +3,7 @@
 .review {
 	display: grid;
 	align-content: flex-start;
-	@include gap(1.5em);
+	gap: 1.5em;
 }
 
 .review__header {
@@ -29,7 +29,7 @@
 
 .review__attachments {
 	display: flex;
-	@include gap(0.5em);
+	gap: 0.5em;
 
 	cursor: pointer;
 }
@@ -46,7 +46,7 @@
 
 .review-user {
 	display: flex;
-	@include gap(1em);
+	gap: 1em;
 }
 
 .review-user__avatar {
@@ -60,7 +60,7 @@
 .review-user__info {
 	display: grid;
 	align-content: center;
-	@include gap(0.5em);
+	gap: 0.5em;
 }
 
 .review-user__name {

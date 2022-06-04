@@ -5,7 +5,7 @@
 	align-content: baseline;
 	justify-content: space-between;
 	grid-template-columns: repeat(auto-fill, minmax(14.25em, 1fr));
-	@include gap(2em);
+	gap: 2em;
 
 	flex: 1;
 

@@ -2,7 +2,7 @@
 
 .textarea {
 	display: grid;
-	@include gap(0.5em);
+	gap: 0.5em;
 
 	@include Mobile {
 		width: 100%;

@@ -5,7 +5,7 @@
 
 	display: grid;
 	align-content: space-between;
-	@include gap($gap);
+	gap: $gap;
 
 	width: 100%;
 	max-width: 730px;

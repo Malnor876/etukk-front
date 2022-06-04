@@ -4,7 +4,7 @@
 	all: unset;
 
 	display: grid;
-	@include gap(0.5em);
+	gap: 0.5em;
 
 	&--centered {
 		justify-items: center;

@@ -2,25 +2,25 @@
 
 .specifications {
 	display: grid;
-	@include gap(2.5em);
+	gap: 2.5em;
 }
 
 .specifications__container {
 	display: grid;
-	@include gap(1.5em);
+	gap: 1.5em;
 }
 
 .specifications__specification {
 	display: flex;
 	align-items: center;
-	@include gap(1em);
+	gap: 1em;
 }
 
 .specifications__add {
 	display: flex;
 	align-items: center;
 
-	@include gap(1em);
+	gap: 1em;
 }
 
 .specifications__text {

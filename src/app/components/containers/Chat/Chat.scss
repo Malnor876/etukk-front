@@ -9,7 +9,7 @@
 
 .chat__field {
 	display: grid;
-	@include gap(1em);
+	gap: 1em;
 
 	padding: 2.5em 1.5em;
 	// background: rgba($color-dark, 0.1);

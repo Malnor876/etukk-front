@@ -22,7 +22,7 @@
 
 .fullscreen-layout__inner {
 	display: grid;
-	@include gap(2.5em);
+	gap: 2.5em;
 
 	width: var(--fullscreen-width);
 }

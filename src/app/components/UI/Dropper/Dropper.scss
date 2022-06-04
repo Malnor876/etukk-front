@@ -27,7 +27,7 @@ a.dropper {
 .dropper__side {
 	display: flex;
 	align-items: center;
-	@include gap(1em);
+	gap: 1em;
 }
 
 .dropper__icon {

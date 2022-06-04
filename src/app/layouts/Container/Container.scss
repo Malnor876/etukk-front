@@ -6,7 +6,7 @@
 	display: flex;
 	align-content: baseline;
 	justify-content: space-between;
-	@include gap(2.5em);
+	gap: 2.5em;
 
 	&--row {
 		display: grid;

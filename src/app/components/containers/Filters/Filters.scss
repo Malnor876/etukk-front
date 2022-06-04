@@ -93,7 +93,7 @@ $toggleSize: 1.5em;
 .filters__inner {
 	display: grid;
 	align-content: baseline;
-	@include gap(2em);
+	gap: 2em;
 
 	width: 100%;
 	transition: 500ms ease opacity;
@@ -118,7 +118,7 @@ $toggleSize: 1.5em;
 
 .filters__container {
 	display: grid;
-	@include gap(1em);
+	gap: 1em;
 
 	&>* {
 		padding-top: 1em;
@@ -137,7 +137,7 @@ $toggleSize: 1.5em;
 .filters-toolbox {
 	display: flex;
 	align-items: center;
-	@include gap(1em);
+	gap: 1em;
 
 	margin-left: auto;
 }
@@ -245,7 +245,7 @@ $toggleSize: 1.5em;
 .filter__inner {
 	display: grid;
 	align-content: baseline;
-	@include gap(1em);
+	gap: 1em;
 
 	padding-top: 1em;
 
@@ -261,7 +261,7 @@ $toggleSize: 1.5em;
 .filter__inputs {
 	display: grid;
 	align-content: baseline;
-	@include gap(1em);
+	gap: 1em;
 }
 
 
@@ -287,7 +287,7 @@ $toggleSize: 1.5em;
 	display: flex;
 	align-items: center;
 
-	@include gap(1em);
+	gap: 1em;
 
 	.mobile-filters--expanded & {
 		display: none;
@@ -302,7 +302,7 @@ $toggleSize: 1.5em;
 
 .mobile-filters__categories {
 	display: flex;
-	@include gap(0.75em);
+	gap: 0.75em;
 
 	overflow: auto;
 
@@ -316,7 +316,7 @@ $toggleSize: 1.5em;
 
 	.mobile-filters--expanded & {
 		display: grid;
-		@include gap(2.5em);
+		gap: 2.5em;
 	}
 }
 

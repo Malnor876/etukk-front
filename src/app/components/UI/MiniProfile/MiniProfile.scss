@@ -3,7 +3,7 @@
 .mini-profile {
 	display: flex;
 	align-items: center;
-	@include gap(0.5em);
+	gap: 0.5em;
 }
 
 .mini-profile__avatar {
