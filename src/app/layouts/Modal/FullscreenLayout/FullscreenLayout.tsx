@@ -34,7 +34,7 @@ function FullscreenLayout(props: FullscreenLayoutProps) {
     return (
       <div className={classMerge("fullscreen-layout", props.className)}>
         <div className="fullscreen-layout__container">
-          <button className="fullscreen-layout__close" type="button" onClick={close}>
+          <button className="fullscreen-layout__close" type="button" onClick={modal.close}>
             <Icon name="cross" />
           </button>
           <div className="fullscreen-layout__inner">
@@ -51,7 +51,7 @@ function FullscreenLayout(props: FullscreenLayoutProps) {
         <img src="/static/images/logo.svg" alt="etukk logo" />
       </div>
       <div className="fullscreen-layout__container">
-        <button className="fullscreen-layout__close" type="button" onClick={close}>
+        <button className="fullscreen-layout__close" type="button" onClick={modal.close}>
           <Icon name="cross" />
         </button>
         <div className="fullscreen-layout__inner">

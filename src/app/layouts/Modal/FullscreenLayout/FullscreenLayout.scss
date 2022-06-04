@@ -48,6 +48,10 @@
 	position: absolute;
 	top: 1.5em;
 	right: 1.5em;
+
+	@include Mobile {
+		color: $color-white;
+	}
 }
 
 .fullscreen-layout__logo {
