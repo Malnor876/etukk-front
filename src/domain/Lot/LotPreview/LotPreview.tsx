@@ -98,9 +98,6 @@ function LotPreviewSwitchableInfo(props: LotProps) {
         </>
       )
 
-    case LotStatus.UNKNOWN:
-      return <>unknown status</>
-
     default:
       return (
         <>

@@ -119,21 +119,17 @@ export interface RecursiveTreeElement {
   children: RecursiveTreeElement[]
 }
 
-function recurseCollapsedTree(collapsedTree: CollapsedTreeElement[], isStart = true): RecursiveTreeElement[] {
-  return collapsedTree
-    .filter(c => isStart ? c.parent_category_id == null : true)
-    .map(treeElement => {
-      // if (collapsedTree.findIndex() === -1) {
-      //   return {
-
-      //   }
-      // }
-
+function recurseCollapsedTree(collapsedTree: CollapsedTreeElement[]): RecursiveTreeElement[] {
+  function recurse(tree: CollapsedTreeElement[]): RecursiveTreeElement[] {
+    return tree.map(treeElement => {
+      const asd = collapsedTree.filter(collapsedTreeElement => collapsedTreeElement.parent_category_id === treeElement.id)
       return {
         ...treeElement,
-        children: recurseCollapsedTree(collapsedTree.filter(testTreeElement => testTreeElement.parent_category_id === treeElement.id), false)
+        children: recurse(asd)
       }
     })
+  }
+  return recurse(collapsedTree.filter(c => c.parent_category_id == null))
   // return collapsedTree.map(treeElement => (
   //   {
   //     id: treeElement.id,

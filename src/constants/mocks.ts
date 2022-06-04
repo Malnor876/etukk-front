@@ -16,6 +16,6 @@ export const LOT_PREVIEW_MOCK: LotPreviewType = {
   tradeStartTime: new Date,
   tradeEndTime: new Date,
   bookmarked: true,
-  status: LotStatus.DRAFTED,
+  status: LotStatus.UNKNOWN,
   betsCount: 17
 }

@@ -152,6 +152,7 @@ interface FilterRecursionProps {
 
 function FilterRecursion(props: FilterRecursionProps) {
   if (props.elements.length === 0) return null
+  console.log(props.elements)
   return (
     <>
       {props.elements.map(element => (
