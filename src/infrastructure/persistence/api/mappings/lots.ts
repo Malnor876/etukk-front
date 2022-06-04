@@ -1,6 +1,5 @@
-import { LotDelivery, LotInfoType, LotPreviewType, LotStatus } from "domain/Lot/types"
+import { LotDelivery, LotInfoType, LotPreviewType, LotStatus, LotTradeStatus } from "domain/Lot/types"
 import { PaginationType } from "interfaces/Nodejs"
-import { DeepPartial } from "redux"
 import { DateInterval } from "utils/date"
 import { Price } from "utils/extensions"
 
@@ -19,6 +18,7 @@ export function mapLotPreview(lot?: SchemaLot): LotPreviewType {
     tradeStartTime: new Date(lot?.bidding_start_time || 0),
     tradeEndTime: new Date(lot?.bidding_end_time || 0),
     status: (lot?.status as LotStatus) || LotStatus.UNKNOWN,
+    tradeStatus: (lot?.trade_status as LotTradeStatus) || LotTradeStatus.UNKNOWN,
     betsCount: -1
   }
 }

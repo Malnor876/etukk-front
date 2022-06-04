@@ -1,4 +1,4 @@
-import { LotPreviewType, LotStatus } from "domain/Lot/types"
+import { LotPreviewType, LotStatus, LotTradeStatus } from "domain/Lot/types"
 import { Price } from "utils/extensions"
 
 import mockPNG from "./mock.png"
@@ -17,5 +17,6 @@ export const LOT_PREVIEW_MOCK: LotPreviewType = {
   tradeEndTime: new Date,
   bookmarked: true,
   status: LotStatus.UNKNOWN,
+  tradeStatus: LotTradeStatus.UNKNOWN,
   betsCount: 17
 }

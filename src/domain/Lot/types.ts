@@ -15,6 +15,7 @@ export interface LotPreviewType {
   betsCount: number
 
   status: LotStatus
+  tradeStatus: LotTradeStatus
 }
 
 export type LotInfoSpecificationsType = {
@@ -50,12 +51,22 @@ export interface LotInfoType {
 
 export enum LotStatus {
   UNKNOWN = "unknown",
+
   DRAFTED = "drafted",
   MODERATION = "moderation",
   REJECTED = "rejected",
   PUBLISHED = "published",
   SOLD = "sold",
   CLOSED = "closed"
+}
+
+export enum LotTradeStatus {
+  UNKNOWN = "unknown",
+
+  AWAITING_PAYMENT = "awaiting_payment",
+  PAID = "paid",
+  AWAITING_DELIVER = "awaiting_deliver",
+  DELIVERED = "delivered"
 }
 
 export enum LotDelivery {
