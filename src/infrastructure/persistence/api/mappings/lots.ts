@@ -7,32 +7,10 @@ import { Price } from "utils/extensions"
 import { SchemaLot } from "../data/schemas"
 import { mapImageUrl } from "./helpers"
 
-export function mapLotPreview(lot?: {
-  id: number
-  name?: string | null
-  description?: string | null
-  start_price?: number | null
-  city?: string | null
-  delivery_options?: string | null
-  video_url?: string | null
-  archived?: boolean
-  banned?: boolean
-  bidding_start_time?: string | null
-  bidding_end_time?: string | null
-  reject_reason?: string | null
-  now_price?: number | null
-  status?: string
-  trade_status?: string | null
-  views?: number
-  favorites?: number
-  created_at: string
-  edited_at: string
-  buyer_id?: number | null
-  user_id: number
-}): LotPreviewType {
+export function mapLotPreview(lot?: SchemaLot): LotPreviewType {
   return {
     id: lot?.id || -1,
-    bookmarked: Boolean(lot?.favorites),
+    bookmarked: lot?.in_user_favorites,
     image: mapImageUrl(""),
     city: lot?.city || "unknown",
     title: lot?.name || "unknown",
@@ -45,29 +23,7 @@ export function mapLotPreview(lot?: {
   }
 }
 
-export function mapLotsLists(lots: {
-  id: number
-  name?: string | null
-  description?: string | null
-  start_price?: number | null
-  city?: string | null
-  delivery_options?: string | null
-  video_url?: string | null
-  archived?: boolean
-  banned?: boolean
-  bidding_start_time?: string | null
-  bidding_end_time?: string | null
-  reject_reason?: string | null
-  now_price?: number | null
-  status?: string
-  trade_status?: string | null
-  views?: number
-  favorites?: number
-  created_at: string
-  edited_at: string
-  buyer_id?: number | null
-  user_id: number
-}[]): PaginationType<LotPreviewType> {
+export function mapLotsLists(lots: SchemaLot[]): PaginationType<LotPreviewType> {
   return {
     current: 1,
     limit: 100,
@@ -84,7 +40,7 @@ export function mapLot(payload: SchemaLot): LotInfoType {
     reviews: { dislikes: 1, likes: 1 }, //! default
     type: "organization", //! default
 
-    bookmarked: false, //! default
+    bookmarked: payload.in_user_favorites, //! default
     description: payload.description || "unknown",
     slides: [], //! default
     specifications: [], //! default

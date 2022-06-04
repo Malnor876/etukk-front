@@ -83,6 +83,7 @@ export interface SchemaLot {
   edited_at: string
   buyer_id?: number | null
   user_id: number
+  in_user_favorites?: boolean
 }
 
 export type SchemaLotDeliveryOptions = "in_city" | "intercity"
