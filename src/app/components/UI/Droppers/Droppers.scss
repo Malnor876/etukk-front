@@ -18,6 +18,7 @@
 
 .droppers__groups {
 	display: grid;
+	align-content: flex-start;
 	gap: 1em;
 
 	min-width: 18.75em;

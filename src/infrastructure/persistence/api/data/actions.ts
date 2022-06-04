@@ -339,7 +339,7 @@ export const postUserReview = (body: {
 /**
  * OK
  */
-export const getUserReview = <Filters = unknown>
+export const getUserReview = <Filters extends object>
   (filters?: Filters): Action<{
     id: number
     text?: string | null
