@@ -139,6 +139,8 @@ export function FilterCheckboxes(props: FilterCheckboxesProps) {
 interface FilterRadiosProps {
   name: FilterKey
   children: ReactElement<RadioProps>[]
+
+  removeAll?: boolean
 }
 
 export function FilterRadios(props: FilterRadiosProps) {
@@ -152,7 +154,9 @@ export function FilterRadios(props: FilterRadiosProps) {
   }
   return (
     <>
-      <Radio value="all" onChange={reset} checked={filterValue == null}>Все</Radio>
+      {!props.removeAll && (
+        <Radio value="all" onChange={reset} checked={filterValue == null}>Все</Radio>
+      )}
       {Children.map(props.children, child => (
         cloneElement<RadioProps>(child, { ...child.props, checked: filterValue === child.props.value, onChange })
       ))}

@@ -9,7 +9,8 @@ import Entries from "app/layouts/Entries/Entries"
 import Entry from "app/layouts/Entries/Entry"
 import DialogBidAccepted, { DialogError } from "app/views/lot/modals/DialogBidAccepted"
 import DialogConfirmBidUp from "app/views/lot/modals/DialogConfirmBidUp"
-import useResizeObserverSize, { DeviceWidths } from "hooks/useResizeObserverEntry"
+import useDeviceWidth from "hooks/useDeviceWidth"
+import { DeviceWidths } from "hooks/useResizeObserverEntry"
 import { postLotByLotIdBet } from "infrastructure/persistence/api/data/actions"
 import _ from "lodash"
 import { Modal } from "modules/modal/controller"
@@ -32,8 +33,8 @@ export function LotInfoLayout(props: LotInfoProps) {
     <LotInfoBid {..._.pick(props, "id", "currentPrice", "startPrice")} />
   )
 
-  const { inlineSize: bodySize } = useResizeObserverSize(document.body)
-  if (bodySize <= DeviceWidths.Mobile) {
+  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
+  if (isMobile) {
     return (
       <div className="lot-info-layout">
         {Preview}

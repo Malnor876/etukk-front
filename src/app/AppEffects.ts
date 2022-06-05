@@ -3,13 +3,7 @@
 */
 import "app/layouts/Modal/FullscreenLayout/FullscreenLayout.scss"
 
-/**
- * Effects Dependencies
- */
-import useLocalStorage from "hooks/useLocalStorage"
-import useResizeObserverSize from "hooks/useResizeObserverEntry"
 import { userFetch } from "infrastructure/persistence/redux/reducers/user"
-import Localization from "modules/localization/controller"
 import { Modal } from "modules/modal/controller"
 import { useEffect } from "react"
 // import ReactGA from "react-ga4"

@@ -13,7 +13,7 @@ import { QueryError, useQuery } from "react-fetching-library"
 interface LotPreviewsContainerProps {
   search?: string
   price?: [number, number] // [min, max]
-  categories?: number[]
+  categories?: number
   seller?: "all" | "user" | "organization",
   delivery?: LotDelivery
   period?: {
@@ -29,8 +29,8 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
   const filters: Partial<
     & FilteringField<"name", "icontains", string>
-    & FilteringField<"currentPrice", "range", [number, number]>
-    & FilteringField<"categories__id", "range", number[]>
+    & FilteringField<"now_price", "range", [number, number]>
+    // & FilteringField<"categories_id", "iexact", number[]>
 
     & FilteringField<"organization", "iexact", boolean>
     & FilteringField<"delivery_options", "iexact", LotDelivery>
@@ -38,10 +38,11 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
     & FilteringField<"bidding_start_time" | "bidding_end_time", "iexact", string>
 
     & FilteringField<"trade_status", "iexact", string>
+    & { category_id: number }
   > = {
     name__icontains: props.search,
-    currentPrice__range: props.price,
-    categories__id__range: props.categories,
+    now_price__range: props.price,
+    category_id: props.categories,
 
     organization__iexact: props.seller != null && props.seller === "organization",
     delivery_options__iexact: props.delivery,
@@ -52,7 +53,7 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
     // trade_status__iexact: props.started
   }
 
-  console.log(props, filters.categories__id__range)
+  // console.log(props, filters.categories__id__range)
 
   const [lots, setLots] = useState<LotPreviewType[]>([])
   const response = useQuery(getLot(pageSize, (page - 1) * pageSize, filters))
@@ -78,13 +79,13 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
   useEffect(() => {
     if (payload == null) return
     const mappedPayload = mapLotsLists(payload)
-    console.log(mappedPayload)
+    // console.log(mappedPayload)
 
     setLots(lots => [...lots, ...mappedPayload.items])
     setTimeout(() => resetReached())
   }, [payload])
 
-  console.log(lots)
+  // console.log(lots)
   return (
     <Previews>
       {lots.map(lot => (

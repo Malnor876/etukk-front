@@ -356,10 +356,14 @@ $toggleSize: 1.5em;
 .mobile-filters__clear {
 	font-size: $font-size-5;
 
-	color: $color-raspberry-1;
-	text-decoration: underline;
+	color: $color-gray-2;
 
 	&:active {
 		text-decoration: none;
+	}
+
+	&--active {
+		color: $color-raspberry-1;
+		text-decoration: underline;
 	}
 }

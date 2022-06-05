@@ -42,7 +42,7 @@ function FullscreenSignUpPerson() {
     if (error) return
     if (payload == null) return
 
-    console.log(payload)
+    // console.log(payload)
     localStorage.setItem("token", payload.access_token)
 
     Modal.replace(FullscreenEmailConfirm)

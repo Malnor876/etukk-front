@@ -9,7 +9,9 @@ import thunk from "redux-thunk"
 import combinedReducers from "./combinedReducers"
 
 
-const enhancer = compose(applyMiddleware(thunk))
+const sentryEnhancer = createReduxEnhancer()
+const enhancer = compose(applyMiddleware(thunk), sentryEnhancer)
 const store = createStore(combinedReducers, enhancer)
+
 
 export default store

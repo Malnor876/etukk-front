@@ -1,7 +1,8 @@
 import "./Selector.scss"
 
 import useClickAway from "hooks/useClickAway"
-import useResizeObserverSize, { DeviceWidths } from "hooks/useResizeObserverEntry"
+import useDeviceWidth from "hooks/useDeviceWidth"
+import { DeviceWidths } from "hooks/useResizeObserverEntry"
 import { Modal } from "modules/modal/controller"
 import { Children, ComponentProps, Dispatch, ReactElement, ReactNode, useEffect, useRef, useState } from "react"
 import { classWithModifiers } from "utils/common"
@@ -32,8 +33,7 @@ function Selector<V = string | undefined>(props: SelectorProps<V>) {
   }
   useClickAway(parentRef, () => setExpanded(false))
 
-  const { inlineSize: bodySize } = useResizeObserverSize(document.body)
-  const isMobile = bodySize <= DeviceWidths.Mobile
+  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
 
   useEffect(() => {
     if (!isMobile) return

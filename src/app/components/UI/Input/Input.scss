@@ -36,6 +36,14 @@
 	&::placeholder {
 		color: $color-gray-3;
 	}
+
+	&[type="number"] {
+		appearance: unset;
+
+		&::-webkit-inner-spin-button {
+			appearance: unset;
+		}
+	}
 }
 
 .input__icon {

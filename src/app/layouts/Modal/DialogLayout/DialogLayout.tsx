@@ -1,7 +1,8 @@
 import "./DialogLayout.scss"
 
 import Icon from "app/components/UI/Icon/Icon"
-import useResizeObserverSize, { DeviceWidths } from "hooks/useResizeObserverEntry"
+import useDeviceWidth from "hooks/useDeviceWidth"
+import { DeviceWidths } from "hooks/useResizeObserverEntry"
 import { useModal } from "modules/modal/hook"
 import { ReactNode } from "react"
 import { classWithModifiers } from "utils/common"
@@ -23,9 +24,9 @@ interface DialogLayoutProps {
  */
 function DialogLayout(props: DialogLayoutProps) {
   const { close, params } = useModal()
-  const { inlineSize: bodySize } = useResizeObserverSize(document.body)
+  const [isDesktop] = useDeviceWidth(DeviceWidths.Desktop)
 
-  if (bodySize > DeviceWidths.Mobile) {
+  if (isDesktop) {
     return <PopupLayout {...props} />
   }
 

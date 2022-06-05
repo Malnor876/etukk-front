@@ -5,9 +5,11 @@ import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"
 import Radio from "app/components/UI/Radio/Radio"
 import ToolTip from "app/components/UI/ToolTip/ToolTip"
+import { breakDownCategories } from "app/views/lot-new/edit/EditLotCategory"
 import { LotDelivery } from "domain/Lot/types"
 import { getCategory } from "infrastructure/persistence/api/data/actions"
 import { mapFiltersCategory, RecursiveTreeElement } from "infrastructure/persistence/api/mappings/lots"
+import { filter } from "lodash"
 import { Dispatch, useState } from "react"
 import { classWithModifiers } from "utils/common"
 
@@ -59,6 +61,15 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
     setState(undefined)
   }
 
+
+
+  function chooseCategory(id: number) {
+    const nextFilters = { ...filters, categories: id.toString() }
+
+    setFilters(nextFilters)
+    props.onSubmit?.(nextFilters)
+  }
+
   function clear() {
     setFilters({})
   }
@@ -70,14 +81,18 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
             <Icon name="filter" />
             <ToolTip>Развернуть фильтр</ToolTip>
           </button>
-          <QueryContainer action={getCategory()} mapping={mapFiltersCategory}>
-            {payload => (
-              <div className="mobile-filters__categories">
-                {payload.filter(item => item.parent_category_id == null).map(category => (
-                  <Button small outline key={category.id}>{category.name}</Button>
-                ))}
-              </div>
-            )}
+          <QueryContainer action={getCategory()}>
+            {payload => {
+              const currentCategoryId = Number(filters.categories)
+              const { options } = breakDownCategories(payload, Number(filters.categories))
+              return (
+                <div className="mobile-filters__categories">
+                  {options.map(category => (
+                    <Button color={category.id === currentCategoryId ? undefined : "gray"} small outline onClick={() => chooseCategory(category.id)} key={category.id}>{category.name}</Button>
+                  ))}
+                </div>
+              )
+            }}
           </QueryContainer>
         </div>
         <div className="mobile-filters__window">
@@ -86,7 +101,7 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
           </button>
           <div className="mobile-filters__header">
             <div className="mobile-filters__title">Фильтр</div>
-            <button className="mobile-filters__clear" type="button" onClick={clear}>Сбросить фильтр</button>
+            <button className={classWithModifiers("mobile-filters__clear", Object.keys(filters).length >= 1 && "active")} type="button" onClick={clear}>Сбросить фильтр</button>
           </div>
           <div className="mobile-filters__tree">
             <FiltersTreeContainer />
@@ -111,7 +126,7 @@ function FiltersTreeContainer() {
       <Filter label="СТАТУС ТОРГОВ">
         <FilterRadios name="started">
           <Radio value="started">Торги начаты</Radio>
-          <Radio value="ended">Торги окончены</Radio>
+          {/* <Radio value="ended">Торги окончены</Radio> */}
           <Radio value="waiting">Торги ожидают начала</Radio>
         </FilterRadios>
       </Filter>
@@ -152,18 +167,18 @@ interface FilterRecursionProps {
 
 function FilterRecursion(props: FilterRecursionProps) {
   if (props.elements.length === 0) return null
-  console.log(props.elements)
+  // console.log(props.elements)
   return (
     <>
       {props.elements.map(element => (
         <Filter group={props.group} label={element.name} key={element.id}>
           <FilterRecursion name={props.name} elements={element.children.filter(child => child.children.length > 0)} />
           <div className="filter__inputs">
-            <FilterCheckboxes name={props.name}>
+            <FilterRadios name={props.name} removeAll>
               {element.children.filter(child => child.children.length === 0).map(child => (
-                <Checkbox name={child.id.toString()} key={child.id}>{child.name}</Checkbox>
+                <Radio name={props.name} value={child.id.toString()} key={child.id}>{child.name}</Radio>
               ))}
-            </FilterCheckboxes>
+            </FilterRadios>
           </div>
         </Filter>
       ))}

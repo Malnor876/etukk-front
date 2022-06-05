@@ -43,7 +43,7 @@ function mapFormData(value: unknown, key?: string | number): [string, Blob | str
       const key2 = (key ?? "") + "[]"
 
       // result.push([key2, (value instanceof Blob) ? value : String(value)])
-      console.log(value2, typeof value2 === "object")
+      // console.log(value2, typeof value2 === "object")
       result.push(...((typeof value2 === "object") ? mapFormData(value2, key2) : [[key2, value2]] as never))
     })
     return result
@@ -53,14 +53,14 @@ function mapFormData(value: unknown, key?: string | number): [string, Blob | str
     Object.keys(value).forEach(key2 => {
       const value2 = value[key2]
       const key3 = key ? `${key}[${key2}]` : key2
-      console.log(mapFormData(value2, key3))
+      // console.log(mapFormData(value2, key3))
       result.push(...((typeof value2 === "object") ? mapFormData(value2, key3) : [[key3, value2]] as never))
     })
     return result
   }
 
   result.push([String(key ?? ""), (value instanceof Blob) ? value : String(value)])
-  console.log(result)
+  // console.log(result)
   return result
 }
 

@@ -1,8 +1,8 @@
-import { IMAGE_MOCKS } from "constants/mocks"
+import asdPNG from "./asd.png"
 
 export function mapImageUrl(item?: string | null) {
-  if (item === null) {
-    return IMAGE_MOCKS[0]
+  if (item == null) {
+    return asdPNG
   }
   return process.env.REACT_APP_API_HOST + "/media/" + item
 }

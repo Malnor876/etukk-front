@@ -1,7 +1,8 @@
 import "./FullscreenLayout.scss"
 
 import Icon from "app/components/UI/Icon/Icon"
-import useResizeObserverSize, { DeviceWidths } from "hooks/useResizeObserverEntry"
+import useDeviceWidth from "hooks/useDeviceWidth"
+import { DeviceWidths } from "hooks/useResizeObserverEntry"
 import { useModal } from "modules/modal/hook"
 import { ReactNode, useEffect } from "react"
 import { classMerge } from "utils/common"
@@ -14,7 +15,7 @@ interface FullscreenLayoutProps {
 
 function FullscreenLayout(props: FullscreenLayoutProps) {
   const modal = useModal()
-  const { inlineSize: bodySize } = useResizeObserverSize(document.body)
+  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
 
   useEffect(() => {
     function escapeKeyboardEvent(event: KeyboardEvent) {
@@ -30,7 +31,7 @@ function FullscreenLayout(props: FullscreenLayoutProps) {
     }
   }, [modal])
 
-  if (bodySize <= DeviceWidths.Mobile) {
+  if (isMobile) {
     return (
       <div className={classMerge("fullscreen-layout", props.className)}>
         <div className="fullscreen-layout__container">
