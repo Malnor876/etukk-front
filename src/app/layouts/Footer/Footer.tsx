@@ -16,7 +16,7 @@ function Footer() {
       </div>
       <div className="footer__group">
         <Link className="footer__link" to="/notifications/lots">Уведомления</Link>
-        <Link className="footer__link" to="/user">Профиль</Link>
+        <Link className="footer__link" to="/profile">Профиль</Link>
       </div>
       <div className="footer__group">
         <Link className="footer__link" to="/support">Тех. поддержка</Link>
