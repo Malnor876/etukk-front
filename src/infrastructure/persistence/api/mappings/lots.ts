@@ -43,16 +43,16 @@ export function mapLot(payload: SchemaLot): LotInfoType {
 
     bookmarked: payload.in_user_favorites,
     description: payload.description || "unknown",
-    slides: payload.lotphotos?.map(l => mapImageUrl(l.filename)) || [],
-    specifications: payload.lotspecifications?.map(spec => ({ key: spec.name, value: spec.value })) || [],
+    slides: payload.lotphotos?.map(l => mapImageUrl(l.filename)) ?? [],
+    specifications: payload.lotspecifications?.map(spec => ({ key: spec.name, value: spec.value })) ?? [],
 
-    city: payload.city || "unknown",
+    city: payload.city ?? "unknown",
     startEndInterval: new DateInterval(payload.bidding_start_time, payload.bidding_end_time),
 
-    startPrice: new Price(payload.start_price || -1),
-    currentPrice: new Price(payload.now_price || -1),
+    startPrice: new Price(payload.start_price ?? -1),
+    currentPrice: new Price(payload.now_price ?? -1),
 
-    creatorId: (payload?.user_id || -1),
+    creatorId: (payload?.user_id ?? -1),
   }
 }
 
