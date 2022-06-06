@@ -55,7 +55,7 @@ function LotDraftView() {
     <ViewNarrow>
       <div>
         <Helmet>
-          <title>Разместить лот</title>
+          <title>Разместить лот | etukk.ru</title>
         </Helmet>
         <h2 className="heading">Разместить лот</h2>
         <Routes>

@@ -18,7 +18,7 @@ function NotificationsView() {
   return (
     <>
       <Helmet>
-        <title>Уведомления</title>
+        <title>Уведомления | etukk.ru</title>
       </Helmet>
       <h2 className="heading">Уведомления</h2>
       <Buttons>

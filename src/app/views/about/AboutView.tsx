@@ -6,7 +6,7 @@ function AboutView() {
   return (
     <div className="about-view">
       <Helmet>
-        <title>О нас</title>
+        <title>О нас | etukk.ru</title>
       </Helmet>
       <h2 className="heading">О нас</h2>
       <div className="about-view-description">

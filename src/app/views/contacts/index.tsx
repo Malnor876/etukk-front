@@ -8,7 +8,7 @@ function ContactsView() {
   return (
     <div className="contacts">
       <Helmet>
-        <title>Контакты</title>
+        <title>Контакты | etukk.ru</title>
       </Helmet>
       <h2 className="heading">Контакты</h2>
       <h3 className="heading">{`ООО "АМО ГРУПП"`}</h3>

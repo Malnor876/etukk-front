@@ -9,7 +9,7 @@ function TermsView() {
   return (
     <div className="terms">
       <Helmet>
-        <title>Правовая информация</title>
+        <title>Правовая информация | etukk.ru</title>
       </Helmet>
       <h2 className="heading">Правовая информация</h2>
       <Buttons>

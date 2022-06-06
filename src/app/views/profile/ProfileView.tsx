@@ -14,7 +14,7 @@ function ProfileView() {
     <div className="profile-view">
       <div className="profile-view__container">
         <Helmet>
-          <title>Личный профиль</title>
+          <title>Личный профиль | etukk.ru</title>
         </Helmet>
         <h2 className="heading">Личный профиль</h2>
         <Buttons>

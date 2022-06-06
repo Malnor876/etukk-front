@@ -33,7 +33,7 @@ function LotPreviewView() {
   return (
     <>
       <Helmet>
-        <title>Просмотр лота перед публикацией</title>
+        <title>Просмотр лота перед публикацией | etukk.ru</title>
       </Helmet>
       <QueryContainer action={getLotDraftByDraftId(+lotId)} mapping={mapLot}>
         {payload => (

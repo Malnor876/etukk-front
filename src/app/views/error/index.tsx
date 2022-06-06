@@ -9,7 +9,7 @@ function ErrorView() {
   return (
     <div className="error-view">
       <Helmet>
-        <title>Ошибка 404</title>
+        <title>Ошибка 404 | etukk.ru</title>
       </Helmet>
       <div className="error-view__container">
         <h1>404</h1>

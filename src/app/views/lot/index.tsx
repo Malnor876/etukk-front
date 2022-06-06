@@ -36,7 +36,7 @@ function LotView() {
   return (
     <div className="lot-view">
       <Helmet>
-        <title>Просмотр лота</title>
+        <title>Просмотр лота | etukk.ru</title>
       </Helmet>
       <QueryErrorCoverBoundary>
         <LotContainer id={+lotId} />

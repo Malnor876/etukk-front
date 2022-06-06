@@ -12,7 +12,7 @@ function SupportView() {
   return (
     <>
       <Helmet>
-        <title>Техподдержка</title>
+        <title>Техподдержка | etukk.ru</title>
       </Helmet>
       <h2 className="heading">Техподдержка</h2>
       <Buttons>

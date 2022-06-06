@@ -16,7 +16,7 @@ function UserView() {
   return (
     <>
       <Helmet>
-        <title>Просмотр профиля gользователя</title>
+        <title>Просмотр профиля gользователя | etukk.ru</title>
       </Helmet>
       <UserProfile userId={+params.userId} />
     </>

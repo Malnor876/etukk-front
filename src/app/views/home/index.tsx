@@ -21,7 +21,7 @@ function HomeView() {
   return (
     <>
       <Helmet>
-        <title>Главная</title>
+        <title>Главная | etukk.ru</title>
       </Helmet>
       <SearchSuggest width="65%" placeholder="Поиск по Москве..." onSubmit={setSearch}>
         {/* <option value="Стул мягкий">Стул мягкий</option>

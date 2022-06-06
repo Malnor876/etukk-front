@@ -21,7 +21,7 @@ function FavouritesView() {
   return (
     <>
       <Helmet>
-        <title>Избранное</title>
+        <title>Избранное | etukk.ru</title>
       </Helmet>
       <h2 className="heading">избранное</h2>
       <Buttons>

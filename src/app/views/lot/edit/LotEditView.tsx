@@ -78,7 +78,7 @@ function LotEditView() {
   return (
     <>
       <Helmet>
-        <title>Редактировать лот</title>
+        <title>Редактировать лот | etukk.ru</title>
       </Helmet>
       <QueryContainer action={getLotByLotId(+lotId)} mapping={mapLot}>
         {payload => {
