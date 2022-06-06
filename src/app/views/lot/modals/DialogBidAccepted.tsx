@@ -20,7 +20,7 @@ export function DialogError() {
   return (
     <DialogLayout centered width="25em">
       <h3>Произошла ошибка</h3>
-      <Button onClick={close}>Ну ок!</Button>
+      <Button onClick={close}>Ок!</Button>
     </DialogLayout>
   )
 }

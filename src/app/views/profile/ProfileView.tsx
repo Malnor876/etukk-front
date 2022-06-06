@@ -1,8 +1,10 @@
 import "./ProfileView.scss"
 
+import RequiredAuthCover from "app/components/containers/QueryContainer/RequiredAuthCover"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
 import { Helmet } from "react-helmet"
+import { useSelector } from "react-redux"
 import { Navigate, Route, Routes } from "react-router"
 
 import ProfileBidsView from "./views/Bids/ProfileBidsView"
@@ -10,6 +12,12 @@ import ProfilePersonalView from "./views/Personal/ProfilePersonalView"
 import ProfileLotsReviewsView from "./views/Sales/ProfileSalesView"
 
 function ProfileView() {
+  const user = useSelector(state => state.user)
+  if (!user.auth) {
+    return (
+      <RequiredAuthCover />
+    )
+  }
   return (
     <div className="profile-view">
       <div className="profile-view__container">

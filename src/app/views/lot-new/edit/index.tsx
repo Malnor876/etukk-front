@@ -1,3 +1,4 @@
+import RequiredAuthCover from "app/components/containers/QueryContainer/RequiredAuthCover"
 import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
@@ -6,6 +7,7 @@ import ViewNarrow from "app/layouts/ViewNarrow/ViewNarrow"
 import EditLotCategory from "app/views/lot-new/edit/EditLotCategory"
 import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
 import { Helmet } from "react-helmet"
+import { useSelector } from "react-redux"
 import { Route, Routes } from "react-router"
 import { useParams } from "react-router"
 
@@ -51,6 +53,13 @@ function LotDraftView() {
   const isCurrentRouteLast = currentPosition === lotDraftEditSectionsOrder.length - 1
 
   const draftLot = useDraftNewLot()
+
+  const user = useSelector(state => state.user)
+  if (!user.auth) {
+    return (
+      <RequiredAuthCover />
+    )
+  }
 
   return (
     <ViewNarrow>

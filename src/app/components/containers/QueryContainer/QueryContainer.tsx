@@ -8,6 +8,8 @@ import { ReactNode, useEffect, useState } from "react"
 import { QueryError, useQuery } from "react-fetching-library"
 import { useSelector } from "react-redux"
 
+import RequiredAuthCover from "./RequiredAuthCover"
+
 /**
  * https://stackoverflow.com/questions/56687668/a-way-to-disable-type-argument-inference-in-generics
  */
@@ -45,10 +47,7 @@ function QueryContainer<P, M>(props: QueryContainerProps<P, M>) {
 
   if (requireAuth && (!user.auth || (response.status == null && !response.loading && !response.error))) { // Checks for query init
     return (
-      <ErrorCover>
-        <p>Авторизуйтесь чтобы просмотреть данную секцию</p>
-        <Button onClick={() => Modal.open(FullscreenSignIn)}>Войти</Button>
-      </ErrorCover>
+      <RequiredAuthCover />
     )
   }
   if (response.error) {

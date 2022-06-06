@@ -73,19 +73,30 @@ function LotPreviewSwitchableInfo(props: LotProps) {
         </>
       )
 
-    case LotStatus.PUBLISHED:
+    case LotStatus.PUBLISHED: {
+      const started = props.tradeStartTime.getTime() > Date.now() && Date.now() < props.tradeEndTime.getTime()
       return (
         <>
           <div className="lot-preview__details">
-            <div className="lot-preview__entry">
-              <small>До окончания торгов</small>
-              <strong><CountableTimer futureDate={props.tradeEndTime} /></strong>
-            </div>
-            <hr />
-            <div className="lot-preview__entry">
-              <small>Всего ставок</small>
-              <strong>{props.betsCount}</strong>
-            </div>
+            {started && (
+              <>
+                <div className="lot-preview__entry">
+                  <small>До окончания торгов</small>
+                  <strong><CountableTimer futureDate={props.tradeEndTime} /></strong>
+                </div>
+                <hr />
+                <div className="lot-preview__entry">
+                  <small>Всего ставок</small>
+                  <strong>{props.betsCount}</strong>
+                </div>
+              </>
+            )}
+            {!started && (
+              <div className="lot-preview__entry">
+                <small>Начало торгов</small>
+                <strong>{humanizeDate(props.tradeStartTime)}</strong>
+              </div>
+            )}
             <div className="lot-preview__entry">
               <small>Начальная ставка</small>
               <strong>{props.startPrice.format()}</strong>
@@ -98,6 +109,7 @@ function LotPreviewSwitchableInfo(props: LotProps) {
           <LotPreviewStatus iconName="check-circle">Опубликован</LotPreviewStatus>
         </>
       )
+    }
 
     case LotStatus.REJECTED:
       return (

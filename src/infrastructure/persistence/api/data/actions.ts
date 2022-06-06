@@ -516,10 +516,7 @@ export const getLotReview = <Filters = unknown>
   }[]> => ({
     method: "GET",
     endpoint: `/lot/review`,
-    params: { ...filters },
-    config: {
-      requireAuth: true
-    }
+    params: { ...filters }
   })
 
 /**

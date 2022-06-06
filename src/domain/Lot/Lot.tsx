@@ -1,5 +1,6 @@
 import "./Lot.scss"
 
+import RequiredAuthCover from "app/components/containers/QueryContainer/RequiredAuthCover"
 import Slider from "app/components/containers/Slider/Slider"
 import Backward from "app/components/UI/Backward/Backward"
 import Bookmark from "app/components/UI/Bookmark/Bookmark"
@@ -16,6 +17,7 @@ import _ from "lodash"
 import { Modal } from "modules/modal/controller"
 import { ReactNode, useState } from "react"
 import { useClient } from "react-fetching-library"
+import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { Price } from "utils/extensions"
 
@@ -152,6 +154,14 @@ function LotInfoBid(props: LotInfoBidProps) {
 
     Modal.open(DialogConfirmBidUp, { onSubmit })
   }
+
+  const user = useSelector(state => state.user)
+  if (!user.auth) {
+    return (
+      <RequiredAuthCover />
+    )
+  }
+
   switch (stage) {
     case "choice":
       return (
