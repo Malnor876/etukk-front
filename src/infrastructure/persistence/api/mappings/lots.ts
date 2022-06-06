@@ -20,6 +20,7 @@ export function mapLotPreview(lot?: SchemaLot): LotPreviewType {
     status: (lot?.status as LotStatus) || LotStatus.UNKNOWN,
     tradeStatus: (lot?.trade_status as LotTradeStatus) || LotTradeStatus.UNKNOWN,
     betsCount: lot?.bets_count || -1,
+    editedAt: new Date(lot?.edited_at || -1)
   }
 }
 

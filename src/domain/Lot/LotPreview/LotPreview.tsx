@@ -56,10 +56,20 @@ function LotPreviewSwitchableInfo(props: LotProps) {
     case LotStatus.MODERATION:
       return (
         <>
-          <LotPreviewStatus iconName="pending">
-            <span>Претензия на рассмотрении</span>
-            <em><CountableTimer futureDate={props.tradeEndTime} /></em>
-          </LotPreviewStatus>
+          <div className="lot-preview__details">
+            <div className="lot-preview__entry">
+              <small>Моя ставка</small>
+              <strong>{props.currentPrice.format()}</strong>
+            </div>
+            <div className="lot-preview__entry">
+              <small>Начало торгов</small>
+              <strong>{humanizeDate(props.tradeStartTime)}</strong>
+            </div>
+            <LotPreviewStatus iconName="pending">
+              <span>На проверке</span>
+              <em><CountableTimer futureDate={props.tradeEndTime} /></em>
+            </LotPreviewStatus>
+          </div>
         </>
       )
 
@@ -67,6 +77,11 @@ function LotPreviewSwitchableInfo(props: LotProps) {
       return (
         <>
           <div className="lot-preview__details">
+            <div className="lot-preview__entry">
+              <small>До окончания торгов</small>
+              <strong><CountableTimer futureDate={props.tradeEndTime} /></strong>
+            </div>
+            <hr />
             <div className="lot-preview__entry">
               <small>Всего ставок</small>
               <strong>{props.betsCount}</strong>
@@ -79,12 +94,8 @@ function LotPreviewSwitchableInfo(props: LotProps) {
               <small>Текущая ставка</small>
               <strong>{props.currentPrice.format()}</strong>
             </div>
-            <div className="lot-preview__entry">
-              <small>Начало торгов</small>
-              <strong>{humanizeDate(props.tradeStartTime)}</strong>
-            </div>
           </div>
-          <LotPreviewStatus iconName="check">Опубликован</LotPreviewStatus>
+          <LotPreviewStatus iconName="check-circle">Опубликован</LotPreviewStatus>
         </>
       )
 

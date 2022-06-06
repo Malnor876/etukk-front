@@ -30,9 +30,9 @@
 
 .lot-preview__info {
 	display: grid;
-	gap: 0.5em;
+	gap: 1em;
 
-	padding: 0.75em;
+	padding: 1em;
 }
 
 .lot-preview__title {
@@ -59,7 +59,7 @@
 
 .lot-preview__details {
 	display: grid;
-	gap: 0.5em;
+	gap: 0.75em;
 }
 
 .lot-preview__entry {
@@ -73,7 +73,7 @@
 		line-height: 1.25;
 		color: $color-gray-2;
 
-		max-width: 10ch;
+		max-width: 15ch;
 	}
 
 	strong {

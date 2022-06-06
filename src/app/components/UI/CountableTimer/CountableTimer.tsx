@@ -20,13 +20,12 @@ function CountableTimer(props: CountableTimerProps) {
     const interval = setInterval(() => {
       setTimer(getTimeDifference(props.futureDate, props.start))
     }, 500)
-
     return () => {
       clearInterval(interval)
     }
   }, [props.futureDate, props.start])
   return (
-    <div className="count-down">{timer ? timer.join(props.splitter || ":") : (props.endLabel || "Таймер вышел")}</div>
+    <div className="count-down">{timer ? timer.map(item => item.toLocaleString("ru", { minimumIntegerDigits: 2 })).join(props.splitter || ":") : (props.endLabel || "Таймер вышел")}</div>
   )
 }
 

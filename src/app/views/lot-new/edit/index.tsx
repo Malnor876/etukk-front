@@ -43,7 +43,7 @@ function LotDraftView() {
     return lotDraftEditSectionsOrder[shiftedPosition] || ""
   }
 
-  // const prevRoute = getRouteBy(-1)
+  const prevRoute = getRouteBy(-1)
   const nextRoute = getRouteBy(1)
 
   const isCurrentRouteBase = currentPosition === 0
@@ -70,7 +70,7 @@ function LotDraftView() {
       <Buttons centered>
         {isCurrentRouteBase && <div />}
         {!isCurrentRouteBase && (
-          <Backward />
+          <Backward to={prevRoute} />
         )}
         {!isCurrentRouteLast && (
           <ButtonLink to={nextRoute}>Далее</ButtonLink>
