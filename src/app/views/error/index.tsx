@@ -1,12 +1,16 @@
 import "./ErrorView.scss"
 
 import ButtonLink from "app/components/UI/Button/ButtonLink"
+import { Helmet } from "react-helmet"
 import { useNavigate } from "react-router"
 
 function ErrorView() {
   const navigate = useNavigate()
   return (
     <div className="error-view">
+      <Helmet>
+        <title>Ошибка 404</title>
+      </Helmet>
       <div className="error-view__container">
         <h1>404</h1>
         <div className="error-view__desc">

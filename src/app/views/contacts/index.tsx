@@ -2,10 +2,14 @@ import "./Contacts.scss"
 
 import Entries from "app/layouts/Entries/Entries"
 import Entry from "app/layouts/Entries/Entry"
+import { Helmet } from "react-helmet"
 
 function ContactsView() {
   return (
     <div className="contacts">
+      <Helmet>
+        <title>Контакты</title>
+      </Helmet>
       <h2 className="heading">Контакты</h2>
       <h3 className="heading">{`ООО "АМО ГРУПП"`}</h3>
       <Entries>

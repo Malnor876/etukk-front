@@ -1,8 +1,13 @@
 import "./AboutView.scss"
 
+import { Helmet } from "react-helmet"
+
 function AboutView() {
   return (
     <div className="about-view">
+      <Helmet>
+        <title>О нас</title>
+      </Helmet>
       <h2 className="heading">О нас</h2>
       <div className="about-view-description">
         <div className="about-view-description__logo">

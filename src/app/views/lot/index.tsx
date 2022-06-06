@@ -7,6 +7,7 @@ import { LotInfoLayout } from "domain/Lot/Lot"
 import { getLotByLotId } from "infrastructure/persistence/api/data/actions"
 import { mapLot } from "infrastructure/persistence/api/mappings/lots"
 import { Modal } from "modules/modal/controller"
+import { Helmet } from "react-helmet"
 import { useParams } from "react-router"
 import { DateInterval } from "utils/date"
 import { Price } from "utils/extensions"
@@ -34,6 +35,9 @@ function LotView() {
 
   return (
     <div className="lot-view">
+      <Helmet>
+        <title>Просмотр лота</title>
+      </Helmet>
       <QueryErrorCoverBoundary>
         <LotContainer id={+lotId} />
       </QueryErrorCoverBoundary>

@@ -8,6 +8,7 @@ import { isValidResponse } from "infrastructure/persistence/api/client"
 import { getLotDraftByDraftId, postLotDraftByLotIdModerate } from "infrastructure/persistence/api/data/actions"
 import { mapLot } from "infrastructure/persistence/api/mappings/lots"
 import { useClient } from "react-fetching-library"
+import { Helmet } from "react-helmet"
 import { useNavigate, useParams } from "react-router-dom"
 
 function LotPreviewView() {
@@ -30,19 +31,24 @@ function LotPreviewView() {
     navigate("/lots/" + lotId)
   }
   return (
-    <QueryContainer action={getLotDraftByDraftId(+lotId)} mapping={mapLot}>
-      {payload => (
-        <>
-          <h2 className="heading">Просмотр лота перед публикацией</h2>
-          <LotInfoLayout {...payload}>
-            <Buttons>
-              <Button await onClick={publishNewLot}>Опубликовать</Button>
-              <ButtonLink outline to={`/lots/${lotId}/edit`}>Редактировать</ButtonLink>
-            </Buttons>
-          </LotInfoLayout>
-        </>
-      )}
-    </QueryContainer>
+    <>
+      <Helmet>
+        <title>Просмотр лота перед публикацией</title>
+      </Helmet>
+      <QueryContainer action={getLotDraftByDraftId(+lotId)} mapping={mapLot}>
+        {payload => (
+          <>
+            <h2 className="heading">Просмотр лота перед публикацией</h2>
+            <LotInfoLayout {...payload}>
+              <Buttons>
+                <Button await onClick={publishNewLot}>Опубликовать</Button>
+                <ButtonLink outline to={`/lots/${lotId}/edit`}>Редактировать</ButtonLink>
+              </Buttons>
+            </LotInfoLayout>
+          </>
+        )}
+      </QueryContainer>
+    </>
   )
 }
 

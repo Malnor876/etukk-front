@@ -1,4 +1,5 @@
 import { ReactError } from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
+import { Helmet } from "react-helmet"
 import { useParams } from "react-router"
 
 import UserProfile from "./UserProfile"
@@ -13,7 +14,12 @@ function UserView() {
   }
 
   return (
-    <UserProfile userId={+params.userId} />
+    <>
+      <Helmet>
+        <title>Просмотр профиля gользователя</title>
+      </Helmet>
+      <UserProfile userId={+params.userId} />
+    </>
   )
 }
 

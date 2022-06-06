@@ -3,6 +3,7 @@ import QueryContainer from "app/components/containers/QueryContainer/QueryContai
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import { FAQ, FAQClause } from "app/components/UI/FAQ/FAQ"
 import Buttons from "app/layouts/Buttons/Buttons"
+import { Helmet } from "react-helmet"
 import { Route, Routes } from "react-router"
 
 import moderPNG from "./moder.png"
@@ -10,6 +11,9 @@ import moderPNG from "./moder.png"
 function SupportView() {
   return (
     <>
+      <Helmet>
+        <title>Техподдержка</title>
+      </Helmet>
       <h2 className="heading">Техподдержка</h2>
       <Buttons>
         <ButtonLink small outline nav to="" end>FAQ</ButtonLink>

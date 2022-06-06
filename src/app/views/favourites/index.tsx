@@ -11,6 +11,7 @@ import { getUserFavoriteLot, getUserFavoriteUser } from "infrastructure/persiste
 import { mapLotPreview } from "infrastructure/persistence/api/mappings/lots"
 import { mapUser } from "infrastructure/persistence/api/mappings/user"
 import { useState } from "react"
+import { Helmet } from "react-helmet"
 import { Outlet, Route, Routes } from "react-router"
 import { NavLink } from "react-router-dom"
 
@@ -19,6 +20,9 @@ function FavouritesView() {
   const [sortingOrganization, setSortingOrganization] = useState<"user" | "organization" | null>(null)
   return (
     <>
+      <Helmet>
+        <title>Избранное</title>
+      </Helmet>
       <h2 className="heading">избранное</h2>
       <Buttons>
         <ButtonLink small outline nav to="lots">Лоты</ButtonLink>

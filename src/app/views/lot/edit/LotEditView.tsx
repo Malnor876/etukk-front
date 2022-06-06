@@ -17,6 +17,7 @@ import { SchemaLotDeliveryOptions } from "infrastructure/persistence/api/data/sc
 import { mapLot } from "infrastructure/persistence/api/mappings/lots"
 import { MutableRefObject, ReactNode, useRef, useState } from "react"
 import { useClient } from "react-fetching-library"
+import { Helmet } from "react-helmet"
 import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router"
 
@@ -75,55 +76,60 @@ function LotEditView() {
   if (!user.auth) return null
 
   return (
-    <QueryContainer action={getLotByLotId(+lotId)} mapping={mapLot}>
-      {payload => {
-        if (payload.creatorId !== user.id) return (
-          <ErrorCover>
-            Это не ваш лот
-          </ErrorCover>
-        )
+    <>
+      <Helmet>
+        <title>Редактировать лот</title>
+      </Helmet>
+      <QueryContainer action={getLotByLotId(+lotId)} mapping={mapLot}>
+        {payload => {
+          if (payload.creatorId !== user.id) return (
+            <ErrorCover>
+              Это не ваш лот
+            </ErrorCover>
+          )
 
-        return (
-          <Form className="lot-edit-view" onSubmit={onSubmit} formRef={formRef}>
-            <div className="lot-edit-view__header">
-              <h2 className="heading">Редактировать лот</h2>
-              <Backward />
-            </div>
-            <div className="lot-edit-view__container">
-              <LotEditSetting label="Название лота">
-                <Input width="18em" placeholder="Название лота" defaultValue={payload.title} name={FormInputs.title} />
-                <InputResetButton name={FormInputs.title} in={formRef} defaultValue={payload.title} />
-              </LotEditSetting>
-              <LotEditSetting label="Начальная ставка">
-                <Input width="16em" type="number" placeholder="Введите  сумму..." iconName="rub" name={FormInputs.startPrice} defaultValue={+payload.startPrice} />
-                <InputResetButton name={FormInputs.startPrice} in={formRef} defaultValue={+payload.startPrice} />
-              </LotEditSetting>
-              <LotEditSetting label="Укажите ваш город">
-                <Input width="16em" placeholder="Укажите город..." name={FormInputs.city} defaultValue={payload.city} />
-                <InputResetButton name={FormInputs.city} in={formRef} defaultValue={payload.city} />
-              </LotEditSetting>
-              <LotEditSetting label="Вариант доставки">
-                <Selector width="16em" defaultValue={payload.delivery} name={FormInputs.delivery}>
-                  <option value={LotDelivery.all}>Доставка в регионы</option>
-                  <option value={LotDelivery.local}>Доставка по городу продажи</option>
-                </Selector>
-              </LotEditSetting>
-              <LotEditSetting label="Описание лота">
-                <Textarea width="33.5em" rows={16} name={FormInputs.description} defaultValue={payload.description} />
-                <InputResetButton name={FormInputs.description} in={formRef} defaultValue={payload.description} />
-              </LotEditSetting>
-              <LotEditSetting label="Характеристики">
-                <Specifications name={FormInputs.specifications} defaultValue={payload.specifications} />
-              </LotEditSetting>
-            </div>
-            <div className="lot-edit-view__buttons">
-              <Button type="submit">Сохранить</Button>
-              <Button type="reset" outline>Отмена</Button>
-            </div>
-          </Form>
-        )
-      }}
-    </QueryContainer>
+          return (
+            <Form className="lot-edit-view" onSubmit={onSubmit} formRef={formRef}>
+              <div className="lot-edit-view__header">
+                <h2 className="heading">Редактировать лот</h2>
+                <Backward />
+              </div>
+              <div className="lot-edit-view__container">
+                <LotEditSetting label="Название лота">
+                  <Input width="18em" placeholder="Название лота" defaultValue={payload.title} name={FormInputs.title} />
+                  <InputResetButton name={FormInputs.title} in={formRef} defaultValue={payload.title} />
+                </LotEditSetting>
+                <LotEditSetting label="Начальная ставка">
+                  <Input width="16em" type="number" placeholder="Введите  сумму..." iconName="rub" name={FormInputs.startPrice} defaultValue={+payload.startPrice} />
+                  <InputResetButton name={FormInputs.startPrice} in={formRef} defaultValue={+payload.startPrice} />
+                </LotEditSetting>
+                <LotEditSetting label="Укажите ваш город">
+                  <Input width="16em" placeholder="Укажите город..." name={FormInputs.city} defaultValue={payload.city} />
+                  <InputResetButton name={FormInputs.city} in={formRef} defaultValue={payload.city} />
+                </LotEditSetting>
+                <LotEditSetting label="Вариант доставки">
+                  <Selector width="16em" defaultValue={payload.delivery} name={FormInputs.delivery}>
+                    <option value={LotDelivery.all}>Доставка в регионы</option>
+                    <option value={LotDelivery.local}>Доставка по городу продажи</option>
+                  </Selector>
+                </LotEditSetting>
+                <LotEditSetting label="Описание лота">
+                  <Textarea width="33.5em" rows={16} name={FormInputs.description} defaultValue={payload.description} />
+                  <InputResetButton name={FormInputs.description} in={formRef} defaultValue={payload.description} />
+                </LotEditSetting>
+                <LotEditSetting label="Характеристики">
+                  <Specifications name={FormInputs.specifications} defaultValue={payload.specifications} />
+                </LotEditSetting>
+              </div>
+              <div className="lot-edit-view__buttons">
+                <Button type="submit">Сохранить</Button>
+                <Button type="reset" outline>Отмена</Button>
+              </div>
+            </Form>
+          )
+        }}
+      </QueryContainer>
+    </>
   )
 }
 

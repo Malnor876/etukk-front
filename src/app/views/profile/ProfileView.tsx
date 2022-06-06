@@ -2,6 +2,7 @@ import "./ProfileView.scss"
 
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
+import { Helmet } from "react-helmet"
 import { Navigate, Route, Routes } from "react-router"
 
 import ProfileBidsView from "./views/Bids/ProfileBidsView"
@@ -12,6 +13,9 @@ function ProfileView() {
   return (
     <div className="profile-view">
       <div className="profile-view__container">
+        <Helmet>
+          <title>Личный профиль</title>
+        </Helmet>
         <h2 className="heading">Личный профиль</h2>
         <Buttons>
           <ButtonLink small outline nav to="personal">Личная информация</ButtonLink>

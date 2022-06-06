@@ -5,6 +5,7 @@ import Buttons from "app/layouts/Buttons/Buttons"
 import ViewNarrow from "app/layouts/ViewNarrow/ViewNarrow"
 import EditLotCategory from "app/views/lot-new/edit/EditLotCategory"
 import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
+import { Helmet } from "react-helmet"
 import { Route, Routes } from "react-router"
 import { useParams } from "react-router"
 
@@ -53,6 +54,9 @@ function LotDraftView() {
   return (
     <ViewNarrow>
       <div>
+        <Helmet>
+          <title>Разместить лот</title>
+        </Helmet>
         <h2 className="heading">Разместить лот</h2>
         <Routes>
           <Route index element={<EditLotCategory />} />

@@ -2,11 +2,15 @@ import "./Terms.scss"
 
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
+import { Helmet } from "react-helmet"
 import { Route, Routes } from "react-router-dom"
 
 function TermsView() {
   return (
     <div className="terms">
+      <Helmet>
+        <title>Правовая информация</title>
+      </Helmet>
       <h2 className="heading">Правовая информация</h2>
       <Buttons>
         <ButtonLink outline nav to="rules">Правила пользования сайтом</ButtonLink>

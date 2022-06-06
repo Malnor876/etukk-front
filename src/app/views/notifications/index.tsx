@@ -11,11 +11,15 @@ import DetailedSellers from "domain/seller/DetailedSellers"
 import { getUserNotifications } from "infrastructure/persistence/api/data/actions"
 import { mapLotPreview } from "infrastructure/persistence/api/mappings/lots"
 import { useState } from "react"
+import { Helmet } from "react-helmet"
 import { Route, Routes } from "react-router"
 
 function NotificationsView() {
   return (
     <>
+      <Helmet>
+        <title>Уведомления</title>
+      </Helmet>
       <h2 className="heading">Уведомления</h2>
       <Buttons>
         <ButtonLink small outline nav to="lots">По лотам</ButtonLink>

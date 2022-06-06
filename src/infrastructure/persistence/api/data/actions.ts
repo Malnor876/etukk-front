@@ -1253,10 +1253,7 @@ export const getLotByLotId = (lot_id?: number): Action<{
   user_id: number
 }> => ({
   method: "GET",
-  endpoint: `/lot/${lot_id}`,
-  config: {
-    requireAuth: true
-  }
+  endpoint: `/lot/${lot_id}`
 })
 
 /**
