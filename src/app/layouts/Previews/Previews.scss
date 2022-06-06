@@ -2,7 +2,8 @@
 
 .previews {
 	display: grid;
-	align-content: baseline;
+	align-items: flex-start;
+	align-content: flex-start;
 	justify-content: space-between;
 	grid-template-columns: repeat(auto-fill, minmax(14.25em, 1fr));
 	gap: 2em;

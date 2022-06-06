@@ -5,19 +5,26 @@ import Switcher from "app/components/UI/Switcher/Switcher"
 import Container from "app/layouts/Container/Container"
 import useDeviceWidth from "hooks/useDeviceWidth"
 import { DeviceWidths } from "hooks/useResizeObserverEntry"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Helmet } from "react-helmet"
 // import { useMatch } from "react-router"
 import { Route, Routes } from "react-router"
-import { NavLink } from "react-router-dom"
+import { NavLink, useParams } from "react-router-dom"
 
 import LotPreviewsContainer from "./LotPreviewsContainer"
 function HomeView() {
+  const params = useParams<"categoryId">()
+
   // const matchHot = useMatch("hot")
   const [search, setSearch] = useState("")
-  const [filters, setFilters] = useState<any>({})
+  const [filters, setFilters] = useState<any>({
+    categories: params.categoryId
+  })
   // const isHot = !!matchHot
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
+  useEffect(() => {
+    setFilters({ ...filters, categories: params.categoryId })
+  }, [params.categoryId])
   return (
     <>
       <Helmet>
