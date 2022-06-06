@@ -83,6 +83,7 @@ export interface SchemaLot {
   edited_at: string
   buyer_id?: number | null
   user_id: number
+  bets_count?: number
   in_user_favorites?: boolean
   lotphotos?: {
     id: number

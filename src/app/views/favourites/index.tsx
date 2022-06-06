@@ -30,8 +30,10 @@ function FavouritesView() {
       </Buttons>
       <Routes>
         <Route path="lots/*" element={(
-          <QueryContainer action={getUserFavoriteLot(sortingLots ? {} : undefined)} key="lots">
+          <QueryContainer action={getUserFavoriteLot(sortingLots === "new" ? { order_by: "created_at" } : undefined)} key="lots">
             {all => {
+              const wait = all.filter(item => item.lot.status === LotStatus.MODERATION)
+              const trading = all.filter(item => item.lot.status === LotStatus.PUBLISHED)
               const sold = all.filter(item => item.lot.status === LotStatus.SOLD)
               return (
                 <Routes>
@@ -39,8 +41,8 @@ function FavouritesView() {
                     <>
                       <Switcher>
                         <NavLink to="" end>Все ({all.length})</NavLink>
-                        <NavLink to="pending">Ожидающие (2)</NavLink>
-                        <NavLink to="trading">Торги (0)</NavLink>
+                        <NavLink to="pending">Ожидающие ({wait.length})</NavLink>
+                        <NavLink to="trading">Торги ({trading.length})</NavLink>
                         <NavLink to="sold">Проданы ({sold.length})</NavLink>
                       </Switcher>
                       <SortingToggle onChange={value => setSortingLots(value as never)}>
@@ -59,14 +61,14 @@ function FavouritesView() {
                     )} />
                     <Route path="pending" element={(
                       <Previews>
-                        {all.map(item => (
+                        {wait.map(item => (
                           <LotPreview {...mapLotPreview(item.lot)} key={item.id} />
                         ))}
                       </Previews>
                     )} />
                     <Route path="trading" element={(
                       <Previews>
-                        {all.map(item => (
+                        {trading.map(item => (
                           <LotPreview {...mapLotPreview(item.lot)} key={item.id} />
                         ))}
                       </Previews>

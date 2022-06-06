@@ -10,7 +10,7 @@ export function mapLotPreview(lot?: SchemaLot): LotPreviewType {
   return {
     id: lot?.id || -1,
     bookmarked: lot?.in_user_favorites,
-    image: mapImageUrl(""),
+    image: mapImageUrl(lot?.lotphotos?.[0]?.filename),
     city: lot?.city || "unknown",
     title: lot?.name || "unknown",
     startPrice: new Price(lot?.start_price || -1),
@@ -19,7 +19,7 @@ export function mapLotPreview(lot?: SchemaLot): LotPreviewType {
     tradeEndTime: new Date(lot?.bidding_end_time || 0),
     status: (lot?.status as LotStatus) || LotStatus.UNKNOWN,
     tradeStatus: (lot?.trade_status as LotTradeStatus) || LotTradeStatus.UNKNOWN,
-    betsCount: -1,
+    betsCount: lot?.bets_count || -1,
   }
 }
 
