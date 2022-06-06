@@ -42,7 +42,7 @@ export function mapLot(payload: SchemaLot): LotInfoType {
     type: "organization", //! default
 
     bookmarked: payload.in_user_favorites,
-    description: payload.description || "unknown",
+    description: payload.description ?? "unknown",
     slides: payload.lotphotos?.map(l => mapImageUrl(l.filename)) ?? [],
     specifications: payload.lotspecifications?.map(spec => ({ key: spec.name, value: spec.value })) ?? [],
 
