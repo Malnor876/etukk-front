@@ -1,4 +1,4 @@
-import "./RequiredAuthCover.scss"
+// import "./RequiredAuthCover.scss"
 
 import FullscreenSignIn from "app/components/modals/auth/FullscreenSignIn"
 import Button from "app/components/UI/Button/Button"
