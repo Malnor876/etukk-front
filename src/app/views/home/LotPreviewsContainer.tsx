@@ -1,7 +1,7 @@
 import LoaderCover from "app/components/UI/Loader/LoaderCover"
 import Previews from "app/layouts/Previews/Previews"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
-import { LotDelivery, LotPreviewType } from "domain/Lot/types"
+import { LotDelivery, LotPreviewType, LotStatus } from "domain/Lot/types"
 import useScrollReach from "hooks/useScrollReach"
 import { getLot } from "infrastructure/persistence/api/data/actions"
 import { mapLotsLists } from "infrastructure/persistence/api/mappings/lots"
@@ -37,6 +37,7 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
     & FilteringField<"bidding_start_time" | "bidding_end_time", "iexact", string>
 
+    & FilteringField<"status", "not", string>
     & FilteringField<"trade_status", "iexact", string>
     & { categories: number }
   > = {
@@ -49,6 +50,7 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
     bidding_start_time__iexact: props.period?.date_start,
     bidding_end_time__iexact: props.period?.date_end,
+    status__not: LotStatus.CLOSED
 
     // trade_status__iexact: props.started
   }
