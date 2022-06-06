@@ -20,25 +20,26 @@ import { lotDraftStorage } from "."
 // }
 
 export function useDraftNewLot() {
-  const files = lotDraftStorage.get<File[]>("files") || []
-
-  const specifications = lotDraftStorage.get<LotInfoType["specifications"]>("specifications") || []
-  const description = lotDraftStorage.get<LotInfoType["description"]>("description") || ""
-
-  const category = lotDraftStorage.get<number>("category") || -1
-  const city = lotDraftStorage.get<LotInfoType["city"]>("city") || ""
-  const price = lotDraftStorage.get<string>("price") || ""
-  const title = lotDraftStorage.get<LotInfoType["title"]>("title") || "unknown"
-  const date = lotDraftStorage.get<string>("date") || "1"
-  const delivery = (lotDraftStorage.get<string>("delivery") || "all") as LotDelivery
-
-
-
-  const [startTime, endTime] = getBiddingTime(+date)
 
   const navigate = useNavigate()
   const { mutate } = useMutation(postLotDraft)
+
   async function draft() {
+    const files = lotDraftStorage.get<File[]>("files") || []
+
+    const specifications = lotDraftStorage.get<LotInfoType["specifications"]>("specifications") || []
+    const description = lotDraftStorage.get<LotInfoType["description"]>("description") || ""
+
+    const category = lotDraftStorage.get<number>("category") || -1
+    const city = lotDraftStorage.get<LotInfoType["city"]>("city") || ""
+    const price = lotDraftStorage.get<string>("price") || ""
+    const title = lotDraftStorage.get<LotInfoType["title"]>("title") || "unknown"
+    const date = lotDraftStorage.get<string>("date") || "1"
+    const delivery = (lotDraftStorage.get<string>("delivery") || "all") as LotDelivery
+
+
+
+    const [startTime, endTime] = getBiddingTime(+date)
     const { error, payload: responsePayload } = await mutate({
       city: city,
       categories: [category],

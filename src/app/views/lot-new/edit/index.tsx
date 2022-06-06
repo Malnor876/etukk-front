@@ -40,6 +40,7 @@ function LotDraftView() {
    */
   function getRouteBy(by: -1 | 1) {
     const shiftedPosition = currentPosition + by
+    console.log(by, shiftedPosition)
     return lotDraftEditSectionsOrder[shiftedPosition] || ""
   }
 

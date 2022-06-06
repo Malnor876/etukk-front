@@ -16,7 +16,7 @@ interface BackwardProps {
 function Backward(props: BackwardProps) {
   const navigate = useNavigate()
 
-  if (props.to) {
+  if (props.to != null) {
     return (
       <Link {...props} className="get-back" to={props.to}>
         <Icon className="get-back__icon" name="chevron" />
