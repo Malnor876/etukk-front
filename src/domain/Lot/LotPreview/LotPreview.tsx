@@ -1,6 +1,7 @@
 import "./LotPreview.scss"
 
 import Bookmark from "app/components/UI/Bookmark/Bookmark"
+import ButtonLink from "app/components/UI/Button/ButtonLink"
 import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
 import Icon, { IconName } from "app/components/UI/Icon/Icon"
 import { LotPreviewType, LotStatus } from "domain/Lot/types"
@@ -26,6 +27,9 @@ function LotPreview(props: LotProps) {
         )}
         <Bookmark className="lot-preview__bookmark" type="lot" id={props.id} defaultValue={props.bookmarked} />
       </>
+      {props.status === LotStatus.DRAFTED && (
+        <ButtonLink to={`/lots/${props.id}/preview`}>Опубликовать черновик</ButtonLink>
+      )}
     </div>
   )
 }

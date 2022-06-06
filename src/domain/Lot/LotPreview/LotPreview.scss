@@ -12,6 +12,10 @@
 	box-shadow: 0px 2px 8px -4px rgba($color-dark, 0.5);
 	transition: 250ms ease box-shadow;
 
+	&>.button:last-child {
+		border-radius: unset;
+	}
+
 	@include Mobile {
 		max-width: unset;
 	}

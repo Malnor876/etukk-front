@@ -29,7 +29,7 @@ function AppRouter() {
           <Route path="lots/:lotId" element={<LotView />} />
           <Route path="lots/:lotId/edit" element={<LotEditView />} />
           <Route path="lots/:lotId/preview" element={<LotPreviewView />} />
-          <Route path="lots/draft/*" element={<LotDraftView />} />
+          <Route path="lots/:lotId/draft/*" element={<LotDraftView />} />
 
           <Route path="favourites/*" element={<FavouritesView />} />
           <Route path="notifications/*" element={<NotificationsView />} />
