@@ -24,9 +24,9 @@ interface DialogLayoutProps {
  */
 function DialogLayout(props: DialogLayoutProps) {
   const { close, params } = useModal()
-  const [isDesktop] = useDeviceWidth(DeviceWidths.Desktop)
+  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
 
-  if (isDesktop) {
+  if (!isMobile) {
     return <PopupLayout {...props} />
   }
 

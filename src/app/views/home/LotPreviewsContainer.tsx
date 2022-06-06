@@ -38,11 +38,11 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
     & FilteringField<"bidding_start_time" | "bidding_end_time", "iexact", string>
 
     & FilteringField<"trade_status", "iexact", string>
-    & { category_id: number }
+    & { categories: number }
   > = {
     name__icontains: props.search,
     now_price__range: props.price,
-    category_id: props.categories,
+    categories: props.categories,
 
     organization__iexact: props.seller != null && props.seller === "organization",
     delivery_options__iexact: props.delivery,

@@ -1,10 +1,10 @@
 import ChooseImage from "app/components/UI/ChooseImage/ChooseImage"
 import Input from "app/components/UI/Input/Input"
 
-import { lotNewStorage } from "."
+import { lotDraftStorage } from "."
 
 function EditLotFiles() {
-  const [files, setFiles] = lotNewStorage.state<File[]>("files", [])
+  const [files, setFiles] = lotDraftStorage.state<File[]>("files", [])
   if (files.some(image => !(image instanceof File))) {
     setFiles([])
     files.length = 0

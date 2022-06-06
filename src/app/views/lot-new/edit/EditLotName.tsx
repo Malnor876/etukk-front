@@ -1,9 +1,9 @@
 import Input from "app/components/UI/Input/Input"
 
-import { lotNewStorage } from "."
+import { lotDraftStorage } from "."
 
 function EditLotName() {
-  const [title, setTitle] = lotNewStorage.state("title", "")
+  const [title, setTitle] = lotDraftStorage.state("title", "")
   return (
     <section>
       <h4>Название лота</h4>

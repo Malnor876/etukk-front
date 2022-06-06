@@ -43,6 +43,11 @@ class TemporaryStorage {
 
     return [state, setState]
   }
+
+  clear() {
+    this.storage.clear()
+    this.serialize()
+  }
 }
 
 export default TemporaryStorage

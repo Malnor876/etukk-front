@@ -2,10 +2,10 @@ import QueryContainer from "app/components/containers/QueryContainer/QueryContai
 import Specifications from "app/components/UI/Specifications/Specifications"
 import { LotInfoType } from "domain/Lot/types"
 
-import { lotNewStorage } from "."
+import { lotDraftStorage } from "."
 
 function EditLotSpecifications() {
-  const [specifications, setSpecifications] = lotNewStorage.state<LotInfoType["specifications"]>("specifications", [{ id: 0, key: "", value: "" } as never])
+  const [specifications, setSpecifications] = lotDraftStorage.state<LotInfoType["specifications"]>("specifications", [{ id: 0, key: "", value: "" } as never])
   return (
     <section>
       <h4>Укажите характеристики</h4>

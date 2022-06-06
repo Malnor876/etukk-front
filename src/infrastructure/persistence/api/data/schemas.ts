@@ -84,6 +84,16 @@ export interface SchemaLot {
   buyer_id?: number | null
   user_id: number
   in_user_favorites?: boolean
+  lotphotos?: {
+    id: number
+    lot_id: number
+    filename: string
+  }[]
+  lotspecifications?: {
+    name: string
+    units: string
+    value: string
+  }[]
 }
 
 export type SchemaLotDeliveryOptions = "in_city" | "intercity"

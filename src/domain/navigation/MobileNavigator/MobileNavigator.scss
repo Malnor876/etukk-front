@@ -28,6 +28,7 @@
 	top: 0;
 	padding: 0.75em;
 	background: $color-white;
+	// outline: 8px solid $color-white;
 	border-radius: 50%;
 
 	transition: 200ms ease top, 200ms ease background-color;
@@ -35,6 +36,7 @@
 	.mobile-navigator-link--active & {
 		top: -2.5em;
 		background-color: $color-raspberry-1;
+		box-shadow: 2px 0px 16px 2px rgba(39, 45, 58, 0.25);
 	}
 }
 

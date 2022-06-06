@@ -1,10 +1,10 @@
 import Textarea from "app/components/UI/Textarea/Textarea"
 import { inputValue } from "utils/common"
 
-import { lotNewStorage } from "."
+import { lotDraftStorage } from "."
 
 function EditLotDescription() {
-  const [description, setDescription] = lotNewStorage.state("description", "")
+  const [description, setDescription] = lotDraftStorage.state("description", "")
   return (
     <section>
       <h4>Описание лота</h4>

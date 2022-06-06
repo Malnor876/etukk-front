@@ -245,7 +245,7 @@ export const postUserFavoriteLot = (body: {
 /**
  * OK
  */
-export const getUserFavoriteLot = (): Action<{
+export const getUserFavoriteLot = (filters?: object): Action<{
   id: number
   created_at: string
   lot_id: number
@@ -254,6 +254,7 @@ export const getUserFavoriteLot = (): Action<{
 }[]> => ({
   method: "GET",
   endpoint: `/user/favorite/lot`,
+  params: { ...filters },
   config: {
     requireAuth: true
   }
@@ -281,7 +282,7 @@ export const postUserFavoriteUser = (body: {
 /**
  * OK
  */
-export const getUserFavoriteUser = (): Action<{
+export const getUserFavoriteUser = (filters?: object): Action<{
   id: number
   created_at: string
   fav_user_id: number
@@ -290,6 +291,7 @@ export const getUserFavoriteUser = (): Action<{
 }[]> => ({
   method: "GET",
   endpoint: `/user/favorite/user`,
+  params: { ...filters },
   config: {
     requireAuth: true
   }
@@ -373,6 +375,11 @@ export const postLotDraft = (body: {
   bidding_end_time: string
   video_url: string
   lotphotos: string[]
+  lotspecifications?: {
+    name: string
+    units?: string
+    value: string
+  }[]
 }): Action<{
   id: number
   name?: string | null
@@ -1133,7 +1140,7 @@ export const deleteLotDraftByDraftId = (draft_id?: number): Action => ({
 /**
  * OK
  */
-export const patchLotDraftByDraftId = (draft_id: number, body: {
+export const patchLotDraftByDraftId = (draft_id: number, body: Partial<{
   name: string
   description: string
   start_price: number
@@ -1144,7 +1151,7 @@ export const patchLotDraftByDraftId = (draft_id: number, body: {
   bidding_end_time: string
   video_url: string
   photos: string[]
-}): Action<{
+}>): Action<{
   id: number
   name?: string | null
   description?: string | null

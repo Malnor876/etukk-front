@@ -3,10 +3,14 @@
 .row {
 	display: flex;
 	align-items: baseline;
-	@include column-gap(1em);
+
+	@include DesktopOnly {
+		@include column-gap(1em);
+	}
 
 	@include Mobile {
 		display: grid;
+		gap: 1em;
 	}
 }
 

@@ -1,22 +1,38 @@
+import { ReactError } from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Button from "app/components/UI/Button/Button"
 import Picker from "app/components/UI/Picker/Picker"
-import { getCategory } from "infrastructure/persistence/api/data/actions"
+import { isValidResponse } from "infrastructure/persistence/api/client"
+import { getCategory, patchLotDraftByDraftId } from "infrastructure/persistence/api/data/actions"
 import { useState } from "react"
+import { useClient } from "react-fetching-library"
+import { useParams } from "react-router-dom"
 
-import { lotNewStorage } from "."
+import { lotDraftStorage } from "."
 
-/**
- * Poor code
- * 
- * TODO: Refactor in future
- */
 function EditLotCategory() {
+  // const params = useParams<"lotId">()
+  // const lotId = Number(params.lotId)
+
+  // if (params.lotId == null) {
+  //   throw new ReactError(EditLotCategory, "got no lotId")
+  // }
+  // if (isNaN(lotId)) {
+  //   throw new ReactError(EditLotCategory, "lotId is not number")
+  // }
+
+  // const client = useClient()
+
   const [flag, setFlag] = useState(true)
-  const [category, setCategory] = lotNewStorage.state<number | null | undefined>("category")
-  function updateCategory(value?: number | null) {
+  const [category, setCategory] = lotDraftStorage.state<number | null | undefined>("category")
+  async function updateCategory(value?: number | null) {
+    if (value == null) return
+
     setCategory(value)
     setFlag(!flag)
+
+    // const response = await client.query(patchLotDraftByDraftId(lotId, { categories: value }))
+    // if (!isValidResponse(response)) return
   }
   return (
     <section>

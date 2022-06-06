@@ -1,8 +1,7 @@
 import Backward from "app/components/UI/Backward/Backward"
+import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
-import Quote from "app/components/UI/Quote/Quote"
 import Buttons from "app/layouts/Buttons/Buttons"
-import Container from "app/layouts/Container/Container"
 import ViewNarrow from "app/layouts/ViewNarrow/ViewNarrow"
 import EditLotCategory from "app/views/lot-new/edit/EditLotCategory"
 import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
@@ -14,13 +13,12 @@ import EditLotFiles from "./EditLotFiles"
 import EditLotName from "./EditLotName"
 import EditLotSpecifications from "./EditLotSpecifications"
 import EditLotTrade from "./EditLotTrade"
+import { useDraftNewLot } from "./helpers"
 
-export const lotNewStorage = new TemporaryStorage("lot-new")
-const LotNewEditSectionsOrder = ["", "name", "specifications", "description", "files", "trade"]
+export const lotDraftStorage = new TemporaryStorage("lot-new")
+const lotDraftEditSectionsOrder = ["", "name", "specifications", "description", "files", "trade"]
 
-function LotNewEditView() {
-  const [category] = lotNewStorage.state<number | undefined>("category")
-
+function LotDraftView() {
   const params = useParams<"*">()
   /**
    * 
@@ -28,9 +26,9 @@ function LotNewEditView() {
    */
   function getCurrentPosition() {
     if (!params["*"]) return 0
-    if (!LotNewEditSectionsOrder.includes(params["*"])) return 0
+    if (!lotDraftEditSectionsOrder.includes(params["*"])) return 0
 
-    return LotNewEditSectionsOrder.indexOf(params["*"])
+    return lotDraftEditSectionsOrder.indexOf(params["*"])
   }
 
   const currentPosition = getCurrentPosition()
@@ -41,14 +39,17 @@ function LotNewEditView() {
    */
   function getRouteBy(by: -1 | 1) {
     const shiftedPosition = currentPosition + by
-    return LotNewEditSectionsOrder[shiftedPosition] || ""
+    return lotDraftEditSectionsOrder[shiftedPosition] || ""
   }
 
-  const prevRoute = getRouteBy(-1)
+  // const prevRoute = getRouteBy(-1)
   const nextRoute = getRouteBy(1)
 
   const isCurrentRouteBase = currentPosition === 0
-  const isCurrentRouteLast = currentPosition === LotNewEditSectionsOrder.length - 1
+  const isCurrentRouteLast = currentPosition === lotDraftEditSectionsOrder.length - 1
+
+  const draftLot = useDraftNewLot()
+
   return (
     <ViewNarrow>
       <div>
@@ -71,7 +72,7 @@ function LotNewEditView() {
           <ButtonLink to={nextRoute}>Далее</ButtonLink>
         )}
         {!isCurrentRouteBase && isCurrentRouteLast && (
-          <ButtonLink to="/lots/new/preview">Предпросмотр</ButtonLink>
+          <Button await onClick={draftLot}>Предпросмотр</Button>
         )}
       </Buttons>
       {/* <Quote author="В.И. Ленин">
@@ -81,4 +82,4 @@ function LotNewEditView() {
   )
 }
 
-export default LotNewEditView
+export default LotDraftView

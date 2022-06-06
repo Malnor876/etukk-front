@@ -1,7 +1,7 @@
 import "./Form.scss"
 
 import _ from "lodash"
-import { DetailedHTMLProps, FormEvent, FormHTMLAttributes } from "react"
+import { DetailedHTMLProps, FormEvent, FormHTMLAttributes, MutableRefObject } from "react"
 import { classWithModifiers } from "utils/common"
 import { FileToURLDataBase64 } from "utils/file"
 
@@ -25,6 +25,7 @@ interface FormProps<K extends keyof never, V> extends Omit<DetailedHTMLProps<For
   centered?: boolean
   gap?: "2em"
 
+  formRef?: MutableRefObject<HTMLFormElement | null>
   onSubmit?: (state: FormState<K, V>, event: FormEvent<HTMLFormElement>) => void
 }
 
@@ -37,7 +38,7 @@ function Form<K extends keyof never, V>(props: FormProps<K, V>) {
     props.onSubmit?.(formState, event)
   }
   return (
-    <form {..._.omit(props, "centered")} style={{ gap: props.gap }} className={classWithModifiers("form", props.centered && "centered")} onSubmit={onSubmit} />
+    <form {..._.omit(props, "centered")} ref={props.formRef} style={{ gap: props.gap }} className={classWithModifiers(props.className || "form", props.centered && "centered")} onSubmit={onSubmit} />
   )
 }
 
