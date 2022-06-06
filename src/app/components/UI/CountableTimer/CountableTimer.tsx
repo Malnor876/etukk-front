@@ -2,6 +2,12 @@ import "./CountableTimer.scss"
 
 import { ReactNode, useEffect, useState } from "react"
 
+const countableTimerCallbacks = new Set<Function>()
+const countableTimerInterval = setInterval(() => {
+  for (const callback of countableTimerCallbacks) callback()
+}, 500)
+
+
 interface CountableTimerProps {
   futureDate: Date | string | number
   /**
@@ -17,11 +23,13 @@ function CountableTimer(props: CountableTimerProps) {
   const [timer, setTimer] = useState<[number, number, number, number] | null>(getTimeDifference(props.futureDate, props.start))
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    function callback() {
       setTimer(getTimeDifference(props.futureDate, props.start))
-    }, 500)
+    }
+
+    countableTimerCallbacks.add(callback)
     return () => {
-      clearInterval(interval)
+      countableTimerCallbacks.delete(callback)
     }
   }, [props.futureDate, props.start])
   return (
