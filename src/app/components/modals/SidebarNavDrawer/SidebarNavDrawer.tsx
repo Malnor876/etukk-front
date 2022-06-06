@@ -25,7 +25,7 @@ function SidebarNavDrawer() {
           <img className="sidebar-nav-drawer__logo" src="/static/images/logo.svg" alt="etukk logo"></img>
           <nav className="sidebar-nav-drawer__nav">
             <NavLink className="sidebar-nav-drawer__link" to="/favourites/lots" onClick={close}>Избранное</NavLink>
-            <NavLink className="sidebar-nav-drawer__link" to="/lots/new" onClick={close}>Выставить лот</NavLink>
+            <NavLink className="sidebar-nav-drawer__link" to="/lots/draft" onClick={close}>Выставить лот</NavLink>
             <NavLink className="sidebar-nav-drawer__link" to="/notifications/lots" onClick={close}>Уведомления</NavLink>
             <NavLink className="sidebar-nav-drawer__link" to="/profile/personal" onClick={close}>Профиль</NavLink>
             <NavLink className="sidebar-nav-drawer__link" to="/support" onClick={close}>Техподдержка</NavLink>
@@ -55,7 +55,7 @@ function SidebarNavDrawer() {
         </div>
         <nav className="sidebar-nav-drawer__nav">
           <NavLink className="sidebar-nav-drawer__link" to="/favourites/lots" onClick={close}>Избранное</NavLink>
-          <NavLink className="sidebar-nav-drawer__link" to="/lots/new" onClick={close}>Выставить лот</NavLink>
+          <NavLink className="sidebar-nav-drawer__link" to="/lots/draft" onClick={close}>Выставить лот</NavLink>
           <NavLink className="sidebar-nav-drawer__link" to="/notifications/lots" onClick={close}>Уведомления</NavLink>
           <NavLink className="sidebar-nav-drawer__link" to="/profile/personal" onClick={close}>Профиль</NavLink>
           <NavLink className="sidebar-nav-drawer__link" to="/support" onClick={close}>Техподдержка</NavLink>
