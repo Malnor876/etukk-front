@@ -39,7 +39,7 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
     & FilteringField<"status", "not", string>
     & FilteringField<"trade_status", "iexact", string>
-    & { categories: number }
+    & { categories: number, status: string }
   > = {
     name__icontains: props.search,
     now_price__range: props.price,
@@ -50,7 +50,8 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
     bidding_start_time__iexact: props.period?.date_start,
     bidding_end_time__iexact: props.period?.date_end,
-    status__not: LotStatus.CLOSED
+    status: LotStatus.PUBLISHED,
+    // status__not: LotStatus.CLOSED,
 
     // trade_status__iexact: props.started
   }
@@ -91,7 +92,7 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
   return (
     <Previews>
       {lots.map(lot => (
-        <LotPreview {...lot} key={lot.id} />
+        <LotPreview {...lot} lookalike key={lot.id} />
       ))}
       {loading && <LoaderCover absolute />}
     </Previews>

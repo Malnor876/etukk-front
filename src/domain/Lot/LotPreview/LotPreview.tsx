@@ -10,6 +10,12 @@ import { Link } from "react-router-dom"
 import { humanizeDate } from "utils/date"
 
 interface LotProps extends LotPreviewType {
+  /**
+   * Follow a general look of the Lot.
+   * 
+   * The look stays the same whatever `props` passed
+   */
+  lookalike?: boolean
   onClick?(): void
 }
 
@@ -75,6 +81,46 @@ function LotPreviewSwitchableInfo(props: LotProps) {
 
     case LotStatus.PUBLISHED: {
       const started = props.tradeStartTime.getTime() > Date.now() && Date.now() < props.tradeEndTime.getTime()
+      if (props.lookalike) {
+        if (started) {
+          return (
+            <>
+              <div className="lot-preview__city">
+                <span>г. {props.city}</span>
+                <Icon name="truck" />
+              </div>
+              <div className="lot-preview__details">
+                <div className="lot-preview__entry">
+                  <small>Текущая ставка</small>
+                  <strong>{props.currentPrice.format()}</strong>
+                </div>
+                <div className="lot-preview__entry">
+                  <small>До окончания торгов</small>
+                  <strong><CountableTimer futureDate={props.tradeEndTime} /></strong>
+                </div>
+              </div>
+            </>
+          )
+        }
+        return (
+          <>
+            <div className="lot-preview__city">
+              <span>г. {props.city}</span>
+              <Icon name="truck" />
+            </div>
+            <div className="lot-preview__details">
+              <div className="lot-preview__entry">
+                <small>Начальная ставка</small>
+                <strong>{props.startPrice.format()}</strong>
+              </div>
+              <div className="lot-preview__entry">
+                <small>Начало торгов</small>
+                <strong>{humanizeDate(props.tradeStartTime)}</strong>
+              </div>
+            </div>
+          </>
+        )
+      }
       return (
         <>
           <div className="lot-preview__details">

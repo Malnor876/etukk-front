@@ -2,7 +2,12 @@ import "./CountableTimer.scss"
 
 import { ReactNode, useEffect, useState } from "react"
 
+
+/**
+ * Optimization to support multiple intervals without issues
+ */
 const countableTimerCallbacks = new Set<Function>()
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const countableTimerInterval = setInterval(() => {
   for (const callback of countableTimerCallbacks) callback()
 }, 500)
@@ -33,7 +38,7 @@ function CountableTimer(props: CountableTimerProps) {
     }
   }, [props.futureDate, props.start])
   return (
-    <div className="count-down">{timer ? timer.map(item => item.toLocaleString("ru", { minimumIntegerDigits: 2 })).join(props.splitter || ":") : (props.endLabel || "Таймер вышел")}</div>
+    <div className="countable-timer">{timer ? timer.map(item => item.toLocaleString("ru", { minimumIntegerDigits: 2 })).join(props.splitter || ":") : (props.endLabel || "Таймер вышел")}</div>
   )
 }
 
