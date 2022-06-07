@@ -7,12 +7,15 @@ import { Phone } from "utils/extensions"
 
 import Icon, { IconName } from "../Icon/Icon"
 
+export type InputConstraint = [RegExp, string]
+
 export interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   width?: string
   iconName?: IconName
   validity?: boolean
   customValidity?: string
   children?: ReactNode
+  constraints?: InputConstraint[]
   onIconClick?(): void
 }
 
@@ -24,8 +27,24 @@ function Input(props: InputProps) {
       target.value = Phone.parse(target.value).format()
     }
 
+    if (props.constraints) {
+      target.setCustomValidity("")
+      for (const [constraint, errorMessage] of props.constraints) {
+        if (!constraint.test(target.value)) {
+          target.setCustomValidity(errorMessage)
+          break
+        }
+      }
+    }
+
+
+    const invalid = !target.checkValidity()
+    if (invalid && target.validationMessage === "") {
+      target.setCustomValidity(props.customValidity || "")
+    }
+    setInvalid(invalid)
+
     props.onChange?.(event)
-    setInvalid(!event.currentTarget.checkValidity())
   }
   return (
     <label className={classWithModifiers("input", invalid && "invalid")} style={{ "--input-width": props.width }}>
