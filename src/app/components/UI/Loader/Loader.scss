@@ -46,10 +46,10 @@
 		inset: 0;
 	}
 
-	@include Mobile {
-		padding: 1em;
-		margin: auto;
-	}
+	padding: 1em;
+	margin: auto;
+
+	@include Mobile {}
 }
 
 .loader-cover__loader {

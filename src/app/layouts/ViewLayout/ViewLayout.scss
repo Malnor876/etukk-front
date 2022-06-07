@@ -1,5 +1,12 @@
 @import "~app/assets/scss/bundle.scss";
 
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	align-content: flex-start;
+	height: 100vh;
+}
+
 .view-layout {
 	display: grid;
 	// align-content: baseline;

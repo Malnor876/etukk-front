@@ -8,7 +8,7 @@ import Main from "../Main/Main"
 
 function ViewLayout() {
   return (
-    <>
+    <div className="wrapper">
       <Header />
       <Main>
         <div className="view-layout">
@@ -16,7 +16,7 @@ function ViewLayout() {
         </div>
       </Main>
       <Footer />
-    </>
+    </div>
   )
 }
 

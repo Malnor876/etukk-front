@@ -1,4 +1,5 @@
 @mixin WidthLimit {
+	width: 100%;
 	max-width: $width-desktop;
 
 	margin-left: auto;

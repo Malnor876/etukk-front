@@ -46,16 +46,18 @@ function HomeView() {
       </Switcher>
       <Routes>
         <Route index element={
-          <Container row>
-            <Container>
-              <QueryErrorCoverBoundary>
-                <LotPreviewsContainer search={search} {...filters} />
-              </QueryErrorCoverBoundary>
-              {!isMobile && (
-                <FiltersContainer onSubmit={setFilters} />
-              )}
+          <div style={{ minHeight: "18em" }}>
+            <Container row>
+              <Container>
+                <QueryErrorCoverBoundary>
+                  <LotPreviewsContainer search={search} {...filters} />
+                </QueryErrorCoverBoundary>
+                {!isMobile && (
+                  <FiltersContainer onSubmit={setFilters} />
+                )}
+              </Container>
             </Container>
-          </Container>
+          </div>
         } />
       </Routes>
     </>
