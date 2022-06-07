@@ -1001,9 +1001,9 @@ export const deleteUserByUserIdPictureByPictureId = (picture_id: number, user_id
 /**
  * OK
  */
-export const deleteUserFavoriteLotsByLotsId = (lots_id?: number): Action => ({
+export const deleteUserFavoriteLotByLotsId = (lots_id?: number): Action => ({
   method: "DELETE",
-  endpoint: `/user/favorite/lots/${lots_id}`,
+  endpoint: `/user/favorite/lot/${lots_id}`,
   config: {
     requireAuth: true
   }

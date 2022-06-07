@@ -1,5 +1,5 @@
 import Icon from "app/components/UI/Icon/Icon"
-import { postUserFavoriteLot, postUserFavoriteUser } from "infrastructure/persistence/api/data/actions"
+import { deleteUserFavoriteLotByLotsId, deleteUserFavoriteUserByUserId, postUserFavoriteLot, postUserFavoriteUser } from "infrastructure/persistence/api/data/actions"
 import { useState } from "react"
 import { useClient } from "react-fetching-library"
 import { classWithModifiers } from "utils/common"
@@ -17,9 +17,10 @@ function Bookmark(props: BookmarkProps) {
   async function onClick() {
     setBookmarked(!bookmarked)
 
-    const action = props.type === "lot" ? postUserFavoriteLot({ lot_id: Number(props.id) }) : postUserFavoriteUser({ fav_user_id: Number(props.id) })
+    const actionOn = props.type === "lot" ? postUserFavoriteLot({ lot_id: Number(props.id) }) : postUserFavoriteUser({ fav_user_id: Number(props.id) })
+    const actionOff = props.type === "lot" ? deleteUserFavoriteLotByLotsId(Number(props.id)) : deleteUserFavoriteUserByUserId(Number(props.id))
 
-    const { error } = await client.query(action)
+    const { error } = await client.query(bookmarked ? actionOff : actionOn)
     if (error) setBookmarked(bookmarked)
   }
 
