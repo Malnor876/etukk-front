@@ -8,7 +8,7 @@ import { Modal } from "modules/modal/controller"
 function RequiredAuthCover() {
   return (
     <ErrorCover>
-      <p>Пока ничего нету, авторизуйтесь</p>
+      <p>Пока ничего нет, авторизуйтесь</p>
       <Button onClick={() => Modal.open(FullscreenSignIn)}>Войти</Button>
     </ErrorCover>
   )

@@ -60,6 +60,14 @@
 .lot-preview__details {
 	display: grid;
 	gap: 0.75em;
+
+	&--short {
+		.lot-preview__entry {
+			&>:first-child {
+				max-width: 10ch;
+			}
+		}
+	}
 }
 
 .lot-preview__entry {

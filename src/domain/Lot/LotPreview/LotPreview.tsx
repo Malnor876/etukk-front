@@ -89,7 +89,7 @@ function LotPreviewSwitchableInfo(props: LotProps) {
                 <span>г. {props.city}</span>
                 <Icon name="truck" />
               </div>
-              <div className="lot-preview__details">
+              <div className="lot-preview__details lot-preview__details--short">
                 <div className="lot-preview__entry">
                   <small>Текущая ставка</small>
                   <strong>{props.currentPrice.format()}</strong>
@@ -108,7 +108,7 @@ function LotPreviewSwitchableInfo(props: LotProps) {
               <span>г. {props.city}</span>
               <Icon name="truck" />
             </div>
-            <div className="lot-preview__details">
+            <div className="lot-preview__details lot-preview__details--short">
               <div className="lot-preview__entry">
                 <small>Начальная ставка</small>
                 <strong>{props.startPrice.format()}</strong>
