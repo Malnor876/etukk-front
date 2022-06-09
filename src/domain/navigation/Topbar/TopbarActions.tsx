@@ -16,7 +16,7 @@ function TopbarActions() {
   }
   return (
     <div className="topbar-actions">
-      <ButtonLink small outline to="/lots/draft">Выставить лот</ButtonLink>
+      <ButtonLink small outline to="/lots/draft">Разместить лот</ButtonLink>
       <Link className="topbar-actions__action" to="/favourites/lots"><Icon name="bookmark" /></Link>
       <Link className="topbar-actions__action" to="/notifications/lots"><Icon name="bell" /></Link>
       <MiniProfile user={user} />

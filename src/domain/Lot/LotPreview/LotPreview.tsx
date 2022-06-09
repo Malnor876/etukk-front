@@ -80,7 +80,7 @@ function LotPreviewSwitchableInfo(props: LotProps) {
       )
 
     case LotStatus.PUBLISHED: {
-      const started = props.tradeStartTime.getTime() > Date.now() && Date.now() < props.tradeEndTime.getTime()
+      const started = Date.now() > props.tradeStartTime.getTime()
       if (props.lookalike) {
         if (started) {
           return (

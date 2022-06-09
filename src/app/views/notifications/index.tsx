@@ -28,7 +28,7 @@ function NotificationsView() {
       </Buttons>
       <Routes>
         <Route path="lots" element={<NotificationsLotsContainer />} />
-        <Route path="subs" element={<DetailedSellers sellers={[{ id: 0, avatar: IMAGE_MOCKS[0], city: "asd", dislikes: 1, likes: 1, fullName: "asdasdsd", bookmarked: false, linkedTo: "", lotsCount: 1 }]} />} />
+        <Route path="subs" element={<DetailedSellers sellers={[{ id: -1, avatar: IMAGE_MOCKS[0], city: "asd", dislikes: -1, likes: -1, fullName: "asdasdsd", bookmarked: false, linkedTo: "", lotsCount: -1 }]} />} />
         {/* <Route path="support" element={<DetailedSellers sellers={[]} />} /> */}
       </Routes>
     </>
@@ -36,6 +36,30 @@ function NotificationsView() {
 }
 
 function NotificationsLotsContainer() {
+  const [chosenNotification, setChosenNotification] = useState<{ id: number; lot: LotPreviewType } | null>(null)
+
+  if (chosenNotification !== null) {
+    return (
+      <LotNotification {...chosenNotification} />
+    )
+  }
+
+  return (
+    <QueryContainer action={getUserNotifications()}>
+      {payload => (
+        <Previews>
+          {payload.filter(item => item.lot != null).map(notification => (
+            <button type="button" key={notification.lot.id}>
+              <LotPreview {...mapLotPreview(notification.lot)} onClick={() => setChosenNotification({ id: notification.id, lot: mapLotPreview(notification.lot) })} />
+            </button>
+          ))}
+        </Previews>
+      )}
+    </QueryContainer>
+  )
+}
+
+function NotificationsUsersContainer() {
   const [chosenNotification, setChosenNotification] = useState<{ id: number; lot: LotPreviewType } | null>(null)
 
   if (chosenNotification !== null) {

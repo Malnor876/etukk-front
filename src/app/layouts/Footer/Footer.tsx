@@ -11,7 +11,7 @@ function Footer() {
       </Link>
       <div className="footer__group">
         <Link className="footer__link" to="/favourites/lots">Избранное</Link>
-        <Link className="footer__link" to="/lots/draft">Выставить лот</Link>
+        <Link className="footer__link" to="/lots/draft">Разместить лот</Link>
         <small className="footer__copyright">Все права защищены, 2022©</small>
       </div>
       <div className="footer__group">

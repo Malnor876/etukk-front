@@ -176,7 +176,7 @@ $toggleSize: 1.5em;
 	&--group {
 		& .filter .filter__title {
 			font-weight: 500;
-			text-transform: capitalize;
+			text-transform: unset;
 		}
 
 		&>.filter__container {
@@ -249,8 +249,12 @@ $toggleSize: 1.5em;
 
 	padding-top: 1em;
 
-	& .filter {
-		margin-left: 1em;
+	.filter__inner &>.filter {
+
+		// margin-left: 1em;
+		.filter__title {
+			font-size: $font-size-6;
+		}
 
 		.filter__inputs {
 			margin-left: 1em;

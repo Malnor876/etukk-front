@@ -55,28 +55,28 @@ function FavouritesView() {
                     <Route index element={(
                       <Previews>
                         {all.map(item => (
-                          <LotPreview {...mapLotPreview(item.lot)} key={item.id} />
+                          <LotPreview {...mapLotPreview(item.lot)} bookmarked key={item.id} />
                         ))}
                       </Previews>
                     )} />
                     <Route path="pending" element={(
                       <Previews>
                         {wait.map(item => (
-                          <LotPreview {...mapLotPreview(item.lot)} key={item.id} />
+                          <LotPreview {...mapLotPreview(item.lot)} bookmarked key={item.id} />
                         ))}
                       </Previews>
                     )} />
                     <Route path="trading" element={(
                       <Previews>
                         {trading.map(item => (
-                          <LotPreview {...mapLotPreview(item.lot)} key={item.id} />
+                          <LotPreview {...mapLotPreview(item.lot)} bookmarked key={item.id} />
                         ))}
                       </Previews>
                     )} />
                     <Route path="sold" element={(
                       <Previews>
                         {sold.map(item => (
-                          <LotPreview {...mapLotPreview(item.lot)} key={item.id} />
+                          <LotPreview {...mapLotPreview(item.lot)} bookmarked key={item.id} />
                         ))}
                       </Previews>
                     )} />
@@ -96,7 +96,7 @@ function FavouritesView() {
                 </SortingToggle>
                 <Previews>
                   {payload.map(item => (
-                    <SellerPreview dislikes={1} likes={2} {...mapUser(item.fav_user)} key={item.id} />
+                    <SellerPreview dislikes={0} likes={0} {...mapUser(item.fav_user)} bookmarked key={item.id} />
                   ))}
                 </Previews>
               </>

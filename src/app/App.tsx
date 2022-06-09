@@ -15,6 +15,7 @@ import AppEffects from "./AppEffects"
 import AppRouter from "./AppRouter"
 import CookiesNotice from "./components/containers/CookiesNotice/CookiesNotice"
 import ErrorBoundary from "./components/containers/ErrorBoundary/ErrorBoundary"
+import { QueryErrorCoverBoundary } from "./components/containers/QueryErrorCoverBoundary/QueryErrorCoverBoundary"
 import ErrorFallback from "./views/error/ErrorFallback"
 
 injectStyle()
@@ -24,8 +25,12 @@ function App() {
     <AppProviders>
       <Suspense fallback="Loading...">
         <ErrorBoundary fallback={ErrorFallback}>
-          <AppRouter />
-          <MobileNavigator />
+          <QueryErrorCoverBoundary>
+            <div className="wrapper">
+              <AppRouter />
+              <MobileNavigator />
+            </div>
+          </QueryErrorCoverBoundary>
 
           <CookiesNotice />
           <ModalContainer />

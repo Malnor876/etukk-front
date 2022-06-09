@@ -7,7 +7,7 @@ import { Phone } from "utils/extensions"
 
 import Icon, { IconName } from "../Icon/Icon"
 
-export type InputConstraint = [RegExp, string]
+export type InputConstraint = [RegExp | string, string]
 
 export interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   width?: string
@@ -30,9 +30,16 @@ function Input(props: InputProps) {
     if (props.constraints) {
       target.setCustomValidity("")
       for (const [constraint, errorMessage] of props.constraints) {
-        if (!constraint.test(target.value)) {
-          target.setCustomValidity(errorMessage)
-          break
+        if (constraint instanceof RegExp) {
+          if (!constraint.test(target.value)) {
+            target.setCustomValidity(errorMessage)
+            break
+          }
+        } else {
+          if (constraint !== target.value) {
+            target.setCustomValidity(errorMessage)
+            break
+          }
         }
       }
     }

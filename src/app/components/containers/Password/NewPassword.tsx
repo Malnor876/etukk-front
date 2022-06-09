@@ -36,10 +36,10 @@ function NewPassword(props: NewPasswordProps) {
   const placeholder = props.new ? "Новый пароль" : "Пароль"
   return (
     <>
-      <Input {...inputProps} pattern=".{6,}" constraints={constraints} placeholder={placeholder} onChange={inputValue(setPassword)} name={props.name}>
+      <Input {...inputProps} constraints={constraints} placeholder={placeholder} value={password} onChange={inputValue(setPassword)} name={props.name}>
         Пароль должен содержать 8 символов, заглавные, прописные буквы и символы (@#$%&*!)
       </Input>
-      <Input {...inputProps} pattern={password} customValidity={PASSWORD_MISMATCH} placeholder={"Повторите " + placeholder} name={props.confirmName} />
+      <Input {...inputProps} constraints={[[password, PASSWORD_MISMATCH]]} placeholder={"Повторите " + placeholder} name={props.confirmName} />
     </>
   )
 }

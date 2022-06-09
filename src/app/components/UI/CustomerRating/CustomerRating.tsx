@@ -25,8 +25,8 @@ function CustomerRating(props: CustomerRatingProps) {
       <div className="customer-rating__entry">
         <span className="customer-rating__text">Отзывы</span>
         <div className="customer-rating__counters">
-          <CounterIcon icon="like" count={5} />
-          <CounterIcon icon="dislike" count={1} />
+          <CounterIcon icon="like" count={0} />
+          <CounterIcon icon="dislike" count={0} />
         </div>
       </div>
     </div>

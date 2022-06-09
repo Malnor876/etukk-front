@@ -38,7 +38,7 @@ export function mapLot(payload: SchemaLot): LotInfoType {
     delivery: payload.delivery_options as LotDelivery,
     title: payload.name || "unknown",
     rating: -1,//! default
-    reviews: { dislikes: 1, likes: 1 }, //! default
+    reviews: { dislikes: -1, likes: -1 }, //! default
     type: "organization", //! default
 
     bookmarked: payload.in_user_favorites,

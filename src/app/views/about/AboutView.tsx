@@ -39,7 +39,7 @@ function AboutView() {
           </div>
           <div className="about-view-pluses__field-item about-view-pluses__questions">
             <img src="/static/images/about/red_check.svg" />
-            <p className="about-view-pluses__field-item--text">Взятие на себя полной ответсвенности за каждую сделку.
+            <p className="about-view-pluses__field-item--text">Взятие на себя полной ответственности за каждую сделку.
               Все спорные вопросы решаются быстро и справедливо
             </p>
           </div>
