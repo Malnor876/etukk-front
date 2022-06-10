@@ -25,12 +25,14 @@ function Topbar() {
                 .shuffle(payload.filter(item => item.parent_category_id == null))
                 .slice(0, 3)
                 .map(category => (
-                  <NavLink className={link => classWithModifiers("topbar-menu__link", link.isActive && "active")} to={"/search/" + category.id} key={category.id}>{category.name}</NavLink>
+                  <NavLink className={link => classWithModifiers("topbar-menu__link", link.isActive && "active")} to={"/search/" + category.id} key={category.id}>
+                    <span>{category.name}</span>
+                  </NavLink>
                 ))}
             </>
           )}
         </QueryContainer>
-        <NavLink className={link => classWithModifiers("topbar-menu__link", link.isActive && "active")} to="/">Еще</NavLink>
+        <NavLink className={link => classWithModifiers("topbar-menu__link", link.isActive && "active")} to="/"><span>Еще</span></NavLink>
       </nav>
       <TopbarActions />
       <button type="button" onClick={() => Modal.open(SidebarNavDrawer)}>

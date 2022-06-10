@@ -9,10 +9,11 @@
 .topbar-menu {
 	display: flex;
 	align-items: center;
+	// justify-content: space-between;
 	// gap: 2em;
-	@include column-gap(2em);
+	@include column-gap(1em);
 
-	margin-right: auto;
+	flex: 1;
 }
 
 .topbar-menu__link {
@@ -20,6 +21,10 @@
 	font-size: $font-size-5;
 
 	text-decoration: none;
+
+	span {
+		display: inline;
+	}
 
 	@include Mobile {
 		&:not(:first-child) {
