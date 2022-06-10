@@ -4,14 +4,15 @@
 	display: flex;
 	align-items: center;
 	// gap: 0.25em;
-	@include column-gap(0.25em);
+	@include column-gap(0.35em);
 }
 
 .counter-icon__count {
+	font-size: $font-size-6;
+	font-weight: 500;
 
 	@include Mobile {
-		font-size: $font-size-5;
-		font-weight: 500;
+		// font-weight: 500;
 	}
 }
 

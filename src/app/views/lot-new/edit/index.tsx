@@ -70,14 +70,12 @@ function LotDraftView() {
   }
   function asd() {
     // console.log(lotDraftStorage.get("date"), params["*"])
-    if (params["*"] === "trade") {
-      return (
-        buttonDisabled
-        || lotDraftStorage.get("date") == null
-        || (lotDraftStorage.get("price") == null || (lotDraftStorage.get("price") as []).length === 0)
-        || (lotDraftStorage.get("city") == null || (lotDraftStorage.get("city") as []).length === 0)
-      )
-    }
+    return (
+      false
+      || lotDraftStorage.get("date") == null
+      || (lotDraftStorage.get("price") == null || (lotDraftStorage.get("price") as []).length === 0)
+      || (lotDraftStorage.get("city") == null || (lotDraftStorage.get("city") as []).length === 0)
+    )
   }
 
   useEffect(() => {

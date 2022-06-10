@@ -46,7 +46,8 @@ function HomeView() {
       </Switcher>
       <Routes>
         <Route index element={
-          <div style={{ minHeight: "18em" }}>
+          // Sorry for jj
+          <div id="jj" style={{ minHeight: "18em" }}>
             <Container row>
               <Container>
                 <QueryErrorCoverBoundary>

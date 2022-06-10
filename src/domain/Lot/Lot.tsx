@@ -5,6 +5,7 @@ import Slider from "app/components/containers/Slider/Slider"
 import Backward from "app/components/UI/Backward/Backward"
 import Bookmark from "app/components/UI/Bookmark/Bookmark"
 import Button from "app/components/UI/Button/Button"
+import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
 import Icon from "app/components/UI/Icon/Icon"
 import Entries from "app/layouts/Entries/Entries"
 import Entry from "app/layouts/Entries/Entry"
@@ -29,6 +30,8 @@ interface LotInfoProps extends LotInfoType {
 }
 
 export function LotInfoLayout(props: LotInfoProps) {
+  const started = Date.now() > props.startEndInterval.date1.getTime()
+
   const Preview = <LotInfoPreview {..._.pick(props, "id", "slides", "bookmarked")} />
   const Summary = <LotInfoSummary {..._.pick(props, "description", "specifications", "seller")} />
   const Details = <LotInfoDetails {..._.pick(props, "title", "city", "startPrice", "startEndInterval", "delivery")} />
@@ -43,9 +46,11 @@ export function LotInfoLayout(props: LotInfoProps) {
         {Preview}
         {Details}
         {Summary}
-        <div className="lot-info-layout__fixed">
-          {BidOrChildren}
-        </div>
+        {started && (
+          <div className="lot-info-layout__fixed">
+            {BidOrChildren}
+          </div>
+        )}
       </div>
     )
   }
@@ -57,7 +62,7 @@ export function LotInfoLayout(props: LotInfoProps) {
       </div>
       <div className="lot-info-layout__section">
         {Details}
-        {BidOrChildren}
+        {started && BidOrChildren}
       </div>
     </div>
   )
@@ -102,6 +107,7 @@ export function LotInfoSummary(props: LotInfoSummaryProps) {
 interface LotInfoDetailsProps extends Pick<LotInfoType, "title" | "city" | "startPrice" | "startEndInterval" | "delivery"> { }
 
 export function LotInfoDetails(props: LotInfoDetailsProps) {
+  const started = Date.now() > props.startEndInterval.date1.getTime()
   return (
     <div className="lot-info-details">
       <Backward>{props.title}</Backward>
@@ -120,7 +126,7 @@ export function LotInfoDetails(props: LotInfoDetailsProps) {
         </Entry>
         <Entry>
           <span>Окончание торгов</span>
-          <span>{props.startEndInterval.humanizedDate2}</span>
+          <span>{started ? <CountableTimer futureDate={props.startEndInterval.date1} /> : props.startEndInterval.humanizedDate2}</span>
         </Entry>
       </Entries>
     </div>

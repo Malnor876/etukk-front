@@ -10,7 +10,7 @@ import { LotDelivery } from "domain/Lot/types"
 import { getCategory } from "infrastructure/persistence/api/data/actions"
 import { mapFiltersCategory, RecursiveTreeElement } from "infrastructure/persistence/api/mappings/lots"
 import { filter } from "lodash"
-import { Dispatch, useState } from "react"
+import { Dispatch, useEffect, useState } from "react"
 import { classWithModifiers } from "utils/common"
 
 import QueryContainer from "../QueryContainer/QueryContainer"
@@ -22,6 +22,17 @@ interface FiltersContainerProps {
   onSubmit?: Dispatch<FiltersType>
 }
 
+function turnBigMinHeight(onOff: boolean) {
+  const d = document.querySelector("#jj")
+  if (!(d instanceof HTMLElement)) return
+
+  if (onOff) {
+    d.style.minHeight = "60em"
+  } else {
+    d.style.minHeight = "18em"
+  }
+}
+
 function FiltersContainer(props: FiltersContainerProps) {
   const [state, setState] = useState<FiltersState>()
   const reducer = useState<FiltersType>({})
@@ -30,6 +41,9 @@ function FiltersContainer(props: FiltersContainerProps) {
     await props.onSubmit?.(filters)
     setState(undefined)
   }
+  useEffect(() => {
+    turnBigMinHeight(state === "expanded")
+  }, [state])
   return (
     <filtersContext.Provider value={reducer}>
       <div className={classWithModifiers("filters", state)}>
