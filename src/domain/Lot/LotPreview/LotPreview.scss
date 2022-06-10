@@ -18,6 +18,7 @@
 
 	@include Mobile {
 		max-width: unset;
+		// font-size: 0.75em;
 	}
 }
 
@@ -39,6 +40,10 @@
 	@extend .clamp-2-lines;
 	@include Typography($font-size-5, 600);
 	text-transform: uppercase;
+
+	@include Mobile {
+		font-size: $font-size-6;
+	}
 }
 
 .lot-preview__city {
@@ -55,6 +60,10 @@
 		--icon-size: 1.75em;
 		color: $color-gray-2;
 	}
+
+	@include Mobile {
+		font-size: $font-size-6;
+	}
 }
 
 .lot-preview__details {
@@ -65,6 +74,16 @@
 		.lot-preview__entry {
 			&>:first-child {
 				max-width: 11ch;
+
+				@include Mobile {
+					font-size: $font-size-7;
+				}
+			}
+
+			&>:last-child {
+				@include Mobile {
+					font-size: $font-size-6;
+				}
 			}
 		}
 	}
