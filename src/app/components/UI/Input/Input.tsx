@@ -53,13 +53,15 @@ function Input(props: InputProps) {
 
     props.onChange?.(event)
   }
+
+  const pattern = props.pattern || (props.type === "datetime-local" ? "[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" : undefined)
   return (
     <label className={classWithModifiers("input", invalid && "invalid")} style={{ "--input-width": props.width }}>
       {props.children && (
         <div className="input__label">{props.children}</div>
       )}
       <div className="input__appearance">
-        <input {..._.omit(props, "iconName", "customValidity", "children", "onIconClick")} className="input__input" onChange={onChange} placeholder={props.placeholder && (props.placeholder + (props.required ? "*" : ""))} />
+        <input {..._.omit(props, "iconName", "customValidity", "children", "onIconClick")} pattern={pattern} className="input__input" onChange={onChange} placeholder={props.placeholder && (props.placeholder + (props.required ? "*" : ""))} />
         <Icon className={classWithModifiers("input__icon", !!props.onIconClick && "clickable")} name={props.iconName} onClick={props.onIconClick} />
       </div>
       {props.validity && (

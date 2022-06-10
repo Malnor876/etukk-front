@@ -32,7 +32,7 @@ function ProfilePersonalSettings() {
       {/* <QueryContainer action={getCabinetUsersSettings()} mapping={mapCabinetUsersSettings}>
           {payload => ( */}
       <Column>
-        <Checkbox name={FormInputs.bidUpConfirm} defaultChecked={getConfirm() === "no"} onChange={event => setConfirm(event.currentTarget.checked ? "yes" : "no")}>Не запрашивать подтверждение о повышении ставки</Checkbox>
+        <Checkbox name={FormInputs.bidUpConfirm} defaultChecked={getConfirm() === "no"} onChange={(_1, _2, checked) => setConfirm(checked ? "yes" : "no")}>Не запрашивать подтверждение о повышении ставки</Checkbox>
         {/* <Checkbox name={FormInputs.smsOnSubscriptionsChange} defaultChecked={payload.smsOnSubscriptionsChange}>Получать смс-уведомления о изменениях в моих подписках</Checkbox>
           <Checkbox name={FormInputs.smsOnBidChange} defaultChecked={payload.smsOnBidChange}>Получать смс-уведомления о изменениях в торгах в которых я принял участие</Checkbox> */}
         {/* <div><Button pending={pending} type="submit">Сохранить</Button></div> */}

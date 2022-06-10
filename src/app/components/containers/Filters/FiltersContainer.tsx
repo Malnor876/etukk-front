@@ -176,7 +176,7 @@ function FilterRecursion(props: FilterRecursionProps) {
           <div className="filter__inputs">
             <FilterRadios name={props.name} removeAll>
               {element.children.filter(child => child.children.length === 0).map(child => (
-                <Radio name={props.name} value={child.id.toString()} key={child.id}>{child.name}</Radio>
+                <Checkbox name={props.name} value={child.id.toString()} key={child.id}>{child.name}</Checkbox>
               ))}
             </FilterRadios>
           </div>
