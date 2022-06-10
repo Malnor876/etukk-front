@@ -27,7 +27,7 @@ function turnBigMinHeight(onOff: boolean) {
   if (!(d instanceof HTMLElement)) return
 
   if (onOff) {
-    d.style.minHeight = "60em"
+    d.style.minHeight = "65em"
   } else {
     d.style.minHeight = "18em"
   }
@@ -42,11 +42,13 @@ function FiltersContainer(props: FiltersContainerProps) {
     setState(undefined)
   }
   useEffect(() => {
-    turnBigMinHeight(state === "expanded")
+    if (state === "expanded") {
+      turnBigMinHeight(true)
+    }
   }, [state])
   return (
     <filtersContext.Provider value={reducer}>
-      <div className={classWithModifiers("filters", state)}>
+      <div className={classWithModifiers("filters", state)} onAnimationEnd={() => turnBigMinHeight(false)}>
         <button className="filters__toggle" type="button" onClick={() => setState(state && undefined)}>
           <Icon name="filter" />
           <ToolTip>Развернуть фильтр</ToolTip>
