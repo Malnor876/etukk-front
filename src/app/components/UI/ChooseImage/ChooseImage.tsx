@@ -1,7 +1,7 @@
 import "./ChooseImage.scss"
 
 import { FILE_TYPES } from "consts"
-import { ChangeEvent, Dispatch, DragEvent, useState } from "react"
+import { ChangeEvent, Dispatch, DragEvent, useEffect, useState } from "react"
 import { getFileId } from "utils/file"
 
 import CloseButton from "../CloseButton/CloseButton"
@@ -40,7 +40,6 @@ function ChooseImage(props: ChooseImageProps) {
     target.value = ""
     // dispatch
     addFiles(nextFiles)
-    props.onChange?.(nextFiles)
   }
   function onDrop(event: DragEvent<HTMLDivElement>) {
 
@@ -58,6 +57,9 @@ function ChooseImage(props: ChooseImageProps) {
     const fileIndex = files.indexOf(file)
     setFiles((files.splice(fileIndex, 1), [...files]))
   }
+  useEffect(() => {
+    props.onChange?.(files)
+  }, [files])
   return (
     <div className="choose-image" onDragOver={event => event.preventDefault()} onDrop={onDrop}>
       <label className="choose-image__chooser">

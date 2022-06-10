@@ -37,7 +37,8 @@
 
 	color: $color;
 
-	&:disabled:not(&--pending) {
+	&:disabled:not(&--pending),
+	&--disabled:not(&--pending) {
 		opacity: 0.2;
 	}
 

@@ -1,5 +1,6 @@
 class TemporaryStorage {
   private storage: Map<unknown, unknown>
+  private callbacks = new Set<Function>()
 
   constructor(public name: string) {
     try {
@@ -24,6 +25,8 @@ class TemporaryStorage {
     // Object.seal(value)
     this.storage.set(key, value)
     this.serialize()
+
+    for (const callback of this.callbacks) callback()
   }
 
   get<V, K = unknown>(key: K): V | null {
@@ -47,6 +50,17 @@ class TemporaryStorage {
   clear() {
     this.storage.clear()
     this.serialize()
+  }
+
+  keys() {
+    return [...this.storage.keys()]
+  }
+
+  on(callback: Function) {
+    this.callbacks.add(callback)
+    return () => {
+      this.callbacks.delete(callback)
+    }
   }
 }
 

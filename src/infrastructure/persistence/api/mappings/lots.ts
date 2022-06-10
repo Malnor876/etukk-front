@@ -9,7 +9,7 @@ import { mapImageUrl } from "./helpers"
 export function mapLotPreview(lot?: SchemaLot): LotPreviewType {
   return {
     id: lot?.id ?? -1,
-    bookmarked: lot?.in_user_favorites,
+    bookmarked: lot?.in_user_favorites ?? false,
     image: mapImageUrl(lot?.lotphotos?.[0]?.filename),
     city: lot?.city ?? "unknown",
     title: lot?.name ?? "unknown",
@@ -41,7 +41,7 @@ export function mapLot(payload: SchemaLot): LotInfoType {
     reviews: { dislikes: -1, likes: -1 }, //! default
     type: "organization", //! default
 
-    bookmarked: payload.in_user_favorites,
+    bookmarked: payload.in_user_favorites ?? false,
     description: payload.description ?? "unknown",
     slides: payload.lotphotos?.map(l => mapImageUrl(l.filename)) ?? [],
     specifications: payload.lotspecifications?.map(spec => ({ key: spec.name, value: spec.value })) ?? [],

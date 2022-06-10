@@ -28,7 +28,7 @@ interface LotInfoProps extends LotInfoType {
 }
 
 export function LotInfoLayout(props: LotInfoProps) {
-  const Preview = <LotInfoPreview {..._.pick(props, "id", "slides")} />
+  const Preview = <LotInfoPreview {..._.pick(props, "id", "slides", "bookmarked")} />
   const Summary = <LotInfoSummary {..._.pick(props, "description", "specifications")} />
   const Details = <LotInfoDetails {..._.pick(props, "title", "city", "startPrice", "startEndInterval", "delivery")} />
   const BidOrChildren = props.children || (
