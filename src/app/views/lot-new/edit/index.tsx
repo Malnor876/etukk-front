@@ -58,8 +58,6 @@ function LotDraftView() {
 
   const draftLot = useDraftNewLot()
 
-  // const lotDraftStorageKeys = lotDraftStorage.keys() as string[]
-  // const buttonDisabled = lotDraftStorageKeys.some(key => lotDraftStorage.get(key) == null)
   const currentState = lotDraftStorage.get(params["*"] || "category")
   const buttonDisabled = params["*"] === "specifications" ? dd() : (currentState == null || (currentState as []).length === 0)
   function dd() {
@@ -73,6 +71,11 @@ function LotDraftView() {
     return (
       false
       || lotDraftStorage.get("date") == null
+      || (lotDraftStorage.get("category") == null || (lotDraftStorage.get("category") as []).length === 0)
+      || (lotDraftStorage.get("title") == null || (lotDraftStorage.get("title") as []).length === 0)
+      || (lotDraftStorage.get("description") == null || (lotDraftStorage.get("description") as []).length === 0)
+      || (lotDraftStorage.get("files") == null || (lotDraftStorage.get("files") as []).length === 0)
+      // || (lotDraftStorage.get("price") == null || (lotDraftStorage.get("price") as []).length === 0)
       || (lotDraftStorage.get("price") == null || (lotDraftStorage.get("price") as []).length === 0)
       || (lotDraftStorage.get("city") == null || (lotDraftStorage.get("city") as []).length === 0)
     )
