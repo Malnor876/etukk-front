@@ -9,8 +9,8 @@ interface SellerCompactProps {
   id: number
   name: string
 
-  likes: number
-  dislikes: number
+  likes?: number
+  dislikes?: number
 }
 
 function SellerCompact(props: SellerCompactProps) {
@@ -23,12 +23,12 @@ function SellerCompact(props: SellerCompactProps) {
       <div className="seller-compact__entries seller-compact__entries--right">
         <div className="seller-compact__entry">
           <span>Отзывы</span>
-          <CounterIcon icon="like" count={props.likes} />
-          <CounterIcon icon="dislike" count={props.dislikes} />
+          <CounterIcon icon="like" count={props.likes ?? 0} />
+          <CounterIcon icon="dislike" count={props.dislikes ?? 0} />
         </div>
         <div className="seller-compact__entry">
           <span>Рейтинг</span>
-          <StarRating size="small" defaultValue={getRating(props.likes, props.dislikes)} />
+          <StarRating size="small" readOnly defaultValue={getRating(props.likes ?? 0, props.dislikes ?? 0)} />
         </div>
       </div>
       <Link className="ghost" to={"/user/" + props.id} />

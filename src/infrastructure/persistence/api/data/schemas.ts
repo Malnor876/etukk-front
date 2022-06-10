@@ -85,6 +85,7 @@ export interface SchemaLot {
   user_id: number
   bets_count?: number
   in_user_favorites?: boolean
+  user?: SchemaUser
   lotphotos?: {
     id: number
     lot_id: number

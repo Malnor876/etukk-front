@@ -1,4 +1,4 @@
-import { UserType } from "infrastructure/persistence/redux/reducers/user/types"
+import { UserSigned, UserType } from "infrastructure/persistence/redux/reducers/user/types"
 import { DateInterval } from "utils/date"
 import { Price } from "utils/extensions"
 
@@ -48,6 +48,7 @@ export interface LotInfoType {
   currentPrice: Price
 
   creatorId: number
+  seller: UserSigned
 }
 
 

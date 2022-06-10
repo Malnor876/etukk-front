@@ -5,6 +5,7 @@ import { Price } from "utils/extensions"
 
 import { SchemaLot } from "../data/schemas"
 import { mapImageUrl } from "./helpers"
+import { mapUser } from "./user"
 
 export function mapLotPreview(lot?: SchemaLot): LotPreviewType {
   return {
@@ -53,6 +54,7 @@ export function mapLot(payload: SchemaLot): LotInfoType {
     currentPrice: new Price(payload.now_price ?? -1),
 
     creatorId: (payload?.user_id ?? -1),
+    seller: mapUser(payload.user as any)
   }
 }
 

@@ -10,6 +10,7 @@ import Entries from "app/layouts/Entries/Entries"
 import Entry from "app/layouts/Entries/Entry"
 import DialogBidAccepted, { DialogError } from "app/views/lot/modals/DialogBidAccepted"
 import DialogConfirmBidUp from "app/views/lot/modals/DialogConfirmBidUp"
+import SellerCompact from "domain/seller/SellerCompact/SellerCompact"
 import useDeviceWidth from "hooks/useDeviceWidth"
 import { DeviceWidths } from "hooks/useResizeObserverEntry"
 import { postLotByLotIdBet } from "infrastructure/persistence/api/data/actions"
@@ -29,7 +30,7 @@ interface LotInfoProps extends LotInfoType {
 
 export function LotInfoLayout(props: LotInfoProps) {
   const Preview = <LotInfoPreview {..._.pick(props, "id", "slides", "bookmarked")} />
-  const Summary = <LotInfoSummary {..._.pick(props, "description", "specifications")} />
+  const Summary = <LotInfoSummary {..._.pick(props, "description", "specifications", "seller")} />
   const Details = <LotInfoDetails {..._.pick(props, "title", "city", "startPrice", "startEndInterval", "delivery")} />
   const BidOrChildren = props.children || (
     <LotInfoBid {..._.pick(props, "id", "currentPrice", "startPrice")} />
@@ -74,7 +75,7 @@ export function LotInfoPreview(props: LotInfoPreviewProps) {
 }
 
 
-interface LotInfoSummaryProps extends Pick<LotInfoType, "description" | "specifications"> { }
+interface LotInfoSummaryProps extends Pick<LotInfoType, "description" | "specifications" | "seller"> { }
 
 export function LotInfoSummary(props: LotInfoSummaryProps) {
   return (
@@ -90,6 +91,9 @@ export function LotInfoSummary(props: LotInfoSummaryProps) {
           </Entry>
         )))}
       </Entries>
+      <br />
+      <br />
+      <SellerCompact id={props.seller.id} name={props.seller.fullName} />
     </div>
   )
 }
