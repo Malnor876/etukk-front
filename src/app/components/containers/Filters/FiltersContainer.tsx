@@ -148,10 +148,10 @@ function FiltersTreeContainer() {
       <Filter label="ПЕРИОД ПРОВЕДЕНИЯ">
         <FilterInputs name="period">
           <Input type="datetime-local">
-            Если необходимо уточните период начала торгов
+            Если необходимо, уточните период начала торгов
           </Input>
           <Input type="datetime-local">
-            Если необходимо уточните период начала торгов
+            Если необходимо, уточните период окончания торгов
           </Input>
         </FilterInputs>
       </Filter>

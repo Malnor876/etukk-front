@@ -58,13 +58,13 @@ function FullscreenSignUpEntity() {
           <Input placeholder="Номер телефона" name={FormInputs.phone} width="20em" type="tel" required />
           <Input placeholder="Е-mail" name={FormInputs.email} width="20em" type="email" required autoComplete="username" />
           <NewPassword name={FormInputs.password} width="20em" />
-          <Checkbox required>
-            <Link to="/terms" onClick={close}>Принимаю условия соглашения</Link>
-          </Checkbox>
           <ReCAPTCHA
             sitekey="6Lc5tBgfAAAAAC1ZVB3wW7Srz56N6RQiEufFPVRi"
             onChange={value => setReCaptcha(!!value)}
           />
+          <Checkbox required>
+            <Link to="/terms" onClick={close}>Принимаю условия соглашения</Link>
+          </Checkbox>
           <div><Button type="submit" disabled={!validity || !reCaptcha}>Регистрация</Button></div>
         </Column>
       </Form>

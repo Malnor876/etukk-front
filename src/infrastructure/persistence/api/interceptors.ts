@@ -123,6 +123,10 @@ function responseErrorHandling(action: Action, response: Response) {
     localStorage.removeItem("token")
     toast.info("Пожалуйста авторизуйтесь")
     store.dispatch(userUpdate({ auth: false }))
+
+    if (process.env.NODE_ENV === "production") {
+      return
+    }
   }
 
   toast.error(transformPayloadErrorMessage((response.payload as any).message))
