@@ -59,12 +59,15 @@ function LotDraftView() {
   const draftLot = useDraftNewLot()
 
   const currentState = lotDraftStorage.get(params["*"] || "category")
-  const buttonDisabled = params["*"] === "specifications" ? dd() : (currentState == null || (currentState as []).length === 0)
+  const buttonDisabled = params["*"] === "specifications" ? dd() : (params["*"] === "files" ? ghh() : (currentState == null || (currentState as []).length === 0))
   function dd() {
     const g = lotDraftStorage.get("specifications")
     console.log(g)
     if (!(g instanceof Array)) return false
     return g.some(item => !isDictionary(g) && ((item?.key?.length <= 0) || item?.value?.length <= 0))
+  }
+  function ghh() {
+    return (lotDraftStorage.get("files") == null || (lotDraftStorage.get("files") as []).length < 4)
   }
   function asd() {
     // console.log(lotDraftStorage.get("date"), params["*"])
@@ -74,7 +77,7 @@ function LotDraftView() {
       || (lotDraftStorage.get("category") == null || (lotDraftStorage.get("category") as []).length === 0)
       || (lotDraftStorage.get("title") == null || (lotDraftStorage.get("title") as []).length === 0)
       || (lotDraftStorage.get("description") == null || (lotDraftStorage.get("description") as []).length === 0)
-      || (lotDraftStorage.get("files") == null || (lotDraftStorage.get("files") as []).length === 0)
+      || (lotDraftStorage.get("files") == null || (lotDraftStorage.get("files") as []).length < 4)
       // || (lotDraftStorage.get("price") == null || (lotDraftStorage.get("price") as []).length === 0)
       || (lotDraftStorage.get("price") == null || (lotDraftStorage.get("price") as []).length === 0)
       || (lotDraftStorage.get("city") == null || (lotDraftStorage.get("city") as []).length === 0)
