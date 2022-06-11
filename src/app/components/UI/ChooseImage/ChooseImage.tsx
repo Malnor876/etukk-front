@@ -60,6 +60,7 @@ function ChooseImage(props: ChooseImageProps) {
   useEffect(() => {
     props.onChange?.(files)
   }, [files])
+
   return (
     <div className="choose-image" onDragOver={event => event.preventDefault()} onDrop={onDrop}>
       <label className="choose-image__chooser">

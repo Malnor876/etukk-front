@@ -65,25 +65,25 @@ export function mapFiltersCategory(asd: any) {
   return recurseCollapsedTree(asd)
 }
 
-interface CollapsedTreeElement {
+export interface CollapsedTreeElement {
   id: number
   name: string
 
-  parent_category_id: number | null
+  parent_category_id?: number | null
 }
 
 export interface RecursiveTreeElement {
   id: number
   name: string
 
-  parent_category_id: number | null
+  parent_category_id?: number | null
   children: RecursiveTreeElement[]
 }
 
-function recurseCollapsedTree(collapsedTree: CollapsedTreeElement[]): RecursiveTreeElement[] {
+export function recurseCollapsedTree(collapsedTree: CollapsedTreeElement[]): RecursiveTreeElement[] {
   function recurse(tree: CollapsedTreeElement[]): RecursiveTreeElement[] {
     return tree.map(treeElement => {
-      const asd = collapsedTree.filter(collapsedTreeElement => collapsedTreeElement.parent_category_id === treeElement.id)
+      const asd = collapsedTree.filter(collapsedTreeElement => collapsedTreeElement?.parent_category_id === treeElement.id)
       return {
         ...treeElement,
         children: recurse(asd)

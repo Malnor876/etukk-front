@@ -1,56 +1,45 @@
-import { ReactError } from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Button from "app/components/UI/Button/Button"
 import Picker from "app/components/UI/Picker/Picker"
-import { isValidResponse } from "infrastructure/persistence/api/client"
-import { getCategory, patchLotDraftByDraftId } from "infrastructure/persistence/api/data/actions"
-import { useState } from "react"
-import { useClient } from "react-fetching-library"
-import { useParams } from "react-router-dom"
+import { getCategory } from "infrastructure/persistence/api/data/actions"
+import { useEffect, useState } from "react"
 
 import { lotDraftStorage } from "."
 
 function EditLotCategory() {
-  // const params = useParams<"lotId">()
-  // const lotId = Number(params.lotId)
-
-  // if (params.lotId == null) {
-  //   throw new ReactError(EditLotCategory, "got no lotId")
-  // }
-  // if (isNaN(lotId)) {
-  //   throw new ReactError(EditLotCategory, "lotId is not number")
-  // }
-
-  // const client = useClient()
-
-  const [flag, setFlag] = useState(true)
-  const [category, setCategory] = lotDraftStorage.state<number | null | undefined>("category")
-  async function updateCategory(value?: number | null) {
+  const [tempCategoryId, setTempCategoryId] = useState<number | null | undefined>(null)
+  const [categoryId, setCategoryId] = lotDraftStorage.state<number | null | undefined>("category")
+  async function updateCategory(value: number | null, payload: CategoryItem[]) {
     if (value == null) return
 
-    setCategory(value)
-    setFlag(!flag)
+    const hasChildren = payload.find(item => item.parent_category_id === value) != null
+    if (!hasChildren) {
+      setCategoryId(value)
+    } else {
+      setTempCategoryId(value)
+    }
 
-    // const response = await client.query(patchLotDraftByDraftId(lotId, { categories: value }))
-    // if (!isValidResponse(response)) return
   }
+  useEffect(() => {
+    setCategoryId(null)
+  }, [tempCategoryId])
   return (
     <section>
       <QueryContainer action={getCategory()}>
         {payload => {
-          const { categoryItem, parentId, options } = breakDownCategories(payload, category)
+          const { category, parentItem, options } = breakDownCategories(payload, categoryId || tempCategoryId)
           return (
             <>
-              <h4>Выберите {categoryItem ? "под" : ""}категорию</h4>
-              <Picker defaultValue={category} onChange={updateCategory}>
+              <h4>Выберите {category.item ? "под" : ""}категорию</h4>
+              <Picker defaultValue={categoryId} onChange={value => updateCategory(value, payload)}>
                 {options.map(category => (
                   <option value={category.id} key={category.id}>{category.name}</option>
                 ))}
               </Picker>
               <br />
               <br />
-              {categoryItem && (
-                <Button onClick={() => updateCategory(parentId)}>Вернуться к пред. категории</Button>
+              {!!category.item && (
+                <Button onClick={() => setTempCategoryId(parentItem?.parent_category_id)}>Вернуться к пред. категории</Button>
               )}
             </>
           )
@@ -60,11 +49,13 @@ function EditLotCategory() {
   )
 }
 
-export function breakDownCategories(categories: {
-  id: number;
-  name: string;
-  parent_category_id?: number | null | undefined;
-}[], categoryId: number | string | null | undefined) {
+interface CategoryItem {
+  id: number
+  name: string
+  parent_category_id?: number | null | undefined
+}
+
+export function breakDownCategories(categories: CategoryItem[], categoryId: number | string | null | undefined) {
   const category = Number(categoryId)
 
   const categoryItem = categories.find(item => item.id === (category || null))
@@ -72,13 +63,11 @@ export function breakDownCategories(categories: {
 
   const options = categoryChildren.length > 0 ? categoryChildren : categories.filter(item => item.parent_category_id === categoryItem?.parent_category_id)
 
-  const parentId = Number(
-    categoryChildren.length > 0 ? categoryItem?.parent_category_id : categories.find(item => item.id === categoryItem?.parent_category_id)?.parent_category_id
-  )
+  const parentItem = categoryChildren.length > 0 ? categoryItem : categories.find(item => item.id === categoryItem?.parent_category_id)
 
   return {
-    categoryItem,
-    parentId,
+    category: { item: categoryItem, children: categoryChildren },
+    parentItem,
     options
   }
 }
