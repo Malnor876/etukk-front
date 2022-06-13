@@ -74,10 +74,10 @@ function LotDraftView() {
     return (
       false
       || lotDraftStorage.get("date") == null
-      || (lotDraftStorage.get("category") == null || (lotDraftStorage.get("category") as []).length === 0)
+      || (lotDraftStorage.get("category") == null || String(lotDraftStorage.get("category")).length === 0)
       || (lotDraftStorage.get("title") == null || (lotDraftStorage.get("title") as []).length === 0)
       || (lotDraftStorage.get("description") == null || (lotDraftStorage.get("description") as []).length === 0)
-      || (lotDraftStorage.get("files") == null || (lotDraftStorage.get("files") as []).length < 4)
+      || (lotDraftStorage.get("files") == null || (lotDraftStorage.get("files") as any[]).filter(f => f instanceof File).length < 4)
       // || (lotDraftStorage.get("price") == null || (lotDraftStorage.get("price") as []).length === 0)
       || (lotDraftStorage.get("price") == null || (lotDraftStorage.get("price") as []).length === 0)
       || (lotDraftStorage.get("city") == null || (lotDraftStorage.get("city") as []).length === 0)
