@@ -2,14 +2,15 @@ import QueryContainer from "app/components/containers/QueryContainer/QueryContai
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
 import Previews from "app/layouts/Previews/Previews"
-import { IMAGE_MOCKS, LOT_PREVIEW_MOCK } from "constants/mocks"
-import DetailedLots from "domain/Lot/DetailedLots"
 import LotNotification from "domain/Lot/LotNotification"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
+import LotSeller from "domain/Lot/LotSeller"
 import { LotPreviewType } from "domain/Lot/types"
-import DetailedSellers from "domain/seller/DetailedSellers"
-import { getUserNotifications } from "infrastructure/persistence/api/data/actions"
+import SellerPreview from "domain/seller/SellerPreview/SellerPreview"
+import { getUserNotifications, getUserNotificationsSubscriptions } from "infrastructure/persistence/api/data/actions"
 import { mapLotPreview } from "infrastructure/persistence/api/mappings/lots"
+import { mapUser } from "infrastructure/persistence/api/mappings/user"
+import { UserSigned } from "infrastructure/persistence/redux/reducers/user/types"
 import { useState } from "react"
 import { Helmet } from "react-helmet"
 import { Route, Routes } from "react-router"
@@ -28,8 +29,7 @@ function NotificationsView() {
       </Buttons>
       <Routes>
         <Route path="lots" element={<NotificationsLotsContainer />} />
-        <Route path="subs" element={<DetailedSellers sellers={[{ id: -1, avatar: IMAGE_MOCKS[0], city: "asd", dislikes: -1, likes: -1, fullName: "asdasdsd", bookmarked: false, linkedTo: "", lotsCount: -1 }]} />} />
-        {/* <Route path="support" element={<DetailedSellers sellers={[]} />} /> */}
+        <Route path="subs" element={<NotificationsUsersContainer />} />
       </Routes>
     </>
   )
@@ -60,21 +60,21 @@ function NotificationsLotsContainer() {
 }
 
 function NotificationsUsersContainer() {
-  const [chosenNotification, setChosenNotification] = useState<{ id: number; lot: LotPreviewType } | null>(null)
+  const [chosenNotification, setChosenNotification] = useState<{ id: number; user: UserSigned } | null>(null)
 
   if (chosenNotification !== null) {
     return (
-      <LotNotification {...chosenNotification} />
+      <LotSeller {...chosenNotification} />
     )
   }
 
   return (
-    <QueryContainer action={getUserNotifications()}>
+    <QueryContainer action={getUserNotificationsSubscriptions()}>
       {payload => (
         <Previews>
-          {payload.filter(item => item.lot != null).map(notification => (
-            <button type="button" key={notification.lot.id}>
-              <LotPreview {...mapLotPreview(notification.lot)} onClick={() => setChosenNotification({ id: notification.id, lot: mapLotPreview(notification.lot) })} />
+          {payload.filter(item => item.user != null).map(notification => (
+            <button type="button" onClick={() => setChosenNotification({ id: notification.id, user: mapUser(notification.user) })} key={notification.user.id}>
+              <SellerPreview {...mapUser(notification.user)} />
             </button>
           ))}
         </Previews>

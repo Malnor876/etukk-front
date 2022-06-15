@@ -318,6 +318,40 @@ export const getUserNotifications = (): Action<{
 /**
  * OK
  */
+export const getUserNotificationsSubscriptions = (): Action<{
+  id: number
+  user_id: number
+  text: string
+  user: SchemaUser
+  event_time: string
+}[]> => ({
+  method: "GET",
+  endpoint: `/user/notifications/subscriptions`,
+  config: {
+    requireAuth: true
+  }
+})
+
+/**
+ * OK
+ */
+export const getUserNotificationsSubscriptionsBySubscriptionsId = (subscriptions_id: number): Action<{
+  id: number
+  user_id: number
+  text: string
+  user: SchemaUser
+  event_time: string
+}[]> => ({
+  method: "GET",
+  endpoint: `/user/notifications/subscriptions/${subscriptions_id}`,
+  config: {
+    requireAuth: true
+  }
+})
+
+/**
+ * OK
+ */
 export const postUserReview = (body: {
   to_user_id: number
   text?: string

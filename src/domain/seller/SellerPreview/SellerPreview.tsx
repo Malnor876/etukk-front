@@ -14,8 +14,8 @@ export interface SellerPreviewProps {
   fullName: string
   city: string
 
-  likes: number
-  dislikes: number
+  likes?: number
+  dislikes?: number
   lotsCount?: number
 
   linkedTo?: string
@@ -33,13 +33,17 @@ function SellerPreview(props: SellerPreviewProps) {
         <div className="seller-preview__city">{props.city}</div>
         <div className="seller-preview__entries">
           <Entries>
-            <EntryCounter title="Рейтинг продавца">
-              <CounterIcon icon="star" count={getRating(props.likes, props.dislikes)} />
-            </EntryCounter>
-            <EntryCounter title="Отзывы">
-              <CounterIcon icon="like" count={props.likes} />
-              <CounterIcon icon="dislike" count={props.dislikes} />
-            </EntryCounter>
+            {props.likes && props.dislikes && (
+              <>
+                <EntryCounter title="Рейтинг продавца">
+                  <CounterIcon icon="star" count={getRating(props.likes, props.dislikes)} />
+                </EntryCounter>
+                <EntryCounter title="Отзывы">
+                  <CounterIcon icon="like" count={props.likes} />
+                  <CounterIcon icon="dislike" count={props.dislikes} />
+                </EntryCounter>
+              </>
+            )}
             {props.lotsCount && (
               <EntryCounter title="Размещено лотов">
                 <CounterIcon icon="hammer" count={props.lotsCount} />
