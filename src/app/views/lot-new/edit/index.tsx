@@ -58,31 +58,40 @@ function LotDraftView() {
 
   const draftLot = useDraftNewLot()
 
-  const currentState = lotDraftStorage.get(params["*"] || "category")
-  const buttonDisabled = params["*"] === "specifications" ? dd() : (params["*"] === "files" ? ghh() : (currentState == null || (currentState as []).length === 0))
-  function dd() {
-    const g = lotDraftStorage.get("specifications")
-    console.log(g)
-    if (!(g instanceof Array)) return false
-    return g.some(item => !isDictionary(g) && ((item?.key?.length <= 0) || item?.value?.length <= 0))
+  function validate(key: string) {
+    const value = lotDraftStorage.get(key)
+    if (value == null) return false
+
+    switch (key) {
+      case "specifications": {
+        if (!(value instanceof Array)) return false
+        return value.every(item => {
+          if (!isDictionary(item)) return false
+
+          if (typeof item.key != "string") return false
+          if (typeof item.value != "string") return false
+
+          if (item.key.length === 0) return false
+          if (item.value.length === 0) return false
+
+          return true
+        })
+      }
+      case "files": {
+        if (!(value instanceof Array)) return false
+        return value.length >= 4
+      }
+      default:
+        return String(value).length > 0
+    }
   }
-  function ghh() {
-    return (lotDraftStorage.get("files") == null || (lotDraftStorage.get("files") as []).length < 4)
+  function validateAll(...keys: string[]) {
+    return keys.every(validate)
   }
-  function asd() {
-    // console.log(lotDraftStorage.get("date"), params["*"])
-    return (
-      false
-      || lotDraftStorage.get("date") == null
-      || (lotDraftStorage.get("category") == null || String(lotDraftStorage.get("category")).length === 0)
-      || (lotDraftStorage.get("title") == null || (lotDraftStorage.get("title") as []).length === 0)
-      || (lotDraftStorage.get("description") == null || (lotDraftStorage.get("description") as []).length === 0)
-      || (lotDraftStorage.get("files") == null || (lotDraftStorage.get("files") as any[]).filter(f => f instanceof File).length < 4)
-      // || (lotDraftStorage.get("price") == null || (lotDraftStorage.get("price") as []).length === 0)
-      || (lotDraftStorage.get("price") == null || (lotDraftStorage.get("price") as []).length === 0)
-      || (lotDraftStorage.get("city") == null || (lotDraftStorage.get("city") as []).length === 0)
-    )
-  }
+
+  const currentStateKey = params["*"] || "category"
+  const nextButtonDisabled = !validate(currentStateKey)
+  const previewButtonDisabled = !validateAll("date", "category", "title", "description", "files", "price", "city", "specifications")
 
   useEffect(() => {
     const remove = lotDraftStorage.on(() => {
@@ -123,10 +132,10 @@ function LotDraftView() {
           <Backward to={prevRoute} />
         )}
         {!isCurrentRouteLast && (
-          <ButtonLink to={nextRoute} disabled={buttonDisabled}>Далее</ButtonLink>
+          <ButtonLink to={nextRoute} disabled={nextButtonDisabled}>Далее</ButtonLink>
         )}
         {!isCurrentRouteBase && isCurrentRouteLast && (
-          <Button await onClick={draftLot} disabled={asd()}>Предпросмотр</Button>
+          <Button await onClick={draftLot} disabled={previewButtonDisabled}>Предпросмотр</Button>
         )}
       </Buttons>
       {/* <Quote author="В.И. Ленин">

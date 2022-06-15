@@ -18,7 +18,8 @@ function FullscreenLayout(props: FullscreenLayoutProps) {
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
 
   useEffect(() => {
-    function escapeKeyboardEvent(event: KeyboardEvent) {
+    function escapeKeyboardEvent(event: Event) {
+      if (!(event instanceof KeyboardEvent)) return
       if (event.key.toLowerCase() !== "escape") return
 
       event.preventDefault()

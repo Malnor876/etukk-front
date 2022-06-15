@@ -22,9 +22,9 @@
 
 	text-decoration: none;
 
-	span {
-		display: inline;
-	}
+	// max-width: 10em;
+
+	span {}
 
 	@include Mobile {
 		&:not(:first-child) {

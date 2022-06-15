@@ -40,7 +40,7 @@ function OrderDelivery(props: OrderDeliveryProps) {
           <Input type="time" placeholder="Время забора" iconName="pending" />
         </Row>
         <Input placeholder="Адрес доставки" />
-        <Input placeholder="Номер телефона" />
+        <Input placeholder="Номер телефона" defaultValue="+7" />
         <Textarea placeholder="Комментарий" />
       </Form>
       <Entry>
