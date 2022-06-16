@@ -56,7 +56,7 @@ function FullscreenSignUpPerson() {
       <Form centered onChange={event => setValidity(event.currentTarget.checkValidity())} onSubmit={onSubmit}>
         <Column>
           <Input placeholder="Имя" width="20em" name={FormInputs.fullName} required />
-          <Input placeholder="Номер телефона" name={FormInputs.phone} defaultValue="+7" width="20em" type="tel" required />
+          <Input placeholder="Номер телефона" name={FormInputs.phone} defaultValue="+7" maxLength={11} width="20em" type="tel" required />
           <Input placeholder="Е-mail" name={FormInputs.email} width="20em" type="email" required autoComplete="username" />
           <NewPassword name={FormInputs.password} width="20em" />
           <ReCAPTCHA

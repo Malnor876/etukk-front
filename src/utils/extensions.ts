@@ -28,10 +28,25 @@ export class Price {
   }
 }
 
-export class Phone {
-  constructor(
-    private phone: number
-  ) { }
+export class PhoneNumber {
+  public readonly phone: number
+  public readonly length: number
+
+  constructor(phone: number)
+  constructor(phone: string)
+  constructor(phone: number | string) {
+    if (typeof phone === "number") {
+      this.phone = phone
+      this.length = String(phone).length
+      return
+    }
+
+    const parsedPhoneString = phone.replace(/[^\d]/g, "")
+    const parsedPhone = parseInt(parsedPhoneString) || 0
+
+    this.phone = parsedPhone
+    this.length = parsedPhoneString.length
+  }
 
   format(template?: string): string {
     if (this.phone <= 0) return ""
@@ -69,10 +84,6 @@ export class Phone {
     }
 
     return "+" + phoneNumberArray.filter(Boolean).join(" ").trim()
-  }
-
-  static parse(phone: string): Phone {
-    return new Phone(parseInt(phone.replace(/[^\d]/g, "")) || 0)
   }
 
   valueOf(): number {

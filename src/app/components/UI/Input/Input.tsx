@@ -1,9 +1,9 @@
 import "./Input.scss"
 
 import _ from "lodash"
-import { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, ReactNode, useState } from "react"
+import { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, ReactNode, useRef, useState } from "react"
 import { classWithModifiers } from "utils/common"
-import { Phone } from "utils/extensions"
+import { PhoneNumber } from "utils/extensions"
 
 import Icon, { IconName } from "../Icon/Icon"
 
@@ -21,10 +21,18 @@ export interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLIn
 
 function Input(props: InputProps) {
   const [invalid, setInvalid] = useState(false)
+  const prevValue = useRef<string>("")
   function onChange(event: ChangeEvent<HTMLInputElement>) {
     const target = event.currentTarget
     if (props.type === "tel") {
-      target.value = Phone.parse(target.value).format()
+      const phoneNumber = new PhoneNumber(target.value)
+      if (phoneNumber.length > (props.maxLength ?? Infinity)) {
+        console.log(phoneNumber.length, props.maxLength ?? Infinity)
+        target.value = prevValue.current
+        return
+      }
+      target.value = phoneNumber.format()
+      prevValue.current = target.value
     }
 
     if (props.constraints) {
@@ -61,7 +69,7 @@ function Input(props: InputProps) {
         <div className="input__label">{props.children}</div>
       )}
       <div className="input__appearance">
-        <input {..._.omit(props, "iconName", "customValidity", "children", "onIconClick")} pattern={pattern} className="input__input" onChange={onChange} placeholder={props.placeholder && (props.placeholder + (props.required ? "*" : ""))} />
+        <input {..._.omit(props, "iconName", "customValidity", "children", "onIconClick")} maxLength={props.type === "tel" ? undefined : props.maxLength} pattern={pattern} className="input__input" onChange={onChange} placeholder={props.placeholder && (props.placeholder + (props.required ? "*" : ""))} />
         <Icon className={classWithModifiers("input__icon", !!props.onIconClick && "clickable")} name={props.iconName} onClick={props.onIconClick} />
       </div>
       {props.validity && (

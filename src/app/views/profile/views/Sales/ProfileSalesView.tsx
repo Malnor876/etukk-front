@@ -7,7 +7,7 @@ import Switcher from "app/components/UI/Switcher/Switcher"
 import Previews from "app/layouts/Previews/Previews"
 import Reviews from "app/layouts/Reviews/Reviews"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
-import { LotPreviewType, LotStatus } from "domain/Lot/types"
+import { LotPreviewType, LotStatus, LotTradeStatus } from "domain/Lot/types"
 import useDeviceWidth from "hooks/useDeviceWidth"
 import { DeviceWidths } from "hooks/useResizeObserverEntry"
 import { getLot, getUserReview } from "infrastructure/persistence/api/data/actions"
@@ -64,26 +64,27 @@ function ProfileLotsReviewsView(props: ProfileLotsReviewsViewProps) {
         <ButtonLink to="reviews">Отзывы</ButtonLink>
       </Switcher>
       <Routes>
-        <Route index element={<ProfileSalesLotsByStatusView {...props} />} />
-        <Route path="reviews" element={<ProfileSalesReviewsView {...props} />} />
+        {props.type === "sales" && (
+          <Route index element={<ProfileSalesLotsByStatusView />} />
+        )}
+        {props.type === "purchases" && (
+          <Route index element={<ProfilePurchasesLotsByStatusView />} />
+        )}
+        <Route path="reviews" element={<ProfileReviewsView {...props} />} />
       </Routes>
     </>
   )
 }
 
 
-interface ProfileSalesLotsByStatusViewProps {
-  type: ProfileLotsReviewsType
-}
-
-function ProfileSalesLotsByStatusView(props: ProfileSalesLotsByStatusViewProps) {
+function ProfileSalesLotsByStatusView() {
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
   const user = useSelector(state => state.user)
   if (!user.auth) return null
   const action = getLot<{
     user_id?: number
     buyer_id?: number
-  }>(0, 0, props.type === "sales" ? ({ user_id: user.id }) : ({ buyer_id: user.id }))
+  }>(0, 0, { user_id: user.id })
   return (
     <QueryContainer action={action} mapping={mapLotsLists}>
       {payload => {
@@ -121,12 +122,53 @@ function ProfileSalesLotsByStatusView(props: ProfileSalesLotsByStatusViewProps) 
   )
 }
 
+function ProfilePurchasesLotsByStatusView() {
+  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
+  const user = useSelector(state => state.user)
+  if (!user.auth) return null
+  const action = getLot<{
+    user_id?: number
+    buyer_id?: number
+  }>(0, 0, { buyer_id: user.id })
+  return (
+    <QueryContainer action={action} mapping={mapLotsLists}>
+      {payload => {
+        const won = payload.items.filter(item => item) //! no filter
+        const delivering = payload.items.filter(item => item) //! no filter
+        const confirmReceipt = payload.items.filter(item => item) //! no filter
+
+        const completed = payload.items.filter(item => item) //! no filter
+        const disputed = payload.items.filter(item => item) //! no filter
+        return (
+          <Droppers type={isMobile ? "__NAMING__1" : "__NAMING__2"}>
+            <Dropper name="won" label="Выиграно" amount={won.length}>
+              <PreviewLots list={won} />
+            </Dropper>
+            <Dropper name="delivering" label="В пути" amount={delivering.length}>
+              <PreviewLots list={delivering} />
+            </Dropper>
+            <Dropper name="confirmReceipt" label="Подтвердить получение" amount={confirmReceipt.length}>
+              <PreviewLots list={confirmReceipt} />
+            </Dropper>
+            <Dropper name="completed" label="Завершенные покупки" amount={completed.length}>
+              <PreviewLots list={completed} />
+            </Dropper>
+            <Dropper name="disputed" label="Открыто споров" amount={disputed.length}>
+              <PreviewLots list={disputed} />
+            </Dropper>
+          </Droppers>
+        )
+      }}
+    </QueryContainer>
+  )
+}
+
 
 interface ProfileSalesReviewsViewProps {
   type: ProfileLotsReviewsType
 }
 
-function ProfileSalesReviewsView(props: ProfileSalesReviewsViewProps) {
+function ProfileReviewsView(props: ProfileSalesReviewsViewProps) {
   const user = useSelector(state => state.user)
   if (!user.auth) return null
 
