@@ -64,6 +64,7 @@ export function LotInfoLayout(props: LotInfoProps) {
       <div className="lot-info-layout__section">
         {Details}
         {started && BidOrChildren}
+        {!started && props.children}
       </div>
     </div>
   )
