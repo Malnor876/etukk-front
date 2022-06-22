@@ -30,9 +30,9 @@ function FullscreenPasswordRecoveryRequest() {
         <Form onSubmit={onSubmit}>
           <br />
           <br />
-          <Input type="email" placeholder="Е-mail" width="21.25em" />
+          <Input name={FormInputs.email} type="email" placeholder="Е-mail" width="21.25em" />
           <br />
-          <div style={{ display: "grid", margin: "auto", width: "11em" }}><Button disabled>Восстановить</Button></div>
+          <div style={{ display: "grid", margin: "auto", width: "11em" }}><Button type="submit">Восстановить</Button></div>
         </Form>
       </div>
     </FullscreenLayout>

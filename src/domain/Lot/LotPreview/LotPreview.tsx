@@ -5,7 +5,7 @@ import ButtonLink from "app/components/UI/Button/ButtonLink"
 import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
 import Icon, { IconName } from "app/components/UI/Icon/Icon"
 import { LotPreviewType, LotStatus } from "domain/Lot/types"
-import { ReactNode } from "react"
+import { ReactNode, useState } from "react"
 import { Link } from "react-router-dom"
 import { humanizeDate } from "utils/date"
 
@@ -47,6 +47,8 @@ function LotPreview(props: LotProps) {
  * If returns `null`, it means that info should be empty; further parent modification may be needed.
  */
 function LotPreviewSwitchableInfo(props: LotProps) {
+  const [ended, setEnded] = useState(Date.now() > props.tradeEndTime.getTime())
+
   switch (props.status) {
     case LotStatus.CLOSED:
       return (
@@ -82,6 +84,26 @@ function LotPreviewSwitchableInfo(props: LotProps) {
     case LotStatus.PUBLISHED: {
       const started = Date.now() > props.tradeStartTime.getTime()
       if (props.lookalike) {
+        if (ended) {
+          return (
+            <>
+              <div className="lot-preview__city">
+                <span>г. {props.city}</span>
+                <Icon name="truck" />
+              </div>
+              <div className="lot-preview__details lot-preview__details--short">
+                <div className="lot-preview__entry">
+                  <small>Текущая ставка</small>
+                  <strong>{props.currentPrice.format()}</strong>
+                </div>
+                <div className="lot-preview__entry">
+                  <small>Окончания торгов</small>
+                  <strong>{humanizeDate(props.tradeEndTime)}</strong>
+                </div>
+              </div>
+            </>
+          )
+        }
         if (started) {
           return (
             <>
@@ -96,7 +118,7 @@ function LotPreviewSwitchableInfo(props: LotProps) {
                 </div>
                 <div className="lot-preview__entry">
                   <small>До окончания торгов</small>
-                  <strong><CountableTimer futureDate={props.tradeEndTime} /></strong>
+                  <strong><CountableTimer futureDate={props.tradeEndTime} onEnd={() => setEnded(true)} /></strong>
                 </div>
               </div>
             </>

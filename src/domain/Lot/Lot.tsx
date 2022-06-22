@@ -31,12 +31,15 @@ interface LotInfoProps extends LotInfoType {
 
 export function LotInfoLayout(props: LotInfoProps) {
   const started = Date.now() > props.startEndInterval.date1.getTime()
+  const ended = Date.now() >= props.startEndInterval.date2.getTime()
+
+  const tradable = started && !ended
 
   const Preview = <LotInfoPreview {..._.pick(props, "id", "slides", "bookmarked")} />
   const Summary = <LotInfoSummary {..._.pick(props, "description", "specifications", "seller")} />
   const Details = <LotInfoDetails {..._.pick(props, "title", "city", "startPrice", "startEndInterval", "delivery")} />
   const BidOrChildren = props.children || (
-    <LotInfoBid {..._.pick(props, "id", "currentPrice", "startPrice")} />
+    tradable && <LotInfoBid {..._.pick(props, "id", "currentPrice", "startPrice")} />
   )
 
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
@@ -46,12 +49,9 @@ export function LotInfoLayout(props: LotInfoProps) {
         {Preview}
         {Details}
         {Summary}
-        {started && (
-          <div className="lot-info-layout__fixed">
-            {BidOrChildren}
-          </div>
-        )}
-        {!started && props.children}
+        <div className="lot-info-layout__fixed">
+          {BidOrChildren}
+        </div>
       </div>
     )
   }
@@ -63,8 +63,7 @@ export function LotInfoLayout(props: LotInfoProps) {
       </div>
       <div className="lot-info-layout__section">
         {Details}
-        {started && BidOrChildren}
-        {!started && props.children}
+        {BidOrChildren}
       </div>
     </div>
   )
@@ -167,12 +166,12 @@ function LotInfoBid(props: LotInfoBidProps) {
     Modal.open(DialogConfirmBidUp, { onSubmit })
   }
 
-  const user = useSelector(state => state.user)
-  if (!user.auth) {
-    return (
-      <RequiredAuthCover />
-    )
-  }
+  // const user = useSelector(state => state.user)
+  // if (!user.auth) {
+  //   return (
+  //     <RequiredAuthCover />
+  //   )
+  // }
 
   switch (stage) {
     case "choice":

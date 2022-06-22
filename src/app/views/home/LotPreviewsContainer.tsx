@@ -3,12 +3,13 @@ import Previews from "app/layouts/Previews/Previews"
 import LotPreview from "domain/Lot/LotPreview/LotPreview"
 import { LotDelivery, LotPreviewType, LotStatus } from "domain/Lot/types"
 import useScrollReach from "hooks/useScrollReach"
+import { isValidResponse } from "infrastructure/persistence/api/client"
 import { getLot } from "infrastructure/persistence/api/data/actions"
 import { mapLotsLists } from "infrastructure/persistence/api/mappings/lots"
-import { UserType } from "infrastructure/persistence/redux/reducers/user/types"
 import { FilteringField } from "interfaces/Nodejs"
 import { useEffect, useState } from "react"
 import { QueryError, useQuery } from "react-fetching-library"
+import { toBase64 } from "utils/common"
 
 interface LotPreviewsContainerProps {
   search?: string
@@ -27,6 +28,8 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
   const [page, setPage] = useState(1)
   const [pageSize] = useState(12)
 
+  const [endTime] = useState(new Date().toISOString())
+
   const filters: Partial<
     & FilteringField<"name", "icontains", string>
     & FilteringField<"now_price", "range", [number, number]>
@@ -36,8 +39,12 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
     & FilteringField<"delivery_options", "iexact", LotDelivery>
 
     & FilteringField<"bidding_start_time" | "bidding_end_time", "iexact", string>
+    & FilteringField<"bidding_start_time", "gte", string>
+    & FilteringField<"bidding_end_time", "lte", string>
 
     & FilteringField<"status", "not", string>
+    & FilteringField<"trade_status", "iexact", string>
+
     & FilteringField<"trade_status", "iexact", string>
     & { categories: number, status: string }
   > = {
@@ -50,34 +57,37 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
     bidding_start_time__iexact: props.period?.date_start,
     bidding_end_time__iexact: props.period?.date_end,
+    // bidding_start_time__gte: new Date().toISOString(),
+    bidding_end_time__lte: endTime,
+
     status: LotStatus.PUBLISHED,
     // status__not: LotStatus.CLOSED,
 
     // trade_status__iexact: props.started
   }
 
-  // console.log(props, filters.categories__id__range)
-
   const [lots, setLots] = useState<LotPreviewType[]>([])
   const response = useQuery(getLot(pageSize, (page - 1) * pageSize, filters))
   const { error, loading, payload } = response
   if (error) throw new QueryError("Error during sending request or handling response.", response)
 
-  const [reached, resetReached] = useScrollReach(loading || payload?.length === 0, window.innerHeight / 4)
+  const scrollReachDisabled = loading || !isValidResponse(response) || response.payload.length === 0
+  const [reached, resetReached] = useScrollReach(scrollReachDisabled, window.innerHeight / 4)
 
   useEffect(() => {
     if (page > 1) {
       setPage(1)
     }
     setLots([])
-  }, [...Object.values(filters)])
+  }, [toBase64(filters)])
 
   useEffect(() => {
+    if (scrollReachDisabled) return
     if (!reached) return
-    if (loading) return
 
     setPage(page => page + 1)
-  }, [reached, loading])
+  }, [reached])
+
 
   useEffect(() => {
     if (payload == null) return
@@ -97,8 +107,6 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
       {loading && <LoaderCover absolute />}
     </Previews>
   )
-
-  return null
 }
 
 export default LotPreviewsContainer

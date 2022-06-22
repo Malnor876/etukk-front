@@ -22,6 +22,7 @@ interface CountableTimerProps {
   start?: number
   endLabel?: ReactNode
   splitter?: string
+  onEnd?(): void
 }
 
 function CountableTimer(props: CountableTimerProps) {
@@ -29,7 +30,11 @@ function CountableTimer(props: CountableTimerProps) {
 
   useEffect(() => {
     function callback() {
-      setTimer(getTimeDifference(props.futureDate, props.start))
+      const nextTimerValue = getTimeDifference(props.futureDate, props.start)
+      if (nextTimerValue === null) {
+        props.onEnd?.()
+      }
+      setTimer(nextTimerValue)
     }
 
     countableTimerCallbacks.add(callback)

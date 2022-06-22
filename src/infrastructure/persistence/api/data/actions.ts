@@ -1463,10 +1463,11 @@ export const postPasswordReset = (email: string): Action => ({
   }
 })
 
-export const postPasswordResetByToken = (token: string): Action => ({
+export const postPasswordResetByToken = (token: string, body: { new_password: string }): Action => ({
   method: "POST",
   endpoint: `/password/reset/${token}`,
+  body,
   config: {
     requireAuth: true
-  }
+  },
 })
