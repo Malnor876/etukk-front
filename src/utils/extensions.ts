@@ -5,6 +5,20 @@ export class Price {
     public originCurrency?: Intl.NumberFormatOptions["currency"]
   ) { }
 
+  add(value: number): Price
+  add(price: Price): Price
+  add(arg1: number | Price): Price {
+    if (typeof arg1 === "number") {
+      return new Price(this.value + arg1)
+    }
+
+    return new Price(this.value + arg1.value)
+  }
+
+  multiply(by: number): Price {
+    return new Price(this.value * by)
+  }
+
   format(locale = "RU", currency: Intl.NumberFormatOptions["currency"] = "RUB"): string {
     try {
       return this.value.toLocaleString(locale, { style: "currency", currency, minimumFractionDigits: 0 })

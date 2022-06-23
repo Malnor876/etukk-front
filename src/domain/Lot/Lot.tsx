@@ -1,6 +1,5 @@
 import "./Lot.scss"
 
-import RequiredAuthCover from "app/components/containers/QueryContainer/RequiredAuthCover"
 import Slider from "app/components/containers/Slider/Slider"
 import Backward from "app/components/UI/Backward/Backward"
 import Bookmark from "app/components/UI/Bookmark/Bookmark"
@@ -19,7 +18,6 @@ import _ from "lodash"
 import { Modal } from "modules/modal/controller"
 import { ReactNode, useState } from "react"
 import { useClient } from "react-fetching-library"
-import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { Price } from "utils/extensions"
 
@@ -39,7 +37,7 @@ export function LotInfoLayout(props: LotInfoProps) {
   const Summary = <LotInfoSummary {..._.pick(props, "description", "specifications", "seller")} />
   const Details = <LotInfoDetails {..._.pick(props, "title", "city", "startPrice", "startEndInterval", "delivery")} />
   const BidOrChildren = props.children || (
-    tradable && <LotInfoBid {..._.pick(props, "id", "currentPrice", "startPrice")} />
+    tradable && <LotInfoBid {..._.pick(props, "id", "currentPrice", "betStep")} />
   )
 
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
@@ -109,6 +107,8 @@ interface LotInfoDetailsProps extends Pick<LotInfoType, "title" | "city" | "star
 
 export function LotInfoDetails(props: LotInfoDetailsProps) {
   const started = Date.now() > props.startEndInterval.date1.getTime()
+  const ended = Date.now() >= props.startEndInterval.date2.getTime()
+  const tradable = started && !ended
   return (
     <div className="lot-info-details">
       <Backward>{props.title}</Backward>
@@ -127,7 +127,7 @@ export function LotInfoDetails(props: LotInfoDetailsProps) {
         </Entry>
         <Entry>
           <span>Окончание торгов</span>
-          <span>{started ? <CountableTimer futureDate={props.startEndInterval.date1} /> : props.startEndInterval.humanizedDate2}</span>
+          <span>{tradable ? <CountableTimer futureDate={props.startEndInterval.date1} /> : props.startEndInterval.humanizedDate2}</span>
         </Entry>
       </Entries>
     </div>
@@ -135,7 +135,7 @@ export function LotInfoDetails(props: LotInfoDetailsProps) {
 }
 
 
-interface LotInfoBidProps extends Pick<LotInfoType, "id" | "currentPrice" | "startPrice"> { }
+interface LotInfoBidProps extends Pick<LotInfoType, "id" | "currentPrice" | "betStep"> { }
 
 
 function LotInfoBid(props: LotInfoBidProps) {
@@ -145,7 +145,8 @@ function LotInfoBid(props: LotInfoBidProps) {
   const client = useClient()
   function bidUp(on: number) {
     setBidMultiplier(on)
-    setNextPrice(new Price(+props.currentPrice + (+props.startPrice * on)))
+    setNextPrice(props.currentPrice.add(props.betStep.multiply(on)))
+    // setNextPrice(new Price(+props.currentPrice + (+props.betStep * on)))
     setStage("confirm")
   }
   function confirmBidUp() {

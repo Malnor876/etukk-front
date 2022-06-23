@@ -50,6 +50,7 @@ export function mapLot(payload: SchemaLot): LotInfoType {
     city: payload.city ?? "unknown",
     startEndInterval: new DateInterval(payload.bidding_start_time, payload.bidding_end_time),
 
+    betStep: new Price(payload.bet_step ?? -1),
     startPrice: new Price(payload.start_price ?? -1),
     currentPrice: new Price(payload.now_price ?? -1),
 

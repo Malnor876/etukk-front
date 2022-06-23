@@ -44,6 +44,7 @@ export interface LotInfoType {
   }
   rating: number
 
+  betStep: Price
   startPrice: Price
   currentPrice: Price
 
