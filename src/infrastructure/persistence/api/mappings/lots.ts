@@ -1,4 +1,4 @@
-import { LotDelivery, LotInfoType, LotPreviewType, LotStatus, LotTradeStatus } from "domain/Lot/types"
+import { LotDelivery, LotInfoType, LotPreviewType, LotStatus, LotTradeStatus } from "areas/lot/types"
 import { PaginationType } from "interfaces/Nodejs"
 import { DateInterval } from "utils/date"
 import { Price } from "utils/extensions"
@@ -21,7 +21,8 @@ export function mapLotPreview(lot?: SchemaLot): LotPreviewType {
     status: (lot?.status as LotStatus) ?? LotStatus.UNKNOWN,
     tradeStatus: (lot?.trade_status as LotTradeStatus) ?? LotTradeStatus.UNKNOWN,
     betsCount: lot?.bets_count ?? -1,
-    editedAt: new Date(lot?.edited_at ?? -1)
+    editedAt: new Date(lot?.edited_at ?? -1),
+    seller: mapUser(lot?.user)
   }
 }
 
@@ -55,7 +56,10 @@ export function mapLot(payload: SchemaLot): LotInfoType {
     currentPrice: new Price(payload.now_price ?? -1),
 
     creatorId: (payload?.user_id ?? -1),
-    seller: mapUser(payload.user as any)
+    seller: mapUser(payload.user as any),
+
+    status: (payload?.status as LotStatus) ?? LotStatus.UNKNOWN,
+    tradeStatus: (payload?.trade_status as LotTradeStatus) ?? LotTradeStatus.UNKNOWN,
   }
 }
 

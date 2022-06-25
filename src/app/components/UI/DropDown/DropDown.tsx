@@ -56,7 +56,7 @@ function DropDown<V = string | undefined>(props: DropDownProps<V>) {
         >{option.children}</button>
       ))}
       {props.name && (
-        <input type="hidden" name={props.name} value={options[choice].value} />
+        <input type="hidden" name={props.name} value={(options[choice])?.value} />
       )}
     </div>
   )

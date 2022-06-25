@@ -7,9 +7,10 @@ import { Helmet } from "react-helmet"
 import { useSelector } from "react-redux"
 import { Navigate, Route, Routes } from "react-router"
 
-import ProfileBidsView from "./views/Bids/ProfileBidsView"
-import ProfilePersonalView from "./views/Personal/ProfilePersonalView"
-import ProfileLotsReviewsView from "./views/Sales/ProfileSalesView"
+import ProfileBidsView from "./views/bids/ProfileBidsView"
+import ProfilePersonalView from "./views/personal/ProfilePersonalView"
+import ProfilePurchasesView from "./views/purchases/ProfilePurchasesView"
+import ProfileSalesView from "./views/sales/ProfileSalesView"
 
 function ProfileView() {
   const user = useSelector(state => state.user)
@@ -33,11 +34,12 @@ function ProfileView() {
         </Buttons>
         <Routes>
           <Route index element={<Navigate replace to="personal" />} />
+
           <Route path="personal/*" element={<ProfilePersonalView />} />
           <Route path="bids/*" element={<ProfileBidsView />} />
 
-          <Route path="sales/*" element={<ProfileLotsReviewsView type="sales" />} />
-          <Route path="purchases/*" element={<ProfileLotsReviewsView type="purchases" />} />
+          <Route path="sales/*" element={<ProfileSalesView />} />
+          <Route path="purchases/*" element={<ProfilePurchasesView />} />
         </Routes>
       </div>
     </div>

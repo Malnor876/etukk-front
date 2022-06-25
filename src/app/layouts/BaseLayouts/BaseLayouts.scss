@@ -17,5 +17,5 @@
 .column {
 	display: grid;
 	align-content: baseline;
-	gap: 1.5em;
+	gap: var(--column-gap, 1.5em);
 }

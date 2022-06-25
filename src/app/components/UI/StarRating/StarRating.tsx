@@ -13,6 +13,7 @@ interface StarRatingProps {
   size?: "small"
   readOnly?: boolean
 
+  name?: string
   max?: number
   defaultValue?: number
   children?: ReactNode
@@ -62,6 +63,7 @@ function StarRating(props: StarRatingProps) {
           )
         })}
       </div>
+      <input type="hidden" name={props.name} value={rating} />
     </div>
   )
 }

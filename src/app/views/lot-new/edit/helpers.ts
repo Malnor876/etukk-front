@@ -1,4 +1,4 @@
-import { LotDelivery, LotInfoType } from "domain/Lot/types"
+import { LotDelivery, LotInfoType } from "areas/lot/types"
 import { postLotDraft } from "infrastructure/persistence/api/data/actions"
 import { useMutation } from "react-fetching-library"
 import { useNavigate } from "react-router-dom"

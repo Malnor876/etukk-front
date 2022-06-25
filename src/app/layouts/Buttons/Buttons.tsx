@@ -5,12 +5,12 @@ import { classWithModifiers } from "utils/common"
 
 interface ButtonsProps {
   children: ReactNode
-  centered?: boolean
+  spaceBetween?: boolean
 }
 
 function Buttons(props: ButtonsProps) {
   return (
-    <div className={classWithModifiers("buttons", props.centered && "centered")}>{props.children}</div>
+    <div className={classWithModifiers("buttons", props.spaceBetween && "space-between")}>{props.children}</div>
   )
 }
 

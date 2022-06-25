@@ -3,7 +3,7 @@ import { ComponentClass, ErrorInfo, ReactNode, VoidFunctionComponent } from "rea
 export type ErrorBoundaryError = Error
 export type ErrorBoundaryReset = () => void
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ReactErrorFunction<P = any, S = any> = ComponentClass<P, S> | VoidFunctionComponent<P>
+export type ReactErrorFunction<P = any, S = any> = ComponentClass<P, S> | VoidFunctionComponent<P> | Function
 export interface asd {
   reset: () => void
   state: ErrorBoundaryState

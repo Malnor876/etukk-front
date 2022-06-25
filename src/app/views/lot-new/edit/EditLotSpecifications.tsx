@@ -1,6 +1,5 @@
-import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Specifications from "app/components/UI/Specifications/Specifications"
-import { LotInfoType } from "domain/Lot/types"
+import { LotInfoType } from "areas/lot/types"
 
 import { lotDraftStorage } from "."
 

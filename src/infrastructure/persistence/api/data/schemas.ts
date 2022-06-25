@@ -10,7 +10,6 @@
 
 export interface SchemaUser {
   id: number
-  password: string
   salt: string
   fullname: string
   phonenumber: string
@@ -26,6 +25,10 @@ export interface SchemaUser {
   seller_rating?: number
   verified?: boolean
   banned?: boolean
+  user_pic?: {
+    id?: number
+    filename: string
+  }
   user_pic_id?: number | null
 }
 

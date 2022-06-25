@@ -3,7 +3,7 @@ import QueryContainer from "app/components/containers/QueryContainer/QueryContai
 import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
-import { LotInfoLayout } from "domain/Lot/Lot"
+import LotInfoLayout from "areas/lot/LotInfoLayout/LotInfoLayout"
 import { isValidResponse } from "infrastructure/persistence/api/client"
 import { getLotDraftByDraftId, postLotDraftByLotIdModerate } from "infrastructure/persistence/api/data/actions"
 import { mapLot } from "infrastructure/persistence/api/mappings/lots"

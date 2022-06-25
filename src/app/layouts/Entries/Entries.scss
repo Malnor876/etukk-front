@@ -13,15 +13,21 @@
 	font-size: $font-size-5;
 	font-weight: 500;
 
-	:not(em):nth-child(1) {
-		color: $color-gray-2;
+	&>:not(big) {
+		&:nth-child(1) {
+			color: $color-gray-2;
+			font-weight: 400;
+		}
+
+		&:nth-child(2) {}
 	}
 
-	:nth-child(1) {
-		font-weight: 400;
+	&>:nth-child(1) {
+		// max-width: 22ch;
 	}
 
-	:nth-child(2) {}
+	&> :nth-child(2) {}
+
 
 	big {
 		font-size: $font-size-3;

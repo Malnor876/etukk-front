@@ -5,6 +5,7 @@ import "app/layouts/Modal/FullscreenLayout/FullscreenLayout.scss"
 
 import { userFetch } from "infrastructure/persistence/redux/reducers/user"
 import { Modal } from "modules/modal/controller"
+// import { Modal } from "modules/modal/controller"
 import { useEffect } from "react"
 // import ReactGA from "react-ga4"
 import { useDispatch } from "react-redux"

@@ -1,7 +1,6 @@
 import "./SortingToggle.scss"
 
 import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
-import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { Modal } from "modules/modal/controller"
 import { useModal } from "modules/modal/hook"
 import { Children, Dispatch, ReactElement, ReactNode, useState } from "react"
@@ -13,7 +12,7 @@ import Selector from "../Selector/Selector"
 type SortValueType = string | undefined
 interface SortingToggleProps<V> {
   children: ReactElement<{ value: V, children: ReactNode }>[]
-  onChange?: Dispatch<SortValueType>
+  onChange?: Dispatch<V>
 }
 
 function SortingToggle<V extends string>(props: SortingToggleProps<V>) {
@@ -21,7 +20,7 @@ function SortingToggle<V extends string>(props: SortingToggleProps<V>) {
   function onApply(value: SortValueType) {
     if (value == null) value = "all"
 
-    props.onChange?.(value)
+    props.onChange?.(value as never)
     setCurrent(value)
   }
   const options = Children.map(props.children, child => child.props)

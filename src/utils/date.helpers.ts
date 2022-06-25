@@ -16,6 +16,13 @@ export function setDateDay(date: Date, day: number) {
   return dateInstance
 }
 
+export function setDateMinutes(date: Date, minutes: number) {
+  const dateInstance = new Date(date)
+  dateInstance.setMinutes(minutes)
+  return dateInstance
+}
+
+
 export function offsetDateYear(date: Date, offset = 0) {
   return setDateMonth(date, date.getFullYear() + offset)
 }
@@ -26,6 +33,10 @@ export function offsetDateMonth(date: Date, offset = 0) {
 
 export function offsetDateDay(date: Date, offset = 0) {
   return setDateDay(date, date.getDate() + offset)
+}
+
+export function offsetDateMinutes(date: Date, offset = 0) {
+  return setDateMinutes(date, date.getMinutes() + offset)
 }
 
 

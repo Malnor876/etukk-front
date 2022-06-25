@@ -126,7 +126,7 @@ function LotDraftView() {
           <Route path="trade" element={<EditLotTrade />} />
         </Routes>
       </div>
-      <Buttons centered>
+      <Buttons spaceBetween>
         {isCurrentRouteBase && <div />}
         {!isCurrentRouteBase && (
           <Backward to={prevRoute} />

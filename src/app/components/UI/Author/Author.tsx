@@ -2,7 +2,7 @@ import "./Author.scss"
 
 import { UserSigned } from "infrastructure/persistence/redux/reducers/user/types"
 
-interface AuthorProps extends Pick<UserSigned, "avatar" | "firstName" | "city"> { }
+export interface AuthorProps extends Pick<UserSigned, "avatar" | "firstName" | "city"> { }
 
 function Author(props: AuthorProps) {
   return (

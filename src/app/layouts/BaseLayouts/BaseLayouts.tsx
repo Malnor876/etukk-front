@@ -3,6 +3,7 @@ import "./BaseLayouts.scss"
 import { ReactNode } from "react"
 
 interface BaseLayoutProps {
+  gap?: string
   children: ReactNode
 }
 
@@ -15,6 +16,6 @@ export function Row(props: BaseLayoutProps) {
 
 export function Column(props: BaseLayoutProps) {
   return (
-    <div className="column">{props.children}</div>
+    <div className="column" style={{ "--column-gap": props.gap }}>{props.children}</div>
   )
 }

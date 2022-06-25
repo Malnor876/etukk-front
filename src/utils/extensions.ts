@@ -19,9 +19,13 @@ export class Price {
     return new Price(this.value * by)
   }
 
-  format(locale = "RU", currency: Intl.NumberFormatOptions["currency"] = "RUB"): string {
+  format() {
+    return Price.format(this.value, this.originCurrency, this.originLocale)
+  }
+
+  static format(value: number, locale = "RU", currency: Intl.NumberFormatOptions["currency"] = "RUB"): string {
     try {
-      return this.value.toLocaleString(locale, { style: "currency", currency, minimumFractionDigits: 0 })
+      return value.toLocaleString(locale, { style: "currency", currency, minimumFractionDigits: 0 })
     } catch (error) {
       if (process.env.NODE_ENV === "production") {
         if (error instanceof Error) {

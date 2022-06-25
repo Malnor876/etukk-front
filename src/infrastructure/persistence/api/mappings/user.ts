@@ -1,11 +1,9 @@
-import { IMAGE_MOCKS } from "constants/mocks"
 import { UserSigned } from "infrastructure/persistence/redux/reducers/user/types"
 
-import { ExtractActionPayload } from "../client.types"
-import { getUser } from "../data/actions"
+import { SchemaUser } from "../data/schemas"
 import { mapImageUrl } from "./helpers"
 
-export function mapUser(user?: ExtractActionPayload<ReturnType<typeof getUser>>): UserSigned {
+export function mapUser(user?: SchemaUser): UserSigned {
   const [firstName, lastName] = (user?.fullname ?? "unknown unknownovich").split(" ")
   return {
     auth: true,

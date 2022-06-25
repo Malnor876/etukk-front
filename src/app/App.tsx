@@ -1,6 +1,6 @@
 import "app/assets/scss/base.scss"
 
-import MobileNavigator from "domain/navigation/MobileNavigator/MobileNavigator"
+import MobileNavigator from "areas/navigation/MobileNavigator/MobileNavigator"
 import ClientAPI from "infrastructure/persistence/api/client"
 import store from "infrastructure/persistence/redux/store"
 import { ModalContainer } from "modules/modal/container"

@@ -1,11 +1,15 @@
 import "./You.scss"
 
-import meliodas from "./meliodas.jpg"
+import { useSelector } from "react-redux"
 
 function You() {
+  const user = useSelector(state => state.user)
+  if (!user.auth) {
+    return null
+  }
   return (
     <div className="you">
-      <img src={meliodas} alt="" className="you__avatar" />
+      <img src={user.avatar} alt="your avatar" className="you__avatar" />
       <div className="you__text">Вы</div>
     </div>
   )

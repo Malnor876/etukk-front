@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router"
+import { RouteProps } from "react-router-dom"
 
 import ViewLayout from "./layouts/ViewLayout/ViewLayout"
 import AboutView from "./views/about/AboutView"
@@ -15,6 +16,10 @@ import ProfileView from "./views/profile/ProfileView"
 import SupportView from "./views/support"
 import TermsView from "./views/terms"
 import UserView from "./views/user/UserView"
+
+enum AppRoutes {
+
+}
 
 function AppRouter() {
   return (
@@ -44,6 +49,15 @@ function AppRouter() {
         </Route>
       </Route>
     </Routes>
+  )
+}
+
+
+interface RouteEnumProps extends RouteProps { }
+
+function RouteEnum(props: RouteEnumProps) {
+  return (
+    <Route {...props} />
   )
 }
 

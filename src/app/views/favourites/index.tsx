@@ -4,9 +4,9 @@ import SortingToggle from "app/components/UI/SortingToggle/SortingToggle"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import Buttons from "app/layouts/Buttons/Buttons"
 import Previews from "app/layouts/Previews/Previews"
-import LotPreview from "domain/Lot/LotPreview/LotPreview"
-import { LotStatus } from "domain/Lot/types"
-import SellerPreview from "domain/seller/SellerPreview/SellerPreview"
+import LotPreview from "areas/lot/LotPreview/LotPreview"
+import { LotStatus } from "areas/lot/types"
+import SellerPreview from "areas/seller/SellerPreview/SellerPreview"
 import { getUserFavoriteLot, getUserFavoriteUser } from "infrastructure/persistence/api/data/actions"
 import { mapLotPreview } from "infrastructure/persistence/api/mappings/lots"
 import { mapUser } from "infrastructure/persistence/api/mappings/user"
@@ -18,6 +18,9 @@ import { NavLink } from "react-router-dom"
 function FavouritesView() {
   const [sortingLots, setSortingLots] = useState<"all" | "new" | null>(null)
   const [sortingOrganization, setSortingOrganization] = useState<"user" | "organization" | null>(null)
+
+  const userFavouriteLotsAction = getUserFavoriteLot(sortingLots === "new" ? { order_by: "created_at" } : undefined)
+  const userFavouriteUsersAction = getUserFavoriteUser(sortingOrganization ? { fav_user__organization: sortingOrganization === "organization" } : undefined)
   return (
     <>
       <Helmet>
@@ -30,7 +33,7 @@ function FavouritesView() {
       </Buttons>
       <Routes>
         <Route path="lots/*" element={(
-          <QueryContainer action={getUserFavoriteLot(sortingLots === "new" ? { order_by: "created_at" } : undefined)} key="lots">
+          <QueryContainer action={userFavouriteLotsAction} key="lots">
             {all => {
               const wait = all.filter(item => item.lot.status === LotStatus.MODERATION)
               const trading = all.filter(item => item.lot.status === LotStatus.PUBLISHED)
@@ -87,10 +90,10 @@ function FavouritesView() {
           </QueryContainer>
         )} />
         <Route path="sellers" element={(
-          <QueryContainer action={getUserFavoriteUser(sortingOrganization ? { fav_user__organization: sortingOrganization === "organization" } : undefined)} key="sellers">
+          <QueryContainer action={userFavouriteUsersAction} key="sellers">
             {payload => (
               <>
-                <SortingToggle onChange={value => setSortingOrganization(value as never)}>
+                <SortingToggle<never> onChange={setSortingOrganization}>
                   <option value="user">Частные лица</option>
                   <option value="organization">Юридические лица</option>
                 </SortingToggle>
@@ -107,38 +110,5 @@ function FavouritesView() {
     </>
   )
 }
-
-
-// interface FavouritesLotsContainerProps {
-//   status: LotStatus
-// }
-
-// function FavouritesLotsContainer(props: FavouritesLotsContainerProps) {
-//   return (
-//     <QueryContainer action={getUserFavoriteLot()}>
-//       {payload => (
-//         <Previews>
-//           {payload.map(item => (
-//             <LotPreview {...mapLotPreview(item.lot)} key={item.id} />
-//           ))}
-//         </Previews>
-//       )}
-//     </QueryContainer>
-//   )
-// }
-
-// function FavouritesSellersContainer() {
-//   return (
-//     <QueryContainer action={getUserFavoriteUser()} mapping={payload => payload.map(mapUser as never)}>
-//       {payload => (
-//         <Previews>
-//           {payload.map(seller => (
-//             <SellerPreview {...seller as any} key={seller.id} />
-//           ))}
-//         </Previews>
-//       )}
-//     </QueryContainer>
-//   )
-// }
 
 export default FavouritesView

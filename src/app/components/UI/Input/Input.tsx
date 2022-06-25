@@ -70,7 +70,9 @@ function Input(props: InputProps) {
       )}
       <div className="input__appearance">
         <input {..._.omit(props, "iconName", "customValidity", "children", "onIconClick")} maxLength={props.type === "tel" ? undefined : props.maxLength} pattern={pattern} className="input__input" onChange={onChange} placeholder={props.placeholder && (props.placeholder + (props.required ? "*" : ""))} />
-        <Icon className={classWithModifiers("input__icon", !!props.onIconClick && "clickable")} name={props.iconName} onClick={props.onIconClick} />
+        {props.iconName && (
+          <Icon className={classWithModifiers("input__icon", !!props.onIconClick && "clickable")} name={props.iconName} onClick={props.onIconClick} />
+        )}
       </div>
       {props.validity && (
         <span className={classWithModifiers("input__validity", invalid && "active")} aria-hidden={!invalid}>{props.customValidity || "Данные введены неверно"}</span>

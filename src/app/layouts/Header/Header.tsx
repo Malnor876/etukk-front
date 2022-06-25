@@ -1,7 +1,7 @@
 import "./Header.scss"
 
 import Breadcrumbs from "app/components/containers/Breadcrumbs/Breadcrumbs"
-import Topbar from "domain/navigation/Topbar/Topbar"
+import Topbar from "areas/navigation/Topbar/Topbar"
 
 function Header() {
   return (

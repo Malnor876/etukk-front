@@ -1,4 +1,4 @@
-import { LotPreviewType } from "domain/Lot/types"
+import { LotPreviewType } from "areas/lot/types"
 import { PaginationType } from "interfaces/Nodejs"
 
 import { mapLotPreview } from "./lots"
