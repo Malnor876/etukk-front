@@ -13,7 +13,7 @@
 	font-size: $font-size-5;
 	font-weight: 500;
 
-	&>:not(big) {
+	&>:not(em, big) {
 		&:nth-child(1) {
 			color: $color-gray-2;
 			font-weight: 400;

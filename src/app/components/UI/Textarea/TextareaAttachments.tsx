@@ -5,6 +5,7 @@ import _ from "lodash"
 import { DetailedHTMLProps, TextareaHTMLAttributes } from "react"
 import { classMerge } from "utils/common"
 
+import ChooseImage from "../ChooseImage/ChooseImage"
 import Icon from "../Icon/Icon"
 
 interface TextareaAttachmentsProps extends DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {
@@ -27,6 +28,7 @@ function TextareaAttachments(props: TextareaAttachmentsProps) {
           <Icon name="clip" />
         </label>
       </div>
+      {/* <ChooseImage /> */}
     </div>
   )
 }

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 
 interface ReviewProps {
   user: Pick<UserSigned, "id" | "avatar" | "firstName">
-  product: string
+  product?: string
   comment: string
   attachments: string[]
   date: Date
@@ -22,18 +22,22 @@ function Review(props: ReviewProps) {
           <img src={props.user.avatar} alt="avatar" className="review-user__avatar" />
           <div className="review-user__info">
             <div className="review-user__name">{props.user.firstName}</div>
-            <div className="review__product">{props.product}</div>
+            {props.product && (
+              <div className="review__product">{props.product}</div>
+            )}
           </div>
           <Link className="ghost" to={"/user/" + props.user.id} />
         </div>
         <time className="review__date">{date}</time>
       </div>
       <p className="review__text">{props.comment}</p>
-      <div className="review__attachments" onClick={() => Modal.open(SliderPopup, { slides: props.attachments })}>
-        {props.attachments.map((attachment, index) => (
-          <img className="review__attachment" src={attachment} alt="attachment" key={index} />
-        ))}
-      </div>
+      {props.attachments.length > 0 && (
+        <div className="review__attachments" onClick={() => Modal.open(SliderPopup, { slides: props.attachments })}>
+          {props.attachments.map((attachment, index) => (
+            <img className="review__attachment" src={attachment} alt="attachment" key={index} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

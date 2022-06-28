@@ -4,6 +4,8 @@ import ProfilePurchasesContainer from "areas/profile/containers/ProfilePurchases
 import ProfileReviewsContainer from "areas/profile/containers/ProfileReviewsContainer"
 import { Outlet, Route, Routes } from "react-router-dom"
 
+import ProfileDisputeView from "../sales~purchases/dispute/ProfileDisputeView"
+import ProfileSeeDisputeView from "../sales~purchases/see-dispute/ProfileSeeDisputeView"
 import ProfilePurchasesCheckoutView from "./views/checkout/ProfilePurchasesCheckoutView"
 import ProfilePurchasesConfirmDeliveryView from "./views/confirm-delivery/ProfilePurchasesConfirmDeliveryView"
 
@@ -25,6 +27,9 @@ function ProfilePurchasesView() {
 
       <Route path="checkout/:lotId" element={<ProfilePurchasesCheckoutView />} />
       <Route path="confirm-delivery/:lotId" element={<ProfilePurchasesConfirmDeliveryView />} />
+
+      <Route path="dispute/:lotId" element={<ProfileDisputeView />} />
+      <Route path="see-dispute/:lotId" element={<ProfileSeeDisputeView />} />
     </Routes>
   )
 }

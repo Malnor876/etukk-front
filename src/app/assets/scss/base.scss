@@ -137,3 +137,11 @@ hr {
 .center {
 	text-align: center;
 }
+
+input::-webkit-calendar-picker-indicator {
+	width: 1em;
+	height: 1em;
+
+	padding: unset;
+	margin: unset;
+}

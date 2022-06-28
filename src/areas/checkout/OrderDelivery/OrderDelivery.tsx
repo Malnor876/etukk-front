@@ -13,7 +13,7 @@ import { useState } from "react"
 import { offsetDateMinutes } from "utils/date.helpers"
 import { Price } from "utils/extensions"
 
-import DialogCheckoutSuccessful from "../DialogCheckoutSuccessful"
+import DialogOrderDeliverySuccessful from "../DialogOrderDeliverySuccessful"
 
 enum FormInputs {
   date = "date",
@@ -38,7 +38,7 @@ function OrderDelivery(props: OrderDeliveryProps) {
     await props.onSubmit?.(state.values)
     setPending(false)
 
-    Modal.open(DialogCheckoutSuccessful)
+    Modal.open(DialogOrderDeliverySuccessful)
   }
   const totalPrice = props.lotCost + props.tax + props.deliveryCost
   return (

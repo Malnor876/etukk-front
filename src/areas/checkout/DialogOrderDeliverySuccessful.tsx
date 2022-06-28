@@ -1,6 +1,6 @@
 import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
 
-function DialogCheckoutSuccessful() {
+function DialogOrderDeliverySuccessful() {
   return (
     <DialogLayout width="30em" centered>
       <h3 >
@@ -11,4 +11,4 @@ function DialogCheckoutSuccessful() {
   )
 }
 
-export default DialogCheckoutSuccessful
+export default DialogOrderDeliverySuccessful

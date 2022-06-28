@@ -1,0 +1,19 @@
+@import "~app/assets/scss/bundle.scss";
+
+.call-a-courier {}
+
+.call-a-courier__row {
+  display: grid;
+  align-items: flex-end;
+  grid-auto-flow: column;
+  gap: 1em;
+}
+
+.call-a-courier__inputs {
+  display: grid;
+  gap: 1.5em;
+
+  .input {
+    width: 100%;
+  }
+}

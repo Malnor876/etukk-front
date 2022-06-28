@@ -48,6 +48,68 @@ function LotPreview(props: LotProps) {
  */
 function LotPreviewSwitchableInfo(props: LotProps) {
   const [ended, setEnded] = useState(Date.now() > props.tradeEndTime.getTime())
+  const started = Date.now() > props.tradeStartTime.getTime()
+
+  if (props.lookalike) {
+    if (ended) {
+      return (
+        <>
+          <div className="lot-preview__city">
+            <span>г. {props.city}</span>
+            <Icon name="truck" />
+          </div>
+          <div className="lot-preview__details lot-preview__details--short">
+            <div className="lot-preview__entry">
+              <small>Текущая ставка</small>
+              <strong>{props.currentPrice.format()}</strong>
+            </div>
+            <div className="lot-preview__entry">
+              <small>Окончания торгов</small>
+              <strong>{humanizeDate(props.tradeEndTime)}</strong>
+            </div>
+          </div>
+        </>
+      )
+    }
+    if (started) {
+      return (
+        <>
+          <div className="lot-preview__city">
+            <span>г. {props.city}</span>
+            <Icon name="truck" />
+          </div>
+          <div className="lot-preview__details lot-preview__details--short">
+            <div className="lot-preview__entry">
+              <small>Текущая ставка</small>
+              <strong>{props.currentPrice.format()}</strong>
+            </div>
+            <div className="lot-preview__entry">
+              <small>До окончания торгов</small>
+              <strong><CountableTimer until={props.tradeEndTime} onEnd={() => setEnded(true)} /></strong>
+            </div>
+          </div>
+        </>
+      )
+    }
+    return (
+      <>
+        <div className="lot-preview__city">
+          <span>г. {props.city}</span>
+          <Icon name="truck" />
+        </div>
+        <div className="lot-preview__details lot-preview__details--short">
+          <div className="lot-preview__entry">
+            <small>Начальная ставка</small>
+            <strong>{props.startPrice.format()}</strong>
+          </div>
+          <div className="lot-preview__entry">
+            <small>Начало торгов</small>
+            <strong>{humanizeDate(props.tradeStartTime)}</strong>
+          </div>
+        </div>
+      </>
+    )
+  }
 
   switch (props.tradeStatus) {
     case LotTradeStatus.AWAITING_PAYMENT:
@@ -117,67 +179,6 @@ function LotPreviewSwitchableInfo(props: LotProps) {
       )
 
     case LotStatus.PUBLISHED: {
-      const started = Date.now() > props.tradeStartTime.getTime()
-      if (props.lookalike) {
-        if (ended) {
-          return (
-            <>
-              <div className="lot-preview__city">
-                <span>г. {props.city}</span>
-                <Icon name="truck" />
-              </div>
-              <div className="lot-preview__details lot-preview__details--short">
-                <div className="lot-preview__entry">
-                  <small>Текущая ставка</small>
-                  <strong>{props.currentPrice.format()}</strong>
-                </div>
-                <div className="lot-preview__entry">
-                  <small>Окончания торгов</small>
-                  <strong>{humanizeDate(props.tradeEndTime)}</strong>
-                </div>
-              </div>
-            </>
-          )
-        }
-        if (started) {
-          return (
-            <>
-              <div className="lot-preview__city">
-                <span>г. {props.city}</span>
-                <Icon name="truck" />
-              </div>
-              <div className="lot-preview__details lot-preview__details--short">
-                <div className="lot-preview__entry">
-                  <small>Текущая ставка</small>
-                  <strong>{props.currentPrice.format()}</strong>
-                </div>
-                <div className="lot-preview__entry">
-                  <small>До окончания торгов</small>
-                  <strong><CountableTimer until={props.tradeEndTime} onEnd={() => setEnded(true)} /></strong>
-                </div>
-              </div>
-            </>
-          )
-        }
-        return (
-          <>
-            <div className="lot-preview__city">
-              <span>г. {props.city}</span>
-              <Icon name="truck" />
-            </div>
-            <div className="lot-preview__details lot-preview__details--short">
-              <div className="lot-preview__entry">
-                <small>Начальная ставка</small>
-                <strong>{props.startPrice.format()}</strong>
-              </div>
-              <div className="lot-preview__entry">
-                <small>Начало торгов</small>
-                <strong>{humanizeDate(props.tradeStartTime)}</strong>
-              </div>
-            </div>
-          </>
-        )
-      }
       return (
         <>
           <div className="lot-preview__details">
