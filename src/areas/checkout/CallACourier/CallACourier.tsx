@@ -48,7 +48,7 @@ function CallACourier(props: CallACourierProps) {
       </p>
       <div className="call-a-courier__inputs">
         <div className="call-a-courier__row">
-          <Input type="date" name={FormInputs.date} required placeholder="Дата забора груза">
+          <Input type="datetime-local" name={FormInputs.date} required placeholder="Дата забора груза">
             Покупатель указал: Пн 13.06.22 / Пн 13.06.22
           </Input>
           <Input type="time" name={FormInputs.time} required placeholder="Время забора">
