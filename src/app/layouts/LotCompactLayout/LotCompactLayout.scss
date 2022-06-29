@@ -14,5 +14,9 @@
 
   @include Mobile {
     display: grid;
+
+    &>:first-child {
+      width: unset;
+    }
   }
 }
