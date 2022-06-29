@@ -12,7 +12,8 @@ import DialogCallACourierSuccessful from "../DialogCallACourierSuccessful"
 
 enum FormInputs {
   date = "date",
-  time = "time",
+  timeStart = "time-start",
+  timeEnd = "time-end",
   address = "address",
   phone = "phone",
   comment = "comment",
@@ -47,19 +48,22 @@ function CallACourier(props: CallACourierProps) {
         покупателем время.
       </p>
       <div className="call-a-courier__inputs">
+        <Input type="date" name={FormInputs.date} required placeholder="Дата забора груза">
+          Покупатель указал: Пн 13.06.22 / Пн 13.06.22
+        </Input>
         <div className="call-a-courier__row">
-          <Input type="datetime-local" name={FormInputs.date} required placeholder="Дата забора груза">
-            Покупатель указал: Пн 13.06.22 / Пн 13.06.22
+          <Input type="time" name={FormInputs.timeStart} required placeholder="Время забора груза c">
+            Покупатель указал: 18:30
           </Input>
-          <Input type="time" name={FormInputs.time} required placeholder="Время забора">
-            Покупатель указал: 07:30-09:30, 18:30-23:00 / 18:30-23:00
+          <Input type="time" name={FormInputs.timeEnd} required placeholder="Время забора по">
+            Покупатель указал: 23:30
           </Input>
         </div>
         <Input name={FormInputs.address} required placeholder="Адрес, откуда забрать" />
         <Input type="tel" name={FormInputs.phone} required placeholder="Номер телефона" defaultValue="+7" />
-        <Textarea rows={10} name={FormInputs.time} placeholder="Комментарий" />
+        <Textarea rows={10} name={FormInputs.comment} placeholder="Комментарий" />
         <div>
-          <Button type="submit" pending={pending}>Оплатить</Button>
+          <Button type="submit" pending={pending}>Отправить</Button>
         </div>
       </div>
     </Form>

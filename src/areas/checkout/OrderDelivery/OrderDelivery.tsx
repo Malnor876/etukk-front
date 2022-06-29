@@ -17,7 +17,8 @@ import DialogOrderDeliverySuccessful from "../DialogOrderDeliverySuccessful"
 
 enum FormInputs {
   date = "date",
-  time = "time",
+  timeStart = "time-start",
+  timeEnd = "time-end",
   address = "address",
   phone = "phone",
   comment = "comment",
@@ -67,13 +68,14 @@ function OrderDelivery(props: OrderDeliveryProps) {
         <br />
       </p>
       <div className="order-delivery__inputs">
+        <Input type="date" name={FormInputs.date} required placeholder="Дата забора груза" />
         <Row>
-          <Input type="date" name={FormInputs.date} required placeholder="Дата доставки" />
-          <Input type="time" name={FormInputs.time} required placeholder="Время забора" />
+          <Input type="time" name={FormInputs.timeStart} required placeholder="Время забора груза c" />
+          <Input type="time" name={FormInputs.timeEnd} required placeholder="Время забора по" />
         </Row>
         <Input name={FormInputs.address} required placeholder="Адрес доставки" />
         <Input type="tel" name={FormInputs.phone} required placeholder="Номер телефона" defaultValue="+7" />
-        <Textarea rows={10} name={FormInputs.time} placeholder="Комментарий" />
+        <Textarea rows={10} name={FormInputs.comment} placeholder="Комментарий" />
       </div>
       <div className="order-delivery__column">
         <Entry>
