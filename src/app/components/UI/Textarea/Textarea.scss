@@ -58,3 +58,37 @@
 .textarea-attachments__input {
 	display: none;
 }
+
+
+.textarea-attachments__attachments {
+	display: flex;
+	flex-wrap: wrap;
+
+	@include column-gap(0.5em);
+}
+
+.textarea-attachment {
+	height: 3.5em;
+	aspect-ratio: 1;
+
+	&>img {}
+}
+
+.textarea-attachment__image {
+	height: 3.5em;
+	aspect-ratio: 1;
+
+	object-fit: cover;
+	border-radius: $border-radius-1;
+}
+
+.textarea-attachment__close {
+	--icon-size: 0.75em;
+	--close-button-size: 1.25em;
+
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	transform: translate(25%, -25%);
+}
