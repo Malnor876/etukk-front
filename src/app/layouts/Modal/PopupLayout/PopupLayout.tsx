@@ -14,7 +14,7 @@ interface PopupLayoutProps {
 }
 
 function PopupLayout(props: PopupLayoutProps) {
-  const { close } = useModal()
+  const modal = useModal()
 
   const modifiers: string[] = []
   if (props.centered) modifiers.push("centered")
@@ -23,7 +23,7 @@ function PopupLayout(props: PopupLayoutProps) {
   return (
     <div className="popup-layout" style={{ "--popup-width": props.width }}>
       <div className="popup-layout__container">
-        <button className="popup-layout__close" type="button" onClick={close}>
+        <button className={classWithModifiers("popup-layout__close", !modal.params.closable && "hidden")} type="button" onClick={modal.close}>
           <Icon name="cross" />
         </button>
         <div className={classWithModifiers("popup-layout__inner", ...modifiers)}>{props.children}</div>

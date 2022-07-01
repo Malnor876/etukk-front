@@ -4,6 +4,7 @@ import { useModal } from "modules/modal/hook"
 
 function DialogDisputeAccepted() {
   const modal = useModal()
+
   return (
     <DialogLayout centered>
       <h3>Ваша претензия принята</h3>

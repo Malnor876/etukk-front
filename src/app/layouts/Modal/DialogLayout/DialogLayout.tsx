@@ -23,7 +23,8 @@ interface DialogLayoutProps {
  * Falls back to [`PopupLayout`](../PopupLayout/PopupLayout.tsx) when out of `mobile` size.
  */
 function DialogLayout(props: DialogLayoutProps) {
-  const { close, params } = useModal()
+  const modal = useModal()
+  console.log(modal.params)
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
 
   if (!isMobile) {
@@ -38,7 +39,7 @@ function DialogLayout(props: DialogLayoutProps) {
     <dialog className="dialog-layout">
       <div className="dialog-layout__container">
         <div className={classWithModifiers("dialog-layout__inner", ...modifiers)}>
-          <button className={classWithModifiers("dialog-layout__close", !params.closable && "hidden")} type="button" onClick={close}>
+          <button className={classWithModifiers("dialog-layout__close", modal.params.closable === false && "hidden")} type="button" onClick={modal.close}>
             <Icon name="cross" />
           </button>
           {props.children}

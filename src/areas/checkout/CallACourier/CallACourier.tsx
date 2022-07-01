@@ -7,6 +7,7 @@ import Textarea from "app/components/UI/Textarea/Textarea"
 import Form, { FormState } from "app/layouts/Form/Form"
 import { Modal } from "modules/modal/controller"
 import { useState } from "react"
+import { humanizeDate2 } from "utils/date"
 
 import DialogCallACourierSuccessful from "../DialogCallACourierSuccessful"
 
@@ -34,8 +35,12 @@ function CallACourier(props: CallACourierProps) {
     await props.onSubmit?.(state.values)
     setPending(false)
 
-    Modal.open(DialogCallACourierSuccessful)
+    Modal.open(DialogCallACourierSuccessful, { closable: false })
   }
+  const nowDate = new Date
+  const nowDateYear = nowDate.getFullYear()
+  const nowDateMonth = nowDate.toLocaleString("ru", { month: "2-digit" })
+  const nowDateDay = nowDate.toLocaleString("ru", { day: "2-digit" })
   return (
     <Form onSubmit={onSubmit}>
       <Backward>
@@ -48,8 +53,8 @@ function CallACourier(props: CallACourierProps) {
         покупателем время.
       </p>
       <div className="call-a-courier__inputs">
-        <Input type="date" name={FormInputs.date} required placeholder="Дата забора груза">
-          Покупатель указал: Пн 13.06.22 / Пн 13.06.22
+        <Input type="date" defaultValue={`${nowDateYear}-${nowDateMonth}-${nowDateDay}`} name={FormInputs.date} required placeholder="Дата забора груза">
+          Покупатель указал: {humanizeDate2(nowDate)} / {humanizeDate2(nowDate)}
         </Input>
         <div className="call-a-courier__row">
           <Input type="time" name={FormInputs.timeStart} required placeholder="Время забора груза c">
@@ -66,7 +71,7 @@ function CallACourier(props: CallACourierProps) {
           <Button type="submit" pending={pending}>Отправить</Button>
         </div>
       </div>
-    </Form>
+    </Form >
   )
 }
 

@@ -1,10 +1,10 @@
-import Specifications from "app/components/UI/Specifications/Specifications"
+import Specifications from "areas/lot/components/Specifications/Specifications"
 import { LotInfoType } from "areas/lot/types"
 
 import { lotDraftStorage } from "."
 
 function EditLotSpecifications() {
-  const [specifications, setSpecifications] = lotDraftStorage.state<LotInfoType["specifications"]>("specifications", [{ id: 0, key: "", value: "" } as never])
+  const [specifications, setSpecifications] = lotDraftStorage.state<LotInfoType["specifications"]>("specifications")
   return (
     <section>
       <h4>Укажите характеристики</h4>

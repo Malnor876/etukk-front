@@ -2,7 +2,7 @@ import "./Textarea.scss"
 
 import { FILE_TYPES } from "consts"
 import _ from "lodash"
-import { ChangeEvent, DetailedHTMLProps, TextareaHTMLAttributes, useEffect, useState } from "react"
+import { ChangeEvent, DetailedHTMLProps, TextareaHTMLAttributes, useState } from "react"
 import { classMerge } from "utils/common"
 
 import CloseButton from "../CloseButton/CloseButton"

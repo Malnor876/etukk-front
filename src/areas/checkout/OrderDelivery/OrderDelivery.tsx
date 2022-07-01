@@ -41,6 +41,12 @@ function OrderDelivery(props: OrderDeliveryProps) {
 
     Modal.open(DialogOrderDeliverySuccessful)
   }
+
+  const nowDate = new Date
+  const nowDateYear = nowDate.getFullYear()
+  const nowDateMonth = nowDate.toLocaleString("ru", { month: "2-digit" })
+  const nowDateDay = nowDate.toLocaleString("ru", { day: "2-digit" })
+
   const totalPrice = props.lotCost + props.tax + props.deliveryCost
   return (
     <Form className="order-delivery" onSubmit={onSubmit}>
@@ -68,7 +74,7 @@ function OrderDelivery(props: OrderDeliveryProps) {
         <br />
       </p>
       <div className="order-delivery__inputs">
-        <Input type="date" name={FormInputs.date} required placeholder="Дата забора груза" />
+        <Input type="date" defaultValue={`${nowDateYear}-${nowDateMonth}-${nowDateDay}`} name={FormInputs.date} required placeholder="Дата забора груза" />
         <Row>
           <Input type="time" name={FormInputs.timeStart} required placeholder="Время забора груза c" />
           <Input type="time" name={FormInputs.timeEnd} required placeholder="Время забора по" />

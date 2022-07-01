@@ -1,10 +1,12 @@
-import Input from "app/components/UI/Input/Input"
+import Input, { InputProps } from "app/components/UI/Input/Input"
 import Radio from "app/components/UI/Radio/Radio"
 import Selector from "app/components/UI/Selector/Selector"
 import { Row } from "app/layouts/BaseLayouts/BaseLayouts"
+import { getAddressPrompt } from "infrastructure/persistence/api/data/actions"
+import { FormEvent, useEffect, useState } from "react"
+import { useQuery } from "react-fetching-library"
 import { inputValue } from "utils/common"
 import { humanizeDate } from "utils/date"
-import { offsetDateDay } from "utils/date.helpers"
 
 import { lotDraftStorage } from "."
 import { getBiddingTime } from "./helpers"
@@ -35,7 +37,7 @@ function EditLotTrade() {
       <br />
       <Row>
         <Input type="number" iconName="rub" placeholder="Введите  сумму..." defaultValue={price} onInput={inputValue(setPrice)}>Укажите  сумму  минимальной ставки</Input>
-        <Input placeholder="Ук ажите город..." defaultValue={city} onInput={inputValue(setCity)}>Укажите ваш город</Input>
+        <InputCity placeholder="Укажите город..." defaultValue={city} onInput={inputValue(setCity)}>Укажите ваш город</InputCity>
       </Row>
       <br />
       <br />
@@ -44,6 +46,26 @@ function EditLotTrade() {
         <option value="local">Доставка по городу продажи</option>
       </Selector>
     </section>
+  )
+}
+
+function InputCity(props: InputProps) {
+  const [value, setValue] = useState<string>(props.defaultValue?.toString() ?? "")
+  const response = useQuery(getAddressPrompt(value), false)
+  function onInput(event: FormEvent<HTMLInputElement>) {
+    const target = event.currentTarget
+
+    setValue(target.value)
+    props.onInput?.(event)
+  }
+
+  useEffect(() => {
+    if (value.length === 0) return
+
+    response.query()
+  }, [value])
+  return (
+    <Input {...props} dataList={response.payload?.addresses ?? []} value={value} onInput={onInput} />
   )
 }
 

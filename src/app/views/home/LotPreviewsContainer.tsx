@@ -40,7 +40,7 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
     & FilteringField<"bidding_start_time" | "bidding_end_time", "iexact", string>
     & FilteringField<"bidding_start_time", "gte", string>
-    & FilteringField<"bidding_end_time", "lte", string>
+    & FilteringField<"bidding_end_time", "gte", string>
 
     & FilteringField<"status", "not", string>
     & FilteringField<"trade_status", "iexact", string>
@@ -58,7 +58,7 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
     bidding_start_time__iexact: props.period?.date_start,
     bidding_end_time__iexact: props.period?.date_end,
     // bidding_start_time__gte: new Date().toISOString(),
-    bidding_end_time__lte: endTime,
+    bidding_end_time__gte: endTime,
 
     status: LotStatus.PUBLISHED,
     // status__not: LotStatus.CLOSED,

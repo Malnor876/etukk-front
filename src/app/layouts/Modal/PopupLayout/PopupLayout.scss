@@ -50,6 +50,10 @@ $gap: 2em;
 	margin-left: auto;
 	margin-right: -4.5em;
 
+	&--hidden {
+		visibility: hidden;
+	}
+
 	@include Mobile {
 		margin-right: unset;
 	}

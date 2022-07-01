@@ -23,7 +23,7 @@ interface PopupDisputeProps {
 
 function PopupDispute(props: PopupDisputeProps) {
   function onSubmit(state: FormState<FormInputs, string>) {
-    Modal.replace(DialogDisputeAccepted)
+    Modal.replace(DialogDisputeAccepted, { closable: false })
   }
   return (
     <PopupLayout width="46.25em">

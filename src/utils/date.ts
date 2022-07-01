@@ -1,6 +1,18 @@
-export function humanizeDate(date: Date, lang?: string) {
+import _ from "lodash"
+
+export function humanizeDate(date: Date, lang = "ru") {
   const localeString = date.toLocaleString(lang, { timeStyle: "short", dateStyle: "short" })
   return localeString.replace(", ", " в ").replace(".20", ".")
+}
+
+
+/**
+ * 
+ * @returns Пн 13.06.22
+ */
+export function humanizeDate2(date: Date, lang = "ru") {
+  const localeString = date.toLocaleString(lang, { weekday: "short", year: "2-digit", month: "2-digit", day: "2-digit" })
+  return _.capitalize(localeString.replace(" г.", "").replace(",", ""))
 }
 
 export class DateInterval {

@@ -23,7 +23,7 @@ interface PopupReviewProps {
 function PopupReview(props: PopupReviewProps) {
   async function onSubmit(state: FormState<FormInputs, string>) {
     // state.values
-    Modal.replace(DialogReviewAccepted)
+    Modal.replace(DialogReviewAccepted, { closable: false })
   }
   return (
     <PopupLayout width="46.25em">

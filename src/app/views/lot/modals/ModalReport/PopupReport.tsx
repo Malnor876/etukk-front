@@ -13,12 +13,12 @@ interface PopupReportProps {
 }
 
 function PopupReport(props: PopupReportProps) {
-  const { close } = useModal()
+  const modal = useModal()
   async function onSubmit() {
     await props.onSubmit()
 
-    close()
-    Modal.open(DialogReportAccepted)
+    modal.close()
+    Modal.open(DialogReportAccepted, { closable: false })
   }
   return (
     <PopupLayout width="46.25em">

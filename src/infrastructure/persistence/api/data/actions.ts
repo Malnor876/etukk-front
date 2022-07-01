@@ -1471,3 +1471,12 @@ export const postPasswordResetByToken = (token: string, body: { new_password: st
     requireAuth: true
   },
 })
+
+export const getAddressPrompt = (address: string): Action<{ addresses: string[] }> => ({
+  method: "GET",
+  endpoint: `/address/prompt`,
+  params: { address },
+  config: {
+    requireAuth: true
+  },
+})
