@@ -3,6 +3,7 @@ import "./CallACourier.scss"
 import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
 import Input from "app/components/UI/Input/Input"
+import InputAddress from "app/components/UI/Input/InputAddress"
 import Textarea from "app/components/UI/Textarea/Textarea"
 import Form, { FormState } from "app/layouts/Form/Form"
 import { Modal } from "modules/modal/controller"
@@ -64,7 +65,7 @@ function CallACourier(props: CallACourierProps) {
             Покупатель указал: 23:30
           </Input>
         </div>
-        <Input name={FormInputs.address} required placeholder="Адрес, откуда забрать" />
+        <InputAddress name={FormInputs.address} required placeholder="Адрес, откуда забрать" />
         <Input type="tel" name={FormInputs.phone} required placeholder="Номер телефона" defaultValue="+7" />
         <Textarea rows={10} name={FormInputs.comment} placeholder="Комментарий" />
         <div>

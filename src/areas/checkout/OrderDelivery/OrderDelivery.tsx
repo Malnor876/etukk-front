@@ -4,6 +4,7 @@ import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
 import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
 import Input from "app/components/UI/Input/Input"
+import InputAddress from "app/components/UI/Input/InputAddress"
 import Textarea from "app/components/UI/Textarea/Textarea"
 import { Row } from "app/layouts/BaseLayouts/BaseLayouts"
 import Entry from "app/layouts/Entries/Entry"
@@ -79,7 +80,7 @@ function OrderDelivery(props: OrderDeliveryProps) {
           <Input type="time" name={FormInputs.timeStart} required placeholder="Время забора груза c" />
           <Input type="time" name={FormInputs.timeEnd} required placeholder="Время забора по" />
         </Row>
-        <Input name={FormInputs.address} required placeholder="Адрес доставки" />
+        <InputAddress name={FormInputs.address} required placeholder="Адрес доставки" />
         <Input type="tel" name={FormInputs.phone} required placeholder="Номер телефона" defaultValue="+7" />
         <Textarea rows={10} name={FormInputs.comment} placeholder="Комментарий" />
       </div>

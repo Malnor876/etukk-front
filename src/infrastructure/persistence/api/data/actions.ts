@@ -682,6 +682,7 @@ export const postLotByLotIdBet = (lot_id: number, multiply?: number): Action<{
   created_at: string
   lot_id: number
   user_id: number
+  lot: SchemaLot
 }> => ({
   method: "POST",
   endpoint: `/lot/${lot_id}/bet`,

@@ -3,6 +3,7 @@ import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
 import Icon from "app/components/UI/Icon/Icon"
 import Entries from "app/layouts/Entries/Entries"
 import Entry from "app/layouts/Entries/Entry"
+import { useState } from "react"
 
 import { LotDelivery, LotInfoType } from "../types"
 
@@ -10,8 +11,8 @@ interface LotInfoDetailsProps extends Pick<LotInfoType, "title" | "city" | "star
 
 function LotInfoDetails(props: LotInfoDetailsProps) {
   const started = Date.now() > props.startEndInterval.date1.getTime()
-  const ended = Date.now() >= props.startEndInterval.date2.getTime()
-  const tradable = started && !ended
+  const ended = Date.now() <= props.startEndInterval.date2.getTime()
+  const [tradable, setTradable] = useState(started && !ended)
   return (
     <div className="lot-info-details">
       <Backward>{props.title}</Backward>
@@ -30,7 +31,7 @@ function LotInfoDetails(props: LotInfoDetailsProps) {
         </Entry>
         <Entry>
           <span>Окончание торгов</span>
-          <span>{tradable ? <CountableTimer until={props.startEndInterval.date1} /> : props.startEndInterval.humanizedDate2}</span>
+          <span>{tradable ? <CountableTimer until={props.startEndInterval.date1} onEnd={() => setTradable(false)} /> : props.startEndInterval.humanizedDate2}</span>
         </Entry>
       </Entries>
     </div>
