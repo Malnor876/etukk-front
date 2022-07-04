@@ -22,7 +22,7 @@ interface FatalErrorProps {
 
 function FatalError(props: FatalErrorProps) {
   function report() {
-    if (props.error == null) return
+    // if (props.error == null) return
 
     showReportDialog({ lang: "ru" })
   }

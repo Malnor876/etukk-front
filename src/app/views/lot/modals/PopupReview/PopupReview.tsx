@@ -5,7 +5,11 @@ import ToolTipBadge from "app/components/UI/ToolTipBadge/ToolTipBadge"
 import You from "app/components/UI/You/You"
 import Form, { FormState } from "app/layouts/Form/Form"
 import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
+import { isValidResponse } from "infrastructure/persistence/api/client"
+import { postLotReview } from "infrastructure/persistence/api/data/actions"
 import { Modal } from "modules/modal/controller"
+import { useState } from "react"
+import { useClient } from "react-fetching-library"
 
 import DialogReviewAccepted from "./DialogReviewAccepted"
 
@@ -21,8 +25,19 @@ interface PopupReviewProps {
 }
 
 function PopupReview(props: PopupReviewProps) {
+  const [pending, setPending] = useState(false)
+  const client = useClient()
   async function onSubmit(state: FormState<FormInputs, string>) {
-    // state.values
+    setPending(true)
+    const response = await client.query(postLotReview({
+      to_lot_id: props.lotId,
+      score: Number(state.values.rating),
+      text: state.values.feedback
+    }))
+    setPending(false)
+
+    if (!isValidResponse(response)) return
+
     Modal.replace(DialogReviewAccepted, { closable: false })
   }
   return (
@@ -34,7 +49,7 @@ function PopupReview(props: PopupReviewProps) {
         </TextareaAttachments>
         <StarRating name={FormInputs.rating}>Ваша оценка</StarRating>
         <div>
-          <Button type="submit">Отправить отзыв</Button>
+          <Button type="submit" pending={pending}>Отправить отзыв</Button>
         </div>
         <ToolTipBadge>
           Для закрытия сделки Вам необходимо оставить отзыв и прикрепить фото полученного лота.

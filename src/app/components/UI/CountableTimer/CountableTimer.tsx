@@ -50,7 +50,7 @@ function CountableTimer(props: CountableTimerProps) {
     }
   }, [props.until, props.slice])
   return (
-    <span className="countable-timer">{timer ? timer.map(item => item.toLocaleString("ru", { minimumIntegerDigits: 2 })).join(props.splitter || ":") : (props.endLabel || "Таймер вышел")}</span>
+    <span className="countable-timer">{timer ? timer.map(item => item.toLocaleString("ru", { minimumIntegerDigits: 2 })).join(props.splitter || ":") : (props.endLabel ?? "Таймер вышел")}</span>
   )
 }
 

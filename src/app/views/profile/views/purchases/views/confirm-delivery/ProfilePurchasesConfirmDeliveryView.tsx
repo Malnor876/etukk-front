@@ -12,13 +12,22 @@ import LotPage from "app/layouts/LotPage/LotPage"
 import PopupDispute from "app/views/lot/modals/PopupDispute"
 import PopupReview from "app/views/lot/modals/PopupReview/PopupReview"
 import useParam from "hooks/useParam"
-import { getLotByLotId } from "infrastructure/persistence/api/data/actions"
+import { getDeliveryTimers, getLotByLotId } from "infrastructure/persistence/api/data/actions"
 import { mapLot } from "infrastructure/persistence/api/mappings/lots"
 import { Modal } from "modules/modal/controller"
-import { offsetDateDay } from "utils/date.helpers"
+import { useQuery } from "react-fetching-library"
+import { offsetDateDay, offsetDateMinutes } from "utils/date.helpers"
 
 function ProfilePurchasesConfirmDeliveryView() {
   const lotId = useParam("lotId", true)
+
+  const response = useQuery(getDeliveryTimers())
+  if (response.loading || response.payload == null) return null
+
+  const fillDeliveryTimer = response.payload.find(p => p.type === "fill_delivery")?.value ?? 0
+  const confirmDeliveryTimer = response.payload.find(p => p.type === "confirm_delivery")?.value ?? 0
+  const confirmShipmentTimer = response.payload.find(p => p.type === "confirm_shipment")?.value ?? 0
+
   return (
     <QueryContainer action={getLotByLotId(lotId)} mapping={mapLot}>
       {payload => (
@@ -48,7 +57,7 @@ function ProfilePurchasesConfirmDeliveryView() {
               <hr />
               <Entry>
                 <span>Подтвердить получение</span>
-                <big><CountableTimer until={offsetDateDay(new Date, 2)} slice={[1]} /></big>
+                <big><CountableTimer until={offsetDateMinutes(new Date, confirmDeliveryTimer)} slice={[1]} /></big>
               </Entry>
             </Entries>
             <Buttons spaceBetween>

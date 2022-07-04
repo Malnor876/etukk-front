@@ -1,3 +1,4 @@
+import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Button from "app/components/UI/Button/Button"
 import Selector from "app/components/UI/Selector/Selector"
 import TextareaAttachments from "app/components/UI/Textarea/TextareaAttachments"
@@ -6,7 +7,11 @@ import You from "app/components/UI/You/You"
 import Buttons from "app/layouts/Buttons/Buttons"
 import Form, { FormState } from "app/layouts/Form/Form"
 import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
+import { isValidResponse } from "infrastructure/persistence/api/client"
+import { postLotClaim, postLotClaimReasons } from "infrastructure/persistence/api/data/actions"
 import { Modal } from "modules/modal/controller"
+import { useState } from "react"
+import { useClient } from "react-fetching-library"
 
 import DialogDisputeAccepted from "./DialogDisputeAccepted"
 
@@ -17,12 +22,32 @@ enum FormInputs {
   feedbackAttachments = "feedback-attachments", //* NOT FOR USAGE
 }
 
+interface FormValues {
+  reason: string
+
+  feedback: string
+  "feedback-attachments": string[]
+}
+
 interface PopupDisputeProps {
   lotId: number
 }
 
 function PopupDispute(props: PopupDisputeProps) {
-  function onSubmit(state: FormState<FormInputs, string>) {
+  const [pending, setPending] = useState(false)
+  const client = useClient()
+  async function onSubmit(state: FormState<FormInputs, FormValues>) {
+    setPending(true)
+    const response = await client.query(postLotClaim({
+      to_lot_id: props.lotId,
+      text: state.values.feedback,
+      reason: state.values.reason,
+      lot_claim_photos: state.values["feedback-attachments"]
+    }))
+    setPending(false)
+
+    if (!isValidResponse(response)) return
+
     Modal.replace(DialogDisputeAccepted, { closable: false })
   }
   return (
@@ -30,14 +55,23 @@ function PopupDispute(props: PopupDisputeProps) {
       <Form onSubmit={onSubmit}>
         <h2>Открыть спор по товару</h2>
         <You />
-        <Selector name={FormInputs.reason} width="20em">
+        <QueryContainer action={postLotClaimReasons()}>
+          {payload => (
+            <Selector name={FormInputs.reason}>
+              {payload.map(reason => (
+                <option value={reason.name} key={reason.id}>{reason.name}</option>
+              ))}
+            </Selector>
+          )}
+        </QueryContainer>
+        {/* <Selector name={FormInputs.reason} width="20em">
           <option>Товар пришел с повреждениями</option>
           <option>Не соответствует заявленным характеристикам</option>
           <option>Иная причина</option>
-        </Selector>
+        </Selector> */}
         <TextareaAttachments name={FormInputs.feedback} rows={5} placeholder="Введите комментарий ..." />
         <Buttons>
-          <Button type="submit">Открыть спор</Button>
+          <Button type="submit" pending={pending}>Открыть спор</Button>
         </Buttons>
         <ToolTipBadge>
           Для закрытия сделки Вам необходимо оставить отзыв и прикрепить фото полученного лота.

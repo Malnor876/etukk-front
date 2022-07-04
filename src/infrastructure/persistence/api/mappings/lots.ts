@@ -60,6 +60,8 @@ export function mapLot(payload: SchemaLot): LotInfoType {
 
     status: (payload?.status as LotStatus) ?? LotStatus.UNKNOWN,
     tradeStatus: (payload?.trade_status as LotTradeStatus) ?? LotTradeStatus.UNKNOWN,
+
+    editedAt: new Date(payload?.edited_at ?? -1),
   }
 }
 

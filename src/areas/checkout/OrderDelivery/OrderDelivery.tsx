@@ -9,56 +9,71 @@ import Textarea from "app/components/UI/Textarea/Textarea"
 import { Row } from "app/layouts/BaseLayouts/BaseLayouts"
 import Entry from "app/layouts/Entries/Entry"
 import Form, { FormState } from "app/layouts/Form/Form"
-import { Modal } from "modules/modal/controller"
-import { useState } from "react"
+import { LotInfoType } from "areas/lot/types"
+import { isValidResponse } from "infrastructure/persistence/api/client"
+import { postLotByLotCalcPayment } from "infrastructure/persistence/api/data/actions"
+import { useEffect, useState } from "react"
+import { useClient } from "react-fetching-library"
+import { inputValue } from "utils/common"
 import { offsetDateMinutes } from "utils/date.helpers"
 import { Price } from "utils/extensions"
 
-import DialogOrderDeliverySuccessful from "../DialogOrderDeliverySuccessful"
 
-enum FormInputs {
+export enum OrderDeliveryFormInputs {
   date = "date",
-  timeStart = "time-start",
-  timeEnd = "time-end",
+  timeStart = "timeStart",
+  timeEnd = "timeEnd",
   address = "address",
   phone = "phone",
   comment = "comment",
 }
 
 interface OrderDeliveryProps {
-  lotCost: number
+  lot: LotInfoType
   tax: number
-  deliveryCost: number
 
-  onSubmit?(values: FormState<FormInputs, string>["values"]): Promise<void>
+  onSubmit?(values: FormState<OrderDeliveryFormInputs, string>["values"]): Promise<void>
 }
 
 function OrderDelivery(props: OrderDeliveryProps) {
   const [pending, setPending] = useState(false)
-  async function onSubmit(state: FormState<FormInputs, string>) {
+  async function onSubmit(state: FormState<OrderDeliveryFormInputs, string>) {
     setPending(true)
     await props.onSubmit?.(state.values)
     setPending(false)
-
-    Modal.open(DialogOrderDeliverySuccessful)
   }
+
+  const [deliveryAddress, setDeliveryAddress] = useState("")
+  const [deliveryPrice, setDeliveryPrice] = useState(0)
+  const client = useClient()
+
+  useEffect(() => {
+    if (deliveryAddress.length === 0) return
+
+    (async () => {
+      const response = await client.query(postLotByLotCalcPayment(props.lot.id, { delivery_address: deliveryAddress }))
+      if (!isValidResponse(response)) return
+
+      setDeliveryPrice(response.payload.delivery_price)
+    })()
+  }, [deliveryAddress])
 
   const nowDate = new Date
   const nowDateYear = nowDate.getFullYear()
   const nowDateMonth = nowDate.toLocaleString("ru", { month: "2-digit" })
   const nowDateDay = nowDate.toLocaleString("ru", { day: "2-digit" })
 
-  const totalPrice = props.lotCost + props.tax + props.deliveryCost
+  const totalPrice = props.lot.currentPrice.valueOf() + props.tax + deliveryPrice
   return (
     <Form className="order-delivery" onSubmit={onSubmit}>
       <div className="order-delivery__header">
         <Backward>ОФОРМИТЬ ДОСТАВКУ И ОПЛАТИТЬ</Backward>
-        <time className="order-delivery__time"><CountableTimer until={offsetDateMinutes(new Date, 15)} slice={[2]} /></time>
+        <time className="order-delivery__time"><CountableTimer until={offsetDateMinutes(props.lot.editedAt, 15)} slice={[2]} /></time>
       </div>
       <div className="order-delivery__column">
         <Entry>
           <span>Стоимость лота <br /> по результатам торгов</span>
-          <big>{Price.format(props.lotCost)}</big>
+          <big>{props.lot.currentPrice.format()}</big>
         </Entry>
         <hr />
         <Entry>
@@ -75,19 +90,19 @@ function OrderDelivery(props: OrderDeliveryProps) {
         <br />
       </p>
       <div className="order-delivery__inputs">
-        <Input type="date" defaultValue={`${nowDateYear}-${nowDateMonth}-${nowDateDay}`} name={FormInputs.date} required placeholder="Дата забора груза" />
+        <Input type="date" defaultValue={`${nowDateYear}-${nowDateMonth}-${nowDateDay}`} name={OrderDeliveryFormInputs.date} required placeholder="Дата забора груза" />
         <Row>
-          <Input type="time" name={FormInputs.timeStart} required placeholder="Время забора груза c" />
-          <Input type="time" name={FormInputs.timeEnd} required placeholder="Время забора по" />
+          <Input type="time" name={OrderDeliveryFormInputs.timeStart} required placeholder="Время забора груза c" />
+          <Input type="time" name={OrderDeliveryFormInputs.timeEnd} required placeholder="Время забора по" />
         </Row>
-        <InputAddress name={FormInputs.address} required placeholder="Адрес доставки" />
-        <Input type="tel" name={FormInputs.phone} required placeholder="Номер телефона" defaultValue="+7" />
-        <Textarea rows={10} name={FormInputs.comment} placeholder="Комментарий" />
+        <InputAddress name={OrderDeliveryFormInputs.address} required placeholder="Адрес доставки" onInput={inputValue(setDeliveryAddress)} />
+        <Input type="tel" name={OrderDeliveryFormInputs.phone} required placeholder="Номер телефона" defaultValue="+7" />
+        <Textarea rows={10} name={OrderDeliveryFormInputs.comment} placeholder="Комментарий" />
       </div>
       <div className="order-delivery__column">
         <Entry>
           <span>Стоимость доставки лота по указанному адресу</span>
-          <big>{Price.format(props.deliveryCost)}</big>
+          <big>{Price.format(deliveryPrice)}</big>
         </Entry>
         <hr />
         <Entry>

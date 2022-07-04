@@ -6,10 +6,12 @@ import ButtonLink from "app/components/UI/Button/ButtonLink"
 import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
 import Icon, { IconName } from "app/components/UI/Icon/Icon"
 import { LotPreviewType, LotStatus, LotTradeStatus } from "areas/lot/types"
+import { getDeliveryTimers } from "infrastructure/persistence/api/data/actions"
 import { ReactNode, useState } from "react"
+import { useQuery } from "react-fetching-library"
 import { Link } from "react-router-dom"
 import { humanizeDate } from "utils/date"
-import { offsetDateDay } from "utils/date.helpers"
+import { offsetDateDay, offsetDateMinutes } from "utils/date.helpers"
 
 interface LotProps extends LotPreviewType {
   /**
@@ -28,14 +30,13 @@ function LotPreview(props: LotProps) {
         <img src={props.image} alt="preview" className="lot-preview__image" />
         <div className="lot-preview__info">
           <div className="lot-preview__title">{props.title}</div>
-          <LotPreviewSwitchableInfo {...props} />
+          <LotPreviewSwitchableContent {...props} />
         </div>
         {props.onClick ?? (
           <Link className="ghost" to={`/lots/${props.id}`} />
         )}
         <Bookmark className="lot-preview__bookmark" type="lot" id={props.id} defaultValue={props.bookmarked} />
       </>
-      <LotPreviewSwitchableAction {...props} />
     </div>
   )
 }
@@ -43,54 +44,47 @@ function LotPreview(props: LotProps) {
 
 /**
  * 
- * Switch info depending on `status`.
- * If returns `null`, it means that info should be empty; further parent modification may be needed.
+ * Switch content relying on `status` or `tradeStatus`.
  */
-function LotPreviewSwitchableInfo(props: LotProps) {
+function LotPreviewSwitchableContent(props: LotProps) {
+  if (props.lookalike) {
+    return <LotPreviewStatusLookALike {...props} />
+  }
+
+  if (props.tradeStatus !== LotTradeStatus.UNKNOWN) {
+    return <LotPreviewSwitchByTradeStatus {...props} />
+  }
+
+  if (props.status !== LotStatus.UNKNOWN) {
+    return <LotPreviewSwitchByStatus {...props} />
+  }
+
+  return (
+    <>
+      <div className="lot-preview__city">
+        <span>г. {props.city}</span>
+        <Icon name="truck" />
+      </div>
+      <div className="lot-preview__details">
+        <div className="lot-preview__entry">
+          <small>Начальная ставка</small>
+          <strong>{props.currentPrice.format()}</strong>
+        </div>
+        <div className="lot-preview__entry">
+          <small>Начало торгов</small>
+          <strong>{humanizeDate(props.tradeStartTime)}</strong>
+        </div>
+      </div>
+    </>
+  )
+}
+
+
+function LotPreviewStatusLookALike(props: LotProps) {
   const [ended, setEnded] = useState(Date.now() > props.tradeEndTime.getTime())
   const started = Date.now() > props.tradeStartTime.getTime()
 
-  if (props.lookalike) {
-    if (ended) {
-      return (
-        <>
-          <div className="lot-preview__city">
-            <span>г. {props.city}</span>
-            <Icon name="truck" />
-          </div>
-          <div className="lot-preview__details lot-preview__details--short">
-            <div className="lot-preview__entry">
-              <small>Текущая ставка</small>
-              <strong>{props.currentPrice.format()}</strong>
-            </div>
-            <div className="lot-preview__entry">
-              <small>Окончания торгов</small>
-              <strong>{humanizeDate(props.tradeEndTime)}</strong>
-            </div>
-          </div>
-        </>
-      )
-    }
-    if (started) {
-      return (
-        <>
-          <div className="lot-preview__city">
-            <span>г. {props.city}</span>
-            <Icon name="truck" />
-          </div>
-          <div className="lot-preview__details lot-preview__details--short">
-            <div className="lot-preview__entry">
-              <small>Текущая ставка</small>
-              <strong>{props.currentPrice.format()}</strong>
-            </div>
-            <div className="lot-preview__entry">
-              <small>До окончания торгов</small>
-              <strong><CountableTimer until={props.tradeEndTime} onEnd={() => setEnded(true)} /></strong>
-            </div>
-          </div>
-        </>
-      )
-    }
+  if (ended) {
     return (
       <>
         <div className="lot-preview__city">
@@ -99,52 +93,60 @@ function LotPreviewSwitchableInfo(props: LotProps) {
         </div>
         <div className="lot-preview__details lot-preview__details--short">
           <div className="lot-preview__entry">
-            <small>Начальная ставка</small>
-            <strong>{props.startPrice.format()}</strong>
+            <small>Текущая ставка</small>
+            <strong>{props.currentPrice.format()}</strong>
           </div>
           <div className="lot-preview__entry">
-            <small>Начало торгов</small>
-            <strong>{humanizeDate(props.tradeStartTime)}</strong>
+            <small>Окончания торгов</small>
+            <strong>{humanizeDate(props.tradeEndTime)}</strong>
           </div>
         </div>
       </>
     )
   }
-
-  switch (props.tradeStatus) {
-    case LotTradeStatus.AWAITING_PAYMENT:
-      return (
-        <>
-          <div className="lot-preview__details">
-            <Author {...props.seller} />
-            <hr />
-            <div className="lot-preview__entry">
-              <small>Сумма выкупа</small>
-              <strong>{props.currentPrice.format()}</strong>
-            </div>
+  if (started) {
+    return (
+      <>
+        <div className="lot-preview__city">
+          <span>г. {props.city}</span>
+          <Icon name="truck" />
+        </div>
+        <div className="lot-preview__details lot-preview__details--short">
+          <div className="lot-preview__entry">
+            <small>Текущая ставка</small>
+            <strong>{props.currentPrice.format()}</strong>
           </div>
-          <LotPreviewStatus iconName="pending">Ожидает оплаты</LotPreviewStatus>
-        </>
-      )
-
-    case LotTradeStatus.CONFIRMATION:
-      return (
-        <>
-          <div className="lot-preview__details">
-            <Author {...props.seller} />
-            <hr />
-            <div className="lot-preview__entry">
-              <small>Сумма выкупа</small>
-              <strong>{props.currentPrice.format()}</strong>
-            </div>
+          <div className="lot-preview__entry">
+            <small>До окончания торгов</small>
+            <strong><CountableTimer until={props.tradeEndTime} onEnd={() => setEnded(true)} /></strong>
           </div>
-          <LotPreviewStatus iconName="cup">Выкуплен</LotPreviewStatus>
-        </>
-      )
-
-    default:
-      break
+        </div>
+      </>
+    )
   }
+  return (
+    <>
+      <div className="lot-preview__city">
+        <span>г. {props.city}</span>
+        <Icon name="truck" />
+      </div>
+      <div className="lot-preview__details lot-preview__details--short">
+        <div className="lot-preview__entry">
+          <small>Начальная ставка</small>
+          <strong>{props.startPrice.format()}</strong>
+        </div>
+        <div className="lot-preview__entry">
+          <small>Начало торгов</small>
+          <strong>{humanizeDate(props.tradeStartTime)}</strong>
+        </div>
+      </div>
+    </>
+  )
+}
+
+
+function LotPreviewSwitchByStatus(props: LotProps) {
+  const started = Date.now() > props.tradeStartTime.getTime()
 
   switch (props.status) {
     case LotStatus.CLOSED:
@@ -156,7 +158,9 @@ function LotPreviewSwitchableInfo(props: LotProps) {
       )
 
     case LotStatus.DRAFTED:
-      return null
+      return (
+        <ButtonLink to={`/lots/${props.id}/preview`}>Опубликовать черновик</ButtonLink>
+      )
 
     case LotStatus.MODERATION:
       return (
@@ -230,73 +234,127 @@ function LotPreviewSwitchableInfo(props: LotProps) {
       )
 
     default:
-      return (
-        <>
-          <div className="lot-preview__city">
-            <span>г. {props.city}</span>
-            <Icon name="truck" />
-          </div>
-          <div className="lot-preview__details">
-            <div className="lot-preview__entry">
-              <small>Начальная ставка</small>
-              <strong>{props.currentPrice.format()}</strong>
-            </div>
-            <div className="lot-preview__entry">
-              <small>Начало торгов</small>
-              <strong>{humanizeDate(props.tradeStartTime)}</strong>
-            </div>
-          </div>
-        </>
-      )
+      return null
   }
 }
 
 
-function LotPreviewSwitchableAction(props: LotProps) {
-  if (props.lookalike) {
-    return null
-  }
+function LotPreviewSwitchByTradeStatus(props: LotProps) {
+  const [timerEnded, setTimerEnded] = useState(false)
 
+  const response = useQuery(getDeliveryTimers())
+  if (response.loading || response.payload == null) return null
 
+  const fillDeliveryTimer = response.payload.find(p => p.type === "fill_delivery")?.value ?? 0
+  const confirmDeliveryTimer = response.payload.find(p => p.type === "confirm_delivery")?.value ?? 0
+  const confirmShipmentTimer = response.payload.find(p => p.type === "confirm_shipment")?.value ?? 0
+
+  const paidLotContent = (
+    <>
+      <div className="lot-preview__details">
+        <Author {...props.seller} />
+        <hr />
+        <div className="lot-preview__entry">
+          <small>Сумма выкупа</small>
+          <strong>{props.currentPrice.format()}</strong>
+        </div>
+      </div>
+      <LotPreviewStatus iconName="cup">Выкуплен</LotPreviewStatus>
+    </>
+  )
 
   switch (props.tradeStatus) {
+    case LotTradeStatus.AWAITING_PAYMENT:
+      return (
+        <>
+          <div className="lot-preview__details">
+            <Author {...props.seller} />
+            <hr />
+            <div className="lot-preview__entry">
+              <small>Сумма выкупа</small>
+              <strong>{props.currentPrice.format()}</strong>
+            </div>
+          </div>
+          <LotPreviewStatus iconName="pending">Ожидает оплаты</LotPreviewStatus>
+          <ButtonLink to={`checkout/${props.id}`} disabled={timerEnded}>
+            <CountableTimer until={offsetDateMinutes(props.editedAt, fillDeliveryTimer)} slice={[2]} endLabel="" onEnd={() => setTimerEnded(true)} />
+            {" "}
+            <span>Оформить доставку и оплатить</span>
+          </ButtonLink>
+        </>
+      )
+
+    case LotTradeStatus.CONFIRMATION:
+      return (
+        <>
+          <div className="lot-preview__details">
+            <Author {...props.seller} />
+            <hr />
+            <div className="lot-preview__entry">
+              <small>Сумма выкупа</small>
+              <strong>{props.currentPrice.format()}</strong>
+            </div>
+          </div>
+          <LotPreviewStatus iconName="delivery">Доставлен курьером</LotPreviewStatus>
+          <ButtonLink to={`confirm-delivery/${props.id}`} disabled={timerEnded}>
+            <CountableTimer until={offsetDateDay(new Date, confirmShipmentTimer)} slice={[1]} endLabel="" onEnd={() => setTimerEnded(true)} />
+            {" "}
+            <span>Подтверждить получение</span>
+          </ButtonLink>
+        </>
+      )
+
     case LotTradeStatus.AWAITING_SHIPMENT:
       return (
-        <ButtonLink to={`unknown`}>
-          <CountableTimer until={offsetDateDay(new Date, 1)} slice={[1]} />
-          {" "}
-          <span>Ожидает отправки</span>
-        </ButtonLink>
+        <>
+          {paidLotContent}
+          <ButtonLink to={`unknown`} disabled>
+            <CountableTimer until={offsetDateDay(new Date, confirmShipmentTimer)} slice={[1]} endLabel="" onEnd={() => setTimerEnded(true)} />
+            {" "}
+            <span>Ожидает отправки</span>
+          </ButtonLink>
+        </>
+      )
+
+    case LotTradeStatus.DELIVERY:
+      return (
+        <>
+          <div className="lot-preview__details">
+            <Author {...props.seller} />
+            <hr />
+            <div className="lot-preview__entry">
+              <small>Сумма выкупа</small>
+              <strong>{props.currentPrice.format()}</strong>
+            </div>
+          </div>
+          <LotPreviewStatus iconName="truck">В пути</LotPreviewStatus>
+        </>
+      )
+    case LotTradeStatus.DELIVERED:
+      return (
+        <>
+          <div className="lot-preview__details">
+            <Author {...props.seller} />
+            <hr />
+            <div className="lot-preview__entry">
+              <small>Сумма выкупа</small>
+              <strong>{props.currentPrice.format()}</strong>
+            </div>
+          </div>
+          <LotPreviewStatus iconName="check">Получен</LotPreviewStatus>
+        </>
       )
 
     case LotTradeStatus.PAID:
       return (
-        <ButtonLink to={`confirm-delivery/${props.id}`}>
-          <CountableTimer until={offsetDateDay(new Date, 1)} slice={[2]} />
-          {" "}
-          <span>Подтверждение продавцом</span>
-        </ButtonLink>
-      )
-
-    case LotTradeStatus.AWAITING_PAYMENT:
-      return (
-        <ButtonLink to={`checkout/${props.id}`}>
-          <CountableTimer until={offsetDateDay(new Date, 1)} slice={[2]} />
-          {" "}
-          <span>Оформить доставку и оплатить</span>
-        </ButtonLink>
-      )
-
-    default:
-      break
-  }
-
-
-
-  switch (props.status) {
-    case LotStatus.DRAFTED:
-      return (
-        <ButtonLink to={`/lots/${props.id}/preview`}>Опубликовать черновик</ButtonLink>
+        <>
+          {paidLotContent}
+          <ButtonLink to={`confirm-delivery/${props.id}`} disabled>
+            <CountableTimer until={offsetDateDay(new Date, confirmDeliveryTimer)} slice={[2]} endLabel="" onEnd={() => setTimerEnded(true)} />
+            {" "}
+            <span>Подтверждение продавцом</span>
+          </ButtonLink>
+        </>
       )
 
     default:

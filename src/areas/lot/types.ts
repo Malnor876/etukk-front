@@ -54,6 +54,8 @@ export interface LotInfoType {
 
   status: LotStatus
   tradeStatus: LotTradeStatus
+
+  editedAt: Date
 }
 
 

@@ -537,6 +537,32 @@ export const postLotReview = (body: {
 /**
  * OK
  */
+export const postLotClaim = (body: {
+  to_lot_id: number
+  text?: string
+  reason: string
+  video_url?: string
+  lot_claim_photos: string[]
+}): Action => ({
+  method: "POST",
+  endpoint: `/lot/claim`,
+  body,
+  config: {
+    requireAuth: true
+  }
+})
+
+export const postLotClaimReasons = (): Action<{ id: number; name: string }[]> => ({
+  method: "GET",
+  endpoint: `/lot/claim/reason`,
+  config: {
+    requireAuth: true
+  }
+})
+
+/**
+ * OK
+ */
 export const getLotReview = <Filters = unknown>
   (filters?: Filters): Action<{
     id: number
@@ -1477,6 +1503,87 @@ export const getAddressPrompt = (address: string): Action<{ addresses: string[] 
   method: "GET",
   endpoint: `/address/prompt`,
   params: { address },
+  config: {
+    requireAuth: true
+  },
+})
+
+export const postLotByLotBuyerApprove = (lot_id: number, body: {
+  delivery_address: string
+  contact_phone: string
+  shipment_dates: string[]
+  shipment_times: string[]
+}): Action<{
+  buyer_contact_phone: string
+  delivery_address: string
+  price: number
+  possible_shipment_dates: string
+  possible_shipment_times: string
+}> => ({
+  method: "POST",
+  endpoint: `/lot/${lot_id}/buyer_approve`,
+  body,
+  config: {
+    requireAuth: true
+  },
+})
+
+export const postLotByLotCalcPayment = (lot_id: number, body: {
+  delivery_address: string
+}): Action<{
+  delivery_address: string
+  delivery_price: number
+  eta: number
+}> => ({
+  method: "POST",
+  endpoint: `/lot/${lot_id}/calc_payment`,
+  body,
+  config: {
+    requireAuth: true
+  },
+})
+
+export const postLotByLotSellerApprove = (lot_id: number, body: {
+  contact_phone: string
+  shipment_datetime: string
+}): Action<{
+  shipment_date: string
+}> => ({
+  method: "POST",
+  endpoint: `/lot/${lot_id}/seller_approve`,
+  body,
+  config: {
+    requireAuth: true
+  },
+})
+
+export const postLotByLotPay = (lot_id: number): Action<{
+  redirect_url: string
+}> => ({
+  method: "POST",
+  endpoint: `/lot/${lot_id}/pay`,
+  config: {
+    requireAuth: true
+  },
+})
+
+export const getLotByLotCommission = (lot_id: number): Action<{
+  redirect_url: string
+}> => ({
+  method: "GET",
+  endpoint: `/lot/${lot_id}/commission`,
+  config: {
+    requireAuth: true
+  },
+})
+
+export const getDeliveryTimers = (): Action<{
+  id: number
+  type: "fill_delivery" | "confirm_shipment" | "confirm_delivery"
+  value: number
+}[]> => ({
+  method: "GET",
+  endpoint: `/delivery/timer`,
   config: {
     requireAuth: true
   },

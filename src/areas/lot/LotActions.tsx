@@ -2,21 +2,16 @@ import "./Lot.scss"
 
 import Icon from "app/components/UI/Icon/Icon"
 import PopupReport from "app/views/lot/modals/ModalReport/PopupReport"
-import ClientAPI from "infrastructure/persistence/api/client"
 import { Modal } from "modules/modal/controller"
 
 interface LotActionsProps {
-  id: number
+  lotId: number
 }
 
 function LotActions(props: LotActionsProps) {
   function share() { 1 }
   function report() {
-    function onSubmit() {
-      ClientAPI
-      alert("Reported")
-    }
-    Modal.open(PopupReport, { onSubmit })
+    Modal.open(PopupReport, { lotId: props.lotId })
   }
   return (
     <div className="lot-actions">

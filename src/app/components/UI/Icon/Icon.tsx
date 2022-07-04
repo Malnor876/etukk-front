@@ -49,6 +49,7 @@ export type IconName = (
   | "share"
   | "user"
   | "cup"
+  | "delivery"
 ) | (string & {})
 
 interface IconProps extends Exclude<SVGAttributes<SVGElement>, "aria-hidden"> {
