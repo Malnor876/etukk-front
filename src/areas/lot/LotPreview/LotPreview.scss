@@ -49,8 +49,14 @@
 		margin-top: unset;
 		border-radius: unset;
 
+		max-width: 100%;
+		overflow: hidden;
+
 		.button__text {
-			font-size: $font-size-6;
+			font-size: $font-size-7;
+
+			max-width: 100%;
+			overflow: hidden;
 		}
 	}
 }
