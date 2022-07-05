@@ -238,7 +238,6 @@ function LotPreviewSwitchByStatus(props: LotProps) {
   }
 }
 
-
 function LotPreviewSwitchByTradeStatus(props: LotProps) {
   const [timerEnded, setTimerEnded] = useState(false)
 
