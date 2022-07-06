@@ -4,7 +4,7 @@ import MobileNavigator from "areas/navigation/MobileNavigator/MobileNavigator"
 import ClientAPI from "infrastructure/persistence/api/client"
 import store from "infrastructure/persistence/redux/store"
 import { ModalContainer } from "modules/modal/container"
-import { ReactNode, Suspense } from "react"
+import { ReactNode, StrictMode, Suspense } from "react"
 import { ClientContextProvider } from "react-fetching-library"
 import { Provider } from "react-redux"
 import { BrowserRouter } from "react-router-dom"
@@ -22,24 +22,26 @@ injectStyle()
 
 function App() {
   return (
-    <AppProviders>
-      <Suspense fallback="Loading...">
-        <ErrorBoundary fallback={ErrorFallback}>
-          <QueryErrorCoverBoundary>
-            <div className="wrapper">
-              <AppRouter />
-              <MobileNavigator />
-            </div>
-          </QueryErrorCoverBoundary>
+    <StrictMode>
+      <AppProviders>
+        <Suspense fallback="Loading...">
+          <ErrorBoundary fallback={ErrorFallback}>
+            <QueryErrorCoverBoundary>
+              <div className="wrapper">
+                <AppRouter />
+                <MobileNavigator />
+              </div>
+            </QueryErrorCoverBoundary>
 
-          <CookiesNotice />
-          <ModalContainer />
-          <ToastContainer />
+            <CookiesNotice />
+            <ModalContainer />
+            <ToastContainer />
 
-          <AppEffects />
-        </ErrorBoundary>
-      </Suspense>
-    </AppProviders>
+            <AppEffects />
+          </ErrorBoundary>
+        </Suspense>
+      </AppProviders>
+    </StrictMode>
   )
 }
 

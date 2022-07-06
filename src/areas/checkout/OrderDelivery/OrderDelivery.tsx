@@ -1,5 +1,6 @@
 import "./OrderDelivery.scss"
 
+import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
 import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
@@ -11,7 +12,7 @@ import Entry from "app/layouts/Entries/Entry"
 import Form, { FormState } from "app/layouts/Form/Form"
 import { LotInfoType } from "areas/lot/types"
 import { isValidResponse } from "infrastructure/persistence/api/client"
-import { postLotByLotCalcPayment } from "infrastructure/persistence/api/data/actions"
+import { getDeliveryTimers, postLotByLotCalcPayment } from "infrastructure/persistence/api/data/actions"
 import { useEffect, useState } from "react"
 import { useClient } from "react-fetching-library"
 import { inputValue } from "utils/common"
@@ -64,11 +65,18 @@ function OrderDelivery(props: OrderDeliveryProps) {
   const nowDateDay = nowDate.toLocaleString("ru", { day: "2-digit" })
 
   const totalPrice = props.lot.currentPrice.valueOf() + props.tax + deliveryPrice
+
   return (
     <Form className="order-delivery" onSubmit={onSubmit}>
       <div className="order-delivery__header">
         <Backward>ОФОРМИТЬ ДОСТАВКУ И ОПЛАТИТЬ</Backward>
-        <time className="order-delivery__time"><CountableTimer until={offsetDateMinutes(props.lot.editedAt, 15)} slice={[2]} /></time>
+        <QueryContainer action={getDeliveryTimers()}>
+          {payload => (
+            <time className="order-delivery__time">
+              <CountableTimer until={offsetDateMinutes(props.lot.editedAt, payload.find(p => p.type === "fill_delivery")?.value ?? 0)} slice={[2]} />
+            </time>
+          )}
+        </QueryContainer>
       </div>
       <div className="order-delivery__column">
         <Entry>

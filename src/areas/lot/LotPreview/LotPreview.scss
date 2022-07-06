@@ -53,6 +53,7 @@
 		flex: 1;
 		// max-width: 100%;
 		overflow: hidden;
+		z-index: 1;
 
 		.button__text {
 			font-size: $font-size-7;
@@ -156,6 +157,8 @@
 .lot-preview-status {
 	display: flex;
 	align-items: center;
+
+	font-size: $font-size-5;
 }
 
 .lot-preview-status__icon {

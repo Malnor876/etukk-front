@@ -11,22 +11,23 @@ import Entry from "app/layouts/Entries/Entry"
 import LotPage from "app/layouts/LotPage/LotPage"
 import PopupDispute from "app/views/lot/modals/PopupDispute"
 import PopupReview from "app/views/lot/modals/PopupReview/PopupReview"
+import useDeliveryTimers from "areas/lot/hooks/useDeliveryTimers"
 import useParam from "hooks/useParam"
-import { getDeliveryTimers, getLotByLotId } from "infrastructure/persistence/api/data/actions"
+import { getLotByLotId, postLotByLotConfirmDelivery } from "infrastructure/persistence/api/data/actions"
 import { mapLot } from "infrastructure/persistence/api/mappings/lots"
 import { Modal } from "modules/modal/controller"
-import { useQuery } from "react-fetching-library"
-import { offsetDateDay, offsetDateMinutes } from "utils/date.helpers"
+import { useClient } from "react-fetching-library"
+import { offsetDateMinutes } from "utils/date.helpers"
 
 function ProfilePurchasesConfirmDeliveryView() {
   const lotId = useParam("lotId", true)
+  const { confirmDeliveryTimer } = useDeliveryTimers()
+  const client = useClient()
 
-  const response = useQuery(getDeliveryTimers())
-  if (response.loading || response.payload == null) return null
-
-  const fillDeliveryTimer = response.payload.find(p => p.type === "fill_delivery")?.value ?? 0
-  const confirmDeliveryTimer = response.payload.find(p => p.type === "confirm_delivery")?.value ?? 0
-  const confirmShipmentTimer = response.payload.find(p => p.type === "confirm_shipment")?.value ?? 0
+  async function confirmDelivery() {
+    await client.query(postLotByLotConfirmDelivery(lotId))
+    await Modal.open(PopupReview, { lotId })
+  }
 
   return (
     <QueryContainer action={getLotByLotId(lotId)} mapping={mapLot}>
@@ -57,11 +58,11 @@ function ProfilePurchasesConfirmDeliveryView() {
               <hr />
               <Entry>
                 <span>Подтвердить получение</span>
-                <big><CountableTimer until={offsetDateMinutes(new Date, confirmDeliveryTimer)} slice={[1]} /></big>
+                <big><CountableTimer until={offsetDateMinutes(payload.editedAt, confirmDeliveryTimer)} slice={[1]} /></big>
               </Entry>
             </Entries>
             <Buttons spaceBetween>
-              <Button onClick={() => Modal.open(PopupReview, { lotId })}>Подтвердить получение</Button>
+              <Button onClick={confirmDelivery}>Подтвердить получение</Button>
               <Button outline onClick={() => Modal.open(PopupDispute, { lotId })}>Претензия</Button>
             </Buttons>
           </Column>

@@ -7,8 +7,9 @@ import { Dispatch, useRef, useState } from "react"
 import { inputValue } from "utils/common"
 
 const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
-  { id: 0, key: "Габариты", value: "", static: true },
-  { id: 1, key: "", value: "" },
+  { id: 0, key: "Габариты", value: "", required: true, disabledKey: true },
+  { id: 1, key: "Вес", value: "", required: true, disabledKey: true },
+  { id: 2, key: "", value: "", required: true },
   // { id: 2, key: "", value: "" },
 ]
 
@@ -20,7 +21,8 @@ interface SpecificationType {
    * The key can't be overwritten and the field can't be deleted.
    * The value has to be filled.
    */
-  static?: boolean
+  required?: boolean
+  disabledKey?: boolean
 }
 
 interface SpecificationsProps {
@@ -61,10 +63,10 @@ function Specifications(props: SpecificationsProps) {
       <div className="specifications__container">
         {specifications.map((specification, index) => (
           <div className="specifications__specification" key={specification.id}>
-            <Input placeholder="Название..." required name={`${props.name}[${specification.id}].key`} disabled={specification.static} defaultValue={specification.key} onChange={inputValue(editSpecificationKey(index))} />
+            <Input placeholder="Название..." required name={`${props.name}[${specification.id}].key`} disabled={specification.disabledKey} defaultValue={specification.key} onChange={inputValue(editSpecificationKey(index))} />
             <Input placeholder="Значение..." required name={`${props.name}[${specification.id}].value`} defaultValue={specification.value} onChange={inputValue(editSpecificationValue(index))} />
-            {!specification.static && (index - DEFAULT_SPECIFICATIONS.length) > 0 && (
-              <CloseButton onClick={() => removeSpecification(index - DEFAULT_SPECIFICATIONS.length)} />
+            {!specification.required && (
+              <CloseButton onClick={() => removeSpecification(index)} />
             )}
           </div>
         ))}

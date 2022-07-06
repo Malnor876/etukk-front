@@ -9,12 +9,11 @@ import { useState } from "react"
 import { useClient } from "react-fetching-library"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { Price } from "utils/extensions"
 
 import { LotInfoType } from "../types"
 
-interface LotInfoBidProps extends Pick<LotInfoType, "id" | "currentPrice" | "betStep"> { }
 
+interface LotInfoBidProps extends Pick<LotInfoType, "id" | "currentPrice" | "betStep"> { }
 
 function LotInfoBid(props: LotInfoBidProps) {
   const [bidMultiplier, setBidMultiplier] = useState(1)
@@ -24,7 +23,7 @@ function LotInfoBid(props: LotInfoBidProps) {
   const client = useClient()
   function bidUp(on: number) {
     setBidMultiplier(on)
-    setCurrentPrice(props.currentPrice.add(props.betStep.multiply(on)))
+    setCurrentPrice(currentPrice.add(props.betStep.multiply(on)))
     // setNextPrice(new Price(+props.currentPrice + (+props.betStep * on)))
     setStage("confirm")
   }
@@ -41,6 +40,8 @@ function LotInfoBid(props: LotInfoBidProps) {
       if (payload == null) return
 
       const lot = mapLot(payload.lot)
+
+      console.log(currentPrice, currentPrice)
 
       setPrevPrice(currentPrice)
       setCurrentPrice(lot.currentPrice)
@@ -94,7 +95,7 @@ function LotInfoBid(props: LotInfoBidProps) {
         <div className="lot-info-bid lot-info-bid--box">
           <div className="lot-info-bid__entry lot-info-bid__entry--column">
             <span>Текущая ставка</span>
-            <span>{props.currentPrice.format()}</span>
+            <span>{currentPrice.format()}</span>
           </div>
           <Button onClick={() => setStage("choice")}>Поднять ставку</Button>
         </div>

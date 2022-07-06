@@ -1557,6 +1557,16 @@ export const postLotByLotSellerApprove = (lot_id: number, body: {
   },
 })
 
+export const postLotByLotConfirmDelivery = (lot_id: number): Action<{
+  shipment_date: string
+}> => ({
+  method: "POST",
+  endpoint: `/lot/${lot_id}/confirm_delivery`,
+  config: {
+    requireAuth: true
+  },
+})
+
 export const postLotByLotPay = (lot_id: number): Action<{
   redirect_url: string
 }> => ({
@@ -1568,7 +1578,7 @@ export const postLotByLotPay = (lot_id: number): Action<{
 })
 
 export const getLotByLotCommission = (lot_id: number): Action<{
-  redirect_url: string
+  service_commission: number
 }> => ({
   method: "GET",
   endpoint: `/lot/${lot_id}/commission`,

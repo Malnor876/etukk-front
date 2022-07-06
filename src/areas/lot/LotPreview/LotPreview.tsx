@@ -6,12 +6,12 @@ import ButtonLink from "app/components/UI/Button/ButtonLink"
 import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
 import Icon, { IconName } from "app/components/UI/Icon/Icon"
 import { LotPreviewType, LotStatus, LotTradeStatus } from "areas/lot/types"
-import { getDeliveryTimers } from "infrastructure/persistence/api/data/actions"
 import { ReactNode, useState } from "react"
-import { useQuery } from "react-fetching-library"
 import { Link } from "react-router-dom"
 import { humanizeDate } from "utils/date"
 import { offsetDateDay, offsetDateMinutes } from "utils/date.helpers"
+
+import useDeliveryTimers from "../hooks/useDeliveryTimers"
 
 interface LotProps extends LotPreviewType {
   /**
@@ -241,12 +241,7 @@ function LotPreviewSwitchByStatus(props: LotProps) {
 function LotPreviewSwitchByTradeStatus(props: LotProps) {
   const [timerEnded, setTimerEnded] = useState(false)
 
-  const response = useQuery(getDeliveryTimers())
-  if (response.loading || response.payload == null) return null
-
-  const fillDeliveryTimer = response.payload.find(p => p.type === "fill_delivery")?.value ?? 0
-  const confirmDeliveryTimer = response.payload.find(p => p.type === "confirm_delivery")?.value ?? 0
-  const confirmShipmentTimer = response.payload.find(p => p.type === "confirm_shipment")?.value ?? 0
+  const { fillDeliveryTimer, confirmDeliveryTimer, confirmShipmentTimer } = useDeliveryTimers()
 
   const paidLotContent = (
     <>
@@ -296,9 +291,9 @@ function LotPreviewSwitchByTradeStatus(props: LotProps) {
           </div>
           <LotPreviewStatus iconName="delivery">Доставлен курьером</LotPreviewStatus>
           <ButtonLink to={`confirm-delivery/${props.id}`} disabled={timerEnded}>
-            <CountableTimer until={offsetDateDay(new Date, confirmShipmentTimer)} slice={[1]} endLabel="" onEnd={() => setTimerEnded(true)} />
+            <CountableTimer until={offsetDateMinutes(props.editedAt, confirmDeliveryTimer)} slice={[1]} endLabel="" onEnd={() => setTimerEnded(true)} />
             {" "}
-            <span>Подтверждить получение</span>
+            <span>Подтвердить получение</span>
           </ButtonLink>
         </>
       )
