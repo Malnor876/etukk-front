@@ -7,10 +7,10 @@ import { Dispatch, useRef, useState } from "react"
 import { inputValue } from "utils/common"
 
 const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
-  { id: 0, key: "Длина", value: "", required: true, disabledKey: true },
-  { id: 1, key: "Ширина", value: "", required: true, disabledKey: true },
-  { id: 2, key: "Высота", value: "", required: true, disabledKey: true },
-  { id: 3, key: "Вес", value: "", required: true, disabledKey: true },
+  { id: 0, key: "Длина (м)", value: "", required: true, disabledKey: true },
+  { id: 1, key: "Ширина (м)", value: "", required: true, disabledKey: true },
+  { id: 2, key: "Высота (м)", value: "", required: true, disabledKey: true },
+  { id: 3, key: "Вес (кг)", value: "", required: true, disabledKey: true },
   { id: 4, key: "", value: "", required: true },
   // { id: 2, key: "", value: "" },
 ]
