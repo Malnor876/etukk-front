@@ -6,7 +6,7 @@ import You from "app/components/UI/You/You"
 import Form, { FormState } from "app/layouts/Form/Form"
 import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { isValidResponse } from "infrastructure/persistence/api/client"
-import { postLotReview } from "infrastructure/persistence/api/data/actions"
+import { postUserReview } from "infrastructure/persistence/api/data/actions"
 import { Modal } from "modules/modal/controller"
 import { useState } from "react"
 import { useClient } from "react-fetching-library"
@@ -15,24 +15,32 @@ import DialogReviewAccepted from "./DialogReviewAccepted"
 
 enum FormInputs {
   feedback = "feedback",
-  feedbackAttachments = "feedback-attachments", //* NOT FOR USAGE
+  feedbackAttachments = "feedbackAttachments", //* NOT FOR USAGE
 
   rating = "rating",
 }
 
+interface FormValues {
+  feedback: string
+  feedbackAttachments: string[]
+
+  rating: number
+}
+
 interface PopupReviewProps {
-  lotId: number
+  userId: number
 }
 
 function PopupReview(props: PopupReviewProps) {
   const [pending, setPending] = useState(false)
   const client = useClient()
-  async function onSubmit(state: FormState<FormInputs, string>) {
+  async function onSubmit(state: FormState<FormInputs, FormValues>) {
     setPending(true)
-    const response = await client.query(postLotReview({
-      to_lot_id: props.lotId,
-      score: Number(state.values.rating),
-      text: state.values.feedback
+    const response = await client.query(postUserReview({
+      to_user_id: props.userId,
+      score: state.values.rating,
+      text: state.values.feedback,
+      user_review_photos: state.values.feedbackAttachments
     }))
     setPending(false)
 
@@ -44,10 +52,10 @@ function PopupReview(props: PopupReviewProps) {
     <PopupLayout width="46.25em">
       <Form onSubmit={onSubmit}>
         <h2>Оставить отзыв о товаре</h2>
-        <TextareaAttachments name={FormInputs.feedback} rows={8} placeholder="Ваш отзыв...">
+        <TextareaAttachments name={FormInputs.feedback} rows={8} maxFiles={4} placeholder="Ваш отзыв...">
           <You />
         </TextareaAttachments>
-        <StarRating name={FormInputs.rating}>Ваша оценка</StarRating>
+        <StarRating name={FormInputs.rating} min={1}>Ваша оценка</StarRating>
         <div>
           <Button type="submit" pending={pending}>Отправить отзыв</Button>
         </div>

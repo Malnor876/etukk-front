@@ -2,7 +2,7 @@ import { UserSigned, UserType } from "infrastructure/persistence/redux/reducers/
 import { DateInterval } from "utils/date"
 import { Price } from "utils/extensions"
 
-export interface LotPreviewType {
+export interface LotPreviewType extends LotInfoType {
   id: number
   bookmarked?: boolean
   image: string
@@ -49,13 +49,18 @@ export interface LotInfoType {
   startPrice: Price
   currentPrice: Price
 
-  creatorId: number
+  buyer: UserSigned
   seller: UserSigned
 
   status: LotStatus
   tradeStatus: LotTradeStatus
 
   editedAt: Date
+
+  image: string
+  tradeStartTime: Date
+  tradeEndTime: Date
+  betsCount: number
 }
 
 

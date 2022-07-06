@@ -12,11 +12,11 @@ import { useSelector } from "react-redux"
 function ProfilePurchasesContainer() {
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
   const user = useSelector(state => state.user)
-  if (!user.auth)
-    return null
+  if (!user.auth) return null
+
   const action = getLot<{
-    user_id?: number;
-    buyer_id?: number;
+    user_id?: number
+    buyer_id?: number
   }>(0, 0, { buyer_id: user.id })
   return (
     <QueryContainer action={action} mapping={mapLotsLists}>
@@ -26,23 +26,23 @@ function ProfilePurchasesContainer() {
         const confirmReceipt = payload.items.filter(item => item.tradeStatus === LotTradeStatus.CONFIRMATION)
 
         const completed = payload.items.filter(item => item.tradeStatus === LotTradeStatus.DELIVERED)
-        const disputed = payload.items.filter(item => item) //! no filter
+        const disputed = payload.items.filter(item => item)
         return (
           <Droppers type={isMobile ? "__NAMING__1" : "__NAMING__2"}>
             <Dropper name="won" label="Выиграно" amount={won.length}>
-              <LotPreviews previews={won} />
+              <LotPreviews merchant="buyer" previews={won} />
             </Dropper>
             <Dropper name="delivering" label="В пути" amount={delivering.length}>
-              <LotPreviews previews={delivering} />
+              <LotPreviews merchant="buyer" previews={delivering} />
             </Dropper>
             <Dropper name="confirmReceipt" label="Подтвердить получение" amount={confirmReceipt.length}>
-              <LotPreviews previews={confirmReceipt} />
+              <LotPreviews merchant="buyer" previews={confirmReceipt} />
             </Dropper>
             <Dropper name="completed" label="Завершенные покупки" amount={completed.length}>
-              <LotPreviews previews={completed} />
+              <LotPreviews merchant="buyer" previews={completed} />
             </Dropper>
             <Dropper name="disputed" label="Открыто споров" amount={disputed.length}>
-              <LotPreviews previews={disputed} />
+              <LotPreviews merchant="buyer" previews={disputed} />
             </Dropper>
           </Droppers>
         )

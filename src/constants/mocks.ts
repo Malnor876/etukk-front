@@ -1,4 +1,6 @@
-import { LotPreviewType, LotStatus, LotTradeStatus } from "areas/lot/types"
+import { LotDelivery, LotPreviewType, LotStatus, LotTradeStatus } from "areas/lot/types"
+import { UserSigned } from "infrastructure/persistence/redux/reducers/user/types"
+import { DateInterval } from "utils/date"
 import { Price } from "utils/extensions"
 
 import mockPNG from "./mock.png"
@@ -6,6 +8,23 @@ import mock2JPG from "./mock-2.jpg"
 import mock3JPG from "./mock-3.jpg"
 
 export const IMAGE_MOCKS = [mockPNG, mock2JPG, mock3JPG]
+export const USER_MOCK: UserSigned = {
+  auth: true,
+  id: -1,
+  type: "user",
+  fullName: "string",
+  firstName: "string",
+  lastName: "string",
+  avatar: "string",
+  city: "string",
+  verified: true,
+
+  email: "string",
+  phone: "string",
+
+  buyerRating: -1,
+  sellerRating: -1,
+}
 export const LOT_PREVIEW_MOCK: LotPreviewType = {
   id: 0,
   city: "Москва",
@@ -20,21 +39,18 @@ export const LOT_PREVIEW_MOCK: LotPreviewType = {
   tradeStatus: LotTradeStatus.UNKNOWN,
   betsCount: 17,
   editedAt: new Date,
-  seller: {
-    auth: true,
-    id: -1,
-    type: "user",
-    fullName: "string",
-    firstName: "string",
-    lastName: "string",
-    avatar: "string",
-    city: "string",
-    verified: true,
-
-    email: "string",
-    phone: "string",
-
-    buyerRating: -1,
-    sellerRating: -1,
-  }
+  seller: USER_MOCK,
+  slides: [],
+  description: "",
+  specifications: [],
+  startEndInterval: new DateInterval,
+  delivery: LotDelivery.all,
+  type: "user",
+  reviews: {
+    likes: 0,
+    dislikes: 0
+  },
+  rating: 0,
+  betStep: new Price(-1),
+  buyer: USER_MOCK,
 }

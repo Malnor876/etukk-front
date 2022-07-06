@@ -9,6 +9,7 @@ import { getLotDraftByDraftId, postLotDraftByLotIdModerate } from "infrastructur
 import { mapLot } from "infrastructure/persistence/api/mappings/lots"
 import { useClient } from "react-fetching-library"
 import { Helmet } from "react-helmet"
+import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 
 function LotPreviewView() {
@@ -19,6 +20,9 @@ function LotPreviewView() {
   if (isNaN(+lotId)) {
     throw new ReactError(LotPreviewView, "lotId is not number")
   }
+
+  const user = useSelector(state => state.user)
+  if (!user.auth) return null
 
   const client = useClient()
   const navigate = useNavigate()
@@ -39,7 +43,7 @@ function LotPreviewView() {
         {payload => (
           <>
             <h2 className="heading">Просмотр лота перед публикацией</h2>
-            <LotInfoLayout {...payload}>
+            <LotInfoLayout {...payload} seller={user}>
               <Buttons>
                 <Button await onClick={publishNewLot}>Опубликовать</Button>
                 <ButtonLink outline to={`/lots/${lotId}/edit`}>Редактировать</ButtonLink>

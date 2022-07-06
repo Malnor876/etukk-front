@@ -9,6 +9,7 @@ import { mapLotsLists } from "infrastructure/persistence/api/mappings/lots"
 import { FilteringField } from "interfaces/Nodejs"
 import { useEffect, useState } from "react"
 import { QueryError, useQuery } from "react-fetching-library"
+import { useSelector } from "react-redux"
 import { toBase64 } from "utils/common"
 
 interface LotPreviewsContainerProps {
@@ -25,6 +26,8 @@ interface LotPreviewsContainerProps {
 }
 
 function LotPreviewsContainer(props: LotPreviewsContainerProps) {
+  const user = useSelector(state => state.user)
+
   const [page, setPage] = useState(1)
   const [pageSize] = useState(12)
 
@@ -45,7 +48,7 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
     & FilteringField<"status", "not", string>
     & FilteringField<"trade_status", "iexact", string>
 
-    & FilteringField<"trade_status", "iexact", string>
+    & FilteringField<"user_id", "not", number>
     & { categories: number, status: string }
   > = {
     name__icontains: props.search,
@@ -64,6 +67,8 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
     // status__not: LotStatus.CLOSED,
 
     // trade_status__iexact: props.started
+
+    user_id__not: user.auth ? user.id : -1
   }
 
   const [lots, setLots] = useState<LotPreviewType[]>([])

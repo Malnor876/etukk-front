@@ -24,9 +24,13 @@ function ProfilePurchasesConfirmDeliveryView() {
   const { confirmDeliveryTimer } = useDeliveryTimers()
   const client = useClient()
 
-  async function confirmDelivery() {
+  async function confirmDelivery(userId: number) {
     await client.query(postLotByLotConfirmDelivery(lotId))
-    await Modal.open(PopupReview, { lotId })
+    await Modal.open(PopupReview, { userId })
+  }
+
+  function openDispute(userId: number) {
+    Modal.open(PopupDispute, { lotId })
   }
 
   return (
@@ -62,8 +66,8 @@ function ProfilePurchasesConfirmDeliveryView() {
               </Entry>
             </Entries>
             <Buttons spaceBetween>
-              <Button onClick={confirmDelivery}>Подтвердить получение</Button>
-              <Button outline onClick={() => Modal.open(PopupDispute, { lotId })}>Претензия</Button>
+              <Button onClick={() => confirmDelivery(payload.seller.id)}>Подтвердить получение</Button>
+              <Button outline onClick={() => openDispute(payload.seller.id)}>Претензия</Button>
             </Buttons>
           </Column>
         </LotPage>

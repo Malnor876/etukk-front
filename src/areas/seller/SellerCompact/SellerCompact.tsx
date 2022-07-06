@@ -24,7 +24,7 @@ function SellerCompact(props: SellerCompactProps) {
         </div> */}
         <div className="seller-compact__entry">
           <span>Рейтинг</span>
-          <StarRating size="small" readOnly defaultValue={props.sellerRating} />
+          <StarRating size="small" readOnly min={props.sellerRating} />
         </div>
       </div>
       <Link className="ghost" to={"/user/" + props.id} />

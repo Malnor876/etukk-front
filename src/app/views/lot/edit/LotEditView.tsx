@@ -82,7 +82,7 @@ function LotEditView() {
       </Helmet>
       <QueryContainer action={getLotByLotId(+lotId)} mapping={mapLot}>
         {payload => {
-          if (payload.creatorId !== user.id) return (
+          if (payload.seller.id !== user.id) return (
             <ErrorCover>
               Это не ваш лот
             </ErrorCover>

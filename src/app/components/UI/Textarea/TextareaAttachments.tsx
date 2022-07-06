@@ -10,6 +10,7 @@ import Icon from "../Icon/Icon"
 
 interface TextareaAttachmentsProps extends DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {
   width?: string
+  maxFiles?: number
 }
 
 /**
@@ -38,6 +39,8 @@ function TextareaAttachments(props: TextareaAttachmentsProps) {
 
     const files = addFiles([...target.files ?? []])
     const dataTransfer = new DataTransfer()
+
+    if (files.length > (props.maxFiles ?? Infinity)) return
 
     files.forEach(file => dataTransfer.items.add(file))
     target.files = dataTransfer.files

@@ -11,12 +11,11 @@ interface ProfileReviewsContainerProps {
 
 function ProfileReviewsContainer(props: ProfileReviewsContainerProps) {
   const user = useSelector(state => state.user)
-  if (!user.auth)
-    return null
+  if (!user.auth) return null
 
   const action = getUserReview<{
-    user_id?: number;
-    to_user_id?: number;
+    user_id?: number
+    to_user_id?: number
   }>(props.type === "sales" ? ({ user_id: user.id }) : ({ to_user_id: user.id }))
 
   return (

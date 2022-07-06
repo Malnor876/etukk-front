@@ -14,22 +14,36 @@ interface StarRatingProps {
   readOnly?: boolean
 
   name?: string
+  min?: number
   max?: number
-  defaultValue?: number
+  solid?: boolean
   children?: ReactNode
   onChange?: Dispatch<number>
 }
 
 function StarRating(props: StarRatingProps) {
-  const [rating, setRating] = useState(props.defaultValue || STAR_RATING_INIT)
-  const [pointerRating, setPointerRating] = useState(props.defaultValue || STAR_RATING_INIT)
+  const [rating, setRating] = useState(props.min || STAR_RATING_INIT)
+  const [pointerRating, setPointerRating] = useState(props.min || STAR_RATING_INIT)
+
+  function normalizeStarRating(value: number) {
+    if (props.solid) {
+      return Math.round(value)
+    }
+
+    return value
+  }
+
   function updatePointerRating(value: number) {
+    value = normalizeStarRating(value)
+
     if (props.readOnly) return
     if (value < STAR_RATING_MIN) value = STAR_RATING_MIN
 
     setPointerRating(value)
   }
   function updateRating(value: number) {
+    value = normalizeStarRating(value)
+
     if (props.readOnly) return
 
     setRating(value)

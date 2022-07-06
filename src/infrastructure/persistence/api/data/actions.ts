@@ -356,6 +356,7 @@ export const postUserReview = (body: {
   to_user_id: number
   text?: string
   score: number
+  user_review_photos?: string[]
 }): Action<{
   id: number
   text?: string | null
@@ -517,6 +518,7 @@ export const postLotReview = (body: {
   to_lot_id: number
   text?: string
   score: number
+  lot_review_photos?: string[]
 }): Action<{
   id: number
   text?: string | null
