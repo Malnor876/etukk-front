@@ -1,5 +1,6 @@
 import { LotDelivery, LotInfoType } from "areas/lot/types"
 import { postLotDraft } from "infrastructure/persistence/api/data/actions"
+import { useEffect, useState } from "react"
 import { useMutation } from "react-fetching-library"
 import { useNavigate } from "react-router-dom"
 import { offsetDateDay } from "utils/date.helpers"
@@ -39,7 +40,7 @@ export function useDraftNewLot() {
 
 
 
-    const [startTime, endTime] = getBiddingTime(+date)
+    const [startTime, endTime] = useBiddingTime(+date)
     const { error, payload: responsePayload } = await mutate({
       city: city,
       categories: [category],
@@ -64,9 +65,18 @@ export function useDraftNewLot() {
   return draft
 }
 
-export function getBiddingTime(date: number): [Date, Date] {
-  const today = new Date(new Date().setHours(new Date().getHours() + 1))
-  const tomorrow = offsetDateDay(new Date(new Date().setHours(new Date().getHours() + 1)), 1)
+export function useBiddingTime(date: number): [Date, Date] {
+  const [gg, setGg] = useState(new Date)
+
+  useEffect(() => {
+    const interval = setInterval(() => setGg(new Date), 1000)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
+  const today = new Date(gg.setHours(gg.getHours() + 1))
+  const tomorrow = offsetDateDay(new Date(gg.setHours(gg.getHours() + 1)), 1)
 
   const oneHourToday = new Date(new Date(today).setHours(today.getHours() + 1))
   const twoHoursToday = new Date(new Date(today).setHours(today.getHours() + 2))
