@@ -12,7 +12,7 @@ import Entry from "app/layouts/Entries/Entry"
 import Form, { FormState } from "app/layouts/Form/Form"
 import { LotInfoType } from "areas/lot/types"
 import { isValidResponse } from "infrastructure/persistence/api/client"
-import { getDeliveryTimers, postLotByLotCalcPayment } from "infrastructure/persistence/api/data/actions"
+import { getDeliveryTimers, postLotByLotCalcDelivery } from "infrastructure/persistence/api/data/actions"
 import { useEffect, useState } from "react"
 import { useClient } from "react-fetching-library"
 import { inputValue } from "utils/common"
@@ -52,7 +52,7 @@ function OrderDelivery(props: OrderDeliveryProps) {
     if (deliveryAddress.length === 0) return
 
     (async () => {
-      const response = await client.query(postLotByLotCalcPayment(props.lot.id, { delivery_address: deliveryAddress }))
+      const response = await client.query(postLotByLotCalcDelivery(props.lot.id, { delivery_address: deliveryAddress }))
       if (!isValidResponse(response)) return
 
       setDeliveryPrice(response.payload.delivery_price)

@@ -1530,7 +1530,7 @@ export const postLotByLotBuyerApprove = (lot_id: number, body: {
   },
 })
 
-export const postLotByLotCalcPayment = (lot_id: number, body: {
+export const postLotByLotCalcDelivery = (lot_id: number, body: {
   delivery_address: string
 }): Action<{
   delivery_address: string
@@ -1538,7 +1538,7 @@ export const postLotByLotCalcPayment = (lot_id: number, body: {
   eta: number
 }> => ({
   method: "POST",
-  endpoint: `/lot/${lot_id}/calc_payment`,
+  endpoint: `/lot/${lot_id}/calc_delivery`,
   body,
   config: {
     requireAuth: true
