@@ -3,9 +3,9 @@ import "./CallACourier.scss"
 import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
 import Input from "app/components/UI/Input/Input"
-import InputAddress from "app/components/UI/Input/InputAddress"
 import Textarea from "app/components/UI/Textarea/Textarea"
 import Form, { FormState } from "app/layouts/Form/Form"
+import { LotInfoType } from "areas/lot/types"
 import { useState } from "react"
 import { humanizeDate2 } from "utils/date"
 
@@ -19,6 +19,7 @@ export enum CallACourierFormInputs {
 }
 
 interface CallACourierProps {
+  deliveryOrder: Required<LotInfoType>["deliveryOrder"]
   onSubmit?(values: FormState<CallACourierFormInputs, string>["values"]): Promise<void>
 }
 
@@ -29,7 +30,7 @@ function CallACourier(props: CallACourierProps) {
     await props.onSubmit?.(state.values)
     setPending(false)
   }
-  const nowDate = new Date
+  const nowDate = new Date(props.deliveryOrder.possibleShipmentDates)
   const nowDateYear = nowDate.getFullYear()
   const nowDateMonth = nowDate.toLocaleString("ru", { month: "2-digit" })
   const nowDateDay = nowDate.toLocaleString("ru", { day: "2-digit" })
@@ -46,17 +47,14 @@ function CallACourier(props: CallACourierProps) {
       </p>
       <div className="call-a-courier__inputs">
         <Input type="date" defaultValue={`${nowDateYear}-${nowDateMonth}-${nowDateDay}`} name={CallACourierFormInputs.date} required placeholder="Дата забора груза">
-          Покупатель указал: {humanizeDate2(nowDate)} / {humanizeDate2(nowDate)}
+          Покупатель указал: {humanizeDate2(nowDate)}
         </Input>
         <div className="call-a-courier__row">
           <Input type="time" name={CallACourierFormInputs.time} required>
-            Покупатель указал: 18:30
+            Покупатель указал: {props.deliveryOrder.possibleShipmentTimes}
           </Input>
-          {/* <Input type="time" name={CallACourierFormInputs.timeEnd} required placeholder="Время забора по">
-            Покупатель указал: 23:30
-          </Input> */}
         </div>
-        <InputAddress name={CallACourierFormInputs.address} required placeholder="Адрес, откуда забрать" />
+        <input type="hidden" name={CallACourierFormInputs.address} value={props.deliveryOrder.shipmentAddress} />
         <Input type="tel" name={CallACourierFormInputs.phone} required placeholder="Номер телефона" defaultValue="+7" />
         <Textarea rows={10} name={CallACourierFormInputs.comment} placeholder="Комментарий" />
         <div>

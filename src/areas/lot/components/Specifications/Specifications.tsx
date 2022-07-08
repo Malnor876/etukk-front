@@ -7,10 +7,10 @@ import { Dispatch, useRef, useState } from "react"
 import { inputValue } from "utils/common"
 
 const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
-  { id: 0, key: "Длина (м)", value: "", required: true, disabledKey: true },
-  { id: 1, key: "Ширина (м)", value: "", required: true, disabledKey: true },
-  { id: 2, key: "Высота (м)", value: "", required: true, disabledKey: true },
-  { id: 3, key: "Вес (кг)", value: "", required: true, disabledKey: true },
+  { id: 0, key: "Длина (м)", value: "", required: true, disabledKey: true, number: true },
+  { id: 1, key: "Ширина (м)", value: "", required: true, disabledKey: true, number: true },
+  { id: 2, key: "Высота (м)", value: "", required: true, disabledKey: true, number: true },
+  { id: 3, key: "Вес (кг)", value: "", required: true, disabledKey: true, number: true },
   { id: 4, key: "", value: "", required: true },
   // { id: 2, key: "", value: "" },
 ]
@@ -25,6 +25,7 @@ interface SpecificationType {
    */
   required?: boolean
   disabledKey?: boolean
+  number?: boolean
 }
 
 interface SpecificationsProps {
@@ -66,7 +67,7 @@ function Specifications(props: SpecificationsProps) {
         {specifications.map((specification, index) => (
           <div className="specifications__specification" key={specification.id}>
             <Input placeholder="Название..." required name={`${props.name}[${specification.id}].key`} disabled={specification.disabledKey} defaultValue={specification.key} onChange={inputValue(editSpecificationKey(index))} />
-            <Input placeholder="Значение..." required name={`${props.name}[${specification.id}].value`} defaultValue={specification.value} onChange={inputValue(editSpecificationValue(index))} />
+            <Input placeholder="Значение..." required name={`${props.name}[${specification.id}].value`} type={specification.number ? "number" : undefined} step="0.01" defaultValue={specification.value} onChange={inputValue(editSpecificationValue(index))} />
             {!specification.required && (
               <CloseButton onClick={() => removeSpecification(index)} />
             )}

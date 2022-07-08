@@ -58,28 +58,28 @@ function FavouritesView() {
                     <Route index element={(
                       <Previews>
                         {all.map(item => (
-                          <LotPreview {...mapLotPreview(item.lot)} bookmarked key={item.id} />
+                          <LotPreview {...mapLotPreview(item.lot)} lookalike bookmarked key={item.id} />
                         ))}
                       </Previews>
                     )} />
                     <Route path="pending" element={(
                       <Previews>
                         {wait.map(item => (
-                          <LotPreview {...mapLotPreview(item.lot)} bookmarked key={item.id} />
+                          <LotPreview {...mapLotPreview(item.lot)} lookalike bookmarked key={item.id} />
                         ))}
                       </Previews>
                     )} />
                     <Route path="trading" element={(
                       <Previews>
                         {trading.map(item => (
-                          <LotPreview {...mapLotPreview(item.lot)} bookmarked key={item.id} />
+                          <LotPreview {...mapLotPreview(item.lot)} lookalike bookmarked key={item.id} />
                         ))}
                       </Previews>
                     )} />
                     <Route path="sold" element={(
                       <Previews>
                         {sold.map(item => (
-                          <LotPreview {...mapLotPreview(item.lot)} bookmarked key={item.id} />
+                          <LotPreview {...mapLotPreview(item.lot)} lookalike bookmarked key={item.id} />
                         ))}
                       </Previews>
                     )} />

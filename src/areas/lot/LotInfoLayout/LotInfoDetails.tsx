@@ -17,7 +17,7 @@ function LotInfoDetails(props: LotInfoDetailsProps) {
     <div className="lot-info-details">
       <Backward>{props.title}</Backward>
       <div className="lot-info-details__city">
-        <span>г. {props.city}</span>
+        <span>{props.city}</span>
         <Icon name={props.delivery === LotDelivery.all ? "truck" : "building"} />
       </div>
       <Entries>

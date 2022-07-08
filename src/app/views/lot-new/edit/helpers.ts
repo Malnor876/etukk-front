@@ -1,24 +1,11 @@
 import { LotDelivery, LotInfoType } from "areas/lot/types"
 import { postLotDraft } from "infrastructure/persistence/api/data/actions"
-import { useEffect, useState } from "react"
 import { useMutation } from "react-fetching-library"
 import { useNavigate } from "react-router-dom"
 import { offsetDateDay } from "utils/date.helpers"
 import { FileToURLDataBase64 } from "utils/file"
 
 import { lotDraftStorage } from "."
-
-// interface NewLotPayload {
-//   files: File[]
-//   specifications: LotInfoType["specifications"]
-//   description: LotInfoType["description"]
-//   category: number
-//   city: string
-//   price: string | number
-//   title: string
-//   date: string | number | Date
-//   delivery: SchemaLotDeliveryOptions
-// }
 
 export function useDraftNewLot() {
 
@@ -30,6 +17,7 @@ export function useDraftNewLot() {
 
     const specifications = lotDraftStorage.get<LotInfoType["specifications"]>("specifications") || []
     const description = lotDraftStorage.get<LotInfoType["description"]>("description") || ""
+    const video = lotDraftStorage.get<string>("video") || ""
 
     const category = lotDraftStorage.get<number>("category") || -1
     const city = lotDraftStorage.get<LotInfoType["city"]>("city") || ""
@@ -40,9 +28,10 @@ export function useDraftNewLot() {
 
 
 
-    const [startTime, endTime] = useBiddingTime(+date)
+    const [startTime, endTime] = getBiddingTime(+date, new Date)
     const { error, payload: responsePayload } = await mutate({
-      city: city,
+      city: city.slice(0, city.search(",")),
+      shipment_address: city,
       categories: [category],
       name: title,
       start_price: Number(price),
@@ -51,8 +40,14 @@ export function useDraftNewLot() {
       bidding_end_time: endTime.toJSON(),
       description: description,
       delivery_options: delivery === LotDelivery.all ? "intercity" : "in_city",
-      video_url: "",
+      video_url: video,
       lotphotos: await Promise.all(files.map(FileToURLDataBase64)),
+
+
+      length: Number(specifications.find(s => s.key === "Длина (м)")?.value),
+      width: Number(specifications.find(s => s.key === "Ширина (м)")?.value),
+      height: Number(specifications.find(s => s.key === "Высота (м)")?.value),
+      weight: Number(specifications.find(s => s.key === "Вес (кг)")?.value),
     })
 
     if (error) return
@@ -65,18 +60,9 @@ export function useDraftNewLot() {
   return draft
 }
 
-export function useBiddingTime(date: number): [Date, Date] {
-  const [gg, setGg] = useState(new Date)
-
-  useEffect(() => {
-    const interval = setInterval(() => setGg(new Date), 1000)
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
-
-  const today = new Date(gg.setHours(gg.getHours() + 1))
-  const tomorrow = offsetDateDay(new Date(gg.setHours(gg.getHours() + 1)), 1)
+export function getBiddingTime(date: number, now: Date = new Date): [Date, Date] {
+  const today = new Date(new Date(now).setHours(new Date(now).getHours() + 1))
+  const tomorrow = offsetDateDay(new Date(new Date(now).setHours(new Date(now).getHours() + 1)), 1)
 
   const oneHourToday = new Date(new Date(today).setHours(today.getHours() + 1))
   const twoHoursToday = new Date(new Date(today).setHours(today.getHours() + 2))

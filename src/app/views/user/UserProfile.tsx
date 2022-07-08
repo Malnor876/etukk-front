@@ -129,7 +129,7 @@ function UserProfileInfo(props: UserProfileInfoProps) {
       </div>
       <div className="user-profile__row">
         <div className="user-profile__entry">Зарегистрирован {humanizeDate(new Date(props.user.created_at))}</div>
-        <div className="user-profile__entry">{props.user.organization ? "Организация" : "Частное лицо"} / г. {props.user.city}</div>
+        <div className="user-profile__entry">{props.user.organization ? "Организация" : "Частное лицо"} / {props.user.city}</div>
       </div>
       <div className="user-profile__general-info">
         <img src={mapImageUrl(props.user.user_pic?.filename)} alt="avatar" className="user-profile__avatar" />

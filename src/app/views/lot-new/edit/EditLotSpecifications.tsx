@@ -14,11 +14,6 @@ function EditLotSpecifications() {
         и его характеристик, у Вас появится конкурентное преимущество для быстрой и выгодной продажи.
       </p>
       <p>*не более 10 характеристик</p>
-      {/* <QueryContainer action={}>
-        {payload => (
-
-        )}
-      </QueryContainer> */}
       <Specifications max={10} defaultValue={specifications} onChange={setSpecifications} />
     </section>
   )

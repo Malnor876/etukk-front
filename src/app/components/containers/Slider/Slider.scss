@@ -66,3 +66,28 @@ $arrow-icon-size: 1em;
 		cursor: pointer;
 	}
 }
+
+
+
+/* Video */
+
+.slider-video {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.slider-video__play {
+	position: absolute;
+
+	padding: 1.5em;
+	background: rgba($color-white, 0.75);
+	border: 1px solid rgba($color-dark, 0.25);
+	border-radius: 50%;
+
+	cursor: pointer;
+}
+
+.slider-video__icon {
+	--icon-size: 2.5em;
+}

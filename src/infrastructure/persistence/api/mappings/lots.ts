@@ -40,39 +40,56 @@ export function mapLotsLists(lots: SchemaLot[]): PaginationType<LotPreviewType> 
   }
 }
 
-export function mapLot(payload: SchemaLot): LotInfoType {
+export function mapLot(lot: SchemaLot): LotInfoType {
   return {
-    id: payload.id,
-    delivery: payload.delivery_options as LotDelivery,
-    title: payload.name || "unknown",
+    id: lot.id,
+    delivery: lot.delivery_options as LotDelivery,
+    title: lot.name || "unknown",
     rating: -1,//! default
     reviews: { dislikes: -1, likes: -1 }, //! default
     type: "organization", //! default
 
-    bookmarked: payload.in_user_favorites ?? false,
-    description: payload.description ?? "unknown",
-    slides: payload.lotphotos?.map(l => mapImageUrl(l.filename)) ?? [],
-    specifications: payload.lotspecifications?.map(spec => ({ key: spec.name, value: spec.value })) ?? [],
+    bookmarked: lot.in_user_favorites ?? false,
+    description: lot.description ?? "unknown",
+    slides: lot.lotphotos?.map(l => mapImageUrl(l.filename)) ?? [],
+    specifications: lot.lotspecifications?.map(spec => ({ key: spec.name, value: spec.value })) ?? [],
 
-    city: payload.city ?? "unknown",
-    startEndInterval: new DateInterval(payload.bidding_start_time, payload.bidding_end_time),
+    city: lot.city ?? "unknown",
+    startEndInterval: new DateInterval(lot.bidding_start_time, lot.bidding_end_time),
 
-    betStep: new Price(payload.bet_step ?? -1),
-    startPrice: new Price(payload.start_price ?? -1),
-    currentPrice: new Price(payload.now_price ?? -1),
+    betStep: new Price(lot.bet_step ?? -1),
+    startPrice: new Price(lot.start_price ?? -1),
+    currentPrice: new Price(lot.now_price ?? -1),
 
-    seller: mapUser(payload.user as any),
-    buyer: mapUser(payload.user as any),
+    seller: mapUser(lot.user as any),
+    buyer: mapUser(lot.buyer as any),
 
-    status: (payload?.status as LotStatus) ?? LotStatus.UNKNOWN,
-    tradeStatus: (payload?.trade_status as LotTradeStatus) ?? LotTradeStatus.UNKNOWN,
+    status: (lot?.status as LotStatus) ?? LotStatus.UNKNOWN,
+    tradeStatus: (lot?.trade_status as LotTradeStatus) ?? LotTradeStatus.UNKNOWN,
 
-    editedAt: new Date(payload?.edited_at ?? -1),
+    editedAt: new Date(lot?.edited_at ?? -1),
 
-    image: mapImageUrl(payload?.lotphotos?.[0]?.filename),
-    tradeStartTime: new Date(payload?.bidding_start_time ?? 0),
-    tradeEndTime: new Date(payload?.bidding_end_time ?? 0),
-    betsCount: payload?.bets_count ?? -1,
+    image: mapImageUrl(lot?.lotphotos?.[0]?.filename),
+    tradeStartTime: new Date(lot?.bidding_start_time ?? 0),
+    tradeEndTime: new Date(lot?.bidding_end_time ?? 0),
+    betsCount: lot?.bets_count ?? -1,
+
+
+    deliveryOrder: {
+      buyerContactPhone: lot.deliveryorder?.buyer_contact_phone ?? "unknown",
+      delivery_address: lot.deliveryorder?.delivery_address ?? "unknown",
+      deliveryDate: new Date(lot.deliveryorder?.delivery_date || -1),
+      eta: lot.deliveryorder?.eta ?? -1,
+      id: lot.deliveryorder?.id ?? -1,
+      lotId: lot.deliveryorder?.lot_id ?? -1,
+      possibleShipmentDates: lot.deliveryorder?.possible_shipment_dates ?? "unknown",
+      possibleShipmentTimes: lot.deliveryorder?.possible_shipment_times ?? "unknown",
+      price: lot.deliveryorder?.price ?? -1,
+      sellerContactPhone: lot.deliveryorder?.seller_contact_phone ?? "unknown",
+      shipmentAddress: lot.deliveryorder?.shipment_address ?? "unknown",
+      shipmentDate: new Date(lot.deliveryorder?.shipment_date || -1),
+      status: lot.deliveryorder?.status ?? "unknown"
+    }
   }
 }
 

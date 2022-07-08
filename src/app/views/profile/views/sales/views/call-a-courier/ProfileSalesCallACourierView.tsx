@@ -17,7 +17,8 @@ function ProfileSalesCallACourierView() {
   async function onSubmit(values: FormState<CallACourierFormInputs, string>["values"]) {
     const responseSellerApprove = await client.query(postLotByLotSellerApprove(lotId, {
       contact_phone: values.phone,
-      shipment_datetime: values.date + "T" + values.time
+      shipment_datetime: values.date + "T" + values.time,
+      comment: values.comment
     }))
     if (!isValidResponse(responseSellerApprove)) return
 
@@ -34,7 +35,9 @@ function ProfileSalesCallACourierView() {
       {payload => (
         <LotCompactLayout>
           <LotInfoCompact image={payload.slides[0]} title={payload.title} seller={payload.seller} />
-          <CallACourier onSubmit={onSubmit} />
+          {payload.deliveryOrder && (
+            <CallACourier deliveryOrder={payload.deliveryOrder} onSubmit={onSubmit} />
+          )}
         </LotCompactLayout>
       )}
     </QueryContainer>

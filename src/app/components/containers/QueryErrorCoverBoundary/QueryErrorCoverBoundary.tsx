@@ -20,7 +20,7 @@ export class QueryErrorCoverBoundary extends Component<QueryErrorCoverBoundaryPr
     throw error
   }
 
-  state: QueryErrorCoverBoundaryState = {
+  override state: QueryErrorCoverBoundaryState = {
     hasError: false,
     error: undefined
   }
@@ -32,7 +32,7 @@ export class QueryErrorCoverBoundary extends Component<QueryErrorCoverBoundaryPr
     })
   }
 
-  render() {
+  override render() {
     if (this.state.hasError && this.state.error) {
       return (
         <ErrorCover>

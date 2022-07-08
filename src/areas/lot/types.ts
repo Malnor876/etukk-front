@@ -61,6 +61,23 @@ export interface LotInfoType {
   tradeStartTime: Date
   tradeEndTime: Date
   betsCount: number
+
+
+  deliveryOrder?: {
+    buyerContactPhone: string
+    delivery_address: string
+    deliveryDate: Date
+    eta: number
+    id: number
+    lotId: number
+    possibleShipmentDates: string
+    possibleShipmentTimes: string
+    price: number
+    sellerContactPhone: string
+    shipmentAddress: string
+    shipmentDate: Date
+    status: string
+  }
 }
 
 

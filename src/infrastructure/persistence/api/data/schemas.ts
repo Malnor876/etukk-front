@@ -90,6 +90,7 @@ export interface SchemaLot {
   bets_count?: number
   in_user_favorites?: boolean
   user?: SchemaUser
+  buyer?: SchemaUser
   lotphotos?: {
     id: number
     lot_id: number
@@ -100,6 +101,34 @@ export interface SchemaLot {
     units: string
     value: string
   }[]
+
+
+  deliveryorder?: {
+    approved_by_buyer?: null
+    approved_by_seller?: null
+    buyer_comment?: null
+    buyer_contact_phone?: "8 491 412 2247"
+    confirmed_at?: null
+    delivery_address?: "ст. Красногорск (Моск.), пер. Советской Армии, д. 30 к. 6, 692480"
+    delivery_coordinates?: null
+    delivery_date?: "2022-07-04T03:54:39+00:00"
+    eta?: 331
+    id?: 204
+    lot_id?: 1088
+    possible_shipment_dates?: "2022-07-03"
+    possible_shipment_times?: "22:23:39"
+    price?: 822
+    remote_id?: null
+    seller_comment?: null
+    seller_contact_phone?: "8 (024) 478-7726"
+    shipment_address?: "д. Осташков, наб. Коминтерна, д. 4/1 к. 82, 605189"
+    shipment_coordinates?: null
+    shipment_date?: "2022-07-03T22:23:39+00:00"
+    status?: "delivered_finish"
+    user_id?: 28
+    uuid?: "d9a0cc76-8b7e-47b1-8428-b7e74381162d"
+    version?: 1
+  }
 }
 
 export type SchemaLotDeliveryOptions = "in_city" | "intercity"

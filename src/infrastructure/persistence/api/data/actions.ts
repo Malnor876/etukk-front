@@ -415,6 +415,12 @@ export const postLotDraft = (body: {
     units?: string
     value: string
   }[]
+  shipment_address: string
+
+  height?: number
+  length?: number
+  width?: number
+  weight?: number
 }): Action<{
   id: number
   name?: string | null
@@ -1548,6 +1554,7 @@ export const postLotByLotCalcDelivery = (lot_id: number, body: {
 export const postLotByLotSellerApprove = (lot_id: number, body: {
   contact_phone: string
   shipment_datetime: string
+  comment: string
 }): Action<{
   shipment_date: string
 }> => ({

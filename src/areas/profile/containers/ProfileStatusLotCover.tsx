@@ -53,7 +53,7 @@ function ProfileStatusLotCover(props: ProfileStatusLotCoverProps) {
 }
 
 function ProfileStatusLotCoverSwitchableContent(props: { lot: LotInfoType }) {
-  const AUTHOR = <Author firstName={props.lot.seller.firstName} avatar={props.lot.seller.avatar} city={"г. " + props.lot.city} />
+  const AUTHOR = <Author firstName={props.lot.seller.firstName} avatar={props.lot.seller.avatar} city={"" + props.lot.city} />
 
   // switch (props.lot.status) {
   //   case LotStatus.MODERATION:

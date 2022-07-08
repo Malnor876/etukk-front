@@ -35,7 +35,7 @@ export interface ModalContainerState {
 }
 
 export class ModalContainer extends Component<ModalContainerProps, ModalContainerState> {
-  state: ModalContainerState = {
+  override state: ModalContainerState = {
     active: false,
     queue: [],
     forkedQueue: []
@@ -47,7 +47,7 @@ export class ModalContainer extends Component<ModalContainerProps, ModalContaine
     modalPrivate.dispatch = this.setState.bind(this)
   }
 
-  render() {
+  override render() {
     const { active, queue, forkedQueue } = this.state
     const current = queue[queue.length - 1] as ModalWindow | undefined
     const { component: ModalComponent, params, close } = current || {}

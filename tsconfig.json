@@ -24,7 +24,11 @@
     "noImplicitAny": true,
     "jsx": "react",
     "checkJs": true,
-    "alwaysStrict": true
+    "alwaysStrict": true,
+
+    "disableSizeLimit": true,
+    // "noImplicitOverride": true,
+    "useDefineForClassFields": true,
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.json"],
   "exclude": ["node_modules/**/*", "build", "config", "docs", "env", "public", "scripts", ".vscode", ".github", "design"]

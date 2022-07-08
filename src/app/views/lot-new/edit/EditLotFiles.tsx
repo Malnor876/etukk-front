@@ -1,9 +1,12 @@
 import ChooseImage from "app/components/UI/ChooseImage/ChooseImage"
 import Input from "app/components/UI/Input/Input"
+import { inputValue } from "utils/common"
 
 import { lotDraftStorage } from "."
 
 function EditLotFiles() {
+  const [video, setVideo] = lotDraftStorage.state("video", "")
+
   const [files, setFiles] = lotDraftStorage.state<File[]>("files", [])
   if (files.some(image => !(image instanceof File))) {
     setFiles([])
@@ -21,7 +24,7 @@ function EditLotFiles() {
       <h4>Видео</h4>
       <p>Вставьте ссылку на видео в YouTube</p>
       <p>По нашим данным размещение лота с видео повышает цену продажи на 16 % и более</p>
-      <Input placeholder="Ссылка на видео..." width="75%" />
+      <Input placeholder="Ссылка на видео..." width="75%" defaultValue={video} onChange={inputValue(setVideo)} />
     </section>
   )
 }

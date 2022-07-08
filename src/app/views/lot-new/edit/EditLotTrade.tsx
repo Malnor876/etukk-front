@@ -7,7 +7,7 @@ import { inputValue } from "utils/common"
 import { humanizeDate } from "utils/date"
 
 import { lotDraftStorage } from "."
-import { useBiddingTime } from "./helpers"
+import { getBiddingTime } from "./helpers"
 
 function EditLotTrade() {
   const [date, setDate] = lotDraftStorage.state("date", "")
@@ -15,10 +15,11 @@ function EditLotTrade() {
   const [city, setCity] = lotDraftStorage.state("city", "")
   const [delivery, setDelivery] = lotDraftStorage.state("delivery", "all")
 
-  const [start1] = useBiddingTime(1)
-  const [start2] = useBiddingTime(2)
-  const [start3] = useBiddingTime(3)
-  const [start4] = useBiddingTime(4)
+
+  const [start1] = getBiddingTime(1)
+  const [start2] = getBiddingTime(2)
+  const [start3] = getBiddingTime(3)
+  const [start4] = getBiddingTime(4)
 
 
   function asd(a: any, f: number) {
@@ -47,7 +48,7 @@ function EditLotTrade() {
       <br />
       <Row>
         <Input type="number" iconName="rub" placeholder="Введите  сумму..." defaultValue={price} onInput={inputValue(setPrice)}>Укажите  сумму  минимальной ставки</Input>
-        <InputAddress placeholder="Укажите адресс..." defaultValue={city} onInput={inputValue(setCity)}>Укажите ваш адресс</InputAddress>
+        <InputAddress placeholder="Укажите адрес..." defaultValue={city} onInput={inputValue(setCity)}>Укажите ваш адрес</InputAddress>
       </Row>
       <br />
       <br />
