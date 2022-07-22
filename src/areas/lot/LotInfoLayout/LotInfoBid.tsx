@@ -1,7 +1,9 @@
 import RequiredAuthCover from "app/components/containers/QueryContainer/RequiredAuthCover"
 import Button from "app/components/UI/Button/Button"
+import Buttons from "app/layouts/Buttons/Buttons"
 import DialogBidAccepted, { DialogError } from "app/views/lot/modals/DialogBidAccepted"
 import DialogConfirmBidUp from "app/views/lot/modals/DialogConfirmBidUp"
+import { isValidResponse } from "infrastructure/persistence/api/client"
 import { postLotByLotIdBet } from "infrastructure/persistence/api/data/actions"
 import { mapLot } from "infrastructure/persistence/api/mappings/lots"
 import { Modal } from "modules/modal/controller"
@@ -27,22 +29,22 @@ function LotInfoBid(props: LotInfoBidProps) {
     // setNextPrice(new Price(+props.currentPrice + (+props.betStep * on)))
     setStage("confirm")
   }
+  function cancelBidUp() {
+    setStage("default")
+    setCurrentPrice(props.currentPrice)
+  }
   function confirmBidUp() {
     async function onSubmit() {
-      const { error, payload } = await client.query(postLotByLotIdBet(props.id, bidMultiplier))
-      setStage("default")
-
-      if (error) {
+      const response = await client.query(postLotByLotIdBet(props.id, bidMultiplier))
+      if (!isValidResponse(response)) {
         await Modal.open(DialogError)
-        setCurrentPrice(props.currentPrice)
+        cancelBidUp()
         return
       }
-      if (payload == null) return
 
-      const lot = mapLot(payload.lot)
+      const lot = mapLot(response.payload.lot)
 
-      console.log(currentPrice, currentPrice)
-
+      setStage("default")
       setPrevPrice(currentPrice)
       setCurrentPrice(lot.currentPrice)
 
@@ -86,7 +88,10 @@ function LotInfoBid(props: LotInfoBidProps) {
           </div>
           <br />
           <br />
-          <Button onClick={confirmBidUp}>Отправить</Button>
+          <Buttons>
+            <Button onClick={confirmBidUp}>Отправить</Button>
+            <Button outline onClick={cancelBidUp}>Отмена</Button>
+          </Buttons>
         </div>
       )
 

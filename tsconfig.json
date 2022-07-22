@@ -5,10 +5,10 @@
       "DOM",
       "DOM.Iterable",
       "ES5",
-      "ESNext",
+      "ESNext"
     ],
     "baseUrl": "src",
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -28,8 +28,7 @@
 
     "disableSizeLimit": true,
     // "noImplicitOverride": true,
-    "useDefineForClassFields": true,
+    "useDefineForClassFields": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.json"],
-  "exclude": ["node_modules/**/*", "build", "config", "docs", "env", "public", "scripts", ".vscode", ".github", "design"]
+  "exclude": ["node_modules", "build", "public", "scripts", ".vscode", ".github", "design"]
 }

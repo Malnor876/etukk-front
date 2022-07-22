@@ -29,13 +29,10 @@ function defaultTransformSentryEvent(event: Sentry.Event): Sentry.Event {
 }
 
 Sentry.init({
-  dsn: "https://e2afe7daf1e34eff83163e251d64e8b1@o1249067.ingest.sentry.io/6409393",
+  dsn: "https://97d57e8784274b76866fb0280fb71979@o1325535.ingest.sentry.io/6584774",
   integrations: [new BrowserTracing()],
   maxBreadcrumbs: 50,
   allowUrls: [location.host, process.env.REACT_APP_API_HOST],
-  initialScope: {
-    tags: { project: "Etukk Frontend" }
-  },
   beforeBreadcrumb(breadcrumb, hint?) {
     if (["log", "warning"].includes(breadcrumb.level || "")) {
       return null

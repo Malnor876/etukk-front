@@ -69,7 +69,7 @@ function PopupDispute(props: PopupDisputeProps) {
           <option>Не соответствует заявленным характеристикам</option>
           <option>Иная причина</option>
         </Selector> */}
-        <TextareaAttachments name={FormInputs.feedback} rows={5} placeholder="Введите комментарий ..." />
+        <TextareaAttachments maxFiles={4} name={FormInputs.feedback} rows={5} placeholder="Введите комментарий ..." />
         <Buttons>
           <Button type="submit" pending={pending}>Открыть спор</Button>
         </Buttons>

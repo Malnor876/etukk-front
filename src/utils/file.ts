@@ -26,3 +26,11 @@ export async function getFileFromURL(url: string) {
 
   return new File(Uint8Array ? [Uint8Array] : [], fileName, { type: response.headers.get("content-type") || "image" })
 }
+
+export function amendInputFiles(target: HTMLInputElement, files: File[]) {
+  // https://stackoverflow.com/questions/5632629/how-to-change-a-file-inputs-filelist-programmatically
+  const dataTransfer = new DataTransfer()
+
+  files.forEach(file => dataTransfer.items.add(file))
+  target.files = dataTransfer.files
+}

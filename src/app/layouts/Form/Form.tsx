@@ -66,9 +66,9 @@ async function getFormState(form: HTMLFormElement): Promise<{
         continue
       }
 
-      const file = next.files?.[0]
-      if (file instanceof File) {
-        values[next.name] = await FileToURLDataBase64(file)
+      if (next.files instanceof FileList) {
+        values[next.name] = await Promise.all([...next.files].map(FileToURLDataBase64))
+        continue
       }
     }
 

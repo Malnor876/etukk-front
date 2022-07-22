@@ -1,7 +1,7 @@
 import { ReactHookError } from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
 import { useParams } from "react-router-dom"
 
-function useParam<N extends boolean>(paramKey: string, numeric?: N): N extends true ? number : string {
+function useParam<N extends boolean = false>(paramKey: string, numeric?: N): N extends true ? number : string {
   const params = useParams()
   const paramValue = params[paramKey]
 

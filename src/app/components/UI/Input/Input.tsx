@@ -27,6 +27,11 @@ function Input(props: InputProps) {
   const prevValue = useRef<string>("")
   function onChange(event: ChangeEvent<HTMLInputElement>) {
     const target = event.currentTarget
+
+    if (props.maxLength) {
+      target.value = target.value.slice(0, props.maxLength)
+    }
+
     if (props.type === "tel") {
       const phoneNumber = new PhoneNumber(target.value)
       if (phoneNumber.length > (props.maxLength ?? Infinity)) {
@@ -54,7 +59,6 @@ function Input(props: InputProps) {
         }
       }
     }
-
 
     const invalid = !target.checkValidity()
     if (invalid && target.validationMessage === "") {

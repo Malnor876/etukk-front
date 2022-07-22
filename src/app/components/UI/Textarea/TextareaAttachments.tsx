@@ -2,8 +2,9 @@ import "./Textarea.scss"
 
 import { FILE_TYPES } from "consts"
 import _ from "lodash"
-import { ChangeEvent, DetailedHTMLProps, TextareaHTMLAttributes, useState } from "react"
+import { ChangeEvent, DetailedHTMLProps, TextareaHTMLAttributes, useEffect, useRef, useState } from "react"
 import { classMerge } from "utils/common"
+import { amendInputFiles } from "utils/file"
 
 import CloseButton from "../CloseButton/CloseButton"
 import Icon from "../Icon/Icon"
@@ -18,42 +19,32 @@ interface TextareaAttachmentsProps extends DetailedHTMLProps<TextareaHTMLAttribu
  */
 function TextareaAttachments(props: TextareaAttachmentsProps) {
   const [files, setFiles] = useState<File[]>([])
-  function addFiles(file: File[]) {
-    if (file.length === 0) {
-      setFiles([])
-      return []
-    }
-
-    const nextFiles = [...files, ...file]
-    setFiles(nextFiles)
-
-    return nextFiles
-  }
-  function removeFile(file: File) {
+  const attachmentsRef = useRef<HTMLInputElement>(null)
+  function removeFile(file: File): void {
     setFiles(files => files.filter(temp => temp !== file))
   }
-  function onFileInputChange(event: ChangeEvent<HTMLInputElement>) {
-    // https://stackoverflow.com/questions/5632629/how-to-change-a-file-inputs-filelist-programmatically
-
+  function onFileInputChange(event: ChangeEvent<HTMLInputElement>): void {
     const target = event.currentTarget
 
-    const files = addFiles([...target.files ?? []])
-    const dataTransfer = new DataTransfer()
+    const nextFiles = [...files, ...target.files ?? []]
+    if (nextFiles.length > (props.maxFiles ?? Infinity)) return
 
-    if (files.length > (props.maxFiles ?? Infinity)) return
-
-    files.forEach(file => dataTransfer.items.add(file))
-    target.files = dataTransfer.files
+    setFiles(nextFiles)
   }
+  useEffect(() => {
+    if (attachmentsRef.current === null) return
+
+    amendInputFiles(attachmentsRef.current, files)
+  }, [files])
   return (
     <div className="textarea">
       {props.children && (
         <div className="textarea__label">{props.children}</div>
       )}
       <div className="textarea-attachments" aria-label="textarea with attachments">
-        <textarea {..._.omit(props, "children", "width")} style={{ "--textarea-width": props.width }} className={classMerge("textarea__appearance", props.className)} />
+        <textarea {..._.omit(props, "children", "width", "maxFiles")} style={{ "--textarea-width": props.width }} className={classMerge("textarea__appearance", props.className)} />
         <label className="textarea-attachments__attach" aria-label="attach files" role="button" tabIndex={0}>
-          <input className="textarea-attachments__input" type="file" name={`${props.name}-attachments`} multiple accept={FILE_TYPES.IMAGE.map(type => "." + type).join(",")} onChange={onFileInputChange} />
+          <input className="textarea-attachments__input" type="file" name={`${props.name}-attachments`} multiple accept={FILE_TYPES.IMAGE.map(type => "." + type).join(",")} onChange={onFileInputChange} ref={attachmentsRef} />
           <Icon name="clip" />
         </label>
       </div>

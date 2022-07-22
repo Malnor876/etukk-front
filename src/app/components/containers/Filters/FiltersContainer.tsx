@@ -162,10 +162,10 @@ function FiltersTreeContainer() {
       </Filter>
       <Filter label="ПЕРИОД ПРОВЕДЕНИЯ">
         <FilterInputs name="period">
-          <Input type="datetime-local">
+          <Input type="datetime-local" min={new Date(new Date().setHours(0)).toISOString().slice(0, 16)} max="9999-06-14T00:00">
             Если необходимо, уточните период начала торгов
           </Input>
-          <Input type="datetime-local">
+          <Input type="datetime-local" max="9999-06-14T00:00">
             Если необходимо, уточните период окончания торгов
           </Input>
         </FilterInputs>

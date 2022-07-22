@@ -15,7 +15,10 @@ function Search(props: SearchProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   return (
     <label className="search">
-      <input {..._.omit(props, "onSubmit")} autoComplete="off" type="text" className="search__input" ref={inputRef} />
+      <input {..._.omit(props, "onSubmit")} autoComplete="off" className="search__input" ref={inputRef} />
+      <button className="search__icon search__icon--close" type="submit" onClick={() => props.onSubmit?.("")}>
+        <Icon name="cross" />
+      </button>
       <button className="search__icon" type="submit" onClick={() => props.onSubmit?.(inputRef.current?.value || "")}>
         <Icon name="search" />
       </button>

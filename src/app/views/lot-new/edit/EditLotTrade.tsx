@@ -47,7 +47,7 @@ function EditLotTrade() {
       <br />
       <br />
       <Row>
-        <Input type="number" iconName="rub" placeholder="Введите  сумму..." defaultValue={price} onInput={inputValue(setPrice)}>Укажите  сумму  минимальной ставки</Input>
+        <Input type="number" iconName="rub" placeholder="Введите  сумму..." maxLength={20} defaultValue={price} onInput={inputValue(setPrice)}>Укажите  сумму  минимальной ставки</Input>
         <InputAddress placeholder="Укажите адрес..." defaultValue={city} onInput={inputValue(setCity)}>Укажите ваш адрес</InputAddress>
       </Row>
       <br />
