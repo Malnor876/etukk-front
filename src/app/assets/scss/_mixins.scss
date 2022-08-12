@@ -83,13 +83,13 @@
 		-webkit-line-clamp: $lines;
 	}
 
-	@supports (display: box) {
-		display: box;
+	@supports (display: flex) {
+		display: flex;
 		box-orient: vertical;
 		line-clamp: $lines;
 	}
 
-	@supports (not (display: -webkit-box)) and (not (display: box)) {
+	@supports (not (display: -webkit-box)) and (not (display: flex)) {
 		max-height: 1em * $lines;
 	}
 

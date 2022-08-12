@@ -1,9 +1,9 @@
 import "./SortingToggle.scss"
 
 import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
-import { Modal } from "modules/modal/controller"
-import { useModal } from "modules/modal/hook"
 import { Children, Dispatch, ReactElement, ReactNode, useState } from "react"
+import { useModalContext } from "react-modal-global"
+import { Modal } from "react-modal-global"
 
 import Button from "../Button/Button"
 import Icon from "../Icon/Icon"
@@ -39,7 +39,7 @@ interface DialogApplyFiltersProps {
 }
 
 function DialogApplyFilters(props: DialogApplyFiltersProps) {
-  const { close } = useModal()
+  const { close } = useModalContext()
   const [value, setValue] = useState<SortValueType>()
   function onApply() {
     props.onApply?.(value)

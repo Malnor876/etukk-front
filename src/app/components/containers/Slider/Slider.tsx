@@ -1,46 +1,69 @@
-import "./Slider.scss"
+import "./Slider.scss";
 
-import PopupYoutubeVideo from "app/components/modals/PopupYoutubeVideo/PopupYoutubeVideo"
-import Icon from "app/components/UI/Icon/Icon"
-import { Modal } from "modules/modal/controller"
-import { useState } from "react"
-import { YouTubeVideo } from "utils/business"
+import PopupYoutubeVideo from "app/components/modals/PopupYoutubeVideo/PopupYoutubeVideo";
+import SliderPopup from "app/components/modals/SliderPopup/SliderPopup";
+import Icon from "app/components/UI/Icon/Icon";
+import {useState} from "react";
+import {Modal} from "react-modal-global";
+import {YouTubeVideo} from "utils/business";
 
 interface SliderProps {
-  slides: string[]
+  slides: string[];
+  initSlideIndex?: number;
+  allowFullscreen?: boolean;
 }
 
 function Slider(props: SliderProps) {
-  const [index, setIndex] = useState(0)
+  const [index, setIndex] = useState(props.initSlideIndex || 0);
   function updateIndex(value: number) {
     if (value < 0) {
-      return setIndex(props.slides.length - 1)
+      return setIndex(props.slides.length - 1);
     }
     if (value > props.slides.length - 1) {
-      return setIndex(0)
+      return setIndex(0);
     }
-    setIndex(value)
+    setIndex(value);
   }
-  const next = () => updateIndex(index + 1)
-  const prev = () => updateIndex(index - 1)
+  const next = () => updateIndex(index + 1);
+  const prev = () => updateIndex(index - 1);
 
-  const currentSlide = props.slides[index]
+  const currentSlide = props.slides[index];
+
+  function openSliderPopup(initSlideIndex: number) {
+    if (!props.allowFullscreen) return;
+
+    Modal.open(SliderPopup, {slides: props.slides, initSlideIndex});
+  }
 
   return (
     <div className="slider">
       <div className="slider__container">
-        <div className="slider__current" aria-hidden>
-          {currentSlide.includes("youtu") && (
-            <div className="slider-video" onClick={() => Modal.open(PopupYoutubeVideo, { url: currentSlide })}>
-              <img className="slider__slide" src={new YouTubeVideo(currentSlide).thumbnail} alt="youtube thumbnail" />
-              <div className="slider-video__play">
-                <Icon className="slider-video__icon" name="play" />
+        <button
+          className="slider__current"
+          aria-hidden
+          type="button"
+          onClick={() => openSliderPopup(index)}>
+          <div>
+            {currentSlide.includes("youtu") && (
+              <div
+                className="slider-video"
+                onClick={() =>
+                  Modal.open(PopupYoutubeVideo, {url: currentSlide})
+                }>
+                <img
+                  className="slider__slide"
+                  src={new YouTubeVideo(currentSlide).thumbnail}
+                  alt="youtube thumbnail"
+                />
+                <div className="slider-video__play">
+                  <Icon className="slider-video__icon" name="play" />
+                </div>
               </div>
-            </div>
-          )}
-          {!currentSlide.includes("you") && (
-            <img className="slider__slide" src={currentSlide} alt="slide" />
-          )}
+            )}
+            {!currentSlide.includes("you") && (
+              <img className="slider__slide" src={currentSlide} alt="slide" />
+            )}
+          </div>
           {props.slides.length > 1 && (
             <div className="slider__arrows">
               <button className="slider__arrow" type="button" onClick={prev}>
@@ -51,17 +74,22 @@ function Slider(props: SliderProps) {
               </button>
             </div>
           )}
-        </div>
+        </button>
         {props.slides.length > 1 && (
           <div className="slider__slides">
             {props.slides.map((slide, index) => (
-              <img className="slider__slide" src={slide} alt="slide" onClick={() => setIndex(index)} key={index} />
+              <button
+                type="button"
+                onClick={() => (openSliderPopup(index), setIndex(index))}
+                key={index}>
+                <img className="slider__slide" src={slide} alt="slide" />
+              </button>
             ))}
           </div>
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default Slider
+export default Slider;

@@ -11,6 +11,7 @@ type ChooseImageFiles = File[]
 interface ChooseImageProps {
   name?: string
   defaultValue?: ChooseImageFiles
+  accept?: string
 
   onChange?: Dispatch<ChooseImageFiles>
 }

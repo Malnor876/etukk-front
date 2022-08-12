@@ -22,7 +22,9 @@ function LotInfoSummary(props: LotInfoSummaryProps) {
       </Entries>
       <br />
       <br />
-      <SellerCompact {...props.seller} />
+      {props.seller && (
+        <SellerCompact {...props.seller} />
+      )}
     </div>
   )
 }

@@ -5,7 +5,7 @@ import { NavLink, NavLinkProps } from "react-router-dom"
 import { classWithModifiers } from "utils/common"
 
 interface SwitcherProps {
-  children: ReactElement<Exclude<NavLinkProps, "className">>[]
+  children: ReactElement<Exclude<NavLinkProps, "className">> | ReactElement<Exclude<NavLinkProps, "className">>[]
 }
 
 /**

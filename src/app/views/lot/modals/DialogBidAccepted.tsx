@@ -1,10 +1,10 @@
 import Button from "app/components/UI/Button/Button"
 import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
-import { useModal } from "modules/modal/hook"
+import { useModalContext } from "react-modal-global"
 
 
 function DialogBidAccepted() {
-  const { close } = useModal()
+  const { close } = useModalContext()
   return (
     <DialogLayout centered width="25em">
       <h3>Ваша ставка принята</h3>
@@ -16,7 +16,7 @@ function DialogBidAccepted() {
 export default DialogBidAccepted
 
 export function DialogError() {
-  const { close } = useModal()
+  const { close } = useModalContext()
   return (
     <DialogLayout centered width="25em">
       <h3>Произошла ошибка</h3>

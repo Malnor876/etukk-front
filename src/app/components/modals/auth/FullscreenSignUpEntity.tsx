@@ -8,11 +8,11 @@ import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { postRegistrationUser } from "infrastructure/persistence/api/data/actions"
-import { Modal } from "modules/modal/controller"
-import { useModal } from "modules/modal/hook"
 import { useState } from "react"
 import { useMutation } from "react-fetching-library"
 import ReCAPTCHA from "react-google-recaptcha"
+import { useModalContext } from "react-modal-global"
+import { Modal } from "react-modal-global"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 
@@ -28,7 +28,7 @@ enum FormInputs {
 }
 
 function FullscreenSignUpEntity() {
-  const { close } = useModal()
+  const { close } = useModalContext()
   const dispatch = useDispatch()
   const { mutate: signUp } = useMutation(postRegistrationUser)
   const [reCaptcha, setReCaptcha] = useState(false)

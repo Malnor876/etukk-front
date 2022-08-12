@@ -9,11 +9,11 @@ import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { postRegistrationUser } from "infrastructure/persistence/api/data/actions"
-import { Modal } from "modules/modal/controller"
-import { useModal } from "modules/modal/hook"
 import { useState } from "react"
 import { useMutation } from "react-fetching-library"
 import ReCAPTCHA from "react-google-recaptcha"
+import { useModalContext } from "react-modal-global"
+import { Modal } from "react-modal-global"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 
@@ -28,7 +28,7 @@ enum FormInputs {
 }
 
 function FullscreenSignUpPerson() {
-  const { close } = useModal()
+  const { close } = useModalContext()
   const dispatch = useDispatch()
   const { mutate: signUp } = useMutation(postRegistrationUser)
   const [reCaptcha, setReCaptcha] = useState(false)
@@ -55,7 +55,7 @@ function FullscreenSignUpPerson() {
       <SocialAuth />
       <Form centered onChange={event => setValidity(event.currentTarget.checkValidity())} onSubmit={onSubmit}>
         <Column>
-          <Input placeholder="Имя" width="20em" name={FormInputs.fullName} required />
+          <Input placeholder="Имя" width="20em" name={FormInputs.fullName} required maxLength={10} />
           <Input placeholder="Номер телефона" name={FormInputs.phone} defaultValue="+7" maxLength={11} width="20em" type="tel" required />
           <Input placeholder="Е-mail" name={FormInputs.email} width="20em" type="email" required autoComplete="username" />
           <NewPassword name={FormInputs.password} width="20em" />

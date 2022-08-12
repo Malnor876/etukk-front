@@ -4,7 +4,7 @@ import Button from "app/components/UI/Button/Button"
 import Input from "app/components/UI/Input/Input"
 import Buttons from "app/layouts/Buttons/Buttons"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
-import { Modal } from "modules/modal/controller"
+import { Modal } from "react-modal-global"
 
 import FullscreenEmailConfirm from "./FullscreenEmailConfirm"
 

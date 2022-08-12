@@ -7,8 +7,8 @@ import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { isValidResponse } from "infrastructure/persistence/api/client"
 import { postPasswordResetByToken } from "infrastructure/persistence/api/data/actions"
-import { useModal } from "modules/modal/hook"
 import { useClient } from "react-fetching-library"
+import { useModalContext } from "react-modal-global"
 
 enum FormInputs {
   password = "new_password",
@@ -19,7 +19,7 @@ interface FullscreenPasswordRecoveryProps {
 }
 
 function FullscreenPasswordRecovery(props: FullscreenPasswordRecoveryProps) {
-  const modal = useModal()
+  const modal = useModalContext()
   const client = useClient()
   async function onSubmit(state: FormState<FormInputs, string>) {
     const response = await client.query(postPasswordResetByToken(props.recoveryToken, state.values))

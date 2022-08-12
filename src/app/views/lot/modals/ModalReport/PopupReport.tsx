@@ -7,10 +7,10 @@ import Form, { FormState } from "app/layouts/Form/Form"
 import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { isValidResponse } from "infrastructure/persistence/api/client"
 import { postLotClaim, postLotClaimReasons } from "infrastructure/persistence/api/data/actions"
-import { Modal } from "modules/modal/controller"
-import { useModal } from "modules/modal/hook"
 import { useState } from "react"
 import { useClient } from "react-fetching-library"
+import { useModalContext } from "react-modal-global"
+import { Modal } from "react-modal-global"
 
 import DialogReportAccepted from "./DialogReportAccepted"
 

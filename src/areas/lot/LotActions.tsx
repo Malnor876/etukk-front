@@ -2,7 +2,7 @@ import "./Lot.scss"
 
 import Icon from "app/components/UI/Icon/Icon"
 import PopupReport from "app/views/lot/modals/ModalReport/PopupReport"
-import { Modal } from "modules/modal/controller"
+import { Modal } from "react-modal-global"
 
 interface LotActionsProps {
   lotId: number

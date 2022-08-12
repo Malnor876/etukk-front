@@ -1,7 +1,6 @@
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import ProfilePurchasesContainer from "areas/profile/containers/ProfilePurchasesContainer"
-import ProfileReviewsContainer from "areas/profile/containers/ProfileReviewsContainer"
 import { Outlet, Route, Routes } from "react-router-dom"
 
 import ProfileDisputeView from "../sales~purchases/dispute/ProfileDisputeView"
@@ -16,13 +15,13 @@ function ProfilePurchasesView() {
         <>
           <Switcher>
             <ButtonLink to="" end>Статус покупок</ButtonLink>
-            <ButtonLink to="reviews">Отзывы</ButtonLink>
+            {/* <ButtonLink to="reviews">Отзывы</ButtonLink> */}
           </Switcher>
           <Outlet />
         </>
       )}>
         <Route index element={<ProfilePurchasesContainer />} />
-        <Route path="reviews" element={<ProfileReviewsContainer type="purchases" />} />
+        {/* <Route path="reviews" element={<ProfileReviewsContainer type="purchases" />} /> */}
       </Route>
 
       <Route path="checkout/:lotId" element={<ProfilePurchasesCheckoutView />} />

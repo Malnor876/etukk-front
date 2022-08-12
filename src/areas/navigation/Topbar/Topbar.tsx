@@ -5,7 +5,7 @@ import SidebarNavDrawer from "app/components/modals/SidebarNavDrawer/SidebarNavD
 import Icon from "app/components/UI/Icon/Icon"
 import { getCategory } from "infrastructure/persistence/api/data/actions"
 import _ from "lodash"
-import { Modal } from "modules/modal/controller"
+import { Modal } from "react-modal-global"
 import { NavLink } from "react-router-dom"
 import { classWithModifiers } from "utils/common"
 

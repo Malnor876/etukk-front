@@ -1,9 +1,9 @@
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
-import { useModal } from "modules/modal/hook"
+import { useModalContext } from "react-modal-global"
 
 function DialogReportAccepted() {
-  const modal = useModal()
+  const modal = useModalContext()
   return (
     <DialogLayout centered>
       <h3>Ваша жалоба принята!</h3>

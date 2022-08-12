@@ -46,7 +46,7 @@ function LotPreviewView() {
             <LotInfoLayout {...payload} seller={user}>
               <Buttons>
                 <Button await onClick={publishNewLot}>Опубликовать</Button>
-                <ButtonLink outline to={`/lots/${lotId}/edit`}>Редактировать</ButtonLink>
+                <ButtonLink outline to={`/lots/${lotId}/edit`}>Сохранить черновик</ButtonLink>
               </Buttons>
             </LotInfoLayout>
           </>

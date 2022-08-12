@@ -7,7 +7,8 @@ import Radio, { RadioProps } from "app/components/UI/Radio/Radio"
 import ToolTip from "app/components/UI/ToolTip/ToolTip"
 import { Row } from "app/layouts/BaseLayouts/BaseLayouts"
 import _ from "lodash"
-import { ChangeEvent, Children, cloneElement, Dispatch, ReactElement, ReactNode, useContext, useEffect, useRef, useState } from "react"
+import { ChangeEvent, Children, cloneElement, Dispatch, FormEvent, ReactElement, ReactNode, useContext, useEffect, useRef, useState } from "react"
+import { compose } from "redux"
 import { classWithModifiers } from "utils/common"
 
 import { ReactError } from "../ErrorBoundary/ErrorBoundary.errors"
@@ -166,20 +167,20 @@ export function FilterRadios(props: FilterRadiosProps) {
 
 
 interface FilterInputsProps {
-  name: FilterKey
   children: ReactElement<InputProps> | ReactElement<InputProps>[]
 }
 
 export function FilterInputs(props: FilterInputsProps) {
   const [filters, setFilters] = useContext(filtersContext)
-  // const filterValue = filters[props.name]
-  function onChange(event: ChangeEvent<HTMLInputElement>) {
-    setFilters({ ...filters, [props.name]: event.currentTarget.value })
+  function onChange(event: ChangeEvent<HTMLInputElement> | FormEvent<HTMLInputElement>) {
+    const target = event.currentTarget
+
+    setFilters({ ...filters, [target.name]: event.currentTarget.value })
   }
   return (
     <>
       {Children.map(props.children, child => (
-        cloneElement<InputProps>(child, { ...child.props, onChange })
+        cloneElement<InputProps>(child, { ...child.props, onChange: event => (child.props.onChange?.(event), onChange(event)), value: String(filters[child.props?.name ?? ""] ?? "") })
       ))}
     </>
   )
@@ -210,8 +211,8 @@ export function FilterPriceRange(props: FilterPriceRangeProps) {
   }
   return (
     <Row>
-      <Input type="number" placeholder="Стоимость от" iconName="rub" value={min || ""} onInput={onChangeFactory(setMin)} />
-      <Input type="number" placeholder="Стоимость до" iconName="rub" value={max || ""} onInput={onChangeFactory(setMax)} />
+      <Input type="number" placeholder="Стоимость от" iconName="rub" value={min || ""} onChange={onChangeFactory(setMin)} />
+      <Input type="number" placeholder="Стоимость до" iconName="rub" value={max || ""} onChange={onChangeFactory(setMax)} />
     </Row>
   )
 }
@@ -246,8 +247,8 @@ export function FilterDateRange(props: FilterDateRangeProps) {
   return (
     <>
       <Row>
-        <Input type="datetime-local" placeholder="Период от" onInput={onChangeFactory(setStart)} />
-        <Input type="datetime-local" placeholder="Период до" onInput={onChangeFactory(setEnd)} />
+        <Input type="datetime-local" placeholder="Период от" onChange={onChangeFactory(setStart)} />
+        <Input type="datetime-local" placeholder="Период до" onChange={onChangeFactory(setEnd)} />
       </Row>
     </>
   )

@@ -4,6 +4,7 @@ import useDeviceWidth from "hooks/useDeviceWidth"
 import { DeviceWidths } from "hooks/useResizeObserverEntry"
 import _ from "lodash"
 import { ReactNode, useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 
 import { LotInfoType } from "../types"
 import LotInfoBid from "./LotInfoBid"
@@ -16,16 +17,18 @@ interface LotInfoProps extends LotInfoType {
 }
 
 function LotInfoLayout(props: LotInfoProps) {
+  const user = useSelector(state => state.user)
+
   const started = Date.now() > props.startEndInterval.date1.getTime()
   const ended = Date.now() >= props.startEndInterval.date2.getTime()
-  const [tradable, setTradable] = useState(started && !ended)
+  const [tradable, setTradable] = useState((started && !ended) && user.auth)
 
   useEffect(() => {
     const interval = setInterval(() => {
       const started = Date.now() > props.startEndInterval.date1.getTime()
       const ended = Date.now() >= props.startEndInterval.date2.getTime()
 
-      setTradable(started && !ended)
+      setTradable((started && !ended) && user.auth)
     }, 500)
 
     return () => {
@@ -35,7 +38,7 @@ function LotInfoLayout(props: LotInfoProps) {
 
   const Preview = <LotInfoPreview {..._.pick(props, "id", "slides", "bookmarked")} />
   const Summary = <LotInfoSummary {..._.pick(props, "description", "specifications", "seller")} />
-  const Details = <LotInfoDetails {..._.pick(props, "title", "city", "startPrice", "startEndInterval", "delivery")} />
+  const Details = <LotInfoDetails {..._.pick(props, "id", "title", "city", "startPrice", "startEndInterval", "delivery", "buyerId")} />
   const BidOrChildren = props.children || (
     tradable && <LotInfoBid {..._.pick(props, "id", "currentPrice", "betStep")} />
   )

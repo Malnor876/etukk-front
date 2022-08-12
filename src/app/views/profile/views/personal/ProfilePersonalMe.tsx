@@ -36,7 +36,7 @@ function ProfilePersonalMe() {
     <>
       <h5 className="heading">Личная информация</h5>
       <Form gap="2em" onSubmit={onSubmit}>
-        <Input placeholder="Имя" defaultValue={user?.fullName} name={FormInputs.fullName} width="25em" />
+        <Input placeholder="Имя" defaultValue={user?.fullName} name={FormInputs.fullName} width="25em" maxLength={10} />
         <Input defaultValue={user?.type && typeText[user.type]} readOnly width="25em" />
         <Input placeholder="Email" type="email" defaultValue={user?.email} name={FormInputs.email} width="25em" />
         <Input placeholder="Телефон" type="tel" defaultValue={user?.phone} name={FormInputs.phone} width="25em" />

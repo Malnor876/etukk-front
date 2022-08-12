@@ -353,6 +353,7 @@ export const getUserNotificationsSubscriptionsBySubscriptionsId = (subscriptions
  * OK
  */
 export const postUserReview = (body: {
+  to_lot_id: number
   to_user_id: number
   text?: string
   score: number
@@ -1481,7 +1482,12 @@ export const getCategoryByCategoryId = (category_id?: number): Action<{
 })
 
 
-export const getUserBets = (): Action => ({
+export const getUserBets = (): Action<{
+  outbid: SchemaLot[]
+  outbid_len: number
+  winning: SchemaLot[]
+  winning_len: number
+}> => ({
   method: "GET",
   endpoint: "/user/bets",
   config: {
@@ -1603,6 +1609,26 @@ export const getDeliveryTimers = (): Action<{
 }[]> => ({
   method: "GET",
   endpoint: `/delivery/timer`,
+  config: {
+    requireAuth: true
+  },
+})
+
+export const getTimes = (): Action<{
+  begin: string
+  end: string
+}[]> => ({
+  method: "GET",
+  endpoint: `/lot/bidding_times`,
+  config: {
+    requireAuth: true
+  },
+})
+
+export const getSearch = (search_text: string): Action<SchemaLot[]> => ({
+  method: "GET",
+  endpoint: `/lot/search`,
+  params: { search_text },
   config: {
     requireAuth: true
   },

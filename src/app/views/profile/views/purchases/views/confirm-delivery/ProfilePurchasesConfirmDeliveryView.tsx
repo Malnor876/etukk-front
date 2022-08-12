@@ -15,8 +15,8 @@ import useDeliveryTimers from "areas/lot/hooks/useDeliveryTimers"
 import useParam from "hooks/useParam"
 import { getLotByLotId, postLotByLotConfirmDelivery } from "infrastructure/persistence/api/data/actions"
 import { mapLot } from "infrastructure/persistence/api/mappings/lots"
-import { Modal } from "modules/modal/controller"
 import { useClient } from "react-fetching-library"
+import { Modal } from "react-modal-global"
 import { offsetDateMinutes } from "utils/date.helpers"
 
 function ProfilePurchasesConfirmDeliveryView() {
@@ -26,7 +26,7 @@ function ProfilePurchasesConfirmDeliveryView() {
 
   async function confirmDelivery(userId: number) {
     await client.query(postLotByLotConfirmDelivery(lotId))
-    await Modal.open(PopupReview, { userId })
+    await Modal.open(PopupReview, { lotId, userId })
   }
 
   function openDispute(userId: number) {
@@ -53,7 +53,9 @@ function ProfilePurchasesConfirmDeliveryView() {
           </div>
           <Column gap="2em">
             <Backward>{payload.title}</Backward>
-            <Author {...payload.seller} />
+            {payload.seller && (
+              <Author {...payload.seller} />
+            )}
             <Entries>
               <Entry>
                 <span>Сумма выкупа</span>
@@ -66,8 +68,8 @@ function ProfilePurchasesConfirmDeliveryView() {
               </Entry>
             </Entries>
             <Buttons spaceBetween>
-              <Button onClick={() => confirmDelivery(payload.seller.id)}>Подтвердить получение</Button>
-              <Button outline onClick={() => openDispute(payload.seller.id)}>Претензия</Button>
+              <Button onClick={() => confirmDelivery(payload.seller?.id ?? -1)}>Подтвердить получение</Button>
+              <Button outline onClick={() => openDispute(payload.seller?.id ?? -1)}>Претензия</Button>
             </Buttons>
           </Column>
         </LotPage>

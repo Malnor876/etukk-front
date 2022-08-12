@@ -1,5 +1,5 @@
 import { getAddressPrompt } from "infrastructure/persistence/api/data/actions"
-import { FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { useQuery } from "react-fetching-library"
 
 import Input, { InputProps } from "./Input"
@@ -7,11 +7,11 @@ import Input, { InputProps } from "./Input"
 function InputAddress(props: InputProps) {
   const [value, setValue] = useState<string>(props.defaultValue?.toString() ?? "")
   const response = useQuery(getAddressPrompt(value), false)
-  function onInput(event: FormEvent<HTMLInputElement>) {
+  function onChange(event: ChangeEvent<HTMLInputElement>) {
     const target = event.currentTarget
 
     setValue(target.value)
-    props.onInput?.(event)
+    props.onChange?.(event)
   }
 
   useEffect(() => {
@@ -20,7 +20,7 @@ function InputAddress(props: InputProps) {
     response.query()
   }, [value])
   return (
-    <Input {...props} dataList={response.payload?.addresses ?? []} value={value} onInput={onInput} />
+    <Input {...props} dataList={response.payload?.addresses ?? []} value={value} onChange={onChange} />
   )
 }
 

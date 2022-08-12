@@ -18,7 +18,7 @@ export interface LotPreviewType extends LotInfoType {
   tradeStatus: LotTradeStatus
 
   editedAt: Date
-  seller: UserSigned
+  seller?: UserSigned
 }
 
 export type LotInfoSpecificationsType = {
@@ -49,8 +49,9 @@ export interface LotInfoType {
   startPrice: Price
   currentPrice: Price
 
-  buyer: UserSigned
-  seller: UserSigned
+  buyerId?: number
+  buyer?: UserSigned
+  seller?: UserSigned
 
   status: LotStatus
   tradeStatus: LotTradeStatus

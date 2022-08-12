@@ -1,7 +1,7 @@
 import "./PopupYoutubeVideo.scss"
 
 import Icon from "app/components/UI/Icon/Icon"
-import { useModal } from "modules/modal/hook"
+import { useModalContext } from "react-modal-global"
 import { YouTubeVideo } from "utils/business"
 import { stopPropagation } from "utils/common"
 
@@ -10,7 +10,7 @@ interface PopupYoutubeVideoProps {
 }
 
 function PopupYoutubeVideo(props: PopupYoutubeVideoProps) {
-  const modal = useModal()
+  const modal = useModalContext()
   modal.params.weak = true
 
   const youTubeVideo = new YouTubeVideo(props.url)

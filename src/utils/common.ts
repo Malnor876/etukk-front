@@ -2,7 +2,7 @@ import "./extensions"
 
 import { Buffer } from "buffer"
 import { ExtractInterpolations } from "interfaces/utilities"
-import { SyntheticEvent } from "react"
+import { Dispatch, SyntheticEvent } from "react"
 
 /**
  *
@@ -102,7 +102,7 @@ export function stopPropagation(callback?: Function | null) {
   }
 }
 
-export function inputValue(callback: Function) {
+export function inputValue(callback: Dispatch<string>) {
   return (event: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     callback(event.currentTarget.value)
   }

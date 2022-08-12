@@ -2,7 +2,7 @@ import "./Review.scss"
 
 import SliderPopup from "app/components/modals/SliderPopup/SliderPopup"
 import { UserSigned } from "infrastructure/persistence/redux/reducers/user/types"
-import { Modal } from "modules/modal/controller"
+import { Modal } from "react-modal-global"
 import { Link } from "react-router-dom"
 
 interface ReviewProps {

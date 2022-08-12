@@ -2,7 +2,7 @@ import QueryContainer from "app/components/containers/QueryContainer/QueryContai
 import Dropper from "app/components/UI/Droppers/Dropper"
 import Droppers from "app/components/UI/Droppers/Droppers"
 import LotPreviews from "areas/lot/LotPreview/LotPreviews"
-import { LotStatus } from "areas/lot/types"
+import { LotStatus, LotTradeStatus } from "areas/lot/types"
 import useDeviceWidth from "hooks/useDeviceWidth"
 import { DeviceWidths } from "hooks/useResizeObserverEntry"
 import { getLot } from "infrastructure/persistence/api/data/actions"
@@ -32,7 +32,7 @@ function ProfileSalesContainer() {
         const sold = payload.items.filter(item => item.status === LotStatus.SOLD)
 
         const archived = payload.items.filter(item => item.status === LotStatus.CLOSED)
-        const disputed = payload.items.filter(item => item) //! no filter
+        const disputed = payload.items.filter(item => item.tradeStatus === LotTradeStatus.DELIVERY_REJECTED)
         return (
           <Droppers type={isMobile ? "__NAMING__1" : "__NAMING__2"}>
             <Dropper name="drafted" label="Черновики" amount={drafted.length}>

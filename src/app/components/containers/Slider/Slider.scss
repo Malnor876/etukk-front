@@ -11,9 +11,9 @@
 }
 
 .slider__current {
-
 	.slider__slide {
 		width: 100%;
+		object-fit: contain;
 	}
 }
 
@@ -27,6 +27,8 @@ $arrow-icon-size: 1em;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+
+	pointer-events: none;
 }
 
 .slider__arrow {
@@ -36,6 +38,8 @@ $arrow-icon-size: 1em;
 	padding: $arrow-icon-size * 0.6;
 	background: $color-white;
 	border-radius: 50%;
+
+	pointer-events: initial;
 
 	&:nth-child(1) {
 		transform: rotate(90deg);
@@ -47,7 +51,7 @@ $arrow-icon-size: 1em;
 }
 
 .slider__slide {
-	aspect-ratio: 1.25/1;
+	aspect-ratio: 1;
 	border-radius: $border-radius-1;
 	object-fit: cover;
 
@@ -66,8 +70,6 @@ $arrow-icon-size: 1em;
 		cursor: pointer;
 	}
 }
-
-
 
 /* Video */
 

@@ -9,9 +9,9 @@ import Form, { FormState } from "app/layouts/Form/Form"
 import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { isValidResponse } from "infrastructure/persistence/api/client"
 import { postLotClaim, postLotClaimReasons } from "infrastructure/persistence/api/data/actions"
-import { Modal } from "modules/modal/controller"
 import { useState } from "react"
 import { useClient } from "react-fetching-library"
+import { Modal } from "react-modal-global"
 
 import DialogDisputeAccepted from "./DialogDisputeAccepted"
 

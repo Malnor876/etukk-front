@@ -48,16 +48,17 @@
     "default-case": "warn",
     "no-multi-spaces": "error",
     "simple-import-sort/imports": "error",
-    "semi": ["error", "never"],
+    // "semi": ["error", "never"],
+    "semi": [2, "always"],
     "linebreak-style": ["error", "unix"],
-
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
+    "indent": "off",
+    // "indent": [
+    //   "error",
+    //   2,
+    //   {
+    //     "SwitchCase": 1
+    //   }
+    // ],
     "quotes": [
       "error",
       "double",

@@ -3,7 +3,7 @@
 import FullscreenSignIn from "app/components/modals/auth/FullscreenSignIn"
 import Button from "app/components/UI/Button/Button"
 import ErrorCover from "app/components/UI/ErrorCover/ErrorCover"
-import { Modal } from "modules/modal/controller"
+import { Modal } from "react-modal-global"
 
 function RequiredAuthCover() {
   return (

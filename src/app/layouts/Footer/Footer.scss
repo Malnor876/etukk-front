@@ -3,11 +3,9 @@
 .footer {
 	display: flex;
 	justify-content: space-between;
+	flex-wrap: wrap;
 	@include column-gap(1em);
-
-	padding: 2em 0;
-	padding-top: 12em;
-	margin-top: auto;
+	padding: 12em 2em 2em;
 	@include WidthLimit;
 
 	@include Mobile {
@@ -18,9 +16,7 @@
 
 		text-align: center;
 
-
-
-		a>img {
+		a > img {
 			height: 3.5em;
 			margin-bottom: 1em;
 		}
@@ -36,7 +32,7 @@
 
 	&--s {
 		display: flex;
-		// gap: 4em;
+		flex-direction: column;
 		@include column-gap(4em);
 	}
 }
@@ -49,18 +45,11 @@
 	&--underline {
 		padding-bottom: 1px;
 		border-bottom: 1px solid;
-
-		@include DesktopOnly {
+		@include Mobile {
 			display: none;
 		}
-	}
-
-	@include Mobile {
-		color: $color-main-text;
-		font-weight: 600;
-
-		&--underline {
-			font-weight: 400;
+		@include Tablet {
+			display: none;
 		}
 	}
 }
@@ -69,12 +58,49 @@
 	@include Mobile {
 		display: none;
 	}
+	@include Tablet {
+		display: none;
+	}
 }
 
 .footer__copyright-mobile {
 	font-weight: 500;
+	color: $color-gray-2;
+	@include DesktopOnly {
+		display: none;
+	}
+}
+
+.footer__link--underline-mobile {
+	color: $color-gray-2;
+	font-weight: 400;
+	text-decoration: none;
+	padding-bottom: 1px;
+	border-bottom: 1px solid;
 
 	@include DesktopOnly {
 		display: none;
+	}
+}
+
+.footer__group-tablet {
+	@include Tablet {
+		padding-top: 2em;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 2em;
+	}
+	@include Mobile {
+		display: grid;
+		padding-top: 0;
+		gap: 2em;
+		color: $color-gray-2;
+
+		&--s {
+			display: flex;
+			flex-direction: column;
+			@include column-gap(4em);
+		}
 	}
 }

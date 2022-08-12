@@ -4,9 +4,9 @@
 import "app/layouts/Modal/FullscreenLayout/FullscreenLayout.scss"
 
 import { userFetch } from "infrastructure/persistence/redux/reducers/user"
-import { Modal } from "modules/modal/controller"
-// import { Modal } from "modules/modal/controller"
+// import { Modal } from "react-modal-global"
 import { useEffect } from "react"
+import { Modal } from "react-modal-global"
 // import ReactGA from "react-ga4"
 import { useDispatch } from "react-redux"
 import { useSearchParams } from "react-router-dom"

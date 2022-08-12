@@ -55,4 +55,16 @@ export class DateInterval {
   humanize(): string {
     return `с ${humanizeDate(this.date1)} по ${humanizeDate(this.date2)}`
   }
+
+  isInInterval(dateOther: Date): boolean {
+    if (dateOther.getTime() < this.date1.getTime()) {
+      return false
+    }
+
+    if (dateOther.getTime() > this.date2.getTime()) {
+      return false
+    }
+
+    return true
+  }
 }

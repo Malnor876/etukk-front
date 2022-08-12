@@ -9,7 +9,7 @@
 	flex-shrink: 0;
 
 	gap: 1em;
-	padding: 1em;
+	padding: 0.7em;
 	max-width: 13em;
 	border-radius: 1.5em 1.5em 0 0;
 	box-shadow: $shadow-options rgba($color-dark, 0.05);
@@ -21,7 +21,6 @@
 	}
 
 	@include Mobile {
-		display: flex;
 		align-items: center;
 		justify-items: unset;
 		gap: unset;
@@ -63,9 +62,12 @@
 
 	text-align: center;
 	text-transform: uppercase;
+	padding-bottom: 0.5em;
+	border-bottom: 2px solid #ed1d4a;
 
 	@include Mobile {
 		text-align: unset;
+		padding-top: 1em;
 	}
 }
 

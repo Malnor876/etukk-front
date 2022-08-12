@@ -1,10 +1,5 @@
 name: Lighthouse CI
 on: [deployment_status, workflow_dispatch]
-env:
-    ACC_MIN: 0.90
-    BPR_MIN: 0.90
-    PRF_MIN: 0.90
-    SEO_MIN: 0.95
 jobs:
   lighthouse:
     runs-on: ubuntu-latest

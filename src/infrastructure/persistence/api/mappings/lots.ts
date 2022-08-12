@@ -74,6 +74,8 @@ export function mapLot(lot: SchemaLot): LotInfoType {
     tradeEndTime: new Date(lot?.bidding_end_time ?? 0),
     betsCount: lot?.bets_count ?? -1,
 
+    buyerId: lot.buyer_id ?? -1,
+
 
     deliveryOrder: {
       buyerContactPhone: lot.deliveryorder?.buyer_contact_phone ?? "unknown",

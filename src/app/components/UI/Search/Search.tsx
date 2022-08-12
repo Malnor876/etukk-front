@@ -16,7 +16,7 @@ function Search(props: SearchProps) {
   return (
     <label className="search">
       <input {..._.omit(props, "onSubmit")} autoComplete="off" className="search__input" ref={inputRef} />
-      <button className="search__icon search__icon--close" type="submit" onClick={() => props.onSubmit?.("")}>
+      <button className="search__icon search__icon--close" type="button" onClick={() => props.onSubmit?.("")}>
         <Icon name="cross" />
       </button>
       <button className="search__icon" type="submit" onClick={() => props.onSubmit?.(inputRef.current?.value || "")}>

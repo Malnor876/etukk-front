@@ -8,9 +8,9 @@ function MiniProfile(props: { user: UserSigned; }) {
     <div className="mini-profile">
       <div>
         <img src={props.user.avatar} alt="avatar" className="mini-profile__avatar" />
-        <Link className="ghost" to="/profile" />
       </div>
       <div className="mini-profile__name">{props.user.fullName}</div>
+      <Link className="ghost" to="/profile" />
     </div>
   )
 }

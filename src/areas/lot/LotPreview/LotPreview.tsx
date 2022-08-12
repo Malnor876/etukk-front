@@ -9,7 +9,7 @@ import { LotInfoType, LotStatus, LotTradeStatus } from "areas/lot/types"
 import { ReactNode, useState } from "react"
 import { Link } from "react-router-dom"
 import { humanizeDate } from "utils/date"
-import { offsetDateDay } from "utils/date.helpers"
+import { offsetDateDay, offsetDateMinutes } from "utils/date.helpers"
 
 import useDeliveryTimers from "../hooks/useDeliveryTimers"
 
@@ -259,9 +259,6 @@ function LotPreviewSellerTradeStatusContent(props: LotProps) {
           <LotPreviewTradeStatusDetails {...props} />
           <LotPreviewStatus iconName="pending">Ожидает оплаты</LotPreviewStatus>
           <LotPreviewTimerButton {...props} type="fillDeliveryTimer" />
-          {/* <ButtonLink to={`checkout/${props.id}`} disabled>
-            <CountableTimer until={offsetDateMinutes(props.editedAt, fillDeliveryTimer)} slice={[2]} />
-          </ButtonLink> */}
         </>
       )
 
@@ -301,6 +298,18 @@ function LotPreviewSellerTradeStatusContent(props: LotProps) {
         <>
           <LotPreviewTradeStatusDetails {...props} />
           <LotPreviewStatus iconName="check">Получен</LotPreviewStatus>
+        </>
+      )
+
+    case LotTradeStatus.DELIVERY_REJECTED:
+      return (
+        <>
+          <LotPreviewTradeStatusDetails {...props} />
+          <LotPreviewStatus iconName="not-allowed">Отклонен</LotPreviewStatus>
+          {/* <LotPreviewStatus iconName="pending">
+            Претензия на рассмотрении <br />
+            <CountableTimer until={offsetDateMinutes(props.editedAt, 1 * 60 * 24 * 3)} />
+          </LotPreviewStatus> */}
         </>
       )
 
@@ -379,7 +388,7 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
 
 
 function LotPreviewTradeStatusDetails(props: LotProps) {
-  const AUTHOR = props.merchant === "seller" ? <Author {...props.buyer} /> : <Author {...props.seller} />
+  const AUTHOR = props.merchant === "seller" ? (props.buyer && <Author {...props.buyer} />) : (props.seller && <Author {...props.seller} />)
   return (
     <div className="lot-preview__details">
       {AUTHOR}

@@ -103,7 +103,7 @@ function OrderDelivery(props: OrderDeliveryProps) {
           <Input type="time" name={OrderDeliveryFormInputs.timeStart} required placeholder="Время забора груза c" />
           <Input type="time" name={OrderDeliveryFormInputs.timeEnd} required placeholder="Время забора по" />
         </Row>
-        <InputAddress name={OrderDeliveryFormInputs.address} required placeholder="Адрес доставки" onInput={inputValue(setDeliveryAddress)} />
+        <InputAddress name={OrderDeliveryFormInputs.address} required placeholder="Адрес доставки" onChange={inputValue(setDeliveryAddress)} />
         <Input type="tel" name={OrderDeliveryFormInputs.phone} required placeholder="Номер телефона" defaultValue="+7" />
         <Textarea rows={10} name={OrderDeliveryFormInputs.comment} placeholder="Комментарий" />
       </div>

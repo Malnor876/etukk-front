@@ -9,10 +9,10 @@ import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { postAuthUser } from "infrastructure/persistence/api/data/actions"
 import { userFetch } from "infrastructure/persistence/redux/reducers/user"
-import { Modal } from "modules/modal/controller"
-import { useModal } from "modules/modal/hook"
 import { useState } from "react"
 import { useClient, useMutation } from "react-fetching-library"
+import { useModalContext } from "react-modal-global"
+import { Modal } from "react-modal-global"
 import { useDispatch } from "react-redux"
 
 import FullscreenPasswordRecoveryRequest from "./FullscreenPasswordRecoveryRequest"
@@ -24,7 +24,7 @@ enum FormInputs {
 }
 
 function FullscreenSignIn() {
-  const { close } = useModal()
+  const { close } = useModalContext()
   const dispatch = useDispatch()
   const [validity, setValidity] = useState(false)
   const { mutate: signIn } = useMutation(postAuthUser)

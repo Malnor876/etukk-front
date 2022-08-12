@@ -3,8 +3,8 @@ import "./DialogLayout.scss"
 import Icon from "app/components/UI/Icon/Icon"
 import useDeviceWidth from "hooks/useDeviceWidth"
 import { DeviceWidths } from "hooks/useResizeObserverEntry"
-import { useModal } from "modules/modal/hook"
 import { ReactNode } from "react"
+import { useModalContext } from "react-modal-global"
 import { classWithModifiers } from "utils/common"
 
 import PopupLayout from "../PopupLayout/PopupLayout"
@@ -23,7 +23,7 @@ interface DialogLayoutProps {
  * Falls back to [`PopupLayout`](../PopupLayout/PopupLayout.tsx) when out of `mobile` size.
  */
 function DialogLayout(props: DialogLayoutProps) {
-  const modal = useModal()
+  const modal = useModalContext()
   console.log(modal.params)
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
 

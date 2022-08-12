@@ -1,7 +1,7 @@
 import "./DrawerLayout.scss"
 
-import { useModal } from "modules/modal/hook"
 import { ReactNode, useEffect, useRef } from "react"
+import { useModalContext } from "react-modal-global"
 import { useLocation } from "react-router-dom"
 import { stopPropagation } from "utils/common"
 
@@ -11,7 +11,7 @@ interface DrawerLayoutProps {
 }
 
 function DrawerLayout(props: DrawerLayoutProps) {
-  const { close } = useModal()
+  const { close } = useModalContext()
   const location = useLocation()
   const prevLocationPathname = useRef<string>(location.pathname)
   useEffect(() => {

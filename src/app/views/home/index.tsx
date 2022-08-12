@@ -1,68 +1,79 @@
-import FiltersContainer, { FiltersContainerMobile } from "app/components/containers/Filters/FiltersContainer"
-import { QueryErrorCoverBoundary } from "app/components/containers/QueryErrorCoverBoundary/QueryErrorCoverBoundary"
-import SearchSuggest from "app/components/containers/SearchSuggest/SearchSuggest"
-import Switcher from "app/components/UI/Switcher/Switcher"
-import Container from "app/layouts/Container/Container"
-import useDeviceWidth from "hooks/useDeviceWidth"
-import { DeviceWidths } from "hooks/useResizeObserverEntry"
-import { useEffect, useState } from "react"
-import { Helmet } from "react-helmet"
+import FiltersContainer, {
+  FiltersContainerMobile,
+} from "app/components/containers/Filters/FiltersContainer";
+import {QueryErrorCoverBoundary} from "app/components/containers/QueryErrorCoverBoundary/QueryErrorCoverBoundary";
+import SearchSuggest from "app/components/containers/SearchSuggest/SearchSuggest";
+import Switcher from "app/components/UI/Switcher/Switcher";
+import Container from "app/layouts/Container/Container";
+import useDeviceWidth from "hooks/useDeviceWidth";
+import {DeviceWidths} from "hooks/useResizeObserverEntry";
+import {getSearch} from "infrastructure/persistence/api/data/actions";
+import {useEffect, useState} from "react";
+import {useQuery} from "react-fetching-library";
+import {Helmet} from "react-helmet";
 // import { useMatch } from "react-router"
-import { Route, Routes } from "react-router"
-import { NavLink, useParams } from "react-router-dom"
+import {Route, Routes} from "react-router";
+import {NavLink, useParams} from "react-router-dom";
 
-import LotPreviewsContainer from "./LotPreviewsContainer"
+import LotPreviewsContainer from "./LotPreviewsContainer";
 function HomeView() {
-  const params = useParams<"categoryId">()
+  const params = useParams<"categoryId">();
 
   // const matchHot = useMatch("hot")
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
+  const [filterSearch, setFilterSearch] = useState("");
   const [filters, setFilters] = useState<any>({
-    categories: params.categoryId
-  })
+    categories: params.categoryId,
+  });
   // const isHot = !!matchHot
-  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
+  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile);
   useEffect(() => {
-    setFilters({ ...filters, categories: params.categoryId })
-  }, [params.categoryId])
+    setFilters({...filters, categories: params.categoryId});
+  }, [params.categoryId]);
+
+  const response = useQuery(getSearch(search || "!@#*("));
+  const options = response.payload || [];
   return (
     <>
       <Helmet>
         <title>Главная | etukk.ru</title>
       </Helmet>
-      <SearchSuggest width="65%" placeholder="Поиск по Москве..." onSubmit={setSearch}>
-        {/* <option value="Стул мягкий">Стул мягкий</option>
-        <option value="Стул мягкий1">Стул мягкий1</option>
-        <option value="Стул мягкий2">Стул мягкий2</option>
-        <option value="Стул мягкий3">Стул мягкий3</option>
-        <option value="Стул мягкий4">Стул мягкий4</option> */}
-      </SearchSuggest>
-      {isMobile && (
-        <FiltersContainerMobile onSubmit={setFilters} />
-      )}
+      {/* <SearchSuggest
+        width="65%"
+        placeholder="Поиск по Москве..."
+        onChange={setSearch}
+        onSubmit={setFilterSearch}>
+        {options?.map((option, index) => (
+          <option value={option.name || "unknown"} key={index}>
+            {option.name || "unknown"}
+          </option>
+        ))}
+      </SearchSuggest> */}
+      {isMobile && <FiltersContainerMobile onSubmit={setFilters} />}
       <Switcher>
         <NavLink to="/">Все торги</NavLink>
         <NavLink to="/hot">Горячие торги</NavLink>
       </Switcher>
       <Routes>
-        <Route index element={
-          // Sorry for jj
-          <div id="jj" style={{ minHeight: "18em" }}>
-            <Container row>
-              <Container>
-                <QueryErrorCoverBoundary>
-                  <LotPreviewsContainer search={search} {...filters} />
-                </QueryErrorCoverBoundary>
-                {!isMobile && (
-                  <FiltersContainer onSubmit={setFilters} />
-                )}
+        <Route
+          index
+          element={
+            // Sorry for jj
+            <div id="jj" style={{minHeight: "18em"}}>
+              <Container row>
+                <Container>
+                  <QueryErrorCoverBoundary>
+                    <LotPreviewsContainer search={filterSearch} {...filters} />
+                  </QueryErrorCoverBoundary>
+                  {!isMobile && <FiltersContainer onSubmit={setFilters} />}
+                </Container>
               </Container>
-            </Container>
-          </div>
-        } />
+            </div>
+          }
+        />
       </Routes>
     </>
-  )
+  );
 }
 
-export default HomeView
+export default HomeView;

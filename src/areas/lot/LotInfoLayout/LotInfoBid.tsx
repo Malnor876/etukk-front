@@ -6,11 +6,12 @@ import DialogConfirmBidUp from "app/views/lot/modals/DialogConfirmBidUp"
 import { isValidResponse } from "infrastructure/persistence/api/client"
 import { postLotByLotIdBet } from "infrastructure/persistence/api/data/actions"
 import { mapLot } from "infrastructure/persistence/api/mappings/lots"
-import { Modal } from "modules/modal/controller"
 import { useState } from "react"
 import { useClient } from "react-fetching-library"
+import { Modal } from "react-modal-global"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
+import { Price } from "utils/extensions"
 
 import { LotInfoType } from "../types"
 
@@ -26,32 +27,34 @@ function LotInfoBid(props: LotInfoBidProps) {
   function bidUp(on: number) {
     setBidMultiplier(on)
     setCurrentPrice(currentPrice.add(props.betStep.multiply(on)))
-    // setNextPrice(new Price(+props.currentPrice + (+props.betStep * on)))
     setStage("confirm")
   }
   function cancelBidUp() {
     setStage("default")
-    setCurrentPrice(props.currentPrice)
+    setCurrentPrice(prevPrice)
   }
-  function confirmBidUp() {
-    async function onSubmit() {
-      const response = await client.query(postLotByLotIdBet(props.id, bidMultiplier))
-      if (!isValidResponse(response)) {
-        await Modal.open(DialogError)
-        cancelBidUp()
-        return
-      }
+  async function confirmBidUp() {
+    await confirmBidUpDialog()
 
-      const lot = mapLot(response.payload.lot)
-
-      setStage("default")
-      setPrevPrice(currentPrice)
-      setCurrentPrice(lot.currentPrice)
-
-      await Modal.open(DialogBidAccepted)
+    const response = await client.query(postLotByLotIdBet(props.id, bidMultiplier))
+    if (!isValidResponse(response)) {
+      Modal.open(DialogError)
+      cancelBidUp()
+      return
     }
 
-    Modal.open(DialogConfirmBidUp, { onSubmit })
+    setStage("default")
+    setPrevPrice(currentPrice)
+    setCurrentPrice(new Price(response.payload.amount))
+
+    Modal.open(DialogBidAccepted)
+  }
+
+
+  function confirmBidUpDialog() {
+    return new Promise<void>(resolve => {
+      Modal.open(DialogConfirmBidUp, { onSubmit: resolve })
+    })
   }
 
   const user = useSelector(state => state.user)
@@ -88,7 +91,7 @@ function LotInfoBid(props: LotInfoBidProps) {
           </div>
           <br />
           <br />
-          <Buttons>
+          <Buttons spaceBetween>
             <Button onClick={confirmBidUp}>Отправить</Button>
             <Button outline onClick={cancelBidUp}>Отмена</Button>
           </Buttons>

@@ -1,3 +1,4 @@
+import ErrorCover from "app/components/UI/ErrorCover/ErrorCover"
 import LoaderCover from "app/components/UI/Loader/LoaderCover"
 import Previews from "app/layouts/Previews/Previews"
 import LotPreview from "areas/lot/LotPreview/LotPreview"
@@ -18,10 +19,8 @@ interface LotPreviewsContainerProps {
   categories?: number
   seller?: "all" | "user" | "organization",
   delivery?: LotDelivery
-  period?: {
-    date_start: string
-    date_end: string
-  }
+  tradeStart?: string
+  tradeEnd?: string
   started?: "started" | "ended" | "waiting"
 }
 
@@ -33,35 +32,37 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
   const [endTime] = useState(new Date().toISOString())
 
+  // Filters map
   const filters: Partial<
     & FilteringField<"name", "icontains", string>
     & FilteringField<"now_price", "range", [number, number]>
     // & FilteringField<"categories_id", "iexact", number[]>
 
-    & FilteringField<"organization", "iexact", boolean>
+    // & FilteringField<"user__organization", "iexact", boolean>
     & FilteringField<"delivery_options", "iexact", LotDelivery>
 
-    & FilteringField<"bidding_start_time" | "bidding_end_time", "iexact", string>
-    & FilteringField<"bidding_start_time", "gte", string>
-    & FilteringField<"bidding_end_time", "gte", string>
+    & FilteringField<"bidding_start_time" | "bidding_end_time", "gte", string>
+    & FilteringField<"bidding_start_time" | "bidding_end_time", "lte", string>
 
     & FilteringField<"status", "not", string>
     & FilteringField<"trade_status", "iexact", string>
 
     & FilteringField<"user_id", "not", number>
-    & { categories: number, status: string }
+    & { categories: number, status: string, user__organization: string | boolean }
   > = {
     name__icontains: props.search,
     now_price__range: props.price,
     categories: props.categories,
 
-    organization__iexact: props.seller != null && props.seller === "organization",
+    // organization__iexact: props.seller != null && props.seller === "organization",
+    user__organization: props.seller != null && String(props.seller === "organization"),
     delivery_options__iexact: props.delivery,
 
-    bidding_start_time__iexact: props.period?.date_start,
-    bidding_end_time__iexact: props.period?.date_end,
     // bidding_start_time__gte: new Date().toISOString(),
     bidding_end_time__gte: endTime,
+
+    bidding_start_time__gte: props.tradeStart && new Date(props.tradeStart).toISOString(),
+    bidding_end_time__lte: props.tradeEnd && new Date(props.tradeEnd).toISOString(),
 
     status: LotStatus.PUBLISHED,
     // status__not: LotStatus.CLOSED,
@@ -103,7 +104,21 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
     setTimeout(() => resetReached())
   }, [payload])
 
-  // console.log(lots)
+  if (lots.length === 0 && !loading) {
+    return (
+      <ErrorCover>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        Поиск не дал результатов.. Возможно стоит изменить параметры поиска
+      </ErrorCover>
+    )
+  }
   return (
     <Previews>
       {lots.map(lot => (

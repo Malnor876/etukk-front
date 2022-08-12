@@ -3,13 +3,15 @@ import "./SearchSuggest.scss"
 import DropDown from "app/components/UI/DropDown/DropDown"
 import Search from "app/components/UI/Search/Search"
 import useClickAway from "hooks/useClickAway"
-import { ComponentProps, Dispatch, ReactElement, useRef, useState } from "react"
+import { ChangeEvent, ComponentProps, Dispatch, ReactElement, useRef, useState } from "react"
 
 interface SearchSuggestProps {
   width?: string
   disabled?: boolean
   placeholder?: string
   children?: ReactElement<ComponentProps<"option">>[]
+
+  onChange?: Dispatch<string>
   onSubmit?: Dispatch<string>
 }
 
@@ -24,6 +26,12 @@ function SearchSuggest(props: SearchSuggestProps) {
     setValue(value)
     setExpanded(false)
   }
+  function onChange(event: ChangeEvent<HTMLInputElement>) {
+    const target = event.currentTarget
+
+    setValue(target.value)
+    props.onChange?.(target.value)
+  }
   useClickAway(parentRef, () => setExpanded(false))
   return (
     <form onSubmit={event => event.preventDefault()} className="search-suggest" style={{ "--search-width": props.width }} ref={parentRef}>
@@ -32,7 +40,7 @@ function SearchSuggest(props: SearchSuggestProps) {
         placeholder={props.placeholder}
         value={value}
         onFocus={() => setExpanded(true)}
-        onChange={event => setValue(event.currentTarget.value)}
+        onChange={onChange}
         onSubmit={updateValue}
       />
 

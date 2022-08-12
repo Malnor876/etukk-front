@@ -16,7 +16,7 @@ function ProfileReviewsContainer(props: ProfileReviewsContainerProps) {
   const action = getUserReview<{
     user_id?: number
     to_user_id?: number
-  }>(props.type === "sales" ? ({ user_id: user.id }) : ({ to_user_id: user.id }))
+  }>(props.type === "purchases" ? ({ user_id: user.id }) : ({ to_user_id: user.id }))
 
   return (
     <QueryContainer action={action}>

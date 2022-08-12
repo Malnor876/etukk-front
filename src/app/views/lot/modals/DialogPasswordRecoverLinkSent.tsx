@@ -1,10 +1,10 @@
 import Button from "app/components/UI/Button/Button"
 import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
-import { useModal } from "modules/modal/hook"
+import { useModalContext } from "react-modal-global"
 
 
 export function DialogPasswordRecoverLinkSent() {
-  const { close } = useModal()
+  const { close } = useModalContext()
   return (
     <DialogLayout centered width="27em">
       <h3>Ссылка для смены пароля отправлена на почту</h3>

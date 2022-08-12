@@ -39,11 +39,15 @@ function ProfileDisputeView() {
               </Backward>
               <Column gap="1em">
                 <h4 style={{ margin: "unset" }}>Заявление</h4>
-                <Review user={payload.seller} attachments={[]} comment="Вообще шлак, на фото такое ощущение другой товар!" date={new Date} product="Дизайнерский стул..." />
+                {payload.seller && (
+                  <Review user={payload.seller} attachments={[]} comment="Вообще шлак, на фото такое ощущение другой товар!" date={new Date} product="Дизайнерский стул..." />
+                )}
               </Column>
               <Column gap="1em">
                 <h4 style={{ margin: "unset" }}>Решение</h4>
-                <Review user={payload.seller} attachments={[]} comment="Все фото соответствуют описанию. Вснимательнее смотрите на фото перед покупкой твара. Все деффекты описаны и хорошо видны на видео, которое приложено к карточке лота. Ваша претензия отклонена!" date={new Date} />
+                {payload.seller && (
+                  <Review user={payload.seller} attachments={[]} comment="Все фото соответствуют описанию. Вснимательнее смотрите на фото перед покупкой твара. Все деффекты описаны и хорошо видны на видео, которое приложено к карточке лота. Ваша претензия отклонена!" date={new Date} />
+                )}
               </Column>
               <Buttons spaceBetween>
                 <Button outline>Переместить в архив</Button>

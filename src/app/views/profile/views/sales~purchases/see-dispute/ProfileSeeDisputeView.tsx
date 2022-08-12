@@ -37,7 +37,9 @@ function ProfileSeeDisputeView() {
           </div>
           <Column gap="2em">
             <Backward>{payload.title}</Backward>
-            <Author {...payload.seller} />
+            {payload.seller && (
+              <Author {...payload.seller} />
+            )}
             <Entries>
               <Entry>
                 <span>Сумма выкупа</span>

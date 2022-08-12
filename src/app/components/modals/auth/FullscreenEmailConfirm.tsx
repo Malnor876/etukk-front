@@ -2,10 +2,10 @@
 
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
-import { useModal } from "modules/modal/hook"
+import { useModalContext } from "react-modal-global"
 
 function FullscreenEmailConfirm() {
-  const { close } = useModal()
+  const { close } = useModalContext()
   return (
     <FullscreenLayout className="fullscreen-auth">
       <div className="center">

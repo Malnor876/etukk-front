@@ -28,7 +28,7 @@ function Input(props: InputProps) {
   function onChange(event: ChangeEvent<HTMLInputElement>) {
     const target = event.currentTarget
 
-    if (props.maxLength) {
+    if (props.type !== "tel" && props.maxLength) {
       target.value = target.value.slice(0, props.maxLength)
     }
 

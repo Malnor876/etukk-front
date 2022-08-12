@@ -3,8 +3,8 @@ import "./FullscreenLayout.scss"
 import Icon from "app/components/UI/Icon/Icon"
 import useDeviceWidth from "hooks/useDeviceWidth"
 import { DeviceWidths } from "hooks/useResizeObserverEntry"
-import { useModal } from "modules/modal/hook"
 import { ReactNode, useEffect } from "react"
+import { useModalContext } from "react-modal-global"
 import { classMerge } from "utils/common"
 
 interface FullscreenLayoutProps {
@@ -14,7 +14,7 @@ interface FullscreenLayoutProps {
 }
 
 function FullscreenLayout(props: FullscreenLayoutProps) {
-  const modal = useModal()
+  const modal = useModalContext()
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
 
   useEffect(() => {

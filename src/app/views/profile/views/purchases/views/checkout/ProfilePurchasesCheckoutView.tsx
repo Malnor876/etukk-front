@@ -8,8 +8,8 @@ import useParam from "hooks/useParam"
 import { isValidResponse } from "infrastructure/persistence/api/client"
 import { getLotByLotCommission, getLotByLotId, postLotByLotBuyerApprove, postLotByLotPay } from "infrastructure/persistence/api/data/actions"
 import { mapLot } from "infrastructure/persistence/api/mappings/lots"
-import { Modal } from "modules/modal/controller"
 import { useClient, useQuery } from "react-fetching-library"
+import { Modal } from "react-modal-global"
 
 function ProfilePurchasesCheckoutView() {
   const lotId = useParam("lotId", true)

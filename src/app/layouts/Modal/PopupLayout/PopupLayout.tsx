@@ -1,8 +1,8 @@
 import "./PopupLayout.scss"
 
 import Icon from "app/components/UI/Icon/Icon"
-import { useModal } from "modules/modal/hook"
 import { ReactNode } from "react"
+import { useModalContext } from "react-modal-global"
 import { classWithModifiers } from "utils/common"
 
 interface PopupLayoutProps {
@@ -14,7 +14,7 @@ interface PopupLayoutProps {
 }
 
 function PopupLayout(props: PopupLayoutProps) {
-  const modal = useModal()
+  const modal = useModalContext()
 
   const modifiers: string[] = []
   if (props.centered) modifiers.push("centered")

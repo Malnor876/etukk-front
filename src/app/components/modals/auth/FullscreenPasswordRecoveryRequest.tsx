@@ -6,15 +6,15 @@ import Form, { FormState } from "app/layouts/Form/Form"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
 import { isValidResponse } from "infrastructure/persistence/api/client"
 import { postPasswordReset } from "infrastructure/persistence/api/data/actions"
-import { useModal } from "modules/modal/hook"
 import { useClient } from "react-fetching-library"
+import { useModalContext } from "react-modal-global"
 
 enum FormInputs {
   email = "email",
 }
 
 function FullscreenPasswordRecoveryRequest() {
-  const modal = useModal()
+  const modal = useModalContext()
   const client = useClient()
   async function onSubmit(state: FormState<FormInputs, string>) {
     const response = await client.query(postPasswordReset(state.values.email))

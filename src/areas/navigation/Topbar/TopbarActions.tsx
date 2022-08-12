@@ -3,7 +3,7 @@ import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Icon from "app/components/UI/Icon/Icon"
 import MiniProfile from "app/components/UI/MiniProfile/MiniProfile"
-import { Modal } from "modules/modal/controller"
+import { Modal } from "react-modal-global"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 

@@ -1,10 +1,10 @@
 import Button from "app/components/UI/Button/Button"
 import Buttons from "app/layouts/Buttons/Buttons"
 import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
-import { useModal } from "modules/modal/hook"
+import { useModalContext } from "react-modal-global"
 
 function DialogArchiveLot(props: { onSubmit(): void; }) {
-  const { close } = useModal()
+  const { close } = useModalContext()
   function onSubmit() {
     props.onSubmit()
     close()

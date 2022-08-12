@@ -12,7 +12,6 @@
 }
 
 @mixin Scrollbar($width: 0.75em) {
-
 	/* Firefox */
 	@supports (scrollbar-width: thin) {
 		scrollbar-width: thin;
@@ -37,40 +36,40 @@
 
 /* Flex Gap Compatibility */
 
-// gap utility for cross-browser compatibility (Safari) 
+// gap utility for cross-browser compatibility (Safari)
 @mixin gap($gap) {
 	@supports (scroll-behavior: smooth) {
 		gap: $gap;
 	}
 
 	@supports not (scroll-behavior: smooth) {
-		&>*:not(:first-child) {
+		& > *:not(:first-child) {
 			margin: $gap;
 		}
 	}
 }
 
-// row-gap utility for cross-browser compatibility (Safari) 
+// row-gap utility for cross-browser compatibility (Safari)
 @mixin row-gap($gap) {
 	@supports (scroll-behavior: smooth) {
 		row-gap: $gap;
 	}
 
 	@supports not (scroll-behavior: smooth) {
-		&>*:not(:first-child) {
+		& > *:not(:first-child) {
 			margin-top: $gap;
 		}
 	}
 }
 
-// column-gap utility for cross-browser compatibility (Safari) 
+// column-gap utility for cross-browser compatibility (Safari)
 @mixin column-gap($gap) {
 	@supports (scroll-behavior: smooth) {
 		column-gap: $gap;
 	}
 
 	@supports not (scroll-behavior: smooth) {
-		&>*:not(:first-child) {
+		& > *:not(:first-child) {
 			margin-left: $gap;
 		}
 	}

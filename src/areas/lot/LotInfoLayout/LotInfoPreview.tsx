@@ -8,7 +8,7 @@ interface LotInfoPreviewProps extends Pick<LotInfoType, "id" | "slides" | "bookm
 function LotInfoPreview(props: LotInfoPreviewProps) {
   return (
     <div className="lot-info-preview">
-      <Slider slides={props.slides} />
+      <Slider slides={props.slides} allowFullscreen />
       <Bookmark className="lot-info-preview__bookmark" type="lot" id={props.id} defaultValue={props.bookmarked} />
     </div>
   )

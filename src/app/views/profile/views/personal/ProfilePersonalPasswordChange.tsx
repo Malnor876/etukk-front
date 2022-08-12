@@ -6,9 +6,9 @@ import Form, { FormState } from "app/layouts/Form/Form"
 import { DialogPasswordRecoverLinkSent } from "app/views/lot/modals/DialogPasswordRecoverLinkSent"
 import { isValidResponse } from "infrastructure/persistence/api/client"
 import { patchUserByUserId, postPasswordReset } from "infrastructure/persistence/api/data/actions"
-import { Modal } from "modules/modal/controller"
 import { useState } from "react"
 import { useClient } from "react-fetching-library"
+import { Modal } from "react-modal-global"
 import { useSelector } from "react-redux"
 
 enum FormInputs {

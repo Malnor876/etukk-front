@@ -3,7 +3,7 @@ import "./FullscreenAuth.scss"
 import Button from "app/components/UI/Button/Button"
 import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
-import { Modal } from "modules/modal/controller"
+import { Modal } from "react-modal-global"
 
 import FullscreenSignUpEntity from "./FullscreenSignUpEntity"
 import FullscreenSignUpPerson from "./FullscreenSignUpPerson"

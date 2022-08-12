@@ -1,10 +1,10 @@
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
-import { useModal } from "modules/modal/hook"
+import { useModalContext } from "react-modal-global"
 
 
 export function DialogDeliveryRequest() {
-  const { close } = useModal()
+  const { close } = useModalContext()
   return (
     <DialogLayout centered width="25em">
       <h3>Данные приняты.<br /> В ближайшее время с вами свяжется представитель службы доставки!</h3>

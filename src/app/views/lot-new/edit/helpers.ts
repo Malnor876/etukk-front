@@ -1,5 +1,6 @@
 import { LotDelivery, LotInfoType } from "areas/lot/types"
-import { postLotDraft } from "infrastructure/persistence/api/data/actions"
+import ClientAPI, { isValidResponse } from "infrastructure/persistence/api/client"
+import { getTimes, postLotDraft } from "infrastructure/persistence/api/data/actions"
 import { useMutation } from "react-fetching-library"
 import { useNavigate } from "react-router-dom"
 import { offsetDateDay } from "utils/date.helpers"
@@ -28,7 +29,7 @@ export function useDraftNewLot() {
 
 
 
-    const [startTime, endTime] = getBiddingTime(+date, new Date)
+    const [startTime, endTime] = await getBiddingTime(+date)
     const { error, payload: responsePayload } = await mutate({
       city: city.slice(0, city.search(",")),
       shipment_address: city,
@@ -60,30 +61,11 @@ export function useDraftNewLot() {
   return draft
 }
 
-export function getBiddingTime(date: number, now: Date = new Date): [Date, Date] {
-  const today = new Date(new Date(now).setHours(new Date(now).getHours() + 1))
-  const tomorrow = offsetDateDay(new Date(new Date(now).setHours(new Date(now).getHours() + 1)), 1)
+export async function getBiddingTime(index: number): Promise<[Date, Date]> {
+  const response = await ClientAPI.query(getTimes())
+  if (!isValidResponse(response)) throw new Error("Network error")
 
-  const oneHourToday = new Date(new Date(today).setHours(today.getHours() + 1))
-  const twoHoursToday = new Date(new Date(today).setHours(today.getHours() + 2))
+  const time = response.payload[index]
 
-  const oneHourTomorrow = new Date(new Date(tomorrow).setHours(tomorrow.getHours() + 1))
-  const twoHoursTomorrow = new Date(new Date(tomorrow).setHours(tomorrow.getHours() + 2))
-
-  switch (date) {
-    case 1:
-      return [today, oneHourToday]
-
-    case 2:
-      return [today, twoHoursToday]
-
-    case 3:
-      return [tomorrow, oneHourTomorrow]
-
-    case 4:
-      return [tomorrow, twoHoursTomorrow]
-
-    default:
-      return [tomorrow, oneHourTomorrow]
-  }
+  return [new Date(time.begin), new Date(time.end)]
 }

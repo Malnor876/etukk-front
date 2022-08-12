@@ -7,9 +7,9 @@ import Form, { FormState } from "app/layouts/Form/Form"
 import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
 import { isValidResponse } from "infrastructure/persistence/api/client"
 import { postUserReview } from "infrastructure/persistence/api/data/actions"
-import { Modal } from "modules/modal/controller"
 import { useState } from "react"
 import { useClient } from "react-fetching-library"
+import { Modal } from "react-modal-global"
 
 import DialogReviewAccepted from "./DialogReviewAccepted"
 
@@ -28,6 +28,7 @@ interface FormValues {
 }
 
 interface PopupReviewProps {
+  lotId: number
   userId: number
 }
 
@@ -37,6 +38,7 @@ function PopupReview(props: PopupReviewProps) {
   async function onSubmit(state: FormState<FormInputs, FormValues>) {
     setPending(true)
     const response = await client.query(postUserReview({
+      to_lot_id: props.lotId,
       to_user_id: props.userId,
       score: state.values.rating,
       text: state.values.feedback,

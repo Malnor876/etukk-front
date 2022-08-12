@@ -6,11 +6,11 @@ import DrawerLayout from "app/layouts/Modal/DrawerLayout/DrawerLayout"
 import TopbarActions from "areas/navigation/Topbar/TopbarActions"
 import useDeviceWidth from "hooks/useDeviceWidth"
 import { DeviceWidths } from "hooks/useResizeObserverEntry"
-import { useModal } from "modules/modal/hook"
+import { useModalContext } from "react-modal-global"
 import { NavLink } from "react-router-dom"
 
 function SidebarNavDrawer() {
-  const { close } = useModal()
+  const { close } = useModalContext()
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
   if (isMobile) {
     return (

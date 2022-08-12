@@ -8,8 +8,8 @@ import useParam from "hooks/useParam"
 import { isValidResponse } from "infrastructure/persistence/api/client"
 import { getLotByLotId, postLotByLotSellerApprove } from "infrastructure/persistence/api/data/actions"
 import { mapLot } from "infrastructure/persistence/api/mappings/lots"
-import { Modal } from "modules/modal/controller"
 import { useClient } from "react-fetching-library"
+import { Modal } from "react-modal-global"
 
 function ProfileSalesCallACourierView() {
   const lotId = useParam("lotId", true)
