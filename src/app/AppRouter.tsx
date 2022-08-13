@@ -1,5 +1,5 @@
-import { Route, Routes } from "react-router"
-import { RouteProps } from "react-router-dom"
+import {Route, Routes} from "react-router"
+import {RouteProps} from "react-router-dom"
 
 import ViewLayout from "./layouts/ViewLayout/ViewLayout"
 import AboutView from "./views/about/AboutView"
@@ -17,9 +17,7 @@ import SupportView from "./views/support"
 import TermsView from "./views/terms"
 import UserView from "./views/user/UserView"
 
-enum AppRoutes {
-
-}
+enum AppRoutes {}
 
 function AppRouter() {
   return (
@@ -27,7 +25,6 @@ function AppRouter() {
       <Route path="/">
         <Route path="*" element={<ErrorView />} />
         <Route element={<ViewLayout />}>
-
           <Route index element={<HomeView />} />
           <Route path="hot" element={<HomeView />} />
           <Route path="search/:categoryId" element={<HomeView />} />
@@ -52,13 +49,10 @@ function AppRouter() {
   )
 }
 
-
-interface RouteEnumProps extends RouteProps { }
+interface RouteEnumProps extends RouteProps {}
 
 function RouteEnum(props: RouteEnumProps) {
-  return (
-    <Route {...props} />
-  )
+  return <Route {...props} />
 }
 
 export default AppRouter

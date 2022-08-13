@@ -1,35 +1,36 @@
-import "./UserProfile.scss";
+import "./UserProfile.scss"
 
-import QueryContainer from "app/components/containers/QueryContainer/QueryContainer";
-import Backward from "app/components/UI/Backward/Backward";
-import Button from "app/components/UI/Button/Button";
-import Copy from "app/components/UI/Copy/Copy";
-import CustomerRating from "app/components/UI/CustomerRating/CustomerRating";
-import Review from "app/components/UI/Review/Review";
-import Switcher from "app/components/UI/Switcher/Switcher";
-import Previews from "app/layouts/Previews/Previews";
-import Reviews from "app/layouts/Reviews/Reviews";
-import LotPreview from "areas/lot/LotPreview/LotPreview";
-import {IMAGE_MOCKS} from "constants/mocks";
-import {isValidResponse} from "infrastructure/persistence/api/client";
-import {ExtractActionPayload} from "infrastructure/persistence/api/client.types";
+import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
+import Backward from "app/components/UI/Backward/Backward"
+import Button from "app/components/UI/Button/Button"
+import Copy from "app/components/UI/Copy/Copy"
+import CustomerRating from "app/components/UI/CustomerRating/CustomerRating"
+import Review from "app/components/UI/Review/Review"
+import Switcher from "app/components/UI/Switcher/Switcher"
+import Previews from "app/layouts/Previews/Previews"
+import Reviews from "app/layouts/Reviews/Reviews"
+import LotPreview from "areas/lot/LotPreview/LotPreview"
+import {IMAGE_MOCKS} from "constants/mocks"
+import {isValidResponse} from "infrastructure/persistence/api/client"
+import {ExtractActionPayload} from "infrastructure/persistence/api/client.types"
 import {
   getLot,
   getLotReview,
   getUserByUserId,
   postUserFavoriteUser,
-} from "infrastructure/persistence/api/data/actions";
-import {mapImageUrl} from "infrastructure/persistence/api/mappings/helpers";
-import {mapLotsLists} from "infrastructure/persistence/api/mappings/lots";
-import {FilteringField} from "interfaces/Nodejs";
-import {useState} from "react";
-import {useClient} from "react-fetching-library";
-import {Route, Routes} from "react-router";
-import {NavLink} from "react-router-dom";
-import {humanizeDate} from "utils/date";
+} from "infrastructure/persistence/api/data/actions"
+import {mapImageUrl} from "infrastructure/persistence/api/mappings/helpers"
+import {mapLotsLists} from "infrastructure/persistence/api/mappings/lots"
+import {FilteringField} from "interfaces/Nodejs"
+import {useState} from "react"
+import {useClient} from "react-fetching-library"
+import {useSelector} from "react-redux"
+import {Route, Routes} from "react-router"
+import {NavLink} from "react-router-dom"
+import {humanizeDate} from "utils/date"
 
 interface UserProfileProps {
-  userId: number;
+  userId: number
 }
 
 function UserProfile(props: UserProfileProps) {
@@ -37,7 +38,7 @@ function UserProfile(props: UserProfileProps) {
     FilteringField<"user_id", "iexact", number>
   >({
     user_id__iexact: props.userId,
-  });
+  })
 
   const getUserLotsAction = (endTime?: Date) =>
     getLot<
@@ -46,10 +47,10 @@ function UserProfile(props: UserProfileProps) {
     >(10, 0, {
       user_id__iexact: props.userId,
       bidding_end_time__gte: endTime?.toISOString(),
-    });
+    })
 
-  const getUserLotsAllAction = getUserLotsAction();
-  const getUserLotsCompletedAction = getUserLotsAction(new Date()); // Now
+  const getUserLotsAllAction = getUserLotsAction()
+  const getUserLotsCompletedAction = getUserLotsAction(new Date()) // Now
 
   return (
     <div className="user-profile">
@@ -131,27 +132,30 @@ function UserProfile(props: UserProfileProps) {
         <div className="user-profile__cover" />
       </div>
     </div>
-  );
+  )
 }
 
 interface UserProfileInfoProps {
-  user: ExtractActionPayload<ReturnType<typeof getUserByUserId>>;
+  user: ExtractActionPayload<ReturnType<typeof getUserByUserId>>
 }
 
 function UserProfileInfo(props: UserProfileInfoProps) {
-  const [subscribed, setSubscribed] = useState(false);
-  const client = useClient();
+  const myId = useSelector(state => state.user).id
+  const isMyUserProfile = Number(myId) === Number(props.user.id)
 
+  const [subscribed, setSubscribed] = useState(props.user.in_user_favorites)
+  const client = useClient()
   async function subscribe() {
-    setSubscribed(!subscribed);
+    setSubscribed(!subscribed)
 
     const response = await client.query(
       postUserFavoriteUser({fav_user_id: props.user.id})
-    );
+    )
+
     if (!isValidResponse(response)) {
       // Fall back if invalid response
-      setSubscribed(subscribed);
-      return;
+      setSubscribed(subscribed)
+      return
     }
   }
   return (
@@ -180,18 +184,20 @@ function UserProfileInfo(props: UserProfileInfoProps) {
             sellerRating={props.user.seller_rating ?? -1}
             buyerRating={props.user.seller_rating ?? -1}
           />
-          <div>
-            <Button
-              color={subscribed ? "gray" : undefined}
-              await
-              onClick={subscribe}>
-              Подписаться
-            </Button>
-          </div>
+          {!subscribed && !isMyUserProfile && (
+            <div>
+              <Button
+                color={subscribed ? "gray" : undefined}
+                await
+                onClick={subscribe}>
+                Подписаться
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default UserProfile;
+export default UserProfile

@@ -2,10 +2,10 @@ import "./DialogLayout.scss"
 
 import Icon from "app/components/UI/Icon/Icon"
 import useDeviceWidth from "hooks/useDeviceWidth"
-import { DeviceWidths } from "hooks/useResizeObserverEntry"
-import { ReactNode } from "react"
-import { useModalContext } from "react-modal-global"
-import { classWithModifiers } from "utils/common"
+import {DeviceWidths} from "hooks/useResizeObserverEntry"
+import {ReactNode} from "react"
+import {useModalContext} from "react-modal-global"
+import {classWithModifiers} from "utils/common"
 
 import PopupLayout from "../PopupLayout/PopupLayout"
 
@@ -18,13 +18,12 @@ interface DialogLayoutProps {
 }
 
 /**
- * 
+ *
  * Mobile oriented layout.
  * Falls back to [`PopupLayout`](../PopupLayout/PopupLayout.tsx) when out of `mobile` size.
  */
 function DialogLayout(props: DialogLayoutProps) {
   const modal = useModalContext()
-  console.log(modal.params)
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
 
   if (!isMobile) {
@@ -38,8 +37,15 @@ function DialogLayout(props: DialogLayoutProps) {
   return (
     <dialog className="dialog-layout">
       <div className="dialog-layout__container">
-        <div className={classWithModifiers("dialog-layout__inner", ...modifiers)}>
-          <button className={classWithModifiers("dialog-layout__close", modal.params.closable === false && "hidden")} type="button" onClick={modal.close}>
+        <div
+          className={classWithModifiers("dialog-layout__inner", ...modifiers)}>
+          <button
+            className={classWithModifiers(
+              "dialog-layout__close",
+              modal.params.closable === false && "hidden"
+            )}
+            type="button"
+            onClick={modal.close}>
             <Icon name="cross" />
           </button>
           {props.children}

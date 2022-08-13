@@ -1,15 +1,20 @@
-import { LotDelivery, LotInfoType, LotPreviewType, LotStatus, LotTradeStatus } from "areas/lot/types"
-import { PaginationType } from "interfaces/Nodejs"
-import { DateInterval } from "utils/date"
-import { Price } from "utils/extensions"
+import {
+  LotDelivery,
+  LotInfoType,
+  LotPreviewType,
+  LotStatus,
+  LotTradeStatus,
+} from "areas/lot/types"
+import {PaginationType} from "interfaces/Nodejs"
+import {DateInterval} from "utils/date"
+import {Price} from "utils/extensions"
 
-import { SchemaLot } from "../data/schemas"
-import { mapImageUrl } from "./helpers"
-import { mapUser } from "./user"
-
+import {SchemaLot} from "../data/schemas"
+import {mapImageUrl} from "./helpers"
+import {mapUser} from "./user"
 
 /**
- * 
+ *
  * @deprecated
  */
 export function mapLotPreview(lot: SchemaLot): LotPreviewType {
@@ -32,11 +37,13 @@ export function mapLotPreview(lot: SchemaLot): LotPreviewType {
   // }
 }
 
-export function mapLotsLists(lots: SchemaLot[]): PaginationType<LotPreviewType> {
+export function mapLotsLists(
+  lots: SchemaLot[]
+): PaginationType<LotPreviewType> {
   return {
     current: 1,
     limit: 100,
-    items: lots.map(mapLotPreview)
+    items: lots.map(mapLotPreview),
   }
 }
 
@@ -45,17 +52,24 @@ export function mapLot(lot: SchemaLot): LotInfoType {
     id: lot.id,
     delivery: lot.delivery_options as LotDelivery,
     title: lot.name || "unknown",
-    rating: -1,//! default
-    reviews: { dislikes: -1, likes: -1 }, //! default
+    rating: -1, //! default
+    reviews: {dislikes: -1, likes: -1}, //! default
     type: "organization", //! default
 
     bookmarked: lot.in_user_favorites ?? false,
     description: lot.description ?? "unknown",
     slides: lot.lotphotos?.map(l => mapImageUrl(l.filename)) ?? [],
-    specifications: lot.lotspecifications?.map(spec => ({ key: spec.name, value: spec.value })) ?? [],
+    specifications:
+      lot.lotspecifications?.map(spec => ({
+        key: spec.name,
+        value: spec.value,
+      })) ?? [],
 
     city: lot.city ?? "unknown",
-    startEndInterval: new DateInterval(lot.bidding_start_time, lot.bidding_end_time),
+    startEndInterval: new DateInterval(
+      lot.bidding_start_time,
+      lot.bidding_end_time
+    ),
 
     betStep: new Price(lot.bet_step ?? -1),
     startPrice: new Price(lot.start_price ?? -1),
@@ -65,7 +79,8 @@ export function mapLot(lot: SchemaLot): LotInfoType {
     buyer: mapUser(lot.buyer as any),
 
     status: (lot?.status as LotStatus) ?? LotStatus.UNKNOWN,
-    tradeStatus: (lot?.trade_status as LotTradeStatus) ?? LotTradeStatus.UNKNOWN,
+    tradeStatus:
+      (lot?.trade_status as LotTradeStatus) ?? LotTradeStatus.UNKNOWN,
 
     editedAt: new Date(lot?.edited_at ?? -1),
 
@@ -76,7 +91,6 @@ export function mapLot(lot: SchemaLot): LotInfoType {
 
     buyerId: lot.buyer_id ?? -1,
 
-
     deliveryOrder: {
       buyerContactPhone: lot.deliveryorder?.buyer_contact_phone ?? "unknown",
       delivery_address: lot.deliveryorder?.delivery_address ?? "unknown",
@@ -84,14 +98,16 @@ export function mapLot(lot: SchemaLot): LotInfoType {
       eta: lot.deliveryorder?.eta ?? -1,
       id: lot.deliveryorder?.id ?? -1,
       lotId: lot.deliveryorder?.lot_id ?? -1,
-      possibleShipmentDates: lot.deliveryorder?.possible_shipment_dates ?? "unknown",
-      possibleShipmentTimes: lot.deliveryorder?.possible_shipment_times ?? "unknown",
+      possibleShipmentDates:
+        lot.deliveryorder?.possible_shipment_dates ?? "unknown",
+      possibleShipmentTimes:
+        lot.deliveryorder?.possible_shipment_times ?? "unknown",
       price: lot.deliveryorder?.price ?? -1,
       sellerContactPhone: lot.deliveryorder?.seller_contact_phone ?? "unknown",
       shipmentAddress: lot.deliveryorder?.shipment_address ?? "unknown",
       shipmentDate: new Date(lot.deliveryorder?.shipment_date || -1),
-      status: lot.deliveryorder?.status ?? "unknown"
-    }
+      status: lot.deliveryorder?.status ?? "unknown",
+    },
   }
 }
 
@@ -117,13 +133,18 @@ export interface RecursiveTreeElement {
   children: RecursiveTreeElement[]
 }
 
-export function recurseCollapsedTree(collapsedTree: CollapsedTreeElement[]): RecursiveTreeElement[] {
+export function recurseCollapsedTree(
+  collapsedTree: CollapsedTreeElement[]
+): RecursiveTreeElement[] {
   function recurse(tree: CollapsedTreeElement[]): RecursiveTreeElement[] {
     return tree.map(treeElement => {
-      const asd = collapsedTree.filter(collapsedTreeElement => collapsedTreeElement?.parent_category_id === treeElement.id)
+      const asd = collapsedTree.filter(
+        collapsedTreeElement =>
+          collapsedTreeElement?.parent_category_id === treeElement.id
+      )
       return {
         ...treeElement,
-        children: recurse(asd)
+        children: recurse(asd),
       }
     })
   }

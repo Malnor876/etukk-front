@@ -48,8 +48,7 @@
     "default-case": "warn",
     "no-multi-spaces": "error",
     "simple-import-sort/imports": "error",
-    // "semi": ["error", "never"],
-    "semi": [2, "always"],
+    "semi": ["error", "never"],
     "linebreak-style": ["error", "unix"],
     "indent": "off",
     // "indent": [
