@@ -1,6 +1,6 @@
 import "./LotEditView.scss"
 
-import { ReactError } from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
+import {ReactError} from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
@@ -9,17 +9,22 @@ import ErrorCover from "app/components/UI/ErrorCover/ErrorCover"
 import Input from "app/components/UI/Input/Input"
 import Selector from "app/components/UI/Selector/Selector"
 import Textarea from "app/components/UI/Textarea/Textarea"
-import Form, { FormState } from "app/layouts/Form/Form"
+import Form, {FormState} from "app/layouts/Form/Form"
 import Specifications from "areas/lot/components/Specifications/Specifications"
-import { LotDelivery } from "areas/lot/types"
-import { getLotByLotId, patchLotDraftByDraftId } from "infrastructure/persistence/api/data/actions"
-import { SchemaLotDeliveryOptions } from "infrastructure/persistence/api/data/schemas"
-import { mapLot } from "infrastructure/persistence/api/mappings/lots"
-import { MutableRefObject, ReactNode, useRef, useState } from "react"
-import { useClient } from "react-fetching-library"
-import { Helmet } from "react-helmet"
-import { useSelector } from "react-redux"
-import { useNavigate, useParams } from "react-router"
+import {LotDelivery} from "areas/lot/types"
+import {
+  getLotByLotId,
+  getLotDraftByDraftId,
+  patchLotById,
+  patchLotDraftByDraftId,
+} from "infrastructure/persistence/api/data/actions"
+import {SchemaLotDeliveryOptions} from "infrastructure/persistence/api/data/schemas"
+import {mapLot} from "infrastructure/persistence/api/mappings/lots"
+import {MutableRefObject, ReactNode, useRef} from "react"
+import {useClient} from "react-fetching-library"
+import {Helmet} from "react-helmet"
+import {useSelector} from "react-redux"
+import {useNavigate, useParams} from "react-router"
 
 enum FormInputs {
   title = "name",
@@ -28,13 +33,14 @@ enum FormInputs {
   startPrice = "start_price",
   // publicationPeriod = "trading_start",
   city = "city",
+  // date = "date",
   delivery = "delivery_options",
   description = "description",
   specifications = "specifications",
   category = "categories",
 
   biddingStartTime = "bidding_start_time",
-  biddingEndTime = "bidding_end_time"
+  biddingEndTime = "bidding_end_time",
 }
 
 interface FormValues {
@@ -43,6 +49,7 @@ interface FormValues {
   start_price: number
   categories: number[] | number
   city: string
+  // date: Date
   delivery_options: SchemaLotDeliveryOptions
   bidding_start_time: string
   bidding_end_time: string
@@ -51,7 +58,8 @@ interface FormValues {
 }
 
 function LotEditView() {
-  const { lotId } = useParams<"lotId">()
+  const {lotId, status} = useParams()
+
   if (lotId == null) {
     throw new ReactError(LotEditView, "got no lotId")
   }
@@ -61,14 +69,17 @@ function LotEditView() {
 
   const navigate = useNavigate()
   const client = useClient()
-  const [files, setFiles] = useState<File[]>([])
   async function onSubmit(state: FormState<FormInputs, FormValues>) {
     if (lotId == null) return
 
-    const { error } = await client.query(patchLotDraftByDraftId(+lotId, state.values))
+    const {error} =
+      status === "published"
+        ? await client.query(patchLotById(+lotId, state.values))
+        : await client.query(patchLotDraftByDraftId(+lotId, state.values))
+
     if (error) return
 
-    navigate("/lots/" + lotId)
+    navigate(`/lots/${lotId}/${status}`)
   }
 
   const formRef = useRef<HTMLFormElement | null>(null)
@@ -80,50 +91,136 @@ function LotEditView() {
       <Helmet>
         <title>Редактировать лот | etukk.ru</title>
       </Helmet>
-      <QueryContainer action={getLotByLotId(+lotId)} mapping={mapLot}>
+      <QueryContainer
+        action={
+          status === "drafted"
+            ? getLotDraftByDraftId(Number(lotId))
+            : getLotByLotId(Number(lotId))
+        }
+        mapping={mapLot}>
         {payload => {
-          if (payload.seller?.id !== user.id) return (
-            <ErrorCover>
-              Это не ваш лот
-            </ErrorCover>
-          )
+          if (payload.user_id !== user.id)
+            return <ErrorCover>Это не ваш лот</ErrorCover>
 
           return (
-            <Form className="lot-edit-view" onSubmit={onSubmit} formRef={formRef}>
+            <Form
+              className="lot-edit-view"
+              onSubmit={onSubmit}
+              formRef={formRef}>
               <div className="lot-edit-view__header">
                 <h2 className="heading">Редактировать лот</h2>
                 <Backward />
               </div>
               <div className="lot-edit-view__container">
                 <LotEditSetting label="Название лота">
-                  <Input width="18em" placeholder="Название лота" defaultValue={payload.title} name={FormInputs.title} />
-                  <InputResetButton name={FormInputs.title} in={formRef} defaultValue={payload.title} />
+                  <Input
+                    width="18em"
+                    placeholder="Название лота"
+                    defaultValue={payload.title}
+                    name={FormInputs.title}
+                  />
+                  <InputResetButton
+                    name={FormInputs.title}
+                    in={formRef}
+                    defaultValue={payload.title}
+                  />
                 </LotEditSetting>
                 <LotEditSetting label="Начальная ставка">
-                  <Input width="16em" type="number" placeholder="Введите  сумму..." iconName="rub" name={FormInputs.startPrice} defaultValue={+payload.startPrice} />
-                  <InputResetButton name={FormInputs.startPrice} in={formRef} defaultValue={+payload.startPrice} />
+                  <Input
+                    width="16em"
+                    type="number"
+                    placeholder="Введите  сумму..."
+                    iconName="rub"
+                    name={FormInputs.startPrice}
+                    defaultValue={+payload.startPrice}
+                  />
+                  <InputResetButton
+                    name={FormInputs.startPrice}
+                    in={formRef}
+                    defaultValue={+payload.startPrice}
+                  />
                 </LotEditSetting>
+                {/* <LotEditSetting label="Период публикации лота и проведения торгов">
+                  <QueryContainer action={getTimes()}>
+                    {payload => (
+                      <>
+                        {payload.map((time, index) => (
+                          <>
+                            <Radio
+                              name={FormInputs.date}
+                              value={index.toString()}
+                              defaultChecked={date === index.toString()}
+                              onChange={setDate}>
+                              {new Date().getDate() ===
+                              new Date(time.begin).getDate()
+                                ? "Сегодня"
+                                : new Date().getDate() + 1 ===
+                                  new Date(time.begin).getDate()
+                                ? "Завтра"
+                                : "Послезавтра"}{" "}
+                              {humanizeDate(new Date(time.begin))} -{" "}
+                              {new Date(time.end).toLocaleString("ru", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </Radio>
+                            <br />
+                          </>
+                        ))}
+                      </>
+                    )}
+                  </QueryContainer>
+                </LotEditSetting> */}
+
                 <LotEditSetting label="Укажите ваш город">
-                  <Input width="16em" placeholder="Укажите город..." name={FormInputs.city} defaultValue={payload.city} />
-                  <InputResetButton name={FormInputs.city} in={formRef} defaultValue={payload.city} />
+                  <Input
+                    width="16em"
+                    placeholder="Укажите город..."
+                    name={FormInputs.city}
+                    defaultValue={payload.city}
+                  />
+                  <InputResetButton
+                    name={FormInputs.city}
+                    in={formRef}
+                    defaultValue={payload.city}
+                  />
                 </LotEditSetting>
                 <LotEditSetting label="Вариант доставки">
-                  <Selector width="16em" defaultValue={payload.delivery} name={FormInputs.delivery}>
+                  <Selector
+                    width="16em"
+                    defaultValue={payload.delivery}
+                    name={FormInputs.delivery}>
                     <option value={LotDelivery.all}>Доставка в регионы</option>
-                    <option value={LotDelivery.local}>Доставка по городу продажи</option>
+                    <option value={LotDelivery.local}>
+                      Доставка по городу продажи
+                    </option>
                   </Selector>
                 </LotEditSetting>
                 <LotEditSetting label="Описание лота">
-                  <Textarea width="33.5em" rows={16} name={FormInputs.description} defaultValue={payload.description} />
-                  <InputResetButton name={FormInputs.description} in={formRef} defaultValue={payload.description} />
+                  <Textarea
+                    width="33.5em"
+                    rows={16}
+                    name={FormInputs.description}
+                    defaultValue={payload.description}
+                  />
+                  <InputResetButton
+                    name={FormInputs.description}
+                    in={formRef}
+                    defaultValue={payload.description}
+                  />
                 </LotEditSetting>
                 <LotEditSetting label="Характеристики">
-                  <Specifications name={FormInputs.specifications} defaultValue={payload.specifications} />
+                  <Specifications
+                    name={FormInputs.specifications}
+                    defaultValue={payload.specifications}
+                  />
                 </LotEditSetting>
               </div>
               <div className="lot-edit-view__buttons">
                 <Button type="submit">Сохранить</Button>
-                <Button type="reset" outline>Отмена</Button>
+                <Button type="reset" outline>
+                  Отмена
+                </Button>
               </div>
             </Form>
           )
@@ -132,7 +229,6 @@ function LotEditView() {
     </>
   )
 }
-
 
 interface InputResetButtonProps {
   name: string
@@ -150,11 +246,8 @@ function InputResetButton(props: InputResetButtonProps) {
 
     inputElement.value = String(props.defaultValue)
   }
-  return (
-    <CloseButton onClick={onClick} />
-  )
+  return <CloseButton onClick={onClick} />
 }
-
 
 interface LotEditSettingProps {
   label: string
@@ -169,8 +262,6 @@ function LotEditSetting(props: LotEditSettingProps) {
     </div>
   )
 }
-
-
 
 // interface AwaitPromiseProps<T> {
 //   state: Promise<T>

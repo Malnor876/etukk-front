@@ -547,6 +547,43 @@ export const getLot = <Filters extends object>(
 /**
  * OK
  */
+export const getLotByUser = <Filters extends object>(
+  limit?: number,
+  offset?: number,
+  filters?: Filters
+): Action<
+  {
+    id: number
+    name?: string | null
+    description?: string | null
+    start_price?: number | null
+    city?: string | null
+    delivery_options?: string | null
+    video_url?: string | null
+    archived?: boolean
+    banned?: boolean
+    bidding_start_time?: string | null
+    bidding_end_time?: string | null
+    reject_reason?: string | null
+    now_price?: number | null
+    status?: string
+    trade_status?: string | null
+    views?: number
+    favorites?: number
+    created_at: string
+    edited_at: string
+    buyer_id?: number | null
+    user_id: number
+  }[]
+> => ({
+  method: "GET",
+  endpoint: `/lot/draft`,
+  params: {limit, offset, ...filters},
+})
+
+/**
+ * OK
+ */
 export const postLotReview = (body: {
   to_lot_id: number
   text?: string
@@ -1327,6 +1364,54 @@ export const patchLotDraftByDraftId = (
 }> => ({
   method: "PATCH",
   endpoint: `/lot/draft/${draft_id}`,
+  body,
+  config: {
+    requireAuth: true,
+  },
+})
+
+/**
+ * OK
+ */
+export const patchLotById = (
+  lot_id: number,
+  body: Partial<{
+    name: string
+    description: string
+    start_price: number
+    categories: number[] | number
+    city: string
+    delivery_options: SchemaLotDeliveryOptions
+    bidding_start_time: string
+    bidding_end_time: string
+    video_url: string
+    photos: string[]
+  }>
+): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
+  method: "PATCH",
+  endpoint: `/lot/${lot_id}`,
   body,
   config: {
     requireAuth: true,

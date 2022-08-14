@@ -4,12 +4,13 @@ import Author from "app/components/UI/Author/Author"
 import Bookmark from "app/components/UI/Bookmark/Bookmark"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
-import Icon, { IconName } from "app/components/UI/Icon/Icon"
-import { LotInfoType, LotStatus, LotTradeStatus } from "areas/lot/types"
-import { ReactNode, useState } from "react"
-import { Link } from "react-router-dom"
-import { humanizeDate } from "utils/date"
-import { offsetDateDay, offsetDateMinutes } from "utils/date.helpers"
+import Icon, {IconName} from "app/components/UI/Icon/Icon"
+import {LotInfoType, LotStatus, LotTradeStatus} from "areas/lot/types"
+import {ReactNode, useState} from "react"
+import {useSelector} from "react-redux"
+import {Link} from "react-router-dom"
+import {humanizeDate} from "utils/date"
+import {offsetDateDay, offsetDateMinutes} from "utils/date.helpers"
 
 import useDeliveryTimers from "../hooks/useDeliveryTimers"
 
@@ -17,7 +18,7 @@ interface LotProps extends LotInfoType {
   merchant?: "seller" | "buyer"
   /**
    * Follow a general look of the Lot.
-   * 
+   *
    * The look stays the same whatever `props` passed
    */
   lookalike?: boolean
@@ -25,6 +26,9 @@ interface LotProps extends LotInfoType {
 }
 
 function LotPreview(props: LotProps) {
+  const myId = useSelector(state => state.user).id
+  const isMyLot = Number(myId) === Number(props.user_id)
+
   return (
     <div className="lot-preview" onClick={props.onClick}>
       <>
@@ -34,17 +38,23 @@ function LotPreview(props: LotProps) {
           <LotPreviewSwitchableContent {...props} />
         </div>
         {props.onClick ?? (
-          <Link className="ghost" to={`/lots/${props.id}`} />
+          <Link className="ghost" to={`/lots/${props.id}/${props.status}`} />
         )}
-        <Bookmark className="lot-preview__bookmark" type="lot" id={props.id} defaultValue={props.bookmarked} />
+        {!isMyLot && (
+          <Bookmark
+            className="lot-preview__bookmark"
+            type="lot"
+            id={props.id}
+            defaultValue={props.bookmarked}
+          />
+        )}
       </>
     </div>
   )
 }
 
-
 /**
- * 
+ *
  * Switch content relying on `status` or `tradeStatus`.
  */
 function LotPreviewSwitchableContent(props: LotProps) {
@@ -79,7 +89,6 @@ function LotPreviewSwitchableContent(props: LotProps) {
     </>
   )
 }
-
 
 function LotPreviewStatusLookALike(props: LotProps) {
   const [ended, setEnded] = useState(Date.now() > props.tradeEndTime.getTime())
@@ -119,7 +128,12 @@ function LotPreviewStatusLookALike(props: LotProps) {
           </div>
           <div className="lot-preview__entry">
             <small>До окончания торгов</small>
-            <strong><CountableTimer until={props.tradeEndTime} onEnd={() => setEnded(true)} /></strong>
+            <strong>
+              <CountableTimer
+                until={props.tradeEndTime}
+                onEnd={() => setEnded(true)}
+              />
+            </strong>
           </div>
         </div>
       </>
@@ -145,7 +159,6 @@ function LotPreviewStatusLookALike(props: LotProps) {
   )
 }
 
-
 function LotPreviewStatusContent(props: LotProps) {
   const started = Date.now() > props.tradeStartTime.getTime()
 
@@ -160,7 +173,9 @@ function LotPreviewStatusContent(props: LotProps) {
 
     case LotStatus.DRAFTED:
       return (
-        <ButtonLink to={`/lots/${props.id}/preview`}>Опубликовать черновик</ButtonLink>
+        <ButtonLink to={`/lots/${props.id}/preview`}>
+          Опубликовать черновик
+        </ButtonLink>
       )
 
     case LotStatus.MODERATION:
@@ -177,7 +192,9 @@ function LotPreviewStatusContent(props: LotProps) {
             </div>
             <LotPreviewStatus iconName="pending">
               <span>На проверке</span>
-              <em><CountableTimer until={props.tradeEndTime} /></em>
+              <em>
+                <CountableTimer until={props.tradeEndTime} />
+              </em>
             </LotPreviewStatus>
           </div>
         </>
@@ -191,7 +208,9 @@ function LotPreviewStatusContent(props: LotProps) {
               <>
                 <div className="lot-preview__entry">
                   <small>До окончания торгов</small>
-                  <strong><CountableTimer until={props.tradeEndTime} /></strong>
+                  <strong>
+                    <CountableTimer until={props.tradeEndTime} />
+                  </strong>
                 </div>
                 <hr />
                 <div className="lot-preview__entry">
@@ -215,7 +234,9 @@ function LotPreviewStatusContent(props: LotProps) {
               <strong>{props.currentPrice.format()}</strong>
             </div>
           </div>
-          <LotPreviewStatus iconName="check-circle">Опубликован</LotPreviewStatus>
+          <LotPreviewStatus iconName="check-circle">
+            Опубликован
+          </LotPreviewStatus>
         </>
       )
     }
@@ -267,7 +288,10 @@ function LotPreviewSellerTradeStatusContent(props: LotProps) {
         <>
           <LotPreviewTradeStatusDetails {...props} />
           <LotPreviewStatus iconName="cup">Выкуплен</LotPreviewStatus>
-          <LotPreviewTimerButton {...props} type="confirmDeliveryTimer" route="call-a-courier">
+          <LotPreviewTimerButton
+            {...props}
+            type="confirmDeliveryTimer"
+            route="call-a-courier">
             Подтверждение продавцом
           </LotPreviewTimerButton>
         </>
@@ -325,7 +349,10 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
         <>
           <LotPreviewTradeStatusDetails {...props} />
           <LotPreviewStatus iconName="pending">Ожидает оплаты</LotPreviewStatus>
-          <LotPreviewTimerButton {...props} type="fillDeliveryTimer" route="checkout">
+          <LotPreviewTimerButton
+            {...props}
+            type="fillDeliveryTimer"
+            route="checkout">
             Оформить доставку и оплатить
           </LotPreviewTimerButton>
         </>
@@ -336,7 +363,9 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
         <>
           <LotPreviewTradeStatusDetails {...props} />
           <LotPreviewStatus iconName="cup">Выкуплен</LotPreviewStatus>
-          <LotPreviewTimerButton {...props} type="confirmDeliveryTimer">Подтверждение продавцом</LotPreviewTimerButton>
+          <LotPreviewTimerButton {...props} type="confirmDeliveryTimer">
+            Подтверждение продавцом
+          </LotPreviewTimerButton>
         </>
       )
 
@@ -345,7 +374,9 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
         <>
           <LotPreviewTradeStatusDetails {...props} />
           <LotPreviewStatus iconName="cup">Выкуплен</LotPreviewStatus>
-          <LotPreviewTimerButton {...props} type="confirmShipmentTimer">Ожидает отправки</LotPreviewTimerButton>
+          <LotPreviewTimerButton {...props} type="confirmShipmentTimer">
+            Ожидает отправки
+          </LotPreviewTimerButton>
         </>
       )
     case LotTradeStatus.DELIVERY:
@@ -360,8 +391,13 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
       return (
         <>
           <LotPreviewTradeStatusDetails {...props} />
-          <LotPreviewStatus iconName="delivery">Доставлен курьером</LotPreviewStatus>
-          <LotPreviewTimerButton {...props} type="confirmDeliveryTimer" route="confirm-delivery">
+          <LotPreviewStatus iconName="delivery">
+            Доставлен курьером
+          </LotPreviewStatus>
+          <LotPreviewTimerButton
+            {...props}
+            type="confirmDeliveryTimer"
+            route="confirm-delivery">
             Подтвердить получение
           </LotPreviewTimerButton>
         </>
@@ -380,15 +416,13 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
   }
 }
 
-
-
-
-
 // Helpers
 
-
 function LotPreviewTradeStatusDetails(props: LotProps) {
-  const AUTHOR = props.merchant === "seller" ? (props.buyer && <Author {...props.buyer} />) : (props.seller && <Author {...props.seller} />)
+  const AUTHOR =
+    props.merchant === "seller"
+      ? props.buyer && <Author {...props.buyer} />
+      : props.seller && <Author {...props.seller} />
   return (
     <div className="lot-preview__details">
       {AUTHOR}
@@ -401,8 +435,8 @@ function LotPreviewTradeStatusDetails(props: LotProps) {
   )
 }
 
-
-interface LotPreviewTradeStatusTimerButtonProps extends Pick<LotProps, "id" | "editedAt"> {
+interface LotPreviewTradeStatusTimerButtonProps
+  extends Pick<LotProps, "id" | "editedAt"> {
   type: keyof ReturnType<typeof useDeliveryTimers>
   route?: "call-a-courier" | "checkout" | "confirm-delivery"
   disabled?: boolean
@@ -411,15 +445,23 @@ interface LotPreviewTradeStatusTimerButtonProps extends Pick<LotProps, "id" | "e
 }
 
 function LotPreviewTimerButton(props: LotPreviewTradeStatusTimerButtonProps) {
-  const [disabled, setDisabled] = useState(props.disabled || props.route == null)
+  const [disabled, setDisabled] = useState(
+    props.disabled || props.route == null
+  )
   const deliveryTimers = useDeliveryTimers()
 
   const minutesOffset = deliveryTimers[props.type]
-  const slice: [number?, number?] = props.type === "fillDeliveryTimer" ? [2] : [1]
+  const slice: [number?, number?] =
+    props.type === "fillDeliveryTimer" ? [2] : [1]
 
   return (
     <ButtonLink to={`${props.route}/${props.id}`} disabled={disabled}>
-      <CountableTimer until={offsetDateDay(props.editedAt, minutesOffset)} slice={slice} endLabel="" onEnd={() => setDisabled(true)} />
+      <CountableTimer
+        until={offsetDateDay(props.editedAt, minutesOffset)}
+        slice={slice}
+        endLabel=""
+        onEnd={() => setDisabled(true)}
+      />
       {props.children && (
         <>
           {" "}
@@ -443,8 +485,5 @@ function LotPreviewStatus(props: LotPreviewStatusProps) {
     </div>
   )
 }
-
-
-
 
 export default LotPreview

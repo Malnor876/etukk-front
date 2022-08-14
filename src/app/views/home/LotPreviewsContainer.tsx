@@ -25,9 +25,6 @@ interface LotPreviewsContainerProps {
 }
 
 function LotPreviewsContainer(props: LotPreviewsContainerProps) {
-  console.log("LotPreviewsContainer", props)
-  const user = useSelector(state => state.user)
-
   const [page, setPage] = useState(1)
   const [pageSize] = useState(12)
 
@@ -78,7 +75,6 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
   const [lots, setLots] = useState<LotPreviewType[]>([])
   const response = useQuery(getLot(pageSize, (page - 1) * pageSize, filters))
-  console.log("response", response)
   const {error, loading, payload} = response
   if (error)
     throw new QueryError(

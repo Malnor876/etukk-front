@@ -40,6 +40,7 @@ export function mapLotPreview(lot: SchemaLot): LotPreviewType {
 export function mapLotsLists(
   lots: SchemaLot[]
 ): PaginationType<LotPreviewType> {
+  console.log("lots", lots)
   return {
     current: 1,
     limit: 100,
@@ -74,7 +75,7 @@ export function mapLot(lot: SchemaLot): LotInfoType {
     betStep: new Price(lot.bet_step ?? -1),
     startPrice: new Price(lot.start_price ?? -1),
     currentPrice: new Price(lot.now_price ?? -1),
-
+    user_id: lot.user_id,
     seller: mapUser(lot.user as any),
     buyer: mapUser(lot.buyer as any),
 

@@ -1,5 +1,4 @@
 import {Route, Routes} from "react-router"
-import {RouteProps} from "react-router-dom"
 
 import ViewLayout from "./layouts/ViewLayout/ViewLayout"
 import AboutView from "./views/about/AboutView"
@@ -17,8 +16,6 @@ import SupportView from "./views/support"
 import TermsView from "./views/terms"
 import UserView from "./views/user/UserView"
 
-enum AppRoutes {}
-
 function AppRouter() {
   return (
     <Routes>
@@ -29,8 +26,8 @@ function AppRouter() {
           <Route path="hot" element={<HomeView />} />
           <Route path="search/:categoryId" element={<HomeView />} />
 
-          <Route path="lots/:lotId" element={<LotView />} />
-          <Route path="lots/:lotId/edit" element={<LotEditView />} />
+          <Route path="lots/:lotId/:status" element={<LotView />} />
+          <Route path="lots/:lotId/:status/edit" element={<LotEditView />} />
           <Route path="lots/:lotId/preview" element={<LotPreviewView />} />
           <Route path="lots/draft/*" element={<LotDraftView />} />
 
@@ -47,12 +44,6 @@ function AppRouter() {
       </Route>
     </Routes>
   )
-}
-
-interface RouteEnumProps extends RouteProps {}
-
-function RouteEnum(props: RouteEnumProps) {
-  return <Route {...props} />
 }
 
 export default AppRouter

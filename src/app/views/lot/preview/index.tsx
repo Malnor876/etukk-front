@@ -1,19 +1,23 @@
-import { ReactError } from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
+import {ReactError} from "app/components/containers/ErrorBoundary/ErrorBoundary.errors"
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Button from "app/components/UI/Button/Button"
-import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
 import LotInfoLayout from "areas/lot/LotInfoLayout/LotInfoLayout"
-import { isValidResponse } from "infrastructure/persistence/api/client"
-import { getLotDraftByDraftId, postLotDraftByLotIdModerate } from "infrastructure/persistence/api/data/actions"
-import { mapLot } from "infrastructure/persistence/api/mappings/lots"
-import { useClient } from "react-fetching-library"
-import { Helmet } from "react-helmet"
-import { useSelector } from "react-redux"
-import { useNavigate, useParams } from "react-router-dom"
+import {LotPreviewType} from "areas/lot/types"
+import {isValidResponse} from "infrastructure/persistence/api/client"
+import {
+  getLotDraftByDraftId,
+  patchLotDraftByDraftId,
+  postLotDraftByLotIdModerate,
+} from "infrastructure/persistence/api/data/actions"
+import {mapLot} from "infrastructure/persistence/api/mappings/lots"
+import {useClient} from "react-fetching-library"
+import {Helmet} from "react-helmet"
+import {useSelector} from "react-redux"
+import {useNavigate, useParams} from "react-router-dom"
 
 function LotPreviewView() {
-  const { lotId } = useParams<"lotId">()
+  const {lotId} = useParams()
   if (lotId == null) {
     throw new ReactError(LotPreviewView, "got no lotId")
   }
@@ -26,14 +30,23 @@ function LotPreviewView() {
 
   const client = useClient()
   const navigate = useNavigate()
-  async function publishNewLot() {
+
+  async function publishNewLot(status: string) {
     if (lotId == null) return
 
     const response = await client.query(postLotDraftByLotIdModerate(+lotId))
     if (!isValidResponse(response)) return
 
-    navigate("/lots/" + lotId)
+    navigate(`/lots/${lotId}/${status}`)
   }
+  async function saveDraft(payload: LotPreviewType) {
+    if (lotId == null) return
+    const response = await client.query(patchLotDraftByDraftId(+lotId, payload))
+    if (!isValidResponse(response)) return
+
+    navigate(`/lots/${lotId}/${payload.status}`)
+  }
+
   return (
     <>
       <Helmet>
@@ -45,8 +58,12 @@ function LotPreviewView() {
             <h2 className="heading">Просмотр лота перед публикацией</h2>
             <LotInfoLayout {...payload} seller={user}>
               <Buttons>
-                <Button await onClick={publishNewLot}>Опубликовать</Button>
-                <ButtonLink outline to={`/lots/${lotId}/edit`}>Сохранить черновик</ButtonLink>
+                <Button await onClick={() => publishNewLot(payload.status)}>
+                  Опубликовать
+                </Button>
+                <Button outline onClick={() => saveDraft(payload)}>
+                  Сохранить черновик
+                </Button>
               </Buttons>
             </LotInfoLayout>
           </>

@@ -23,6 +23,7 @@ export interface UserSigned {
 export interface UserAnonymous {
   auth: false
   id?: number
+  firstName?: string
 }
 
 export type UserType = "organization" | "user"

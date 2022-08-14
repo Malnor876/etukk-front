@@ -1,6 +1,6 @@
 import Previews from "app/layouts/Previews/Previews"
 
-import { LotPreviewType } from "../types"
+import {LotPreviewType} from "../types"
 import LotPreview from "./LotPreview"
 
 interface LotPreviewsProps {
@@ -13,7 +13,12 @@ function LotPreviews(props: LotPreviewsProps) {
   return (
     <Previews>
       {props.previews.map(lotPreview => (
-        <LotPreview {...lotPreview} lookalike={props.lookalike} merchant={props.merchant} key={lotPreview.id} />
+        <LotPreview
+          {...lotPreview}
+          lookalike={props.lookalike}
+          merchant={props.merchant}
+          key={lotPreview.id}
+        />
       ))}
     </Previews>
   )

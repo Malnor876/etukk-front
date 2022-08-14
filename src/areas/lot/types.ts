@@ -1,6 +1,9 @@
-import { UserSigned, UserType } from "infrastructure/persistence/redux/reducers/user/types"
-import { DateInterval } from "utils/date"
-import { Price } from "utils/extensions"
+import {
+  UserSigned,
+  UserType,
+} from "infrastructure/persistence/redux/reducers/user/types"
+import {DateInterval} from "utils/date"
+import {Price} from "utils/extensions"
 
 export interface LotPreviewType extends LotInfoType {
   id: number
@@ -13,7 +16,6 @@ export interface LotPreviewType extends LotInfoType {
   tradeStartTime: Date
   tradeEndTime: Date
   betsCount: number
-
   status: LotStatus
   tradeStatus: LotTradeStatus
 
@@ -48,7 +50,7 @@ export interface LotInfoType {
   betStep: Price
   startPrice: Price
   currentPrice: Price
-
+  user_id: number
   buyerId?: number
   buyer?: UserSigned
   seller?: UserSigned
@@ -62,7 +64,6 @@ export interface LotInfoType {
   tradeStartTime: Date
   tradeEndTime: Date
   betsCount: number
-
 
   deliveryOrder?: {
     buyerContactPhone: string
@@ -81,17 +82,14 @@ export interface LotInfoType {
   }
 }
 
-
 /**
  * Enums are to fit the backend ones
  * to make it easier to understand
  * (a kind of overriding to make more sense).
- * 
+ *
  * @example
  * FRONTEND_NAMING = "probably_not_understandable_backend_naming"
  */
-
-
 
 export enum LotStatus {
   UNKNOWN = "unknown",
@@ -102,7 +100,7 @@ export enum LotStatus {
   REJECTED = "rejected",
   PUBLISHED = "published",
   SOLD = "sold",
-  CLOSED = "closed"
+  CLOSED = "closed",
 }
 
 export enum LotTradeStatus {
@@ -114,10 +112,10 @@ export enum LotTradeStatus {
   CONFIRMATION = "confirmation",
   DELIVERY = "delivery",
   DELIVERY_REJECTED = "delivery_rejected",
-  DELIVERED = "delivered"
+  DELIVERED = "delivered",
 }
 
 export enum LotDelivery {
   all = "intercity",
-  local = "in_city"
+  local = "in_city",
 }

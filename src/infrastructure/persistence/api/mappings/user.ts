@@ -1,10 +1,12 @@
-import { UserSigned } from "infrastructure/persistence/redux/reducers/user/types"
+import {UserSigned} from "infrastructure/persistence/redux/reducers/user/types"
 
-import { SchemaUser } from "../data/schemas"
-import { mapImageUrl } from "./helpers"
+import {SchemaUser} from "../data/schemas"
+import {mapImageUrl} from "./helpers"
 
 export function mapUser(user?: SchemaUser): UserSigned {
-  const [firstName, lastName] = (user?.fullname ?? "unknown unknownovich").split(" ")
+  const [firstName, lastName] = (
+    user?.fullname ?? "unknown unknownovich"
+  ).split(" ")
   return {
     auth: true,
     id: user?.id ?? -1,
@@ -18,14 +20,16 @@ export function mapUser(user?: SchemaUser): UserSigned {
     buyerRating: user?.seller_rating ?? -1,
     sellerRating: user?.seller_rating ?? -1,
     email: user?.email ?? "unknown",
-    phone: user?.phonenumber ?? "unknown"
+    phone: user?.phonenumber ?? "unknown",
   }
 }
 
 export function mapUserType(userType: "organization" | "user") {
   switch (userType) {
-    case "user": return "Физическое Лицо"
-    case "organization": return "Юридическое Лицо"
+    case "user":
+      return "Физическое Лицо"
+    case "organization":
+      return "Юридическое Лицо"
 
     default:
       return "Неизвестное"

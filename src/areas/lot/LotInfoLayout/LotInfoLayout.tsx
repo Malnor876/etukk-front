@@ -18,7 +18,6 @@ interface LotInfoProps extends LotInfoType {
 
 function LotInfoLayout(props: LotInfoProps) {
   const user = useSelector(state => state.user)
-  console.log("LotInfoLayout", props)
 
   const started = Date.now() > props.startEndInterval.date1.getTime()
   const ended = Date.now() >= props.startEndInterval.date2.getTime()
@@ -38,7 +37,9 @@ function LotInfoLayout(props: LotInfoProps) {
   }, [props])
 
   const Preview = (
-    <LotInfoPreview {..._.pick(props, "id", "slides", "bookmarked")} />
+    <LotInfoPreview
+      {..._.pick(props, "id", "slides", "bookmarked", "user_id")}
+    />
   )
   const Summary = (
     <LotInfoSummary
@@ -54,8 +55,10 @@ function LotInfoLayout(props: LotInfoProps) {
         "city",
         "startPrice",
         "startEndInterval",
+        "status",
         "delivery",
-        "buyerId"
+        "buyerId",
+        "user_id"
       )}
     />
   )
