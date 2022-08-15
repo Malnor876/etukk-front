@@ -1,4 +1,4 @@
-import "./Picker.scss";
+import "./Picker.scss"
 
 import {
   Children,
@@ -7,31 +7,31 @@ import {
   ReactElement,
   useEffect,
   useState,
-} from "react";
-import {classWithModifiers} from "utils/common";
+} from "react"
+import {classWithModifiers} from "utils/common"
 
 interface PickerProps<V> {
-  name?: string;
-  width?: string;
-  defaultValue?: V;
-  onChange?: Dispatch<V>;
-  children: ReactElement<ComponentProps<"option"> & {value: V}>[];
+  name?: string
+  width?: string
+  defaultValue?: V
+  onChange?: Dispatch<V>
+  children: ReactElement<ComponentProps<"option"> & {value: V}>[]
 }
 
 function Picker<V>(props: PickerProps<V>) {
   const [options, setOptions] = useState(
     Children.map(props.children, child => child.props)
-  );
-  const [choice, setChoice] = useState<unknown>(props.defaultValue);
+  )
+  const [choice, setChoice] = useState<unknown>(props.defaultValue)
   useEffect(
     () => setOptions(Children.map(props.children, child => child.props)),
     [props.children]
-  );
+  )
   function choose(index: number) {
-    const value = options[index].value as unknown as V;
+    const value = options[index].value as unknown as V
 
-    setChoice(value);
-    props.onChange?.(value);
+    setChoice(value)
+    props.onChange?.(value)
   }
   return (
     <div className="picker" role="list" aria-details="pick a value">
@@ -49,7 +49,7 @@ function Picker<V>(props: PickerProps<V>) {
         </div>
       ))}
     </div>
-  );
+  )
 }
 
-export default Picker;
+export default Picker

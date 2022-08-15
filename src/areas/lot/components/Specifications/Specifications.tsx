@@ -1,91 +1,105 @@
-import "./Specifications.scss";
+import "./Specifications.scss"
 
-import CloseButton from "app/components/UI/CloseButton/CloseButton";
-import Icon from "app/components/UI/Icon/Icon";
-import Input from "app/components/UI/Input/Input";
-import {Dispatch, useRef, useState} from "react";
-import {inputValue} from "utils/common";
+import CloseButton from "app/components/UI/CloseButton/CloseButton"
+import Icon from "app/components/UI/Icon/Icon"
+import Input from "app/components/UI/Input/Input"
+import {Dispatch, useRef, useState} from "react"
+import {inputValue} from "utils/common"
 
 const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
   {
     id: 0,
     key: "Длина (м)",
     value: "",
+    required: true,
     disabledKey: true,
     number: true,
+    max: "1.5",
+    min: "0.01",
   },
   {
     id: 1,
     key: "Ширина (м)",
     value: "",
+    required: true,
     disabledKey: true,
     number: true,
+    max: "1.5",
+    min: "0.01",
   },
   {
     id: 2,
     key: "Высота (м)",
     value: "",
+    required: true,
     disabledKey: true,
     number: true,
+    max: "1.5",
+    min: "0.01",
   },
   {
     id: 3,
     key: "Вес (кг)",
     value: "",
+    required: true,
     disabledKey: true,
     number: true,
+    max: "100",
   },
   {id: 4, key: "", value: ""},
-];
+]
 
 interface SpecificationType {
-  id?: number;
-  key: string;
-  value: string;
+  id?: number
+  key: string
+  value: string
   /**
    * The key can't be overwritten and the field can't be deleted.
    * The value has to be filled.
    */
-  required?: boolean;
-  disabledKey?: boolean;
-  number?: boolean;
+  required?: boolean
+  disabledKey?: boolean
+  number?: boolean
+  max?: string
+  min?: string
 }
 
 interface SpecificationsProps {
-  name?: string;
-  max?: number;
-  defaultValue?: SpecificationType[];
-  onChange?: Dispatch<SpecificationType[]>;
+  name?: string
+  max?: number
+  required?: boolean
+  defaultValue?: SpecificationType[]
+  onChange?: Dispatch<SpecificationType[]>
 }
 
 function Specifications(props: SpecificationsProps) {
   const [specifications, setSpecifications] = useState<SpecificationType[]>(
-    props.defaultValue ?? DEFAULT_SPECIFICATIONS
-  );
-  const uniqueID = useRef(specifications.length - 1);
+    props.defaultValue?.length ? props.defaultValue : DEFAULT_SPECIFICATIONS
+  )
+  const uniqueID = useRef(specifications.length - 1)
 
   function addSpecification(key: string, value: string) {
-    const id = (uniqueID.current += 1);
-    setSpecifications(state => [...state, {id, key, value}]);
+    const id = (uniqueID.current += 1)
+    setSpecifications(state => [...state, {id, key, value}])
   }
   function removeSpecification(index: number) {
-    specifications.splice(index, 1);
-    setSpecifications([...specifications]);
+    specifications.splice(index, 1)
+    setSpecifications([...specifications])
   }
   function editSpecification(index: number, next: Partial<SpecificationType>) {
-    specifications[index] = {...specifications[index], ...next};
-    setSpecifications([...specifications]);
+    specifications[index] = {...specifications[index], ...next}
+    setSpecifications([...specifications])
     const newSpecifications = specifications.filter(
       specification => specification.value !== ""
-    );
-    props.onChange?.(newSpecifications);
+    )
+    props.onChange?.(newSpecifications)
   }
 
   function editSpecificationKey(index: number) {
-    return (key: string) => editSpecification(index, {key});
+    return (key: string) => editSpecification(index, {key})
   }
   function editSpecificationValue(index: number) {
-    return (value: string) => editSpecification(index, {value});
+    return (value: string) => editSpecification(index, {value})
   }
 
   return (
@@ -103,9 +117,13 @@ function Specifications(props: SpecificationsProps) {
             />
             <Input
               placeholder="Значение..."
+              required
               name={`${props.name}[${specification.id}].value`}
               type={specification.number ? "number" : undefined}
               step="0.01"
+              max={specification.max}
+              min={specification.min}
+              width="225px"
               defaultValue={specification.value}
               onChange={inputValue(editSpecificationValue(index))}
             />
@@ -127,7 +145,7 @@ function Specifications(props: SpecificationsProps) {
         </button>
       )}
     </div>
-  );
+  )
 }
 
-export default Specifications;
+export default Specifications

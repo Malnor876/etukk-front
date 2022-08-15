@@ -1,14 +1,14 @@
-import Input from "app/components/UI/Input/Input";
-import {inputValue} from "utils/common";
+import Input from "app/components/UI/Input/Input"
+import {inputValue} from "utils/common"
 
-import {lotDraftStorage} from ".";
+import {lotDraftStorage} from "."
 
 function EditLotName() {
-  const [title, setTitle] = lotDraftStorage.state("title", "");
+  const [title, setTitle] = lotDraftStorage.state("title", "")
   function updateTitle(value: string) {
-    value = value.trimStart();
-    value = value.replace(/ +/g, " ");
-    setTitle(value);
+    value = value.trimStart()
+    value = value.replace(/ +/g, " ")
+    setTitle(value)
   }
 
   return (
@@ -23,7 +23,7 @@ function EditLotName() {
         onChange={inputValue(updateTitle)}
       />
     </section>
-  );
+  )
 }
 
-export default EditLotName;
+export default EditLotName

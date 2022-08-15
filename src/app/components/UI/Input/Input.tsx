@@ -1,15 +1,27 @@
 import "./Input.scss"
 
 import _ from "lodash"
-import { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, ReactNode, useId, useRef, useState } from "react"
-import { classWithModifiers, isDictionary } from "utils/common"
-import { PhoneNumber } from "utils/extensions"
+import {
+  ChangeEvent,
+  DetailedHTMLProps,
+  InputHTMLAttributes,
+  ReactNode,
+  useId,
+  useRef,
+  useState,
+} from "react"
+import {classWithModifiers, isDictionary} from "utils/common"
+import {PhoneNumber} from "utils/extensions"
 
-import Icon, { IconName } from "../Icon/Icon"
+import Icon, {IconName} from "../Icon/Icon"
 
 export type InputConstraint = [RegExp | string, string]
 
-export interface InputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+export interface InputProps
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
   width?: string
   iconName?: IconName
   validity?: boolean
@@ -61,6 +73,7 @@ function Input(props: InputProps) {
     }
 
     const invalid = !target.checkValidity()
+
     if (invalid && target.validationMessage === "") {
       target.setCustomValidity(props.customValidity || "")
     }
@@ -69,35 +82,71 @@ function Input(props: InputProps) {
     props.onChange?.(event)
   }
 
-  const pattern = props.pattern || (props.type === "datetime-local" ? "[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" : undefined)
+  const pattern =
+    props.pattern ||
+    (props.type === "datetime-local"
+      ? "[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
+      : undefined)
   const dataListId = `${id}-datalist`
   return (
-    <label className={classWithModifiers("input", invalid && "invalid")} style={{ "--input-width": props.width }}>
-      {props.children && (
-        <div className="input__label">{props.children}</div>
-      )}
+    <label
+      className={classWithModifiers("input", invalid && "invalid")}
+      style={{"--input-width": props.width}}>
+      {props.children && <div className="input__label">{props.children}</div>}
       <div className="input__appearance">
-        <input {..._.omit(props, "iconName", "customValidity", "children", "onIconClick", "dataList")} list={dataListId} maxLength={props.type === "tel" ? undefined : props.maxLength} pattern={pattern} className="input__input" onChange={onChange} placeholder={props.placeholder && (props.placeholder + (props.required ? "*" : ""))} />
+        <input
+          {..._.omit(
+            props,
+            "iconName",
+            "customValidity",
+            "children",
+            "onIconClick",
+            "dataList"
+          )}
+          list={dataListId}
+          maxLength={props.type === "tel" ? undefined : props.maxLength}
+          type={props.type}
+          step={props.step}
+          max={props.max}
+          min={props.min}
+          pattern={pattern}
+          className="input__input"
+          onChange={onChange}
+          placeholder={
+            props.placeholder && props.placeholder + (props.required ? "*" : "")
+          }
+        />
         {props.iconName && (
-          <Icon className={classWithModifiers("input__icon", !!props.onIconClick && "clickable")} name={props.iconName} onClick={props.onIconClick} />
+          <Icon
+            className={classWithModifiers(
+              "input__icon",
+              !!props.onIconClick && "clickable"
+            )}
+            name={props.iconName}
+            onClick={props.onIconClick}
+          />
         )}
       </div>
       {props.validity && (
-        <span className={classWithModifiers("input__validity", invalid && "active")} aria-hidden={!invalid}>{props.customValidity || "Данные введены неверно"}</span>
+        <span
+          className={classWithModifiers("input__validity", invalid && "active")}
+          aria-hidden={!invalid}>
+          {props.customValidity || "Данные введены неверно"}
+        </span>
       )}
 
       <datalist id={dataListId}>
-        {props.dataList instanceof Array && (
+        {props.dataList instanceof Array &&
           props.dataList.map((value, index) => (
             <option value={value.toString()} key={index} />
-          ))
-        )}
+          ))}
 
-        {isDictionary(props.dataList) && (
+        {isDictionary(props.dataList) &&
           Object.entries(props.dataList).map(([key, value], index) => (
-            <option value={value.toString()} key={index}>{key}</option>
-          ))
-        )}
+            <option value={value.toString()} key={index}>
+              {key}
+            </option>
+          ))}
       </datalist>
     </label>
   )

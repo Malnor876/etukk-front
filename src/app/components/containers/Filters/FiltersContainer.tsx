@@ -4,56 +4,56 @@ import {
   FilterPriceRange,
   FilterRadios,
   FiltersToolbox,
-} from "app/components/containers/Filters/Filters";
-import Button from "app/components/UI/Button/Button";
-import Checkbox from "app/components/UI/Checkbox/Checkbox";
-import Icon from "app/components/UI/Icon/Icon";
-import Input from "app/components/UI/Input/Input";
-import Radio from "app/components/UI/Radio/Radio";
-import ToolTip from "app/components/UI/ToolTip/ToolTip";
-import {breakDownCategories} from "app/views/lot-new/edit/EditLotCategory";
-import {LotDelivery} from "areas/lot/types";
-import {getCategory} from "infrastructure/persistence/api/data/actions";
+} from "app/components/containers/Filters/Filters"
+import Button from "app/components/UI/Button/Button"
+import Checkbox from "app/components/UI/Checkbox/Checkbox"
+import Icon from "app/components/UI/Icon/Icon"
+import Input from "app/components/UI/Input/Input"
+import Radio from "app/components/UI/Radio/Radio"
+import ToolTip from "app/components/UI/ToolTip/ToolTip"
+import {breakDownCategories} from "app/views/lot-new/edit/EditLotCategory"
+import {LotDelivery} from "areas/lot/types"
+import {getCategory} from "infrastructure/persistence/api/data/actions"
 import {
   mapFiltersCategory,
   RecursiveTreeElement,
-} from "infrastructure/persistence/api/mappings/lots";
-import {Dispatch, useEffect, useState} from "react";
-import {classWithModifiers, inputValue} from "utils/common";
+} from "infrastructure/persistence/api/mappings/lots"
+import {Dispatch, useEffect, useState} from "react"
+import {classWithModifiers, inputValue} from "utils/common"
 
-import QueryContainer from "../QueryContainer/QueryContainer";
-import {FiltersState, FiltersType} from "./Filters.types";
-import filtersContext from "./filtersContext";
+import QueryContainer from "../QueryContainer/QueryContainer"
+import {FiltersState, FiltersType} from "./Filters.types"
+import filtersContext from "./filtersContext"
 
 interface FiltersContainerProps {
-  pending?: boolean;
-  onSubmit?: Dispatch<FiltersType>;
+  pending?: boolean
+  onSubmit?: Dispatch<FiltersType>
 }
 
 function turnBigMinHeight(onOff: boolean) {
-  const d = document.querySelector("#jj");
-  if (!(d instanceof HTMLElement)) return;
+  const d = document.querySelector("#jj")
+  if (!(d instanceof HTMLElement)) return
 
   if (onOff) {
-    d.style.minHeight = "65em";
+    d.style.minHeight = "65em"
   } else {
-    d.style.minHeight = "18em";
+    d.style.minHeight = "18em"
   }
 }
 
 function FiltersContainer(props: FiltersContainerProps) {
-  const [state, setState] = useState<FiltersState>();
-  const reducer = useState<FiltersType>({});
-  const [filters] = reducer;
+  const [state, setState] = useState<FiltersState>()
+  const reducer = useState<FiltersType>({})
+  const [filters] = reducer
   async function onSubmit() {
-    await props.onSubmit?.(filters);
-    setState(undefined);
+    await props.onSubmit?.(filters)
+    setState(undefined)
   }
   useEffect(() => {
     if (state === "expanded") {
-      turnBigMinHeight(true);
+      turnBigMinHeight(true)
     }
-  }, [state]);
+  }, [state])
   return (
     <filtersContext.Provider value={reducer}>
       <div
@@ -84,27 +84,27 @@ function FiltersContainer(props: FiltersContainerProps) {
         </div>
       </div>
     </filtersContext.Provider>
-  );
+  )
 }
 
 export function FiltersContainerMobile(props: FiltersContainerProps) {
-  const [state, setState] = useState<FiltersState>();
-  const reducer = useState<FiltersType>({});
-  const [filters, setFilters] = reducer;
+  const [state, setState] = useState<FiltersState>()
+  const reducer = useState<FiltersType>({})
+  const [filters, setFilters] = reducer
   async function onSubmit() {
-    await props.onSubmit?.(filters);
-    setState(undefined);
+    await props.onSubmit?.(filters)
+    setState(undefined)
   }
 
   function chooseCategory(id: number) {
-    const nextFilters = {...filters, categories: id.toString()};
+    const nextFilters = {...filters, categories: id.toString()}
 
-    setFilters(nextFilters);
-    props.onSubmit?.(nextFilters);
+    setFilters(nextFilters)
+    props.onSubmit?.(nextFilters)
   }
 
   function clear() {
-    setFilters({});
+    setFilters({})
   }
   return (
     <filtersContext.Provider value={reducer}>
@@ -119,11 +119,11 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
           </button>
           <QueryContainer action={getCategory()}>
             {payload => {
-              const currentCategoryId = Number(filters.categories);
+              const currentCategoryId = Number(filters.categories)
               const {options} = breakDownCategories(
                 payload,
                 Number(filters.categories)
-              );
+              )
               return (
                 <div className="mobile-filters__categories">
                   {options?.map(category => (
@@ -139,7 +139,7 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
                     </Button>
                   ))}
                 </div>
-              );
+              )
             }}
           </QueryContainer>
         </div>
@@ -175,14 +175,12 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
         </div>
       </div>
     </filtersContext.Provider>
-  );
+  )
 }
 
 function FiltersTreeContainer() {
-  const dateNow = new Date(new Date().setUTCHours(0))
-    .toISOString()
-    .slice(0, 16);
-  const [tradeStart, setTradeStart] = useState(dateNow);
+  const dateNow = new Date(new Date().setUTCHours(0)).toISOString().slice(0, 16)
+  const [tradeStart, setTradeStart] = useState(dateNow)
   return (
     <>
       <Filter group label="КАТЕГОРИИ">
@@ -232,17 +230,17 @@ function FiltersTreeContainer() {
         </FilterInputs>
       </Filter>
     </>
-  );
+  )
 }
 
 interface FilterRecursionProps {
-  name: string;
-  group?: boolean;
-  elements: RecursiveTreeElement[];
+  name: string
+  group?: boolean
+  elements: RecursiveTreeElement[]
 }
 
 function FilterRecursion(props: FilterRecursionProps) {
-  if (props.elements.length === 0) return null;
+  if (props.elements.length === 0) return null
   // console.log(props.elements)
   return (
     <>
@@ -271,7 +269,7 @@ function FilterRecursion(props: FilterRecursionProps) {
         </Filter>
       ))}
     </>
-  );
+  )
 }
 
-export default FiltersContainer;
+export default FiltersContainer

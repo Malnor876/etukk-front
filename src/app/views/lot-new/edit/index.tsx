@@ -81,7 +81,6 @@ function LotDraftView() {
   function validate(key: Fields): boolean {
     const value = lotDraftStorage.get(key)
     if (value == null) return false
-
     switch (key) {
       case "title": {
         if (typeof value !== "string") return false
@@ -101,6 +100,16 @@ function LotDraftView() {
           if (item.key.length === 0) return false
           if (item.value.length === 0) return false
 
+          if (
+            Number(item.id) < 3 &&
+            (Number(item.value) > 1.5 || Number(item.value) < 0.01)
+          )
+            return false
+          if (
+            Number(item.id) === 3 &&
+            (Number(item.value) > 100 || Number(item.value) < 0.01)
+          )
+            return false
           return true
         })
       }
@@ -130,7 +139,7 @@ function LotDraftView() {
     "city",
     "specifications"
   )
-
+  console.log("nextButtonDisabled", nextButtonDisabled)
   useEffect(() => {
     const remove = lotDraftStorage.on(() => {
       setFlag(flag => !flag)

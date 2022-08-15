@@ -1,20 +1,20 @@
-import QueryContainer from "app/components/containers/QueryContainer/QueryContainer";
-import Input from "app/components/UI/Input/Input";
-import InputAddress from "app/components/UI/Input/InputAddress";
-import Radio from "app/components/UI/Radio/Radio";
-import Selector from "app/components/UI/Selector/Selector";
-import {Row} from "app/layouts/BaseLayouts/BaseLayouts";
-import {getTimes} from "infrastructure/persistence/api/data/actions";
-import {inputValue} from "utils/common";
-import {humanizeDate} from "utils/date";
+import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
+import Input from "app/components/UI/Input/Input"
+import InputAddress from "app/components/UI/Input/InputAddress"
+import Radio from "app/components/UI/Radio/Radio"
+import Selector from "app/components/UI/Selector/Selector"
+import {Row} from "app/layouts/BaseLayouts/BaseLayouts"
+import {getTimes} from "infrastructure/persistence/api/data/actions"
+import {inputValue} from "utils/common"
+import {humanizeDate} from "utils/date"
 
-import {lotDraftStorage} from ".";
+import {lotDraftStorage} from "."
 
 function EditLotTrade() {
-  const [date, setDate] = lotDraftStorage.state("date", "");
-  const [price, setPrice] = lotDraftStorage.state("price", "");
-  const [city, setCity] = lotDraftStorage.state("city", "");
-  const [delivery, setDelivery] = lotDraftStorage.state("delivery", "all");
+  const [date, setDate] = lotDraftStorage.state("date", "")
+  const [price, setPrice] = lotDraftStorage.state("price", "")
+  const [city, setCity] = lotDraftStorage.state("city", "")
+  const [delivery, setDelivery] = lotDraftStorage.state("delivery", "all")
   return (
     <section>
       <h2>Торги и доставка</h2>
@@ -75,7 +75,7 @@ function EditLotTrade() {
         <option value="local">Доставка по городу продажи</option>
       </Selector>
     </section>
-  );
+  )
 }
 
-export default EditLotTrade;
+export default EditLotTrade

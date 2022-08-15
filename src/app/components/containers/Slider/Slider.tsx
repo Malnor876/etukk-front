@@ -1,38 +1,38 @@
-import "./Slider.scss";
+import "./Slider.scss"
 
-import PopupYoutubeVideo from "app/components/modals/PopupYoutubeVideo/PopupYoutubeVideo";
-import SliderPopup from "app/components/modals/SliderPopup/SliderPopup";
-import Icon from "app/components/UI/Icon/Icon";
-import {useState} from "react";
-import {Modal} from "react-modal-global";
-import {YouTubeVideo} from "utils/business";
+import PopupYoutubeVideo from "app/components/modals/PopupYoutubeVideo/PopupYoutubeVideo"
+import SliderPopup from "app/components/modals/SliderPopup/SliderPopup"
+import Icon from "app/components/UI/Icon/Icon"
+import {useState} from "react"
+import {Modal} from "react-modal-global"
+import {YouTubeVideo} from "utils/business"
 
 interface SliderProps {
-  slides: string[];
-  initSlideIndex?: number;
-  allowFullscreen?: boolean;
+  slides: string[]
+  initSlideIndex?: number
+  allowFullscreen?: boolean
 }
 
 function Slider(props: SliderProps) {
-  const [index, setIndex] = useState(props.initSlideIndex || 0);
+  const [index, setIndex] = useState(props.initSlideIndex || 0)
   function updateIndex(value: number) {
     if (value < 0) {
-      return setIndex(props.slides.length - 1);
+      return setIndex(props.slides.length - 1)
     }
     if (value > props.slides.length - 1) {
-      return setIndex(0);
+      return setIndex(0)
     }
-    setIndex(value);
+    setIndex(value)
   }
-  const next = () => updateIndex(index + 1);
-  const prev = () => updateIndex(index - 1);
+  const next = () => updateIndex(index + 1)
+  const prev = () => updateIndex(index - 1)
 
-  const currentSlide = props.slides[index];
+  const currentSlide = props.slides[index]
 
   function openSliderPopup(initSlideIndex: number) {
-    if (!props.allowFullscreen) return;
+    if (!props.allowFullscreen) return
 
-    Modal.open(SliderPopup, {slides: props.slides, initSlideIndex});
+    Modal.open(SliderPopup, {slides: props.slides, initSlideIndex})
   }
 
   return (
@@ -64,17 +64,17 @@ function Slider(props: SliderProps) {
               <img className="slider__slide" src={currentSlide} alt="slide" />
             )}
           </div>
-          {props.slides.length > 1 && (
-            <div className="slider__arrows">
-              <button className="slider__arrow" type="button" onClick={prev}>
-                <Icon name="chevron" />
-              </button>
-              <button className="slider__arrow" type="button" onClick={next}>
-                <Icon name="chevron" />
-              </button>
-            </div>
-          )}
         </button>
+        {props.slides.length > 1 && (
+          <div className="slider__arrows">
+            <button className="slider__arrow" type="button" onClick={prev}>
+              <Icon name="chevron" />
+            </button>
+            <button className="slider__arrow" type="button" onClick={next}>
+              <Icon name="chevron" />
+            </button>
+          </div>
+        )}
         {props.slides.length > 1 && (
           <div className="slider__slides">
             {props.slides.map((slide, index) => (
@@ -89,7 +89,7 @@ function Slider(props: SliderProps) {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default Slider;
+export default Slider

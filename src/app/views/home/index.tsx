@@ -1,38 +1,38 @@
 import FiltersContainer, {
   FiltersContainerMobile,
-} from "app/components/containers/Filters/FiltersContainer";
-import {QueryErrorCoverBoundary} from "app/components/containers/QueryErrorCoverBoundary/QueryErrorCoverBoundary";
-import SearchSuggest from "app/components/containers/SearchSuggest/SearchSuggest";
-import Switcher from "app/components/UI/Switcher/Switcher";
-import Container from "app/layouts/Container/Container";
-import useDeviceWidth from "hooks/useDeviceWidth";
-import {DeviceWidths} from "hooks/useResizeObserverEntry";
-import {getSearch} from "infrastructure/persistence/api/data/actions";
-import {useEffect, useState} from "react";
-import {useQuery} from "react-fetching-library";
-import {Helmet} from "react-helmet";
+} from "app/components/containers/Filters/FiltersContainer"
+import {QueryErrorCoverBoundary} from "app/components/containers/QueryErrorCoverBoundary/QueryErrorCoverBoundary"
+import SearchSuggest from "app/components/containers/SearchSuggest/SearchSuggest"
+import Switcher from "app/components/UI/Switcher/Switcher"
+import Container from "app/layouts/Container/Container"
+import useDeviceWidth from "hooks/useDeviceWidth"
+import {DeviceWidths} from "hooks/useResizeObserverEntry"
+import {getSearch} from "infrastructure/persistence/api/data/actions"
+import {useEffect, useState} from "react"
+import {useQuery} from "react-fetching-library"
+import {Helmet} from "react-helmet"
 // import { useMatch } from "react-router"
-import {Route, Routes} from "react-router";
-import {NavLink, useParams} from "react-router-dom";
+import {Route, Routes} from "react-router"
+import {NavLink, useParams} from "react-router-dom"
 
-import LotPreviewsContainer from "./LotPreviewsContainer";
+import LotPreviewsContainer from "./LotPreviewsContainer"
 function HomeView() {
-  const params = useParams<"categoryId">();
+  const params = useParams<"categoryId">()
 
   // const matchHot = useMatch("hot")
-  const [search, setSearch] = useState("");
-  const [filterSearch, setFilterSearch] = useState("");
+  const [search, setSearch] = useState("")
+  const [filterSearch, setFilterSearch] = useState("")
   const [filters, setFilters] = useState<any>({
     categories: params.categoryId,
-  });
+  })
   // const isHot = !!matchHot
-  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile);
+  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
   useEffect(() => {
-    setFilters({...filters, categories: params.categoryId});
-  }, [params.categoryId]);
+    setFilters({...filters, categories: params.categoryId})
+  }, [params.categoryId])
 
-  const response = useQuery(getSearch(search || "!@#*("));
-  const options = response.payload || [];
+  const response = useQuery(getSearch(search || "!@#*("))
+  const options = response.payload || []
   return (
     <>
       <Helmet>
@@ -73,7 +73,7 @@ function HomeView() {
         />
       </Routes>
     </>
-  );
+  )
 }
 
-export default HomeView;
+export default HomeView

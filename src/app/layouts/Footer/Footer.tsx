@@ -1,7 +1,7 @@
-import "./Footer.scss";
+import "./Footer.scss"
 
-import OuterLink from "app/components/UI/OuterLink";
-import {Link} from "react-router-dom";
+import OuterLink from "app/components/UI/OuterLink"
+import {Link} from "react-router-dom"
 
 function Footer() {
   return (
@@ -67,7 +67,7 @@ function Footer() {
         </small>
       </div>
     </footer>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

@@ -166,6 +166,7 @@ function LotPreviewStatusContent(props: LotProps) {
     case LotStatus.CLOSED:
       return (
         <>
+          <small>Лот не продан</small>
           {/* <LotPreviewStatus iconName="truck">В пути</LotPreviewStatus> */}
           <LotPreviewStatus iconName="not-allowed">Закрыт</LotPreviewStatus>
         </>
