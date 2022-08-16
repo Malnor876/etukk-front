@@ -66,10 +66,10 @@ function LotInfoLayout(props: LotInfoProps) {
     />
   )
   const BidOrChildren =
-    // props.children ||
-    tradable && (
+    props.children ||
+    (tradable && (
       <LotInfoBid {..._.pick(props, "id", "currentPrice", "betStep")} />
-    )
+    ))
 
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
   if (isMobile) {

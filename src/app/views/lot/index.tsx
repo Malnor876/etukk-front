@@ -46,7 +46,6 @@ function LotView() {
 
     navigate("/lots/" + lotId + "/drafted")
   }
-
   return (
     <div className="lot-view">
       <Helmet>
@@ -60,34 +59,36 @@ function LotView() {
               : getLotByLotId(lotId)
           }
           mapping={mapLot}>
-          {payload => (
-            <LotInfoLayout {...payload}>
-              {payload.user_id === myId &&
-                payload.status === "published" &&
-                isEditTime(payload.startEndInterval.date1) && (
-                  <Buttons spaceBetween>
-                    <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
-                      Редактировать
-                    </ButtonLink>
-                    <Button outline await onClick={unpublishNewLot}>
-                      Снять с публикации
-                    </Button>
-                  </Buttons>
-                )}
-              {payload.user_id === myId &&
-                payload.status === "drafted" &&
-                isEditTime(payload.startEndInterval.date1) && (
-                  <Buttons spaceBetween>
-                    <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
-                      Редактировать
-                    </ButtonLink>
-                    <Button outline await onClick={publishNewLot}>
-                      Опубликовать
-                    </Button>
-                  </Buttons>
-                )}
-            </LotInfoLayout>
-          )}
+          {payload =>
+            payload.user_id !== myId ? (
+              <LotInfoLayout {...payload} />
+            ) : (
+              <LotInfoLayout {...payload}>
+                {payload.status === "published" &&
+                  isEditTime(payload.startEndInterval.date1) && (
+                    <Buttons spaceBetween>
+                      <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
+                        Редактировать
+                      </ButtonLink>
+                      <Button outline await onClick={unpublishNewLot}>
+                        Снять с публикации
+                      </Button>
+                    </Buttons>
+                  )}
+                {payload.status === "drafted" &&
+                  isEditTime(payload.startEndInterval.date1) && (
+                    <Buttons spaceBetween>
+                      <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
+                        Редактировать
+                      </ButtonLink>
+                      <Button outline await onClick={publishNewLot}>
+                        Опубликовать
+                      </Button>
+                    </Buttons>
+                  )}
+              </LotInfoLayout>
+            )
+          }
         </QueryContainer>
       </QueryErrorCoverBoundary>
     </div>
