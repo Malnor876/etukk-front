@@ -57,7 +57,7 @@ function LotPreviewView() {
           <>
             <h2 className="heading">Просмотр лота перед публикацией</h2>
             <LotInfoLayout {...payload} seller={user}>
-              <Buttons>
+              <Buttons spaceBetween>
                 <Button await onClick={() => publishNewLot(payload.status)}>
                   Опубликовать
                 </Button>

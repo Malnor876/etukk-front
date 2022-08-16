@@ -1,7 +1,7 @@
 import "./Buttons.scss"
 
-import { ReactNode } from "react"
-import { classWithModifiers } from "utils/common"
+import {ReactNode} from "react"
+import {classWithModifiers} from "utils/common"
 
 interface ButtonsProps {
   children: ReactNode
@@ -10,7 +10,13 @@ interface ButtonsProps {
 
 function Buttons(props: ButtonsProps) {
   return (
-    <div className={classWithModifiers("buttons", props.spaceBetween && "space-between")}>{props.children}</div>
+    <div
+      className={classWithModifiers(
+        "buttons",
+        props.spaceBetween && "space-between"
+      )}>
+      {props.children}
+    </div>
   )
 }
 

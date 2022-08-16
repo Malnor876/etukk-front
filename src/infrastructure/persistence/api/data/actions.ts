@@ -717,7 +717,7 @@ export const postLotDraftByLotIdModerate = (
 /**
  * OK
  */
-export const patchLotDraftByLotIdUnpublish = (
+export const patchLotByLotIdUnpublish = (
   lot_id: number
 ): Action<{
   id: number
@@ -743,7 +743,7 @@ export const patchLotDraftByLotIdUnpublish = (
   user_id: number
 }> => ({
   method: "PATCH",
-  endpoint: `/lot/draft/${lot_id}/unpublish`,
+  endpoint: `/lot/${lot_id}/unpublish`,
   config: {
     requireAuth: true,
   },

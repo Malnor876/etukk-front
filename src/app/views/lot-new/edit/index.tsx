@@ -91,9 +91,12 @@ function LotDraftView() {
 
       case "specifications": {
         if (!(value instanceof Array)) return false
+
+        if (value.length < 4) return false
+
         return value.every(item => {
           if (!isDictionary(item)) return false
-
+          console.log("item", item)
           if (typeof item.key !== "string") return false
           if (typeof item.value !== "string") return false
 

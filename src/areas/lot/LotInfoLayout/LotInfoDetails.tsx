@@ -26,35 +26,13 @@ interface LotInfoDetailsProps
 function LotInfoDetails(props: LotInfoDetailsProps) {
   const user = useSelector(state => state.user)
   const myId = user.id
-  const isMyLot = Number(myId) === Number(props.user_id)
   const [tradable, setTradable] = useState(
     props.startEndInterval.isInInterval(new Date())
   )
-  const getStatus = (status: string) => {
-    switch (status) {
-      case LotStatus.DRAFTED:
-        return "Черновик"
-      case LotStatus.MODERATION:
-        return "На проверке"
-      case LotStatus.PUBLISHED:
-        return "Опубликовано"
-      case LotStatus.REJECTED:
-        return "Отклонено"
-      case LotStatus.SOLD:
-        return "Продано"
-      default:
-        break
-    }
-  }
+
   return (
     <div className="lot-info-details">
-      {isMyLot && (
-        <h3 style={{color: "#ED1D4A", textAlign: "end"}}>
-          {getStatus(props.status)?.toUpperCase()}
-        </h3>
-      )}
       <Backward>{props.title}</Backward>
-
       <div className="lot-info-details__city">
         <span>{props.city}</span>
         <Icon

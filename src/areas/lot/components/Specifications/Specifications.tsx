@@ -6,7 +6,7 @@ import Input from "app/components/UI/Input/Input"
 import {Dispatch, useRef, useState} from "react"
 import {inputValue} from "utils/common"
 
-const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
+export const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
   {
     id: 0,
     key: "Длина (м)",
@@ -49,7 +49,7 @@ const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
   {id: 4, key: "", value: ""},
 ]
 
-interface SpecificationType {
+export interface SpecificationType {
   id?: number
   key: string
   value: string
@@ -73,9 +73,12 @@ interface SpecificationsProps {
 }
 
 function Specifications(props: SpecificationsProps) {
+  console.log("props", props.defaultValue)
+
   const [specifications, setSpecifications] = useState<SpecificationType[]>(
-    props.defaultValue?.length ? props.defaultValue : DEFAULT_SPECIFICATIONS
+    props.defaultValue ?? DEFAULT_SPECIFICATIONS
   )
+  console.log("specifications", specifications)
   const uniqueID = useRef(specifications.length - 1)
 
   function addSpecification(key: string, value: string) {

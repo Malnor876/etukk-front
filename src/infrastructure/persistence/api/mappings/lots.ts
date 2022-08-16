@@ -49,6 +49,7 @@ export function mapLotsLists(
 }
 
 export function mapLot(lot: SchemaLot): LotInfoType {
+  console.log("mapLot", lot)
   return {
     id: lot.id,
     delivery: lot.delivery_options as LotDelivery,

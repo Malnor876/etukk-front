@@ -9,6 +9,7 @@ import {isValidResponse} from "infrastructure/persistence/api/client"
 import {
   getLotByLotId,
   getLotDraftByDraftId,
+  patchLotByLotIdUnpublish,
   postLotDraftByLotIdModerate,
 } from "infrastructure/persistence/api/data/actions"
 import {mapLot} from "infrastructure/persistence/api/mappings/lots"
@@ -34,8 +35,18 @@ function LotView() {
     const response = await client.query(postLotDraftByLotIdModerate(+lotId))
     if (!isValidResponse(response)) return
 
-    navigate("/lots/" + lotId)
+    navigate("/lots/" + lotId + "/published")
   }
+
+  async function unpublishNewLot() {
+    if (lotId == null) return
+
+    const response = await client.query(patchLotByLotIdUnpublish(+lotId))
+    if (!isValidResponse(response)) return
+
+    navigate("/lots/" + lotId + "/drafted")
+  }
+
   return (
     <div className="lot-view">
       <Helmet>
@@ -54,18 +65,23 @@ function LotView() {
               {payload.user_id === myId &&
                 payload.status === "published" &&
                 isEditTime(payload.startEndInterval.date1) && (
-                  <ButtonLink outline to={`/lots/${lotId}/${lotStatus}/edit`}>
-                    Редактировать
-                  </ButtonLink>
+                  <Buttons spaceBetween>
+                    <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
+                      Редактировать
+                    </ButtonLink>
+                    <Button outline await onClick={unpublishNewLot}>
+                      Снять с публикации
+                    </Button>
+                  </Buttons>
                 )}
               {payload.user_id === myId &&
                 payload.status === "drafted" &&
                 isEditTime(payload.startEndInterval.date1) && (
-                  <Buttons>
-                    <ButtonLink outline to={`/lots/${lotId}/${lotStatus}/edit`}>
+                  <Buttons spaceBetween>
+                    <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
                       Редактировать
                     </ButtonLink>
-                    <Button await onClick={publishNewLot}>
+                    <Button outline await onClick={publishNewLot}>
                       Опубликовать
                     </Button>
                   </Buttons>

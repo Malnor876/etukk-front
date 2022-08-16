@@ -1,28 +1,33 @@
 import RequiredAuthCover from "app/components/containers/QueryContainer/RequiredAuthCover"
 import Button from "app/components/UI/Button/Button"
 import Buttons from "app/layouts/Buttons/Buttons"
-import DialogBidAccepted, { DialogError } from "app/views/lot/modals/DialogBidAccepted"
+import DialogBidAccepted, {
+  DialogError,
+} from "app/views/lot/modals/DialogBidAccepted"
 import DialogConfirmBidUp from "app/views/lot/modals/DialogConfirmBidUp"
-import { isValidResponse } from "infrastructure/persistence/api/client"
-import { postLotByLotIdBet } from "infrastructure/persistence/api/data/actions"
-import { mapLot } from "infrastructure/persistence/api/mappings/lots"
-import { useState } from "react"
-import { useClient } from "react-fetching-library"
-import { Modal } from "react-modal-global"
-import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
-import { Price } from "utils/extensions"
+import {isValidResponse} from "infrastructure/persistence/api/client"
+import {postLotByLotIdBet} from "infrastructure/persistence/api/data/actions"
+import {mapLot} from "infrastructure/persistence/api/mappings/lots"
+import {useState} from "react"
+import {useClient} from "react-fetching-library"
+import {Modal} from "react-modal-global"
+import {useSelector} from "react-redux"
+import {Link} from "react-router-dom"
+import {Price} from "utils/extensions"
 
-import { LotInfoType } from "../types"
+import {LotInfoType} from "../types"
 
-
-interface LotInfoBidProps extends Pick<LotInfoType, "id" | "currentPrice" | "betStep"> { }
+interface LotInfoBidProps
+  extends Pick<LotInfoType, "id" | "currentPrice" | "betStep"> {}
 
 function LotInfoBid(props: LotInfoBidProps) {
+  console.log("LotInfoBid", props)
   const [bidMultiplier, setBidMultiplier] = useState(1)
   const [prevPrice, setPrevPrice] = useState(props.currentPrice)
   const [currentPrice, setCurrentPrice] = useState(props.currentPrice)
-  const [stage, setStage] = useState<"default" | "choice" | "confirm">("default")
+  const [stage, setStage] = useState<"default" | "choice" | "confirm">(
+    "default"
+  )
   const client = useClient()
   function bidUp(on: number) {
     setBidMultiplier(on)
@@ -36,7 +41,9 @@ function LotInfoBid(props: LotInfoBidProps) {
   async function confirmBidUp() {
     await confirmBidUpDialog()
 
-    const response = await client.query(postLotByLotIdBet(props.id, bidMultiplier))
+    const response = await client.query(
+      postLotByLotIdBet(props.id, bidMultiplier)
+    )
     if (!isValidResponse(response)) {
       Modal.open(DialogError)
       cancelBidUp()
@@ -50,32 +57,35 @@ function LotInfoBid(props: LotInfoBidProps) {
     Modal.open(DialogBidAccepted)
   }
 
-
   function confirmBidUpDialog() {
     return new Promise<void>(resolve => {
-      Modal.open(DialogConfirmBidUp, { onSubmit: resolve })
+      Modal.open(DialogConfirmBidUp, {onSubmit: resolve})
     })
   }
 
   const user = useSelector(state => state.user)
   if (!user.auth) {
-    return (
-      <RequiredAuthCover />
-    )
+    return <RequiredAuthCover />
   }
 
   switch (stage) {
     case "choice":
       return (
         <div className="lot-info-bid">
-          <div className="lot-info-bid__entry"><span>Текущая ставка</span><span>{currentPrice.format()}</span></div>
+          <div className="lot-info-bid__entry">
+            <span>Текущая ставка</span>
+            <span>{currentPrice.format()}</span>
+          </div>
           <p className="lot-info-bid__text">
-            *Нажимая “поднять ставку” вы соглашаетесь с <Link to="terms">политикой предоставления услуг</Link>.
+            *Нажимая “поднять ставку” вы соглашаетесь с{" "}
+            <Link to="terms">политикой предоставления услуг</Link>.
             <br />
-            Минимальная стоимость услуг площадки по организации доставки и безопасной сделки для данного лота составит от {currentPrice.format()}
+            Минимальная стоимость услуг площадки по организации доставки и
+            безопасной сделки для данного лота составит от{" "}
+            {currentPrice.format()}
           </p>
           <div className="lot-info-bid__buttons">
-            <Button onClick={() => bidUp(1)}>Поднять на  шаг</Button>
+            <Button onClick={() => bidUp(1)}>Поднять на шаг</Button>
             <Button onClick={() => bidUp(2)}>шаг Х 2</Button>
             <Button onClick={() => bidUp(3)}>шаг Х 3</Button>
           </div>
@@ -86,14 +96,22 @@ function LotInfoBid(props: LotInfoBidProps) {
       return (
         <div className="lot-info-bid">
           <div className="lot-info-bid__entries">
-            <div className="lot-info-bid__entry"><span>Текущая ставка</span><span>{prevPrice.format()}</span></div>
-            <div className="lot-info-bid__entry"><span>Ваша ставка</span><span>{currentPrice.format()}</span></div>
+            <div className="lot-info-bid__entry">
+              <span>Текущая ставка</span>
+              <span>{prevPrice.format()}</span>
+            </div>
+            <div className="lot-info-bid__entry">
+              <span>Ваша ставка</span>
+              <span>{currentPrice.format()}</span>
+            </div>
           </div>
           <br />
           <br />
           <Buttons spaceBetween>
             <Button onClick={confirmBidUp}>Отправить</Button>
-            <Button outline onClick={cancelBidUp}>Отмена</Button>
+            <Button outline onClick={cancelBidUp}>
+              Отмена
+            </Button>
           </Buttons>
         </div>
       )
