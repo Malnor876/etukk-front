@@ -26,6 +26,7 @@ function EditAvatar(props: EditAvatarProps) {
     await props.onChange(file)
     setPending(false)
     // updates
+    console.log("file", file)
     setImage(URL.createObjectURL(file))
   }
   return (

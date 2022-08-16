@@ -28,7 +28,7 @@ function ProfilePersonalMe() {
   const dispatch = useDispatch()
   const client = useClient()
   const user = useSelector(state => (state.user.auth ? state.user : undefined))
-  console.log("user", user?.phone)
+  console.log("user", user)
   // const [me, setMe] = useState<UserSigned>()
 
   // useEffect(() => {

@@ -70,15 +70,13 @@ interface SpecificationsProps {
   required?: boolean
   defaultValue?: SpecificationType[]
   onChange?: Dispatch<SpecificationType[]>
+  onChangeEdit?: (newSpecifications: SpecificationType[]) => void
 }
 
 function Specifications(props: SpecificationsProps) {
-  console.log("props", props.defaultValue)
-
   const [specifications, setSpecifications] = useState<SpecificationType[]>(
     props.defaultValue ?? DEFAULT_SPECIFICATIONS
   )
-  console.log("specifications", specifications)
   const uniqueID = useRef(specifications.length - 1)
 
   function addSpecification(key: string, value: string) {
@@ -90,18 +88,28 @@ function Specifications(props: SpecificationsProps) {
     setSpecifications([...specifications])
   }
   function editSpecification(index: number, next: Partial<SpecificationType>) {
+    console.log("index", index)
+    console.log("next", next)
+
     specifications[index] = {...specifications[index], ...next}
+    console.log("specifications", specifications)
+
     setSpecifications([...specifications])
     const newSpecifications = specifications.filter(
       specification => specification.value !== ""
     )
-    props.onChange?.(newSpecifications)
+    console.log("newSpecifications", newSpecifications)
+
+    props.onChange
+      ? props.onChange?.(newSpecifications)
+      : props.onChangeEdit?.(newSpecifications)
   }
 
   function editSpecificationKey(index: number) {
     return (key: string) => editSpecification(index, {key})
   }
   function editSpecificationValue(index: number) {
+    console.log("index", index)
     return (value: string) => editSpecification(index, {value})
   }
 

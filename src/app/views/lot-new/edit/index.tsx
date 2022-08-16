@@ -81,6 +81,7 @@ function LotDraftView() {
   function validate(key: Fields): boolean {
     const value = lotDraftStorage.get(key)
     if (value == null) return false
+
     switch (key) {
       case "title": {
         if (typeof value !== "string") return false
@@ -96,7 +97,7 @@ function LotDraftView() {
 
         return value.every(item => {
           if (!isDictionary(item)) return false
-          console.log("item", item)
+
           if (typeof item.key !== "string") return false
           if (typeof item.value !== "string") return false
 
@@ -142,7 +143,6 @@ function LotDraftView() {
     "city",
     "specifications"
   )
-  console.log("nextButtonDisabled", nextButtonDisabled)
   useEffect(() => {
     const remove = lotDraftStorage.on(() => {
       setFlag(flag => !flag)

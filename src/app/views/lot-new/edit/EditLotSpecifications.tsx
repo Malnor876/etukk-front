@@ -9,22 +9,19 @@ import {lotDraftStorage} from "."
 function EditLotSpecifications() {
   const [specifications, setSpecifications] =
     lotDraftStorage.state<LotInfoType["specifications"]>("specifications")
-  console.log("specifications1", specifications)
 
   const updateSpecifications = (specifications: SpecificationType[]) => {
     const uniqArr = [...DEFAULT_SPECIFICATIONS]
-    DEFAULT_SPECIFICATIONS.forEach(item => {
+    DEFAULT_SPECIFICATIONS.forEach((item, index) => {
       specifications.forEach(s => {
-        if (s.id && item.id === s.id) {
-          console.log("s.id", s.id)
-          uniqArr[s.id] = s
+        if (item.id === s.id) {
+          uniqArr[index] = s
         }
       })
     })
-    console.log("uniqArr", uniqArr)
-
     return uniqArr
   }
+
   return (
     <section>
       <h4>Укажите характеристики</h4>

@@ -25,6 +25,7 @@ import {useClient} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 import {useSelector} from "react-redux"
 import {useNavigate, useParams} from "react-router"
+// import ChooseImage from "app/components/UI/ChooseImage/ChooseImage"
 
 enum FormInputs {
   title = "name",
@@ -59,7 +60,6 @@ interface FormValues {
 
 function LotEditView() {
   const {lotId, status} = useParams()
-
   if (lotId == null) {
     throw new ReactError(LotEditView, "got no lotId")
   }
@@ -69,7 +69,9 @@ function LotEditView() {
 
   const navigate = useNavigate()
   const client = useClient()
+
   async function onSubmit(state: FormState<FormInputs, FormValues>) {
+    console.log("onSubmit", state)
     if (lotId == null) return
 
     const {error} =
@@ -125,6 +127,9 @@ function LotEditView() {
                     defaultValue={payload.title}
                   />
                 </LotEditSetting>
+                {/* <LotEditSetting label="Фото (минимум 4 шт.)">
+                   <ChooseImage defaultValue={payload.slides} /> 
+                </LotEditSetting> */}
                 <LotEditSetting label="Начальная ставка">
                   <Input
                     width="16em"

@@ -9,20 +9,18 @@ import {getRating} from "utils/business"
 
 export interface SellerPreviewProps {
   id: number
-
   avatar: string
   fullName: string
   city: string
-
   likes?: number
   dislikes?: number
   lotsCount?: number
-
-  linkedTo?: string
+  // linkedTo?: string
   bookmarked?: boolean
 }
 
 function SellerPreview(props: SellerPreviewProps) {
+  console.log("SellerPreview", props)
   return (
     <div className="seller-preview">
       <div className="seller-preview-avatar">
@@ -59,7 +57,7 @@ function SellerPreview(props: SellerPreviewProps) {
           </Entries>
         </div>
       </div>
-      {props.linkedTo && <Link className="ghost" to={props.linkedTo} />}
+      <Link className="ghost" to={"/user/" + props.id} />
       <Bookmark
         className="lot-preview__bookmark"
         type="lot"
