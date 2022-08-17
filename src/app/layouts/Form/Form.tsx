@@ -1,6 +1,7 @@
 import "./Form.scss"
 
-import _ from "lodash"
+import {LotSpecificationsType} from "areas/lot/types"
+import _, {includes} from "lodash"
 import {
   DetailedHTMLProps,
   FormEvent,
@@ -15,6 +16,7 @@ type FormValue =
   | string[]
   | number
   | number[]
+  | LotSpecificationsType
   | boolean
   | null
   | undefined
@@ -78,6 +80,8 @@ async function getFormState(form: HTMLFormElement): Promise<{
   values: FormValues
   formData: FormData
 }> {
+  const arr: LotSpecificationsType = []
+
   const formData = new FormData(form)
   const keys: string[] = []
   for (const element of form.elements) {
@@ -99,7 +103,6 @@ async function getFormState(form: HTMLFormElement): Promise<{
         values[next.name] = true
         continue
       }
-
       if (next.files instanceof FileList) {
         values[next.name] = await Promise.all(
           [...next.files].map(FileToURLDataBase64)
@@ -113,15 +116,28 @@ async function getFormState(form: HTMLFormElement): Promise<{
       next instanceof HTMLTextAreaElement
     ) {
       if (next.value.length === 0) continue
-      values[next.name] = isNaN(Number(next.value))
-        ? next.value
-        : Number(next.value)
+
+      if (next.name.includes("specifications")) {
+        if (next.name.includes("key")) {
+          arr.push({id: Number(next.id), name: next.value, value: ""})
+        } else {
+          const index = arr.findIndex(item => item.id === Number(next.id))
+          if (index !== -1) {
+            arr[index] = {...arr[index], value: next.value}
+          }
+        }
+        values["lotspecifications"] = arr
+      } else {
+        values[next.name] = isNaN(Number(next.value))
+          ? next.value
+          : Number(next.value)
+      }
     }
 
     if (next instanceof RadioNodeList) {
       const radios = [...next] as HTMLInputElement[]
-      const checks = radios.map(radio => radio.checked && radio.value)
 
+      const checks = radios.map(radio => radio.checked && radio.value)
       values[radios[0].name] = checks.flatMap(check =>
         !check || isNaN(Number(check)) ? [] : Number(check)
       )

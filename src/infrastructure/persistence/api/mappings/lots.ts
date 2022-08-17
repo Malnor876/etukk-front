@@ -49,7 +49,7 @@ export function mapLotsLists(
 }
 
 export function mapLot(lot: SchemaLot): LotInfoType {
-  console.log("mapLot", lot.lotphotos)
+  console.log("mapLot", lot.lotspecifications)
   return {
     id: lot.id,
     delivery: lot.delivery_options as LotDelivery,
@@ -63,6 +63,7 @@ export function mapLot(lot: SchemaLot): LotInfoType {
     slides: lot.lotphotos?.map(l => mapImageUrl(l.filename)) ?? [],
     specifications:
       lot.lotspecifications?.map(spec => ({
+        id: spec.id,
         key: spec.name,
         value: spec.value,
       })) ?? [],

@@ -1,12 +1,11 @@
 /**
- * 
+ *
  * This is auto-generated file.
  * All edits will not be preserved for the next generation.
- * 
+ *
  * GitHub: https://github.com/FrameMuse/swagger-export-rfl
- * 
-*/
-
+ *
+ */
 
 export interface SchemaUser {
   id: number
@@ -97,11 +96,11 @@ export interface SchemaLot {
     filename: string
   }[]
   lotspecifications?: {
+    id?: number
     name: string
-    units: string
+    units?: string
     value: string
   }[]
-
 
   deliveryorder?: {
     approved_by_buyer?: null

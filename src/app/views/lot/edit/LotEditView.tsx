@@ -6,11 +6,12 @@ import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
 import CloseButton from "app/components/UI/CloseButton/CloseButton"
 import ErrorCover from "app/components/UI/ErrorCover/ErrorCover"
+import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"
 import Selector from "app/components/UI/Selector/Selector"
 import Textarea from "app/components/UI/Textarea/Textarea"
 import Form, {FormState} from "app/layouts/Form/Form"
-import Specifications from "areas/lot/components/Specifications/Specifications"
+import {SpecificationType} from "areas/lot/components/Specifications/Specifications"
 import {LotDelivery} from "areas/lot/types"
 import {
   getLotByLotId,
@@ -20,7 +21,7 @@ import {
 } from "infrastructure/persistence/api/data/actions"
 import {SchemaLotDeliveryOptions} from "infrastructure/persistence/api/data/schemas"
 import {mapLot} from "infrastructure/persistence/api/mappings/lots"
-import {MutableRefObject, ReactNode, useRef} from "react"
+import {MutableRefObject, ReactNode, useRef, useState} from "react"
 import {useClient} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 import {useSelector} from "react-redux"
@@ -56,6 +57,7 @@ interface FormValues {
   bidding_end_time: string
   video_url: string
   photos: string[]
+  specifications: [{id: "string"; name: "string"; value: "string"}]
 }
 
 function LotEditView() {
@@ -66,7 +68,9 @@ function LotEditView() {
   if (isNaN(+lotId)) {
     throw new ReactError(LotEditView, "lotId is not number")
   }
-
+  const [newSpecifications, setNewSpecifications] = useState<
+    SpecificationType[]
+  >([])
   const navigate = useNavigate()
   const client = useClient()
 
@@ -87,6 +91,30 @@ function LotEditView() {
   const formRef = useRef<HTMLFormElement | null>(null)
   const user = useSelector(state => state.user)
   if (!user.auth) return null
+
+  const getAllSpecifications = (specifications: SpecificationType[]) => {
+    return [...newSpecifications, ...specifications].sort(function (a, b) {
+      if (a.id && b.id && a.id > b.id) {
+        return 1
+      }
+      if (a.id && b.id && a.id < b.id) {
+        return -1
+      }
+      return 0
+    })
+  }
+  // const uniqueID = useRef(specifications.length - 1)
+
+  function addSpecification(key: string, value: string) {
+    // const id = (uniqueID.current += 1)
+    // setSpecifications(state => [...state, {id, key, value}])
+  }
+
+  function removeSpecification(index: number) {
+    console.log("index", index)
+    // specifications.splice(index, 1)
+    // setSpecifications([...specifications])
+  }
 
   return (
     <>
@@ -121,11 +149,11 @@ function LotEditView() {
                     defaultValue={payload.title}
                     name={FormInputs.title}
                   />
-                  <InputResetButton
+                  {/* <InputResetButton
                     name={FormInputs.title}
                     in={formRef}
                     defaultValue={payload.title}
-                  />
+                  /> */}
                 </LotEditSetting>
                 {/* <LotEditSetting label="Фото (минимум 4 шт.)">
                    <ChooseImage defaultValue={payload.slides} /> 
@@ -184,11 +212,11 @@ function LotEditView() {
                     name={FormInputs.city}
                     defaultValue={payload.city}
                   />
-                  <InputResetButton
+                  {/* <InputResetButton
                     name={FormInputs.city}
                     in={formRef}
                     defaultValue={payload.city}
-                  />
+                  /> */}
                 </LotEditSetting>
                 <LotEditSetting label="Вариант доставки">
                   <Selector
@@ -215,10 +243,63 @@ function LotEditView() {
                   />
                 </LotEditSetting>
                 <LotEditSetting label="Характеристики">
-                  <Specifications
-                    name={FormInputs.specifications}
-                    defaultValue={payload.specifications}
-                  />
+                  <div className="specifications">
+                    <div className="specifications__container">
+                      {getAllSpecifications(payload.specifications).map(
+                        (specification, index) => (
+                          <div
+                            className="specifications__specification"
+                            key={index}>
+                            <Input
+                              placeholder="Название..."
+                              required={index < 4 ? true : false}
+                              id={String(specification.id)}
+                              name={`${FormInputs.specifications}[${index}].key`}
+                              disabled={index < 4 ? true : false}
+                              defaultValue={specification.key}
+                            />
+                            <Input
+                              placeholder="Значение..."
+                              required={index < 4 ? true : false}
+                              id={String(specification.id)}
+                              name={`${FormInputs.specifications}[${index}].value`}
+                              type={index < 4 ? "number" : undefined}
+                              step="0.01"
+                              max={
+                                index < 3
+                                  ? "1.5"
+                                  : index === 3
+                                  ? "100"
+                                  : undefined
+                              }
+                              min={index < 4 ? "0.01" : undefined}
+                              width="225px"
+                              defaultValue={specification.value}
+                            />
+                            {index > 3 && (
+                              <CloseButton
+                                onClick={() => removeSpecification(index)}
+                              />
+                            )}
+                          </div>
+                        )
+                      )}
+                    </div>
+                    {getAllSpecifications(payload.specifications).length <
+                      10 && (
+                      <button
+                        className="specifications__add"
+                        type="button"
+                        onClick={() => addSpecification("", "")}>
+                        <div className="specifications__text">
+                          Добавить характеристику
+                        </div>
+                        <div className="specifications__circle">
+                          <Icon className="specifications__icon" name="plus" />
+                        </div>
+                      </button>
+                    )}
+                  </div>
                 </LotEditSetting>
               </div>
               <div className="lot-edit-view__buttons">
@@ -245,7 +326,6 @@ interface InputResetButtonProps {
 function InputResetButton(props: InputResetButtonProps) {
   function onClick() {
     if (props.in.current == null) return
-
     const inputElement = props.in.current.elements.namedItem(props.name)
     if (!(inputElement instanceof HTMLInputElement)) return
 

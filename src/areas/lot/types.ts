@@ -23,10 +23,18 @@ export interface LotPreviewType extends LotInfoType {
   seller?: UserSigned
 }
 
+export type LotSpecificationsType = {
+  id?: number
+  name: string
+  value: string
+}[]
+
 export type LotInfoSpecificationsType = {
+  id?: number
   key: string
   value: string
 }[]
+
 export interface LotInfoType {
   slides: string[]
   bookmarked?: boolean

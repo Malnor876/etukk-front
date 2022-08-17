@@ -433,6 +433,7 @@ export const postLotDraft = (body: {
   video_url: string
   lotphotos: string[]
   lotspecifications?: {
+    id?: number
     name: string
     units?: string
     value: string
