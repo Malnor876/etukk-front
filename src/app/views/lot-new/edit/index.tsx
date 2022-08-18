@@ -80,7 +80,7 @@ function LotDraftView() {
 
   function validate(key: Fields): boolean {
     const value = lotDraftStorage.get(key)
-    if (value == null) return false
+    if (value == null || value == undefined) return false
 
     switch (key) {
       case "title": {
@@ -89,7 +89,12 @@ function LotDraftView() {
 
         return value.length >= 10 && value.length <= 40
       }
+      case "category": {
+        console.log("value", value)
 
+        // if (typeof value !== "string") return false
+        return true
+      }
       case "specifications": {
         if (!(value instanceof Array)) return false
 

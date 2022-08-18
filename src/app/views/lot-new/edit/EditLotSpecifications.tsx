@@ -10,19 +10,19 @@ function EditLotSpecifications() {
   const [specifications, setSpecifications] =
     lotDraftStorage.state<LotInfoType["specifications"]>("specifications")
 
-  // const updateSpecifications = (specifications: SpecificationType[]) => {
-  //   const uniqArr = [...DEFAULT_SPECIFICATIONS]
-  //   console.log("DEFAULT_SPECIFICATIONS", Array.isArray(DEFAULT_SPECIFICATIONS))
-  //   DEFAULT_SPECIFICATIONS &&
-  //     DEFAULT_SPECIFICATIONS.forEach((item, index) => {
-  //       specifications.forEach(s => {
-  //         if (item.id === s.id) {
-  //           uniqArr[index] = s
-  //         }
-  //       })
-  //     })
-  //   return uniqArr
-  // }
+  const updateSpecifications = (specifications: SpecificationType[]) => {
+    const uniqArr = [...DEFAULT_SPECIFICATIONS]
+    if (Array.isArray(DEFAULT_SPECIFICATIONS)) {
+      DEFAULT_SPECIFICATIONS?.forEach((item, index) => {
+        specifications?.forEach(s => {
+          if (item.id === s.id) {
+            uniqArr[index] = s
+          }
+        })
+      })
+    }
+    return uniqArr
+  }
 
   return (
     <section>
@@ -36,8 +36,7 @@ function EditLotSpecifications() {
       <p>*максимальный размер упакованного товара не должен превышать 1,5м</p>
       <Specifications
         max={10}
-        // defaultValue={specifications?.length > 4 ? specifications : undefined}
-        defaultValue={specifications}
+        defaultValue={updateSpecifications(specifications)}
         onChange={setSpecifications}
       />
     </section>

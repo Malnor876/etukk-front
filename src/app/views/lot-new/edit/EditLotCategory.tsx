@@ -10,14 +10,18 @@ function EditLotCategory() {
   const [tempCategoryId, setTempCategoryId] = useState<
     number | null | undefined
   >(null)
+  console.log("tempCategoryId", tempCategoryId)
   const [categoryId, setCategoryId] = lotDraftStorage.state<
     number | null | undefined
   >("category")
+  console.log("categoryId", categoryId)
+
   async function updateCategory(value: number | null, payload: CategoryItem[]) {
     if (value == null) return
 
     const hasChildren =
       payload.find(item => item.parent_category_id === value) != null
+
     if (!hasChildren) {
       setCategoryId(value)
     } else {
@@ -27,6 +31,7 @@ function EditLotCategory() {
   useEffect(() => {
     setCategoryId(null)
   }, [tempCategoryId])
+
   return (
     <section>
       <QueryContainer action={getCategory()}>
@@ -35,6 +40,9 @@ function EditLotCategory() {
             payload,
             categoryId || tempCategoryId
           )
+          // console.log("category", category)
+          console.log("parentItem", parentItem)
+          // console.log("options", options)
           return (
             <>
               <h4>Выберите {category.item ? "под" : ""}категорию</h4>
@@ -75,6 +83,8 @@ export function breakDownCategories(
   categories: CategoryItem[],
   categoryId: number | string | null | undefined
 ) {
+  // console.log("category", categoryId)
+
   const category = Number(categoryId)
 
   const categoryItem = categories.find(item => item.id === (category || null))

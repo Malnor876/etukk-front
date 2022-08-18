@@ -14,7 +14,7 @@ export const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
     required: true,
     disabledKey: true,
     number: true,
-    max: "1.5",
+    max: "2,6",
     min: "0.01",
   },
   {
@@ -24,7 +24,7 @@ export const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
     required: true,
     disabledKey: true,
     number: true,
-    max: "1.5",
+    max: "1.3",
     min: "0.01",
   },
   {
@@ -44,7 +44,7 @@ export const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
     required: true,
     disabledKey: true,
     number: true,
-    max: "100",
+    max: "1400",
   },
   {id: 4, key: "", value: ""},
 ]
@@ -74,6 +74,7 @@ interface SpecificationsProps {
 }
 
 function Specifications(props: SpecificationsProps) {
+  console.log("Specifications", props)
   const [specifications, setSpecifications] = useState<SpecificationType[]>(
     props.defaultValue ?? DEFAULT_SPECIFICATIONS
   )

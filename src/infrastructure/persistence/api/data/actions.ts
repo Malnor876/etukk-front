@@ -1432,6 +1432,17 @@ export const getLotDraftByDraftId = (
   city?: string | null
   delivery_options?: string | null
   video_url?: string | null
+  lotphotos?: {
+    id: number
+    lot_id: number
+    filename: string
+  }[]
+  lotspecifications?: {
+    id?: number
+    name: string
+    units?: string
+    value: string
+  }[]
   archived?: boolean
   banned?: boolean
   bidding_start_time?: string | null
@@ -1481,6 +1492,17 @@ export const getLotByLotId = (
   city?: string | null
   delivery_options?: string | null
   video_url?: string | null
+  lotphotos?: {
+    id: number
+    lot_id: number
+    filename: string
+  }[]
+  lotspecifications?: {
+    id?: number
+    name: string
+    units?: string
+    value: string
+  }[]
   archived?: boolean
   banned?: boolean
   bidding_start_time?: string | null

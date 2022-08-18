@@ -95,6 +95,7 @@ async function getFormState(form: HTMLFormElement): Promise<{
   }
 
   const values: FormValues = {}
+  let newSpecification = {name: "", value: ""}
   for (const key of keys) {
     const next = form.elements.namedItem(key)
 
@@ -119,13 +120,28 @@ async function getFormState(form: HTMLFormElement): Promise<{
 
       if (next.name.includes("specifications")) {
         if (next.name.includes("key")) {
-          arr.push({id: Number(next.id), name: next.value, value: ""})
+          if (next.id.length >= 13) {
+            newSpecification = {...newSpecification, name: next.value}
+            console.log("////", newSpecification)
+          } else {
+            arr.push({id: Number(next.id), name: next.value, value: ""})
+          }
         } else {
-          const index = arr.findIndex(item => item.id === Number(next.id))
-          if (index !== -1) {
-            arr[index] = {...arr[index], value: next.value}
+          if (next.id.length >= 13) {
+            newSpecification = {
+              ...newSpecification,
+              value: next.value,
+            }
+            console.log("newSpecification=====", newSpecification)
+            arr.push(newSpecification)
+          } else {
+            const index = arr.findIndex(item => item.id === Number(next.id))
+            if (index !== -1) {
+              arr[index] = {...arr[index], value: next.value}
+            }
           }
         }
+        console.log("arr", arr)
         values["lotspecifications"] = arr
       } else {
         values[next.name] = isNaN(Number(next.value))

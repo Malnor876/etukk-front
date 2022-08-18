@@ -14,6 +14,7 @@ import Form, {FormState} from "app/layouts/Form/Form"
 import {SpecificationType} from "areas/lot/components/Specifications/Specifications"
 import {LotDelivery} from "areas/lot/types"
 import {
+  deleteLotDraftByLotIdSpecificationBySpecificationId,
   getLotByLotId,
   getLotDraftByDraftId,
   patchLotById,
@@ -21,8 +22,8 @@ import {
 } from "infrastructure/persistence/api/data/actions"
 import {SchemaLotDeliveryOptions} from "infrastructure/persistence/api/data/schemas"
 import {mapLot} from "infrastructure/persistence/api/mappings/lots"
-import {MutableRefObject, ReactNode, useRef, useState} from "react"
-import {useClient} from "react-fetching-library"
+import {MutableRefObject, ReactNode, useEffect, useRef, useState} from "react"
+import {useClient, useQuery} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 import {useSelector} from "react-redux"
 import {useNavigate, useParams} from "react-router"
@@ -57,7 +58,7 @@ interface FormValues {
   bidding_end_time: string
   video_url: string
   photos: string[]
-  specifications: [{id: "string"; name: "string"; value: "string"}]
+  specifications: [{id?: string; name: string; value: string}]
 }
 
 function LotEditView() {
@@ -68,11 +69,40 @@ function LotEditView() {
   if (isNaN(+lotId)) {
     throw new ReactError(LotEditView, "lotId is not number")
   }
+
   const [newSpecifications, setNewSpecifications] = useState<
     SpecificationType[]
   >([])
   const navigate = useNavigate()
   const client = useClient()
+  console.log("newSpecifications", newSpecifications)
+
+  useEffect(() => {
+    async function getLotSpecifications() {
+      const {payload} =
+        status === "drafted"
+          ? await client.query(getLotDraftByDraftId(Number(lotId)))
+          : await client.query(getLotByLotId(Number(lotId)))
+
+      const lotspecifications = payload?.lotspecifications
+        ?.map(spec => ({
+          id: spec.id,
+          key: spec.name,
+          value: spec.value,
+        }))
+        .sort(function (a, b) {
+          if (a.id && b.id && a.id > b.id) {
+            return 1
+          }
+          if (a.id && b.id && a.id < b.id) {
+            return -1
+          }
+          return 0
+        })
+      lotspecifications && setNewSpecifications(lotspecifications)
+    }
+    getLotSpecifications()
+  }, [])
 
   async function onSubmit(state: FormState<FormInputs, FormValues>) {
     console.log("onSubmit", state)
@@ -92,28 +122,27 @@ function LotEditView() {
   const user = useSelector(state => state.user)
   if (!user.auth) return null
 
-  const getAllSpecifications = (specifications: SpecificationType[]) => {
-    return [...newSpecifications, ...specifications].sort(function (a, b) {
-      if (a.id && b.id && a.id > b.id) {
-        return 1
-      }
-      if (a.id && b.id && a.id < b.id) {
-        return -1
-      }
-      return 0
-    })
-  }
-  // const uniqueID = useRef(specifications.length - 1)
-
   function addSpecification(key: string, value: string) {
-    // const id = (uniqueID.current += 1)
-    // setSpecifications(state => [...state, {id, key, value}])
+    const id = Date.now()
+    setNewSpecifications(state => [...state, {id, key, value}])
   }
 
-  function removeSpecification(index: number) {
-    console.log("index", index)
-    // specifications.splice(index, 1)
-    // setSpecifications([...specifications])
+  async function removeSpecification(index: number, specificationId: number) {
+    if (lotId == null) return
+    if (specificationId) {
+      const {error} = await client.query(
+        deleteLotDraftByLotIdSpecificationBySpecificationId(
+          +specificationId,
+          +lotId
+        )
+      )
+      if (error) return
+    }
+
+    const removedSpecifications = newSpecifications.filter(
+      spec => spec.id !== specificationId
+    )
+    setNewSpecifications(removedSpecifications)
   }
 
   return (
@@ -245,48 +274,54 @@ function LotEditView() {
                 <LotEditSetting label="Характеристики">
                   <div className="specifications">
                     <div className="specifications__container">
-                      {getAllSpecifications(payload.specifications).map(
-                        (specification, index) => (
-                          <div
-                            className="specifications__specification"
-                            key={index}>
-                            <Input
-                              placeholder="Название..."
-                              required={index < 4 ? true : false}
-                              id={String(specification.id)}
-                              name={`${FormInputs.specifications}[${index}].key`}
-                              disabled={index < 4 ? true : false}
-                              defaultValue={specification.key}
-                            />
-                            <Input
-                              placeholder="Значение..."
-                              required={index < 4 ? true : false}
-                              id={String(specification.id)}
-                              name={`${FormInputs.specifications}[${index}].value`}
-                              type={index < 4 ? "number" : undefined}
-                              step="0.01"
-                              max={
-                                index < 3
-                                  ? "1.5"
-                                  : index === 3
-                                  ? "100"
-                                  : undefined
+                      {newSpecifications.map((specification, index) => (
+                        <div
+                          className="specifications__specification"
+                          key={index}>
+                          <Input
+                            placeholder="Название..."
+                            required={index < 4 ? true : false}
+                            id={String(specification.id)}
+                            name={`${FormInputs.specifications}[${index}].key`}
+                            disabled={index < 4 ? true : false}
+                            defaultValue={specification.key}
+                          />
+                          <Input
+                            placeholder="Значение..."
+                            required={index < 4 ? true : false}
+                            id={String(specification.id)}
+                            name={`${FormInputs.specifications}[${index}].value`}
+                            type={index < 4 ? "number" : undefined}
+                            step="0.01"
+                            max={
+                              index === 0
+                                ? "2.6"
+                                : index === 1
+                                ? "1.3"
+                                : index === 2
+                                ? "1.5"
+                                : index === 3
+                                ? "1400"
+                                : undefined
+                            }
+                            min={index < 4 ? "0.01" : undefined}
+                            width="225px"
+                            defaultValue={specification.value}
+                          />
+                          {index > 3 && (
+                            <CloseButton
+                              onClick={() =>
+                                removeSpecification(
+                                  index,
+                                  specification.id as number
+                                )
                               }
-                              min={index < 4 ? "0.01" : undefined}
-                              width="225px"
-                              defaultValue={specification.value}
                             />
-                            {index > 3 && (
-                              <CloseButton
-                                onClick={() => removeSpecification(index)}
-                              />
-                            )}
-                          </div>
-                        )
-                      )}
+                          )}
+                        </div>
+                      ))}
                     </div>
-                    {getAllSpecifications(payload.specifications).length <
-                      10 && (
+                    {newSpecifications.length < 10 && (
                       <button
                         className="specifications__add"
                         type="button"
