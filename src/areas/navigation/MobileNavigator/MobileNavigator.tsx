@@ -21,7 +21,9 @@ function MobileNavigator() {
       <MobileNavigatorLink iconName="search-filled" to="/">
         Главная
       </MobileNavigatorLink>
-      <MobileNavigatorLink iconName="bookmark" to={pathname}>
+      <MobileNavigatorLink
+        iconName="bookmark"
+        to={pathname.includes("favourites") ? pathname : "/favourites/lots"}>
         Избранное
       </MobileNavigatorLink>
       <MobileNavigatorLink iconName="hammer" to="/lots/draft">

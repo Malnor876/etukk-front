@@ -10,7 +10,6 @@ interface LotInfoSummaryProps
   extends Pick<LotInfoType, "description" | "specifications" | "seller"> {}
 
 function LotInfoSummary(props: LotInfoSummaryProps) {
-  console.log("LotInfoSummary", props)
   return (
     <div className="lot-info-summary">
       <h5>Описание лота</h5>

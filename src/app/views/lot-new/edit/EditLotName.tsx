@@ -14,12 +14,13 @@ function EditLotName() {
   return (
     <section>
       <h4>Название лота</h4>
-      <p>*не менее 10 и не более 40 символов</p>
-      <p>*название лота должно содержать буквы</p>
+      <p>*не менее 5 и не более 40 символов, слова не более 20 символов</p>
+      <p>*наличие букв обязательно</p>
       <Input
         width="25em"
         placeholder="Напишите  название лота..."
         value={title}
+        maxLength={40}
         onChange={inputValue(updateTitle)}
       />
     </section>

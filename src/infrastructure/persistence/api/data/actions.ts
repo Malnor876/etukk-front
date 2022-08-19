@@ -7,22 +7,8 @@
  *
  */
 
-import {FilteringField} from "interfaces/Nodejs"
-
 import {Action} from "../client.types"
-import {
-  SchemaBet,
-  SchemaCategory,
-  SchemaLot,
-  SchemaLotDeliveryOptions,
-  SchemaLotReview,
-  SchemaLotSpecification,
-  SchemaUser,
-  SchemaUserFavoriteLots,
-  SchemaUserFavoriteUsers,
-  SchemaUserNotifications,
-  SchemaUserReview,
-} from "./schemas"
+import {SchemaLot, SchemaLotDeliveryOptions, SchemaUser} from "./schemas"
 
 /**
  * of the given arguments and keywords.
@@ -172,7 +158,7 @@ export const patchUser = (
   salt: string
   fullname: string
   phonenumber: string
-  email?: string | null
+  email: string
   city?: string | null
   address?: string | null
   inn?: string | null
@@ -203,7 +189,7 @@ export const getUser = (): Action<{
   salt: string
   fullname: string
   phonenumber: string
-  email?: string | null
+  email: string
   city?: string | null
   address?: string | null
   inn?: string | null

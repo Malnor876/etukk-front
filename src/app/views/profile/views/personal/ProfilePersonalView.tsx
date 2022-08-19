@@ -1,16 +1,18 @@
+import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Attention from "app/components/UI/Attention/Attention"
 import Backward from "app/components/UI/Backward/Backward"
 import CustomerRating from "app/components/UI/CustomerRating/CustomerRating"
 import EditAvatar from "app/components/UI/EditAvatar/EditAvatar"
 import Switcher from "app/components/UI/Switcher/Switcher"
-import { IMAGE_MOCKS } from "constants/mocks"
-import { patchUser, patchUserByUserId } from "infrastructure/persistence/api/data/actions"
-import { Mutation } from "react-fetching-library"
-import { useSelector } from "react-redux"
-import { Route, Routes } from "react-router"
-import { NavLink } from "react-router-dom"
-import { Link } from "react-router-dom"
-import { FileToURLDataBase64 } from "utils/file"
+import {IMAGE_MOCKS} from "constants/mocks"
+import {getUser, patchUser} from "infrastructure/persistence/api/data/actions"
+import {mapUser} from "infrastructure/persistence/api/mappings/user"
+import {Mutation} from "react-fetching-library"
+import {useSelector} from "react-redux"
+import {Route, Routes} from "react-router"
+import {NavLink} from "react-router-dom"
+import {Link} from "react-router-dom"
+import {FileToURLDataBase64} from "utils/file"
 
 import ProfilePersonalExit from "./ProfilePersonalExit"
 import ProfilePersonalMe from "./ProfilePersonalMe"
@@ -23,7 +25,9 @@ function ProfilePersonalView() {
     <div className="profile-view__personal">
       <div className="profile-view__container">
         <Switcher>
-          <NavLink to="" end>Обо мне</NavLink>
+          <NavLink to="" end>
+            Обо мне
+          </NavLink>
           <Link to="password">Смена пароля</Link>
           <Link to="services">Сервисы и услуги</Link>
           <Link to="settings">Настройки</Link>
@@ -47,19 +51,31 @@ function ProfilePersonalView() {
 }
 
 function GeneralInfo() {
-  const user = useSelector(state => state.user)
+  const isAuth = useSelector(state => state.user.auth)
 
-  if (user.auth) {
+  if (isAuth) {
     return (
       <>
-        <div className="profile-view__general-info">
-          <Mutation actionCreator={patchUser}>
-            {({ mutate }) => (
-              <EditAvatar image={user.avatar} onChange={async file => mutate({ user_pic: await FileToURLDataBase64(file) })} />
-            )}
-          </Mutation>
-          <CustomerRating sellerRating={user.sellerRating} buyerRating={user.buyerRating} />
-        </div>
+        <QueryContainer action={getUser()} mapping={mapUser}>
+          {payload => (
+            <div className="profile-view__general-info">
+              <Mutation actionCreator={patchUser}>
+                {({mutate}) => (
+                  <EditAvatar
+                    image={payload.avatar}
+                    onChange={async file =>
+                      mutate({user_pic: await FileToURLDataBase64(file)})
+                    }
+                  />
+                )}
+              </Mutation>
+              <CustomerRating
+                sellerRating={payload.sellerRating}
+                buyerRating={payload.buyerRating}
+              />
+            </div>
+          )}
+        </QueryContainer>
       </>
     )
   }
@@ -71,8 +87,8 @@ function GeneralInfo() {
         <CustomerRating sellerRating={5} buyerRating={5} />
       </div>
       <Attention>
-        Уважаемый пользователь, на вас поступила жалоба.
-        На следующие 3 покупки или продажи будет удерджана дополнительная комиссия  в размере 10%
+        Уважаемый пользователь, на вас поступила жалоба. На следующие 3 покупки
+        или продажи будет удерджана дополнительная комиссия в размере 10%
       </Attention>
     </>
   )

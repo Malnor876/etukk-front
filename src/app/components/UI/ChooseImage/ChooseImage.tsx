@@ -33,12 +33,12 @@ function ChooseImage(props: ChooseImageProps) {
   }
   function onChange(event: ChangeEvent<HTMLInputElement>) {
     const target = event.currentTarget
-
     if (target.files === null) return
     if (target.files.length === 0) return
-
     const nextFiles = [...target.files]
+
     if (nextFiles.some(file => !file.type.startsWith("image"))) return
+    if (nextFiles.some(file => file.name.split(".").pop() === "gif")) return
     // reset FileList
     target.value = ""
     // dispatch

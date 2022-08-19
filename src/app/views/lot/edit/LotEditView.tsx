@@ -23,7 +23,7 @@ import {
 import {SchemaLotDeliveryOptions} from "infrastructure/persistence/api/data/schemas"
 import {mapLot} from "infrastructure/persistence/api/mappings/lots"
 import {MutableRefObject, ReactNode, useEffect, useRef, useState} from "react"
-import {useClient, useQuery} from "react-fetching-library"
+import {useClient} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 import {useSelector} from "react-redux"
 import {useNavigate, useParams} from "react-router"
@@ -75,7 +75,6 @@ function LotEditView() {
   >([])
   const navigate = useNavigate()
   const client = useClient()
-  console.log("newSpecifications", newSpecifications)
 
   useEffect(() => {
     async function getLotSpecifications() {

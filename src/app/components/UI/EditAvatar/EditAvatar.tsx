@@ -14,6 +14,7 @@ interface EditAvatarProps {
 function EditAvatar(props: EditAvatarProps) {
   const [image, setImage] = useState(props.image)
   const [pending, setPending] = useState(false)
+
   async function onChange(event: ChangeEvent<HTMLInputElement>) {
     const target = event.currentTarget
     // checks
@@ -21,12 +22,13 @@ function EditAvatar(props: EditAvatarProps) {
     if (files === null) return
     const file = files[0] as File | undefined
     if (file == null) return
+    if (!file.type.startsWith("image")) return
+    if (file.name.split(".").pop() === "gif") return
     // awaits
     setPending(true)
     await props.onChange(file)
     setPending(false)
     // updates
-    console.log("file", file)
     setImage(URL.createObjectURL(file))
   }
   return (

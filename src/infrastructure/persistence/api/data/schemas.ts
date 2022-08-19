@@ -12,7 +12,7 @@ export interface SchemaUser {
   salt: string
   fullname: string
   phonenumber: string
-  email?: string | null
+  email: string
   city?: string | null
   address?: string | null
   inn?: string | null

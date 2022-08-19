@@ -87,7 +87,7 @@ function LotDraftView() {
         if (typeof value !== "string") return false
         if (!/[a-zа-яё]/i.test(value)) return false
 
-        return value.length >= 10 && value.length <= 40
+        return value.length >= 5 && value.length <= 40
       }
       case "category": {
         // if (typeof value !== "string") return false

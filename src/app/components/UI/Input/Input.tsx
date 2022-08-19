@@ -44,10 +44,16 @@ function Input(props: InputProps) {
       target.value = target.value.slice(0, props.maxLength)
     }
 
+    if (!props.type) {
+      target.value = target.value
+        .split(" ")
+        .map(word => word.slice(0, 19))
+        .join(" ")
+    }
+
     if (props.type === "tel") {
       const phoneNumber = new PhoneNumber(target.value)
       if (phoneNumber.length > (props.maxLength ?? Infinity)) {
-        console.log(phoneNumber.length, props.maxLength ?? Infinity)
         target.value = prevValue.current
         return
       }
@@ -108,7 +114,7 @@ function Input(props: InputProps) {
           )}
           list={dataListId}
           maxLength={props.type === "tel" ? undefined : props.maxLength}
-          type={props.type}
+          type={props.type ?? "text"}
           step={props.step}
           max={props.max}
           min={props.min}
