@@ -166,7 +166,7 @@ function LotPreviewStatusContent(props: LotProps) {
     case LotStatus.CLOSED:
       return (
         <>
-          <small>Лот не продан</small>
+          <small>СНЯТ С ПУБЛИКАЦИИ</small>
           {/* <LotPreviewStatus iconName="truck">В пути</LotPreviewStatus> */}
           <LotPreviewStatus iconName="not-allowed">Закрыт</LotPreviewStatus>
         </>
@@ -174,7 +174,7 @@ function LotPreviewStatusContent(props: LotProps) {
 
     case LotStatus.DRAFTED:
       return (
-        <ButtonLink to={`/lots/${props.id}/preview`}>
+        <ButtonLink publish to={`/lots/${props.id}/preview`}>
           Опубликовать черновик
         </ButtonLink>
       )

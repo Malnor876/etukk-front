@@ -55,6 +55,10 @@ function Input(props: InputProps) {
       prevValue.current = target.value
     }
 
+    if (props.type === "number") {
+      target.value = target.value.replace(/[e,+,-]/g, "")
+    }
+
     if (props.constraints) {
       target.setCustomValidity("")
       for (const [constraint, errorMessage] of props.constraints) {
@@ -73,7 +77,6 @@ function Input(props: InputProps) {
     }
 
     const invalid = !target.checkValidity()
-
     if (invalid && target.validationMessage === "") {
       target.setCustomValidity(props.customValidity || "")
     }

@@ -14,8 +14,8 @@ export const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
     required: true,
     disabledKey: true,
     number: true,
-    max: "2,6",
-    min: "0.01",
+    max: "2.6",
+    min: "0.001",
   },
   {
     id: 1,
@@ -25,7 +25,7 @@ export const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
     disabledKey: true,
     number: true,
     max: "1.3",
-    min: "0.01",
+    min: "0.001",
   },
   {
     id: 2,
@@ -35,7 +35,7 @@ export const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
     disabledKey: true,
     number: true,
     max: "1.5",
-    min: "0.01",
+    min: "0.001",
   },
   {
     id: 3,
@@ -45,6 +45,7 @@ export const DEFAULT_SPECIFICATIONS: SpecificationType[] = [
     disabledKey: true,
     number: true,
     max: "1400",
+    min: "0.001",
   },
   {id: 4, key: "", value: ""},
 ]
@@ -74,7 +75,6 @@ interface SpecificationsProps {
 }
 
 function Specifications(props: SpecificationsProps) {
-  console.log("Specifications", props)
   const [specifications, setSpecifications] = useState<SpecificationType[]>(
     props.defaultValue ?? DEFAULT_SPECIFICATIONS
   )
@@ -89,17 +89,12 @@ function Specifications(props: SpecificationsProps) {
     setSpecifications([...specifications])
   }
   function editSpecification(index: number, next: Partial<SpecificationType>) {
-    console.log("index", index)
-    console.log("next", next)
-
     specifications[index] = {...specifications[index], ...next}
-    console.log("specifications", specifications)
 
     setSpecifications([...specifications])
     const newSpecifications = specifications.filter(
       specification => specification.value !== ""
     )
-    console.log("newSpecifications", newSpecifications)
 
     props.onChange
       ? props.onChange?.(newSpecifications)
@@ -110,7 +105,6 @@ function Specifications(props: SpecificationsProps) {
     return (key: string) => editSpecification(index, {key})
   }
   function editSpecificationValue(index: number) {
-    console.log("index", index)
     return (value: string) => editSpecification(index, {value})
   }
 
@@ -118,30 +112,38 @@ function Specifications(props: SpecificationsProps) {
     <div className="specifications">
       <div className="specifications__container">
         {specifications.map((specification, index) => (
-          <div className="specifications__specification" key={specification.id}>
-            <Input
-              placeholder="Название..."
-              required
-              name={`${props.name}[${specification.id}].key`}
-              disabled={specification.disabledKey}
-              defaultValue={specification.key}
-              onChange={inputValue(editSpecificationKey(index))}
-            />
-            <Input
-              placeholder="Значение..."
-              required
-              name={`${props.name}[${specification.id}].value`}
-              type={specification.number ? "number" : undefined}
-              step="0.01"
-              max={specification.max}
-              min={specification.min}
-              width="225px"
-              defaultValue={specification.value}
-              onChange={inputValue(editSpecificationValue(index))}
-            />
-            {!specification.required && (
-              <CloseButton onClick={() => removeSpecification(index)} />
+          <div key={specification.id}>
+            {index < 4 && (
+              <p style={{margin: 0, fontSize: "12px"}}>
+                *{specification.key} не более {specification.max}
+              </p>
             )}
+            <div className="specifications__specification">
+              <Input
+                placeholder="Название..."
+                required
+                name={`${props.name}[${specification.id}].key`}
+                disabled={specification.disabledKey}
+                defaultValue={specification.key}
+                onChange={inputValue(editSpecificationKey(index))}
+              />
+              <Input
+                placeholder="Значение..."
+                required
+                name={`${props.name}[${specification.id}].value`}
+                type={specification.number ? "number" : undefined}
+                step="0.001"
+                max={specification.max}
+                min={specification.min}
+                width="225px"
+                defaultValue={specification.value}
+                onChange={inputValue(editSpecificationValue(index))}
+              />
+
+              {!specification.required && (
+                <CloseButton onClick={() => removeSpecification(index)} />
+              )}
+            </div>
           </div>
         ))}
       </div>

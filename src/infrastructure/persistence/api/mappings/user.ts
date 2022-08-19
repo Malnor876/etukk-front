@@ -4,18 +4,19 @@ import {SchemaUser} from "../data/schemas"
 import {mapImageUrl} from "./helpers"
 
 export function mapUser(user?: SchemaUser): UserSigned {
-  console.log("mapUser", user)
+  // console.log("mapUser", user)
   const [firstName, lastName] = (
     user?.fullname ?? "unknown unknownovich"
   ).split(" ")
+
   return {
     auth: true,
     id: user?.id ?? -1,
     avatar: mapImageUrl(user?.user_pic?.filename),
     city: user?.city ?? "unknown",
     fullName: user?.fullname ?? "unknown",
-    firstName,
-    lastName,
+    firstName: firstName,
+    lastName: lastName,
     type: user?.organization ? "organization" : "user",
     verified: user?.verified ?? false,
     buyerRating: user?.seller_rating ?? -1,

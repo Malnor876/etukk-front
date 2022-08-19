@@ -3,10 +3,14 @@ import Button from "app/components/UI/Button/Button"
 import Picker from "app/components/UI/Picker/Picker"
 import {getCategory} from "infrastructure/persistence/api/data/actions"
 import {useEffect, useState} from "react"
+import {useParams} from "react-router-dom"
 
 import {lotDraftStorage} from "."
 
 function EditLotCategory() {
+  const params = useParams()
+  console.log("params", params)
+
   const [tempCategoryId, setTempCategoryId] = useState<
     number | null | undefined
   >(null)

@@ -169,7 +169,7 @@ function UserProfileInfo(props: UserProfileInfoProps) {
           Зарегистрирован {humanizeDate(new Date(props.user.created_at))}
         </div>
         <div className="user-profile__entry">
-          {props.user.organization ? "Организация" : "Частное лицо"} /{" "}
+          {props.user.organization ? "Организация" : "Частное лицо"}
           {props.user.city}
         </div>
       </div>

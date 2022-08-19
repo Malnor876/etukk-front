@@ -1,27 +1,29 @@
 import "./SellerCompact.scss"
 
 import StarRating from "app/components/UI/StarRating/StarRating"
-import {UserSigned} from "infrastructure/persistence/redux/reducers/user/types"
+import {ExtractActionPayload} from "infrastructure/persistence/api/client.types"
+import {getUserByUserId} from "infrastructure/persistence/api/data/actions"
 import {useSelector} from "react-redux"
 import {Link} from "react-router-dom"
 
-interface SellerCompactProps
-  extends Pick<UserSigned, "id" | "firstName" | "sellerRating"> {
-  // likes?: number
-  // dislikes?: number
+interface SellerCompactProps {
+  user: ExtractActionPayload<ReturnType<typeof getUserByUserId>>
 }
 
 function SellerCompact(props: SellerCompactProps) {
   const user = useSelector(state => state.user)
-
+  const [firstName, lastName] = (
+    props.user?.fullname ?? "unknown unknownovich"
+  ).split(" ")
   return (
     <div className="seller-compact">
       <div className="seller-compact__entries">
         <div className="seller-compact__name">
-          {props.firstName !== "unknown" ? props.firstName : user.firstName}
+          {firstName !== "unknown" && firstName}
         </div>
         <div className="seller-compact__id">
-          Частное лицо / id{props.id !== -1 ? props.id : user.id}
+          {props.user.organization ? "Организация" : "Частное лицо"}/ id
+          {props.user.id !== -1 ? props.user.id : user.id}
         </div>
       </div>
       <div className="seller-compact__entries seller-compact__entries--right">
@@ -32,10 +34,10 @@ function SellerCompact(props: SellerCompactProps) {
         </div> */}
         <div className="seller-compact__entry">
           <span>Рейтинг</span>
-          <StarRating size="small" readOnly min={props.sellerRating} />
+          <StarRating size="small" readOnly min={props.user.seller_rating} />
         </div>
       </div>
-      <Link className="ghost" to={"/user/" + props.id} />
+      <Link className="ghost" to={"/user/" + props.user.id} />
     </div>
   )
 }

@@ -20,6 +20,7 @@ import {useNavigate, useParams} from "react-router-dom"
 
 function LotView() {
   const lotId = useParam("lotId", true)
+
   const lotStatus = useParams().status
   const myId = useSelector(state => state.user).id
   const isEditTime = (date: Date) => {

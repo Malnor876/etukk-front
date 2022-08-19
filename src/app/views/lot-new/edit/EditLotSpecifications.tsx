@@ -33,7 +33,6 @@ function EditLotSpecifications() {
         конкурентное преимущество для быстрой и выгодной продажи.
       </p>
       <p>*не более 10 характеристик</p>
-      <p>*максимальный размер упакованного товара не должен превышать 1,5м</p>
       <Specifications
         max={10}
         defaultValue={updateSpecifications(specifications)}

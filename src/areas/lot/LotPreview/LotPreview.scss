@@ -12,7 +12,7 @@
 	box-shadow: 0px 2px 8px -4px rgba($color-dark, 0.5);
 	transition: 250ms ease box-shadow;
 
-	&>.button:last-child {
+	& > .button:last-child {
 		border-radius: unset;
 
 		.button__text {
@@ -39,18 +39,20 @@
 }
 
 .lot-preview__info {
-	display: grid;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	gap: 1em;
 
 	padding: 1em;
 
-	&>.button:last-child {
+	& > .button:last-child {
 		margin: calc(-1em - 2px);
 		margin-top: unset;
 		border-radius: unset;
 
 		width: calc(100% + 2em + 2px * 2);
-		flex: 1;
+		// flex: 1;
 		// max-width: 100%;
 		overflow: hidden;
 		z-index: 1;
@@ -100,7 +102,7 @@
 
 	&--short {
 		.lot-preview__entry {
-			&>:first-child {
+			& > :first-child {
 				max-width: 11ch;
 
 				@include Mobile {
@@ -108,7 +110,7 @@
 				}
 			}
 
-			&>:last-child {
+			& > :last-child {
 				@include Mobile {
 					font-size: $font-size-6;
 				}
@@ -171,7 +173,7 @@
 	}
 
 	&--check {
-		color: #27AE60;
+		color: #27ae60;
 	}
 }
 

@@ -90,8 +90,6 @@ function LotDraftView() {
         return value.length >= 10 && value.length <= 40
       }
       case "category": {
-        console.log("value", value)
-
         // if (typeof value !== "string") return false
         return true
       }
@@ -110,21 +108,41 @@ function LotDraftView() {
           if (item.value.length === 0) return false
 
           if (
-            Number(item.id) < 3 &&
-            (Number(item.value) > 1.5 || Number(item.value) < 0.01)
+            Number(item.id) === 0 &&
+            (Number(item.value) > 2.6 || Number(item.value) < 0.001)
+          )
+            return false
+          if (
+            Number(item.id) === 1 &&
+            (Number(item.value) > 1.3 || Number(item.value) < 0.001)
+          )
+            return false
+          if (
+            Number(item.id) === 2 &&
+            (Number(item.value) > 1.5 || Number(item.value) < 0.001)
           )
             return false
           if (
             Number(item.id) === 3 &&
-            (Number(item.value) > 100 || Number(item.value) < 0.01)
+            (Number(item.value) > 100 || Number(item.value) < 0.001)
           )
             return false
           return true
         })
       }
       case "files": {
-        if (!(value instanceof Array)) return false
-        return value.length >= 4
+        let video
+        if (value instanceof Array && !value[0]) {
+          video = lotDraftStorage.get("video")
+        }
+        if (
+          !(value instanceof Array) &&
+          typeof video !== "string" &&
+          video === ""
+        )
+          return false
+
+        return value instanceof Array && value.length >= 4
       }
 
       default:
@@ -135,7 +153,6 @@ function LotDraftView() {
     const isVal = keys.every(key => validate(key))
     return isVal
   }
-
   const currentStateKey = (params["*"] || "category") as never
   const nextButtonDisabled = !validate(currentStateKey)
   const previewButtonDisabled = !validateAll(
