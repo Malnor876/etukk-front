@@ -160,23 +160,29 @@ function LotPreviewStatusLookALike(props: LotProps) {
 }
 
 function LotPreviewStatusContent(props: LotProps) {
+  console.log("first", props)
   const started = Date.now() > props.tradeStartTime.getTime()
 
   switch (props.status) {
     case LotStatus.CLOSED:
       return (
         <>
-          <small>СНЯТ С ПУБЛИКАЦИИ</small>
           {/* <LotPreviewStatus iconName="truck">В пути</LotPreviewStatus> */}
-          <LotPreviewStatus iconName="not-allowed">Закрыт</LotPreviewStatus>
+          <LotPreviewStatus iconName="not-allowed">Не продан</LotPreviewStatus>
         </>
       )
 
     case LotStatus.DRAFTED:
       return (
-        <ButtonLink publish to={`/lots/${props.id}/preview`}>
-          Опубликовать черновик
-        </ButtonLink>
+        <>
+          {props.archived ? (
+            <LotPreviewStatus>Снят с публикации</LotPreviewStatus>
+          ) : (
+            <ButtonLink publish to={`/lots/${props.id}/preview`}>
+              Опубликовать черновик
+            </ButtonLink>
+          )}
+        </>
       )
 
     case LotStatus.MODERATION:
@@ -474,14 +480,16 @@ function LotPreviewTimerButton(props: LotPreviewTradeStatusTimerButtonProps) {
 }
 
 interface LotPreviewStatusProps {
-  iconName: IconName
+  iconName?: IconName
   children: ReactNode
 }
 
 function LotPreviewStatus(props: LotPreviewStatusProps) {
   return (
     <div className="lot-preview-status">
-      <Icon className="lot-preview-status__icon" name={props.iconName} />
+      {props.iconName && (
+        <Icon className="lot-preview-status__icon" name={props.iconName} />
+      )}
       <div className="lot-preview-status__label">{props.children}</div>
     </div>
   )

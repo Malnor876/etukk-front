@@ -12,15 +12,20 @@ export interface SellerPreviewProps {
   avatar: string
   fullName: string
   city: string
+  sellerRating: number
   likes?: number
   dislikes?: number
   lotsCount?: number
   // linkedTo?: string
   bookmarked?: boolean
+  created_at: string
 }
 
 function SellerPreview(props: SellerPreviewProps) {
-  console.log("SellerPreview", props)
+  const isToday = new Date() === new Date(props.created_at)
+  const isYesterday =
+    new Date(new Date().setDate(new Date().getDate() - 1)) ===
+    new Date(props.created_at)
   return (
     <div className="seller-preview">
       <div className="seller-preview-avatar">
@@ -32,28 +37,26 @@ function SellerPreview(props: SellerPreviewProps) {
       </div>
       <div className="seller-preview__details">
         <div className="seller-preview__name">{props.fullName}</div>
-        <div className="seller-preview__city">{props.city}</div>
+        <div className="seller-preview__city">
+          зарегистрирован{" "}
+          {isToday
+            ? "сегодня"
+            : isYesterday
+            ? "вчера"
+            : new Date(props.created_at).toLocaleDateString()}
+        </div>
         <div className="seller-preview__entries">
           <Entries>
-            {props.likes && props.dislikes && (
-              <>
-                <EntryCounter title="Рейтинг продавца">
-                  <CounterIcon
-                    icon="star"
-                    count={getRating(props.likes, props.dislikes)}
-                  />
-                </EntryCounter>
-                <EntryCounter title="Отзывы">
-                  <CounterIcon icon="like" count={props.likes} />
-                  <CounterIcon icon="dislike" count={props.dislikes} />
-                </EntryCounter>
-              </>
-            )}
-            {props.lotsCount && (
-              <EntryCounter title="Размещено лотов">
-                <CounterIcon icon="hammer" count={props.lotsCount} />
-              </EntryCounter>
-            )}
+            <EntryCounter title="Рейтинг продавца">
+              <CounterIcon icon="star" count={props.sellerRating} />
+            </EntryCounter>
+            <EntryCounter title="Отзывы">
+              <CounterIcon icon="like" count={props.likes ?? 0} />
+              <CounterIcon icon="dislike" count={props.dislikes ?? 0} />
+            </EntryCounter>
+            <EntryCounter title="Размещено лотов">
+              <CounterIcon icon="hammer" count={props.lotsCount ?? 0} />
+            </EntryCounter>
           </Entries>
         </div>
       </div>

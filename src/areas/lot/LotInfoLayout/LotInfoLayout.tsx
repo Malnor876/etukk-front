@@ -17,14 +17,11 @@ interface LotInfoProps extends LotInfoType {
 }
 
 function LotInfoLayout(props: LotInfoProps) {
-  console.log("LotInfoLayout", props)
-
   const user = useSelector(state => state.user)
 
   const started = Date.now() > props.startEndInterval.date1.getTime()
   const ended = Date.now() >= props.startEndInterval.date2.getTime()
   const [tradable, setTradable] = useState(started && !ended && user.auth)
-  console.log("tradable", tradable)
 
   useEffect(() => {
     const interval = setInterval(() => {

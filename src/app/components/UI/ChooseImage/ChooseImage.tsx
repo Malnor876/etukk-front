@@ -1,35 +1,48 @@
 import "./ChooseImage.scss"
 
+import {LotPhotoType} from "areas/lot/types"
 import {FILE_TYPES} from "consts"
+import {deleteLotByLotIdPhotoByPhotoId} from "infrastructure/persistence/api/data/actions"
 import {ChangeEvent, Dispatch, DragEvent, useEffect, useState} from "react"
+import {useClient} from "react-fetching-library"
 import {getFileId} from "utils/file"
 
 import CloseButton from "../CloseButton/CloseButton"
 import Icon from "../Icon/Icon"
 
 type ChooseImageFiles = File[]
+export type ImageFiles = (File | LotPhotoType)[]
 interface ChooseImageProps {
   name?: string
-  defaultValue?: ChooseImageFiles
+  // defaultValue?: ChooseImageFiles
+  defaultValue?: ImageFiles
   accept?: string
 
   onChange?: Dispatch<ChooseImageFiles>
 }
 
 function ChooseImage(props: ChooseImageProps) {
-  const [files, setFiles] = useState<ChooseImageFiles>(props.defaultValue || [])
+  const [files, setFiles] = useState<ImageFiles>(props.defaultValue || [])
+  const [newFiles, setNewFiles] = useState<ChooseImageFiles>([])
   const [dragIndexFile, setDragIndexFile] = useState<number>(0)
+  const client = useClient()
 
   async function addFiles(filesToAdd: ChooseImageFiles) {
     const nextFiles: ChooseImageFiles = []
     // Filter by file
     for (const fileToAdd of filesToAdd) {
-      if (files.some(file => getFileId(file) === getFileId(fileToAdd))) continue
+      if (
+        files.some(
+          file =>
+            file instanceof File && getFileId(file) === getFileId(fileToAdd)
+        )
+      )
+        continue
       nextFiles.push(fileToAdd)
     }
     if (nextFiles.length === 0) return
-
-    setFiles([...files, ...nextFiles])
+    setNewFiles([...newFiles, ...nextFiles])
+    setFiles([...files, ...nextFiles] as ImageFiles)
   }
   function onChange(event: ChangeEvent<HTMLInputElement>) {
     const target = event.currentTarget
@@ -44,12 +57,20 @@ function ChooseImage(props: ChooseImageProps) {
     // dispatch
     addFiles(nextFiles)
   }
-  function onRemove(file: File) {
+  async function onRemove(file: File | LotPhotoType) {
+    if (!(file instanceof File)) {
+      const {error} = await client.query(
+        deleteLotByLotIdPhotoByPhotoId(+file.id, +file.lot_id)
+      )
+      if (error) return
+    }
     const fileIndex = files.indexOf(file)
     setFiles((files.splice(fileIndex, 1), [...files]))
   }
+  console.log("files", files)
+
   useEffect(() => {
-    props.onChange?.(files)
+    props.onChange?.(newFiles)
   }, [files])
 
   const dragStartHandler = (
@@ -61,7 +82,7 @@ function ChooseImage(props: ChooseImageProps) {
 
   const dropHandler = (
     event: DragEvent<HTMLDivElement>,
-    file: File,
+    file: File | LotPhotoType,
     dropIndex: number
   ) => {
     event.preventDefault()
@@ -70,7 +91,6 @@ function ChooseImage(props: ChooseImageProps) {
     newFiles[dragIndexFile] = file
     setFiles(newFiles)
   }
-
   return (
     <div className="choose-image">
       <label className="choose-image__chooser">
@@ -88,13 +108,15 @@ function ChooseImage(props: ChooseImageProps) {
       {files.map((file, index) => (
         <div
           className="choose-image__file"
-          key={getFileId(file)}
+          key={index}
           draggable={true}
           onDragStart={event => dragStartHandler(event, index)}
           onDragOver={event => event.preventDefault()}
           onDrop={event => dropHandler(event, file, index)}>
           <img
-            src={URL.createObjectURL(file)}
+            src={
+              file instanceof File ? URL.createObjectURL(file) : file.filename
+            }
             alt="product"
             className="choose-image__image"
           />

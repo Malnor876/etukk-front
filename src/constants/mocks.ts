@@ -23,7 +23,7 @@ export const USER_MOCK: UserSigned = {
   avatar: "string",
   city: "string",
   verified: true,
-
+  created_at: "string",
   email: "string",
   phone: "string",
 
@@ -47,6 +47,7 @@ export const LOT_PREVIEW_MOCK: LotPreviewType = {
   editedAt: new Date(),
   seller: USER_MOCK,
   slides: [],
+  slidesWithId: [],
   description: "",
   specifications: [],
   startEndInterval: new DateInterval(),

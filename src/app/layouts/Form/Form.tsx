@@ -81,9 +81,9 @@ async function getFormState(form: HTMLFormElement): Promise<{
   formData: FormData
 }> {
   const arr: LotSpecificationsType = []
-
   const formData = new FormData(form)
   const keys: string[] = []
+
   for (const element of form.elements) {
     if (
       element instanceof HTMLInputElement ||
@@ -98,18 +98,26 @@ async function getFormState(form: HTMLFormElement): Promise<{
   let newSpecification = {name: "", value: ""}
   for (const key of keys) {
     const next = form.elements.namedItem(key)
-
     if (next instanceof HTMLInputElement) {
       if (next.checked) {
         values[next.name] = true
         continue
       }
-      if (next.files instanceof FileList) {
-        values[next.name] = await Promise.all(
-          [...next.files].map(FileToURLDataBase64)
-        )
-        continue
-      }
+      // if (next.files instanceof File) {
+      //   console.log("next", next)
+      //   console.log("FileList", next.files)
+      //   console.log("next.name", next.name)
+      //   console.log(
+      //     "Promise",
+      //     await Promise.all([...next.files].map(FileToURLDataBase64))
+      //   )
+      //   values[next.name] = await Promise.all(
+      //     [...next.files].map(FileToURLDataBase64)
+      //   )
+      //   console.log("values", values)
+
+      //   continue
+      // }
     }
 
     if (
@@ -122,7 +130,6 @@ async function getFormState(form: HTMLFormElement): Promise<{
         if (next.name.includes("key")) {
           if (next.id.length >= 13) {
             newSpecification = {...newSpecification, name: next.value}
-            console.log("////", newSpecification)
           } else {
             arr.push({id: Number(next.id), name: next.value, value: ""})
           }
@@ -132,7 +139,6 @@ async function getFormState(form: HTMLFormElement): Promise<{
               ...newSpecification,
               value: next.value,
             }
-            console.log("newSpecification=====", newSpecification)
             arr.push(newSpecification)
           } else {
             const index = arr.findIndex(item => item.id === Number(next.id))
@@ -141,7 +147,6 @@ async function getFormState(form: HTMLFormElement): Promise<{
             }
           }
         }
-        console.log("arr", arr)
         values["lotspecifications"] = arr
       } else {
         values[next.name] = isNaN(Number(next.value))

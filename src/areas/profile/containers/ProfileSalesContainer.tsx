@@ -24,7 +24,7 @@ function ProfileSalesContainer() {
     <QueryContainer action={action} mapping={mapLotsLists}>
       {payload => {
         const drafted = payload.items.filter(
-          item => item.status === LotStatus.DRAFTED
+          item => item.status === LotStatus.DRAFTED && !item.archived
         )
         const moderation = payload.items.filter(
           item => item.status === LotStatus.MODERATION
@@ -40,7 +40,7 @@ function ProfileSalesContainer() {
         )
 
         const archived = payload.items.filter(
-          item => item.status === LotStatus.CLOSED
+          item => item.status === LotStatus.CLOSED || item.archived
         )
         const disputed = payload.items.filter(
           item => item.tradeStatus === LotTradeStatus.DELIVERY_REJECTED

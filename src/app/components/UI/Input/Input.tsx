@@ -44,7 +44,7 @@ function Input(props: InputProps) {
       target.value = target.value.slice(0, props.maxLength)
     }
 
-    if (!props.type) {
+    if (props.type === "text") {
       target.value = target.value
         .split(" ")
         .map(word => word.slice(0, 19))

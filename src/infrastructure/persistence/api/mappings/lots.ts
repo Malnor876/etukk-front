@@ -49,7 +49,7 @@ export function mapLotsLists(
 }
 
 export function mapLot(lot: SchemaLot): LotInfoType {
-  // console.log("mapLot", lot.lotspecifications)
+  console.log("mapLot", lot)
   return {
     id: lot.id,
     delivery: lot.delivery_options as LotDelivery,
@@ -59,8 +59,15 @@ export function mapLot(lot: SchemaLot): LotInfoType {
     type: "organization", //! default
 
     bookmarked: lot.in_user_favorites ?? false,
+    archived: lot.archived ?? false,
     description: lot.description ?? "unknown",
     slides: lot.lotphotos?.map(l => mapImageUrl(l.filename)) ?? [],
+    slidesWithId:
+      lot.lotphotos?.map(l => ({
+        id: l.id,
+        lot_id: l.lot_id,
+        filename: mapImageUrl(l.filename),
+      })) ?? [],
     specifications:
       lot.lotspecifications?.map(spec => ({
         id: spec.id,

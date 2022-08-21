@@ -18,6 +18,7 @@ export function mapUser(user?: SchemaUser): UserSigned {
     firstName: firstName,
     lastName: lastName,
     type: user?.organization ? "organization" : "user",
+    created_at: user?.created_at ?? "unknown",
     verified: user?.verified ?? false,
     buyerRating: user?.seller_rating ?? -1,
     sellerRating: user?.seller_rating ?? -1,

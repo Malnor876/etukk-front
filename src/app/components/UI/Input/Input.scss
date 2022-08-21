@@ -18,8 +18,8 @@
 
 	@include InputAppearance;
 
-	.input:invalid>&,
-	.input--invalid>& {
+	.input:invalid > &,
+	.input--invalid > & {
 		border-color: $color-raspberry-1;
 	}
 }

@@ -10,7 +10,7 @@ export interface UserSigned {
   avatar: string
   city: string
   verified: boolean
-
+  created_at: string
   email: string
   phone: string
 

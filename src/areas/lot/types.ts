@@ -35,9 +35,17 @@ export type LotInfoSpecificationsType = {
   value: string
 }[]
 
+export type LotPhotoType = {
+  id: number
+  lot_id: number
+  filename: string
+}
 export interface LotInfoType {
   slides: string[]
+  slidesWithId: LotPhotoType[]
+  video?: string
   bookmarked?: boolean
+  archived?: boolean
   description: string
   specifications: LotInfoSpecificationsType
 

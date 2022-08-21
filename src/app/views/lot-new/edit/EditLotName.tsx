@@ -19,6 +19,7 @@ function EditLotName() {
       <Input
         width="25em"
         placeholder="Напишите  название лота..."
+        type="text"
         value={title}
         maxLength={40}
         onChange={inputValue(updateTitle)}

@@ -1,4 +1,6 @@
-import ChooseImage from "app/components/UI/ChooseImage/ChooseImage"
+import ChooseImage, {
+  ImageFiles,
+} from "app/components/UI/ChooseImage/ChooseImage"
 import Input from "app/components/UI/Input/Input"
 import {inputValue} from "utils/common"
 
@@ -7,7 +9,7 @@ import {lotDraftStorage} from "."
 function EditLotFiles() {
   const [video, setVideo] = lotDraftStorage.state("video", "")
 
-  const [files, setFiles] = lotDraftStorage.state<File[]>("files", [])
+  const [files, setFiles] = lotDraftStorage.state<ImageFiles>("files", [])
 
   if (files.some(image => !(image instanceof File))) {
     setFiles([])

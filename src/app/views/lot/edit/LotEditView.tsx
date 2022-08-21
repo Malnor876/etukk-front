@@ -4,6 +4,9 @@ import {ReactError} from "app/components/containers/ErrorBoundary/ErrorBoundary.
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
+import ChooseImage, {
+  ImageFiles,
+} from "app/components/UI/ChooseImage/ChooseImage"
 import CloseButton from "app/components/UI/CloseButton/CloseButton"
 import ErrorCover from "app/components/UI/ErrorCover/ErrorCover"
 import Icon from "app/components/UI/Icon/Icon"
@@ -11,6 +14,7 @@ import Input from "app/components/UI/Input/Input"
 import Selector from "app/components/UI/Selector/Selector"
 import Textarea from "app/components/UI/Textarea/Textarea"
 import Form, {FormState} from "app/layouts/Form/Form"
+import {lotDraftStorage} from "app/views/lot-new/edit"
 import {SpecificationType} from "areas/lot/components/Specifications/Specifications"
 import {LotDelivery} from "areas/lot/types"
 import {
@@ -27,11 +31,13 @@ import {useClient} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 import {useSelector} from "react-redux"
 import {useNavigate, useParams} from "react-router"
-// import ChooseImage from "app/components/UI/ChooseImage/ChooseImage"
+import {FileToURLDataBase64} from "utils/file"
+// import {inputValue} from "utils/common"
+// import {FILE_TYPES} from "consts"
 
 enum FormInputs {
   title = "name",
-  images = "photos",
+  images = "lotphotos",
   video = "video_url",
   startPrice = "start_price",
   // publicationPeriod = "trading_start",
@@ -57,7 +63,7 @@ interface FormValues {
   bidding_start_time: string
   bidding_end_time: string
   video_url: string
-  photos: string[]
+  lotphotos: string[]
   specifications: [{id?: string; name: string; value: string}]
 }
 
@@ -73,6 +79,7 @@ function LotEditView() {
   const [newSpecifications, setNewSpecifications] = useState<
     SpecificationType[]
   >([])
+  const [files, setFiles] = useState<File[]>([])
   const navigate = useNavigate()
   const client = useClient()
 
@@ -104,7 +111,12 @@ function LotEditView() {
   }, [])
 
   async function onSubmit(state: FormState<FormInputs, FormValues>) {
+    const photos = await Promise.all([...files].map(FileToURLDataBase64))
+    if (photos[0]) {
+      state.values.lotphotos = photos
+    }
     console.log("onSubmit", state)
+
     if (lotId == null) return
 
     const {error} =
@@ -183,9 +195,21 @@ function LotEditView() {
                     defaultValue={payload.title}
                   /> */}
                 </LotEditSetting>
-                {/* <LotEditSetting label="Фото (минимум 4 шт.)">
-                   <ChooseImage defaultValue={payload.slides} /> 
-                </LotEditSetting> */}
+                <LotEditSetting label="Фото (минимум 4 шт.)">
+                  <ChooseImage
+                    defaultValue={payload.slidesWithId}
+                    name={FormInputs.images}
+                    onChange={setFiles}
+                  />
+                </LotEditSetting>
+                <LotEditSetting label="Видео">
+                  <Input
+                    placeholder="Ссылка на видео..."
+                    width="33.5em"
+                    defaultValue={payload.video}
+                    name={FormInputs.video}
+                  />
+                </LotEditSetting>
                 <LotEditSetting label="Начальная ставка">
                   <Input
                     width="16em"
@@ -278,6 +302,7 @@ function LotEditView() {
                           className="specifications__specification"
                           key={index}>
                           <Input
+                            width="15em"
                             placeholder="Название..."
                             required={index < 4 ? true : false}
                             id={String(specification.id)}
@@ -291,7 +316,7 @@ function LotEditView() {
                             id={String(specification.id)}
                             name={`${FormInputs.specifications}[${index}].value`}
                             type={index < 4 ? "number" : undefined}
-                            step="0.01"
+                            step="0.001"
                             max={
                               index === 0
                                 ? "2.6"
@@ -304,7 +329,7 @@ function LotEditView() {
                                 : undefined
                             }
                             min={index < 4 ? "0.01" : undefined}
-                            width="225px"
+                            width="15em"
                             defaultValue={specification.value}
                           />
                           {index > 3 && (

@@ -76,8 +76,10 @@ function LotView() {
                       </Button>
                     </Buttons>
                   )}
-                {payload.status === "drafted" &&
-                  isEditTime(payload.startEndInterval.date1) && (
+                {(payload.status === "drafted" ||
+                  payload.status === "closed" ||
+                  payload.archived) &&
+                  (isEditTime(payload.startEndInterval.date1) ? (
                     <Buttons spaceBetween>
                       <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
                         Редактировать
@@ -86,7 +88,13 @@ function LotView() {
                         Опубликовать
                       </Button>
                     </Buttons>
-                  )}
+                  ) : (
+                    <Buttons spaceBetween>
+                      <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
+                        Редактировать
+                      </ButtonLink>
+                    </Buttons>
+                  ))}
               </LotInfoLayout>
             )
           }

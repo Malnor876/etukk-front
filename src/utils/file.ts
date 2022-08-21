@@ -1,4 +1,4 @@
-import { URLDataBase64 } from "interfaces/utilities"
+import {URLDataBase64} from "interfaces/utilities"
 
 /**
  * Generates "unique" file name
@@ -24,7 +24,9 @@ export async function getFileFromURL(url: string) {
   const response = await fetch(url)
   const Uint8Array = (await response.body?.getReader()?.read())?.value
 
-  return new File(Uint8Array ? [Uint8Array] : [], fileName, { type: response.headers.get("content-type") || "image" })
+  return new File(Uint8Array ? [Uint8Array] : [], fileName, {
+    type: response.headers.get("content-type") || "image",
+  })
 }
 
 export function amendInputFiles(target: HTMLInputElement, files: File[]) {
