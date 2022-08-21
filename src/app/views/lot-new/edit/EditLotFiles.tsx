@@ -24,7 +24,7 @@ function EditLotFiles() {
         конкурентное преимущество продать его выгодней и быстрей
       </p>
       <h4>Фото (минимум 4 шт.)</h4>
-      <ChooseImage defaultValue={files} onChange={setFiles} />
+      <ChooseImage create defaultValue={files} onChange={setFiles} />
       <h4>Видео</h4>
       <p>Вставьте ссылку на видео в YouTube</p>
       <p>

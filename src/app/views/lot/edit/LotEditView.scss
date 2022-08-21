@@ -76,7 +76,19 @@
 	// gap: 1.5em;
 	@include column-gap(1.5em);
 
-	&>.close-button {
+	& > .close-button {
+		margin-top: 0.35em;
+	}
+}
+
+.lot-edit-setting__column {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	// gap: 1.5em;
+	@include column-gap(1.5em);
+
+	& > .close-button {
 		margin-top: 0.35em;
 	}
 }

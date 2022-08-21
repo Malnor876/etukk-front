@@ -1,5 +1,6 @@
 import "./Form.scss"
 
+import {getBiddingTime} from "app/views/lot-new/edit/helpers"
 import {LotSpecificationsType} from "areas/lot/types"
 import _, {includes} from "lodash"
 import {
@@ -9,7 +10,6 @@ import {
   MutableRefObject,
 } from "react"
 import {classWithModifiers} from "utils/common"
-import {FileToURLDataBase64} from "utils/file"
 
 type FormValue =
   | string
@@ -157,8 +157,13 @@ async function getFormState(form: HTMLFormElement): Promise<{
 
     if (next instanceof RadioNodeList) {
       const radios = [...next] as HTMLInputElement[]
-
       const checks = radios.map(radio => radio.checked && radio.value)
+      if (radios[0].name === "date") {
+        const date = checks.findIndex(check => check)
+        const [startTime, endTime] = await getBiddingTime(+date)
+        values["bidding_start_time"] = startTime.toJSON()
+        values["bidding_end_time"] = endTime.toJSON()
+      }
       values[radios[0].name] = checks.flatMap(check =>
         !check || isNaN(Number(check)) ? [] : Number(check)
       )

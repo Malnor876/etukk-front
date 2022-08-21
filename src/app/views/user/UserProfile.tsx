@@ -10,6 +10,7 @@ import Switcher from "app/components/UI/Switcher/Switcher"
 import Previews from "app/layouts/Previews/Previews"
 import Reviews from "app/layouts/Reviews/Reviews"
 import LotPreview from "areas/lot/LotPreview/LotPreview"
+import {LotStatus} from "areas/lot/types"
 import {IMAGE_MOCKS} from "constants/mocks"
 import {isValidResponse} from "infrastructure/persistence/api/client"
 import {ExtractActionPayload} from "infrastructure/persistence/api/client.types"
@@ -40,17 +41,25 @@ function UserProfile(props: UserProfileProps) {
     user_id__iexact: props.userId,
   })
 
-  const getUserLotsAction = (endTime?: Date) =>
+  const getUserLotsAction = (status: string) =>
     getLot<
-      | FilteringField<"user_id", "iexact", number>
-      | FilteringField<"bidding_end_time", "gte", string>
+      FilteringField<
+        "user_id",
+        "iexact",
+        number
+      > & // | FilteringField<"bidding_end_time", "gte", string>
+      {
+        status: string
+      }
     >(10, 0, {
       user_id__iexact: props.userId,
-      bidding_end_time__gte: endTime?.toISOString(),
+      // bidding_end_time__gte: endTime?.toISOString(),
+      status: status,
     })
 
-  const getUserLotsAllAction = getUserLotsAction()
-  const getUserLotsCompletedAction = getUserLotsAction(new Date()) // Now
+  const getUserLotsPublished = getUserLotsAction(LotStatus.PUBLISHED)
+  // const getUserLotsCompletedAction = getUserLotsAction(new Date()) // Now
+  const getUserLotsClosed = getUserLotsAction(LotStatus.CLOSED)
 
   return (
     <div className="user-profile">
@@ -95,7 +104,7 @@ function UserProfile(props: UserProfileProps) {
             path="placed"
             element={
               <QueryContainer
-                action={getUserLotsAllAction}
+                action={getUserLotsPublished}
                 mapping={mapLotsLists}
                 key="all lots">
                 {payload => (
@@ -112,7 +121,7 @@ function UserProfile(props: UserProfileProps) {
             path="completed"
             element={
               <QueryContainer
-                action={getUserLotsCompletedAction}
+                action={getUserLotsClosed}
                 mapping={mapLotsLists}
                 key="completed lots">
                 {payload => (

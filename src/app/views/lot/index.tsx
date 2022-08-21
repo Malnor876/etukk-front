@@ -68,9 +68,9 @@ function LotView() {
                 {payload.status === "published" &&
                   isEditTime(payload.startEndInterval.date1) && (
                     <Buttons spaceBetween>
-                      <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
+                      {/* <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
                         Редактировать
-                      </ButtonLink>
+                      </ButtonLink> */}
                       <Button outline await onClick={unpublishNewLot}>
                         Снять с публикации
                       </Button>

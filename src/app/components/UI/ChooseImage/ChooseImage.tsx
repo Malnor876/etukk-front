@@ -17,7 +17,7 @@ interface ChooseImageProps {
   // defaultValue?: ChooseImageFiles
   defaultValue?: ImageFiles
   accept?: string
-
+  create?: boolean
   onChange?: Dispatch<ChooseImageFiles>
 }
 
@@ -67,10 +67,13 @@ function ChooseImage(props: ChooseImageProps) {
     const fileIndex = files.indexOf(file)
     setFiles((files.splice(fileIndex, 1), [...files]))
   }
-  console.log("files", files)
 
   useEffect(() => {
-    props.onChange?.(newFiles)
+    if (props.create) {
+      props.onChange?.(files as ChooseImageFiles)
+    } else {
+      props.onChange?.(newFiles)
+    }
   }, [files])
 
   const dragStartHandler = (
@@ -86,10 +89,16 @@ function ChooseImage(props: ChooseImageProps) {
     dropIndex: number
   ) => {
     event.preventDefault()
-    const newFiles = [...files]
-    newFiles[dropIndex] = files[dragIndexFile]
-    newFiles[dragIndexFile] = file
-    setFiles(newFiles)
+    let newFilesCopy
+    if (props.create && file instanceof File) {
+      newFilesCopy = [...newFiles]
+      newFilesCopy[dropIndex] = newFiles[dragIndexFile]
+      newFilesCopy[dragIndexFile] = file
+    }
+    newFilesCopy = [...files]
+    newFilesCopy[dropIndex] = files[dragIndexFile]
+    newFilesCopy[dragIndexFile] = file
+    setFiles(newFilesCopy)
   }
   return (
     <div className="choose-image">

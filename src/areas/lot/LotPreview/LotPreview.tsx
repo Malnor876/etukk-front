@@ -160,7 +160,6 @@ function LotPreviewStatusLookALike(props: LotProps) {
 }
 
 function LotPreviewStatusContent(props: LotProps) {
-  console.log("first", props)
   const started = Date.now() > props.tradeStartTime.getTime()
 
   switch (props.status) {

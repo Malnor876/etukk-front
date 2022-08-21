@@ -4,23 +4,23 @@ import {ReactError} from "app/components/containers/ErrorBoundary/ErrorBoundary.
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
-import ChooseImage, {
-  ImageFiles,
-} from "app/components/UI/ChooseImage/ChooseImage"
+import ChooseImage from "app/components/UI/ChooseImage/ChooseImage"
 import CloseButton from "app/components/UI/CloseButton/CloseButton"
 import ErrorCover from "app/components/UI/ErrorCover/ErrorCover"
 import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"
+import Radio from "app/components/UI/Radio/Radio"
 import Selector from "app/components/UI/Selector/Selector"
 import Textarea from "app/components/UI/Textarea/Textarea"
 import Form, {FormState} from "app/layouts/Form/Form"
-import {lotDraftStorage} from "app/views/lot-new/edit"
+import {getBiddingTime} from "app/views/lot-new/edit/helpers"
 import {SpecificationType} from "areas/lot/components/Specifications/Specifications"
 import {LotDelivery} from "areas/lot/types"
 import {
   deleteLotDraftByLotIdSpecificationBySpecificationId,
   getLotByLotId,
   getLotDraftByDraftId,
+  getTimes,
   patchLotById,
   patchLotDraftByDraftId,
 } from "infrastructure/persistence/api/data/actions"
@@ -31,9 +31,8 @@ import {useClient} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 import {useSelector} from "react-redux"
 import {useNavigate, useParams} from "react-router"
+import {humanizeDate} from "utils/date"
 import {FileToURLDataBase64} from "utils/file"
-// import {inputValue} from "utils/common"
-// import {FILE_TYPES} from "consts"
 
 enum FormInputs {
   title = "name",
@@ -42,7 +41,7 @@ enum FormInputs {
   startPrice = "start_price",
   // publicationPeriod = "trading_start",
   city = "city",
-  // date = "date",
+  date = "date",
   delivery = "delivery_options",
   description = "description",
   specifications = "specifications",
@@ -58,7 +57,7 @@ interface FormValues {
   start_price: number
   categories: number[] | number
   city: string
-  // date: Date
+  date: string
   delivery_options: SchemaLotDeliveryOptions
   bidding_start_time: string
   bidding_end_time: string
@@ -79,9 +78,13 @@ function LotEditView() {
   const [newSpecifications, setNewSpecifications] = useState<
     SpecificationType[]
   >([])
+
   const [files, setFiles] = useState<File[]>([])
   const navigate = useNavigate()
   const client = useClient()
+  const formRef = useRef<HTMLFormElement | null>(null)
+  const user = useSelector(state => state.user)
+  if (!user.auth) return null
 
   useEffect(() => {
     async function getLotSpecifications() {
@@ -126,12 +129,8 @@ function LotEditView() {
 
     if (error) return
 
-    navigate(`/lots/${lotId}/${status}`)
+    navigate(`/lots/${lotId}/drafted`)
   }
-
-  const formRef = useRef<HTMLFormElement | null>(null)
-  const user = useSelector(state => state.user)
-  if (!user.auth) return null
 
   function addSpecification(key: string, value: string) {
     const id = Date.now()
@@ -225,17 +224,17 @@ function LotEditView() {
                     defaultValue={+payload.startPrice}
                   />
                 </LotEditSetting>
-                {/* <LotEditSetting label="Период публикации лота и проведения торгов">
+                <LotEditSetting
+                  label="Период публикации лота и проведения торгов"
+                  className="lot-edit-setting__column">
                   <QueryContainer action={getTimes()}>
                     {payload => (
                       <>
                         {payload.map((time, index) => (
-                          <>
+                          <div key={index}>
                             <Radio
                               name={FormInputs.date}
-                              value={index.toString()}
-                              defaultChecked={date === index.toString()}
-                              onChange={setDate}>
+                              value={index.toString()}>
                               {new Date().getDate() ===
                               new Date(time.begin).getDate()
                                 ? "Сегодня"
@@ -250,13 +249,12 @@ function LotEditView() {
                               })}
                             </Radio>
                             <br />
-                          </>
+                          </div>
                         ))}
                       </>
                     )}
                   </QueryContainer>
-                </LotEditSetting> */}
-
+                </LotEditSetting>
                 <LotEditSetting label="Укажите ваш город">
                   <Input
                     width="16em"
@@ -395,6 +393,7 @@ function InputResetButton(props: InputResetButtonProps) {
 
 interface LotEditSettingProps {
   label: string
+  className?: string
   children: ReactNode
 }
 
@@ -402,7 +401,12 @@ function LotEditSetting(props: LotEditSettingProps) {
   return (
     <div className="lot-edit-setting">
       <div className="lot-edit-setting__label">{props.label}</div>
-      <div className="lot-edit-setting__container">{props.children}</div>
+      <div
+        className={
+          props.className ? props.className : "lot-edit-setting__container"
+        }>
+        {props.children}
+      </div>
     </div>
   )
 }
