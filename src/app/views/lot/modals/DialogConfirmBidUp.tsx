@@ -2,7 +2,10 @@ import Button from "app/components/UI/Button/Button"
 import Checkbox from "app/components/UI/Checkbox/Checkbox"
 import Buttons from "app/layouts/Buttons/Buttons"
 import DialogLayout from "app/layouts/Modal/DialogLayout/DialogLayout"
-import {useLayoutEffect} from "react"
+import {isValidResponse} from "infrastructure/persistence/api/client"
+import {patchUser} from "infrastructure/persistence/api/data/actions"
+import {useLayoutEffect, useState} from "react"
+import {useClient} from "react-fetching-library"
 import {useModalContext} from "react-modal-global"
 import {useLocalStorage} from "react-use"
 
@@ -11,12 +14,16 @@ interface DialogConfirmBidUpProps {
 }
 
 function DialogConfirmBidUp(props: DialogConfirmBidUpProps) {
-  const [bidUpConfirm, setBidUpConfirm] = useLocalStorage(
-    "bid-up-confirm",
-    true
-  )
+  const [bidUpConfirm, setBidUpConfirm] = useState(true)
+  console.log("bidUpConfirm", bidUpConfirm)
+  const client = useClient()
   const modal = useModalContext()
-  function onSubmit() {
+  async function onSubmit() {
+    const response = await client.query(
+      patchUser({bet_confirmation: bidUpConfirm})
+    )
+
+    if (!isValidResponse(response)) return
     props.onSubmit()
     modal.close()
   }
@@ -27,6 +34,7 @@ function DialogConfirmBidUp(props: DialogConfirmBidUpProps) {
   useLayoutEffect(() => {
     if (bidUpConfirm === false) onSubmit()
   }, [])
+
   return (
     <DialogLayout centered>
       <h3>Подтвердите повышение ставки</h3>

@@ -151,6 +151,7 @@ export const patchUser = (
     city: string
     address: string
     user_pic: string
+    bet_confirmation: boolean
   }>
 ): Action<{
   id: number
@@ -163,6 +164,7 @@ export const patchUser = (
   address?: string | null
   inn?: string | null
   organization?: boolean
+  bet_confirmation?: boolean
   created_at: string
   last_login?: string | null
   last_active: string
@@ -1085,6 +1087,7 @@ export const patchUserByUserId = (
     city: string
     address: string
     user_pic: string
+    bet_confirmation?: boolean
   }
 ): Action<{
   id: number
@@ -1097,6 +1100,7 @@ export const patchUserByUserId = (
   address?: string | null
   inn?: string | null
   organization?: boolean
+  bet_confirmation?: boolean
   created_at: string
   last_login?: string | null
   last_active: string

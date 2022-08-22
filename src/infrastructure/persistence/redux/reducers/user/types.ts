@@ -13,6 +13,7 @@ export interface UserSigned {
   created_at: string
   email: string
   phone: string
+  bet_confirmation?: boolean
 
   buyerRating: number
   sellerRating: number

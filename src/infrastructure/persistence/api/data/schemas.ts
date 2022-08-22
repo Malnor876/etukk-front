@@ -17,6 +17,7 @@ export interface SchemaUser {
   address?: string | null
   inn?: string | null
   organization?: boolean
+  bet_confirmation?: boolean
   created_at: string
   last_login?: string | null
   last_active: string

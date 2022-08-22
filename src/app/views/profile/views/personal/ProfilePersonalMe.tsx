@@ -45,7 +45,6 @@ function ProfilePersonalMe() {
               defaultValue={user?.fullname}
               name={FormInputs.fullname}
               width="25em"
-              maxLength={10}
             />
             <Input
               defaultValue={

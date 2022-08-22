@@ -7,7 +7,7 @@ import DialogBidAccepted, {
 import DialogConfirmBidUp from "app/views/lot/modals/DialogConfirmBidUp"
 import {isValidResponse} from "infrastructure/persistence/api/client"
 import {postLotByLotIdBet} from "infrastructure/persistence/api/data/actions"
-import {mapLot} from "infrastructure/persistence/api/mappings/lots"
+import {UserSigned} from "infrastructure/persistence/redux/reducers/user/types"
 import {useState} from "react"
 import {useClient} from "react-fetching-library"
 import {Modal} from "react-modal-global"
@@ -21,7 +21,7 @@ interface LotInfoBidProps
   extends Pick<LotInfoType, "id" | "currentPrice" | "betStep"> {}
 
 function LotInfoBid(props: LotInfoBidProps) {
-  console.log("LotInfoBid", props)
+  const user = useSelector(state => state.user) as UserSigned
   const [bidMultiplier, setBidMultiplier] = useState(1)
   const [prevPrice, setPrevPrice] = useState(props.currentPrice)
   const [currentPrice, setCurrentPrice] = useState(props.currentPrice)
@@ -39,7 +39,9 @@ function LotInfoBid(props: LotInfoBidProps) {
     setCurrentPrice(prevPrice)
   }
   async function confirmBidUp() {
-    await confirmBidUpDialog()
+    if (user.bet_confirmation) {
+      await confirmBidUpDialog()
+    }
 
     const response = await client.query(
       postLotByLotIdBet(props.id, bidMultiplier)
@@ -63,7 +65,6 @@ function LotInfoBid(props: LotInfoBidProps) {
     })
   }
 
-  const user = useSelector(state => state.user)
   if (!user.auth) {
     return <RequiredAuthCover />
   }
