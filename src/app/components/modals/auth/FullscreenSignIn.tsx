@@ -4,56 +4,85 @@ import Password from "app/components/containers/Password/Password"
 import Button from "app/components/UI/Button/Button"
 import Input from "app/components/UI/Input/Input"
 import SocialAuth from "app/components/UI/SocialAuth/SocialAuth"
-import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
-import Form, { FormState } from "app/layouts/Form/Form"
-import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
-import { postAuthUser } from "infrastructure/persistence/api/data/actions"
-import { userFetch } from "infrastructure/persistence/redux/reducers/user"
-import { useState } from "react"
-import { useClient, useMutation } from "react-fetching-library"
-import { useModalContext } from "react-modal-global"
-import { Modal } from "react-modal-global"
-import { useDispatch } from "react-redux"
+import {Column} from "app/layouts/BaseLayouts/BaseLayouts"
+import Form, {FormState} from "app/layouts/Form/Form"
+import {postAuthUser} from "infrastructure/persistence/api/data/actions"
+import {userFetch} from "infrastructure/persistence/redux/reducers/user"
+import {useState} from "react"
+import {useMutation} from "react-fetching-library"
+import {Modal} from "react-modal-global"
+import {useDispatch} from "react-redux"
+import {useNavigate} from "react-router-dom"
 
 import FullscreenPasswordRecoveryRequest from "./FullscreenPasswordRecoveryRequest"
 import FullscreenSignUp from "./FullscreenSignUp"
 
 enum FormInputs {
   email = "email",
-  password = "password"
+  password = "password",
 }
 
 function FullscreenSignIn() {
-  const { close } = useModalContext()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [validity, setValidity] = useState(false)
-  const { mutate: signIn } = useMutation(postAuthUser)
-  const client = useClient()
-  async function onSubmit(state: FormState<FormInputs, string>) {
-    const { error, payload } = await signIn(state.values)
+  const {mutate: signIn} = useMutation(postAuthUser)
 
+  async function onSubmit(state: FormState<FormInputs, string>) {
+    const {error, payload} = await signIn(state.values)
     if (error) return
     if (payload == null) return
 
     dispatch(userFetch(payload))
-
-    close()
+    navigate("/")
   }
 
   return (
-    <FullscreenLayout className="fullscreen-auth">
-      <h3 className="heading" style={{ textAlign: "center" }}>ВХОД</h3>
-      <SocialAuth />
-      <Form centered onChange={event => setValidity(event.currentTarget.checkValidity())} onSubmit={onSubmit}>
-        <Column>
-          <Input name={FormInputs.email} width="20em" placeholder="Е-mail или номер телефона" required />
-          <Password name={FormInputs.password} width="20em" />
-          <a className="gray" onClick={() => Modal.open(FullscreenPasswordRecoveryRequest)}>Забыли пароль?</a>
-          <div><Button type="submit" disabled={!validity}>Войти</Button></div>
-        </Column>
-      </Form>
-      <Button color="white" onClick={() => Modal.replace(FullscreenSignUp)}>Регистрация</Button>
-    </FullscreenLayout>
+    <div className="fullscreen-layout">
+      <div className="fullscreen-layout__icon">
+        <img src="/static/images/logo.svg" alt="etukk logo" />
+      </div>
+      <div className="fullscreen-layout__container">
+        <div className="fullscreen-layout__inner">
+          <img
+            className="fullscreen-layout__logo"
+            src="/static/images/logo.svg"
+            alt="etukk logo"
+          />
+          <h3 className="heading" style={{textAlign: "center"}}>
+            ВХОД
+          </h3>
+          <SocialAuth />
+          <Form
+            centered
+            onChange={event => setValidity(event.currentTarget.checkValidity())}
+            onSubmit={onSubmit}>
+            <Column>
+              <Input
+                name={FormInputs.email}
+                width="20em"
+                placeholder="Е-mail или номер телефона"
+                required
+              />
+              <Password name={FormInputs.password} width="20em" />
+              <a
+                className="gray"
+                onClick={() => Modal.open(FullscreenPasswordRecoveryRequest)}>
+                Забыли пароль?
+              </a>
+              <div>
+                <Button type="submit" disabled={!validity}>
+                  Войти
+                </Button>
+              </div>
+            </Column>
+          </Form>
+          <Button color="white" onClick={() => Modal.replace(FullscreenSignUp)}>
+            Регистрация
+          </Button>
+        </div>
+      </div>
+    </div>
   )
 }
 

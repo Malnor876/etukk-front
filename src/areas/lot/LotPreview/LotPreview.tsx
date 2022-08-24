@@ -37,9 +37,7 @@ function LotPreview(props: LotProps) {
           <div className="lot-preview__title">{props.title}</div>
           <LotPreviewSwitchableContent {...props} />
         </div>
-        {props.onClick ?? (
-          <Link className="ghost" to={`/lots/${props.id}/${props.status}`} />
-        )}
+        {props.onClick ?? <Link className="ghost" to={`/lots/${props.id}`} />}
         {!isMyLot && (
           <Bookmark
             className="lot-preview__bookmark"

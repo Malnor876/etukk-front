@@ -10,11 +10,11 @@
 	align-items: flex-start;
 	justify-content: space-between;
 
-	&>:nth-child(1) {
+	& > :nth-child(1) {
 		width: 45%;
 	}
 
-	&>:nth-child(2) {
+	& > :nth-child(2) {
 		width: 35%;
 		margin: 0 auto;
 	}
@@ -24,8 +24,8 @@
 		justify-content: unset;
 		gap: 5em;
 
-		&>:nth-child(1),
-		&>:nth-child(2) {
+		& > :nth-child(1),
+		& > :nth-child(2) {
 			width: unset;
 			margin: unset;
 		}
@@ -36,7 +36,7 @@
 	display: grid;
 	gap: 2em;
 
-	&>h4 {
+	& > h4 {
 		margin: unset;
 	}
 }
@@ -57,7 +57,8 @@
 
 /* Info Preview */
 
-.lot-info-preview {}
+.lot-info-preview {
+}
 
 .lot-info-preview__bookmark {
 	--icon-size: 2.5em;
@@ -77,9 +78,11 @@
 
 /* Info Summary */
 
-.lot-info-summary {}
+.lot-info-summary {
+}
 
-.lot-info-summary__description {}
+.lot-info-summary__description {
+}
 
 /* Trade */
 
@@ -94,7 +97,6 @@
 
 .lot-info-details__header {
 	display: flex;
-
 }
 
 .lot-info-details__backward {
@@ -107,8 +109,6 @@
 .lot-info-details__title {
 	@extend .clamp-2-lines;
 }
-
-
 
 .lot-info-details__city {
 	display: flex;
@@ -156,12 +156,12 @@
 	display: flex;
 	justify-content: space-between;
 
-	&>:nth-child(1) {
+	& > :nth-child(1) {
 		color: $color-gray-2;
 		font-size: $font-size-5;
 	}
 
-	&>:nth-child(2) {
+	& > :nth-child(2) {
 		font-size: $font-size-3;
 		font-weight: 600;
 	}
@@ -204,5 +204,29 @@
 
 	.icon {
 		color: $color-gray-3;
+	}
+}
+
+/* Notification */
+
+.lot-notification {
+	display: flex;
+	align-items: flex-start;
+	&--column {
+		display: flex;
+		flex-direction: column;
+		margin-left: 4em;
+		gap: 0.5em;
+	}
+	@include Mobile {
+		display: grid;
+		justify-content: unset;
+		gap: 5em;
+
+		& > :nth-child(1),
+		& > :nth-child(2) {
+			width: unset;
+			margin: unset;
+		}
 	}
 }

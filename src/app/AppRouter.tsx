@@ -1,5 +1,9 @@
+import LotNotification from "areas/lot/LotNotification"
 import {Route, Routes} from "react-router"
 
+import FullscreenSignIn from "./components/modals/auth/FullscreenSignIn"
+import FullscreenSignUpEntity from "./components/modals/auth/FullscreenSignUpEntity"
+import FullscreenSignUpPerson from "./components/modals/auth/FullscreenSignUpPerson"
 import ViewLayout from "./layouts/ViewLayout/ViewLayout"
 import AboutView from "./views/about/AboutView"
 import ContactsView from "./views/contacts"
@@ -21,14 +25,21 @@ function AppRouter() {
     <Routes>
       <Route path="/">
         <Route path="*" element={<ErrorView />} />
+        <Route path="login" element={<FullscreenSignIn />} />
+        <Route path="registerPerson" element={<FullscreenSignUpPerson />} />
+        <Route path="registerEntity" element={<FullscreenSignUpEntity />} />
         <Route element={<ViewLayout />}>
           <Route index element={<HomeView />} />
           <Route path="hot" element={<HomeView />} />
           <Route path="search/:categoryId" element={<HomeView />} />
 
-          <Route path="lots/:lotId/:status" element={<LotView />} />
-          <Route path="lots/:lotId/:status/edit" element={<LotEditView />} />
+          <Route path="lots/:lotId" element={<LotView />} />
+          <Route path="lots/:lotId/edit" element={<LotEditView />} />
           <Route path="lots/:lotId/preview" element={<LotPreviewView />} />
+          <Route
+            path="lots/:lotId/notifications"
+            element={<LotNotification />}
+          />
           <Route path="lots/draft/*" element={<LotDraftView />} />
 
           <Route path="favourites/*" element={<FavouritesView />} />

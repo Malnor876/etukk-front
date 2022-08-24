@@ -4,7 +4,6 @@ $width: 16em;
 $toggleSize: 1.5em;
 
 @keyframes from-absolute {
-
 	0%,
 	99% {
 		position: absolute;
@@ -120,7 +119,7 @@ $toggleSize: 1.5em;
 	display: grid;
 	gap: 1em;
 
-	&>* {
+	& > * {
 		padding-top: 1em;
 		border-top: 1px solid $color-gray-4;
 	}
@@ -179,7 +178,7 @@ $toggleSize: 1.5em;
 			text-transform: unset;
 		}
 
-		&>.filter__container {
+		& > .filter__container {
 			max-height: 50vh;
 			overflow-y: overlay;
 			overflow-x: hidden;
@@ -194,7 +193,7 @@ $toggleSize: 1.5em;
 				max-height: unset;
 			}
 
-			&>.filter__inner {
+			& > .filter__inner {
 				align-content: baseline;
 				justify-content: space-between;
 				column-gap: 5%;
@@ -249,8 +248,7 @@ $toggleSize: 1.5em;
 
 	padding-top: 1em;
 
-	.filter__inner &>.filter {
-
+	.filter__inner & > .filter {
 		// margin-left: 1em;
 		.filter__title {
 			font-size: $font-size-6;
@@ -275,7 +273,6 @@ $toggleSize: 1.5em;
 		}
 	}
 }
-
 
 /* Mobile Filters */
 
@@ -318,7 +315,7 @@ $toggleSize: 1.5em;
 
 	overflow: auto;
 
-	&>.button {
+	& > .button {
 		flex-shrink: 0;
 	}
 }
@@ -342,7 +339,7 @@ $toggleSize: 1.5em;
 	display: grid;
 	// gap: 1em;
 
-	&>*:not(:last-child) {
+	& > *:not(:last-child) {
 		padding-bottom: $gap;
 		margin-bottom: $gap;
 
@@ -350,13 +347,11 @@ $toggleSize: 1.5em;
 	}
 }
 
-
 .mobile-filters__header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
-
 
 .mobile-filters__title {
 	font-size: $font-size-3;

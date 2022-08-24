@@ -54,9 +54,10 @@ function EditLotTrade() {
           iconName="rub"
           placeholder="Введите  сумму..."
           maxLength={7}
+          min="1000"
           defaultValue={price}
           onChange={inputValue(setPrice)}>
-          Укажите сумму минимальной ставки
+          Укажите начальную стоимость лота
         </Input>
         <InputAddress
           placeholder="Укажите адрес..."

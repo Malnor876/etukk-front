@@ -39,17 +39,18 @@ export function Filter(props: FilterProps) {
   const [contentHeight, setContentHeight] = useState<number>()
 
   useEffect(() => {
-    console.log(containerRef.current?.scrollHeight)
+    // console.log(containerRef.current, containerRef.current?.scrollHeight)
     const interval = setInterval(() => {
       if (!expanded) return
       if (containerRef.current === null) return
-      setContentHeight(containerRef.current.scrollHeight)
+      setContentHeight(containerRef.current.scrollHeight - 169)
     }, 150)
 
     return () => {
       clearInterval(interval)
     }
   }, [])
+
   return (
     <div
       className={classWithModifiers("filter", props.group && "group")}

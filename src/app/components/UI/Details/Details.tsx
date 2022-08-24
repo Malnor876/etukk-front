@@ -1,8 +1,8 @@
 import "./Details.scss"
 
-import { ReactNode, useEffect, useRef, useState } from "react"
-import { classWithModifiers } from "utils/common"
-import { humanizeDate } from "utils/date"
+import {ReactNode, useEffect, useRef, useState} from "react"
+import {classWithModifiers} from "utils/common"
+import {humanizeDate} from "utils/date"
 
 import Icon from "../Icon/Icon"
 
@@ -30,12 +30,21 @@ function Details(props: DetailsProps) {
           <div className="details__summary">{props.summary}</div>
         </div>
         <div className="details__right">
-          <Icon className={classWithModifiers("details__chevron", expanded && "up")} name="chevron" onClick={() => setExpanded(!expanded)} />
+          <Icon
+            className={classWithModifiers("details__chevron", expanded && "up")}
+            name="chevron"
+            onClick={() => setExpanded(!expanded)}
+          />
           <Icon className="details__more" name="dots" />
         </div>
       </div>
-      <div className={classWithModifiers("details__body", expanded && "expanded")} style={{ "--details-height": height }} aria-hidden={!expanded}>
-        <div className="details__inner" ref={innerRef}>{props.children}</div>
+      <div
+        className={classWithModifiers("details__body", expanded && "expanded")}
+        style={{"--details-height": height}}
+        aria-hidden={!expanded}>
+        <div className="details__inner" ref={innerRef}>
+          {props.children}
+        </div>
       </div>
     </div>
   )

@@ -67,7 +67,7 @@ interface FormValues {
 }
 
 function LotEditView() {
-  const {lotId, status} = useParams()
+  const {lotId} = useParams()
   if (lotId == null) {
     throw new ReactError(LotEditView, "got no lotId")
   }
@@ -88,11 +88,7 @@ function LotEditView() {
 
   useEffect(() => {
     async function getLotSpecifications() {
-      const {payload} =
-        status === "drafted"
-          ? await client.query(getLotDraftByDraftId(Number(lotId)))
-          : await client.query(getLotByLotId(Number(lotId)))
-
+      const {payload} = await client.query(getLotDraftByDraftId(Number(lotId)))
       const lotspecifications = payload?.lotspecifications
         ?.map(spec => ({
           id: spec.id,
@@ -161,11 +157,7 @@ function LotEditView() {
         <title>Редактировать лот | etukk.ru</title>
       </Helmet>
       <QueryContainer
-        action={
-          status === "drafted"
-            ? getLotDraftByDraftId(Number(lotId))
-            : getLotByLotId(Number(lotId))
-        }
+        action={getLotDraftByDraftId(Number(lotId))}
         mapping={mapLot}>
         {payload => {
           if (payload.user_id !== user.id)

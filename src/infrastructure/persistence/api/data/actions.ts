@@ -298,7 +298,9 @@ export const getUserFavoriteUser = (
 /**
  * OK
  */
-export const getUserNotifications = (): Action<
+export const getUserNotifications = (
+  filters?: object
+): Action<
   {
     id: number
     user_id: number
@@ -310,6 +312,7 @@ export const getUserNotifications = (): Action<
 > => ({
   method: "GET",
   endpoint: `/user/notifications`,
+  params: {...filters},
   config: {
     requireAuth: true,
   },

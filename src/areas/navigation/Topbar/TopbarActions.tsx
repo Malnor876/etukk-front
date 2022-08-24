@@ -1,9 +1,6 @@
-import FullscreenSignIn from "app/components/modals/auth/FullscreenSignIn"
-import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Icon from "app/components/UI/Icon/Icon"
 import MiniProfile from "app/components/UI/MiniProfile/MiniProfile"
-import {Modal} from "react-modal-global"
 import {useSelector} from "react-redux"
 import {Link} from "react-router-dom"
 
@@ -11,9 +8,9 @@ function TopbarActions() {
   const user = useSelector(state => state.user)
   if (!user.auth) {
     return (
-      <Button outline onClick={() => Modal.open(FullscreenSignIn)}>
+      <ButtonLink outline to={"/login"}>
         Авторизоваться
-      </Button>
+      </ButtonLink>
     )
   }
   return (

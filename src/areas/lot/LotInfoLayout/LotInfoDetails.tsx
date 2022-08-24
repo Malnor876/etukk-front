@@ -41,7 +41,7 @@ function LotInfoDetails(props: LotInfoDetailsProps) {
       </div>
       <Entries>
         <Entry>
-          <span>Начальная ставка</span>
+          <span>Начальная стоимость</span>
           <big>{props.startPrice.format()}</big>
         </Entry>
         <Entry>

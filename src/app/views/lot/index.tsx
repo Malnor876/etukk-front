@@ -4,6 +4,7 @@ import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
 import LotInfoLayout from "areas/lot/LotInfoLayout/LotInfoLayout"
+import {LotInfoType} from "areas/lot/types"
 import useParam from "hooks/useParam"
 import {isValidResponse} from "infrastructure/persistence/api/client"
 import {
@@ -12,16 +13,18 @@ import {
   patchLotByLotIdUnpublish,
   postLotDraftByLotIdModerate,
 } from "infrastructure/persistence/api/data/actions"
+import {SchemaLot} from "infrastructure/persistence/api/data/schemas"
 import {mapLot} from "infrastructure/persistence/api/mappings/lots"
+import {useEffect, useState} from "react"
 import {useClient} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 import {useSelector} from "react-redux"
-import {useNavigate, useParams} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 
 function LotView() {
   const lotId = useParam("lotId", true)
-
-  const lotStatus = useParams().status
+  const [lotById, setLotById] = useState<LotInfoType>()
+  const lotStatus = lotById?.status
   const myId = useSelector(state => state.user).id
   const isEditTime = (date: Date) => {
     return Date.now() < date.getTime() - 3600000 // one hour before start
@@ -30,13 +33,23 @@ function LotView() {
   const client = useClient()
   const navigate = useNavigate()
 
+  useEffect(() => {
+    async function getLot() {
+      const responseFromDraft = await client.query(getLotDraftByDraftId(lotId))
+      const responseFormPublish = await client.query(getLotByLotId(lotId))
+      const response = responseFromDraft ?? responseFormPublish
+      setLotById(mapLot(response.payload as SchemaLot))
+    }
+    getLot()
+  }, [])
+
   async function publishNewLot() {
     if (lotId == null) return
 
     const response = await client.query(postLotDraftByLotIdModerate(+lotId))
     if (!isValidResponse(response)) return
-
-    navigate("/lots/" + lotId + "/published")
+    setLotById(mapLot(response.payload as SchemaLot))
+    navigate("/lots/" + lotId)
   }
 
   async function unpublishNewLot() {
@@ -44,8 +57,16 @@ function LotView() {
 
     const response = await client.query(patchLotByLotIdUnpublish(+lotId))
     if (!isValidResponse(response)) return
+    setLotById(mapLot(response.payload as SchemaLot))
+    navigate("/lots/" + lotId)
+  }
+  async function goToEditWithUnpublish() {
+    if (lotId == null) return
 
-    navigate("/lots/" + lotId + "/drafted")
+    const response = await client.query(patchLotByLotIdUnpublish(+lotId))
+    if (!isValidResponse(response)) return
+
+    navigate(`/lots/${lotId}/edit`)
   }
   return (
     <div className="lot-view">
@@ -68,9 +89,9 @@ function LotView() {
                 {payload.status === "published" &&
                   isEditTime(payload.startEndInterval.date1) && (
                     <Buttons spaceBetween>
-                      {/* <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
+                      <Button onClick={goToEditWithUnpublish}>
                         Редактировать
-                      </ButtonLink> */}
+                      </Button>
                       <Button outline await onClick={unpublishNewLot}>
                         Снять с публикации
                       </Button>
@@ -81,7 +102,7 @@ function LotView() {
                   payload.archived) &&
                   (isEditTime(payload.startEndInterval.date1) ? (
                     <Buttons spaceBetween>
-                      <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
+                      <ButtonLink to={`/lots/${lotId}/edit`}>
                         Редактировать
                       </ButtonLink>
                       <Button outline await onClick={publishNewLot}>
@@ -90,7 +111,7 @@ function LotView() {
                     </Buttons>
                   ) : (
                     <Buttons spaceBetween>
-                      <ButtonLink to={`/lots/${lotId}/${lotStatus}/edit`}>
+                      <ButtonLink to={`/lots/${lotId}/edit`}>
                         Редактировать
                       </ButtonLink>
                     </Buttons>

@@ -1,14 +1,12 @@
 import "./FullscreenAuth.scss"
 
-import Button from "app/components/UI/Button/Button"
-import { Column } from "app/layouts/BaseLayouts/BaseLayouts"
+import ButtonLink from "app/components/UI/Button/ButtonLink"
+import {Column} from "app/layouts/BaseLayouts/BaseLayouts"
 import FullscreenLayout from "app/layouts/Modal/FullscreenLayout/FullscreenLayout"
-import { Modal } from "react-modal-global"
-
-import FullscreenSignUpEntity from "./FullscreenSignUpEntity"
-import FullscreenSignUpPerson from "./FullscreenSignUpPerson"
+import {useModalContext} from "react-modal-global"
 
 function FullscreenSignUp() {
+  const {close} = useModalContext()
   return (
     <FullscreenLayout className="fullscreen-auth" width="20em">
       <div className="center">
@@ -17,8 +15,12 @@ function FullscreenSignUp() {
         <span>Укажите свой статус</span>
       </div>
       <Column>
-        <Button outline onClick={() => Modal.replace(FullscreenSignUpPerson)}>Частное лицо</Button>
-        <Button outline onClick={() => Modal.replace(FullscreenSignUpEntity)}>Юридическое лицо</Button>
+        <ButtonLink outline to="/registerPerson" onClick={close}>
+          Частное лицо
+        </ButtonLink>
+        <ButtonLink outline to="/registerEntity" onClick={close}>
+          Юридическое лицо
+        </ButtonLink>
       </Column>
     </FullscreenLayout>
   )

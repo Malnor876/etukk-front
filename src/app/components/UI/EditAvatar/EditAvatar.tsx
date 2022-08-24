@@ -1,7 +1,12 @@
 import "./EditAvatar.scss"
 
 import {FILE_TYPES} from "consts"
+import {getUser} from "infrastructure/persistence/api/data/actions"
+import {mapUser} from "infrastructure/persistence/api/mappings/user"
+import {userUpdate} from "infrastructure/persistence/redux/reducers/user"
 import {ChangeEvent, useState} from "react"
+import {useClient} from "react-fetching-library"
+import {useDispatch} from "react-redux"
 import {classWithModifiers} from "utils/common"
 
 import Icon from "../Icon/Icon"
@@ -14,6 +19,8 @@ interface EditAvatarProps {
 function EditAvatar(props: EditAvatarProps) {
   const [image, setImage] = useState(props.image)
   const [pending, setPending] = useState(false)
+  const dispatch = useDispatch()
+  const client = useClient()
 
   async function onChange(event: ChangeEvent<HTMLInputElement>) {
     const target = event.currentTarget
@@ -30,6 +37,11 @@ function EditAvatar(props: EditAvatarProps) {
     setPending(false)
     // updates
     setImage(URL.createObjectURL(file))
+    const {error, payload} = await client.query(getUser())
+    if (error) return
+    if (payload == null) return
+
+    dispatch(userUpdate(mapUser(payload)))
   }
   return (
     <div className={classWithModifiers("edit-avatar", pending && "pending")}>

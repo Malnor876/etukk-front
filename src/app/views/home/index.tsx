@@ -38,7 +38,7 @@ function HomeView() {
       <Helmet>
         <title>Главная | etukk.ru</title>
       </Helmet>
-      {/* <SearchSuggest
+      <SearchSuggest
         width="65%"
         placeholder="Поиск по Москве..."
         onChange={setSearch}
@@ -48,7 +48,7 @@ function HomeView() {
             {option.name || "unknown"}
           </option>
         ))}
-      </SearchSuggest> */}
+      </SearchSuggest>
       {isMobile && <FiltersContainerMobile onSubmit={setFilters} />}
       <Switcher>
         <NavLink to="/">Все торги</NavLink>

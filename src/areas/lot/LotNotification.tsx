@@ -1,46 +1,98 @@
+import "./Lot.scss"
+
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
+import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
 import Details from "app/components/UI/Details/Details"
 import SubjectLog from "app/layouts/SubjectLog/SubjectLog"
-import { getUserNotificationsByNotificationsId } from "infrastructure/persistence/api/data/actions"
-import { Link } from "react-router-dom"
+import useParam from "hooks/useParam"
+import {
+  getLotByLotId,
+  getLotDraftByDraftId,
+  getUserNotifications,
+  getUserNotificationsByNotificationsId,
+} from "infrastructure/persistence/api/data/actions"
+import {
+  SchemaLot,
+  SchemaUserNotifications,
+} from "infrastructure/persistence/api/data/schemas"
+import {mapLot} from "infrastructure/persistence/api/mappings/lots"
+import {useEffect, useState} from "react"
+import {useClient} from "react-fetching-library"
+import {Link} from "react-router-dom"
 
 import LotPreview from "./LotPreview/LotPreview"
-import { LotPreviewType } from "./types"
+import {LotInfoType, LotPreviewType} from "./types"
 
-interface LotNotificationProps {
-  id: number
-  lot: LotPreviewType
-}
+// interface LotNotificationProps {
+//   id: number
+//   lot: LotPreviewType
+// }
 
-function LotNotification(props: LotNotificationProps) {
-  const subject = (
-    <>
-      <LotPreview {...props.lot} />
-      <br />
-      <Button>Отписаться</Button>
-    </>
-  )
+function LotNotification() {
+  const client = useClient()
+  const lotId = useParam("lotId", true)
+  const [lotById, setLotById] = useState<LotInfoType>()
+  const [notificationsByLot, setNotificationsByLot] = useState<
+    SchemaUserNotifications[]
+  >([])
+
+  useEffect(() => {
+    async function getLot() {
+      const response =
+        (await client.query(getLotDraftByDraftId(lotId))) ??
+        (await client.query(getLotByLotId(lotId)))
+      setLotById(mapLot(response.payload as SchemaLot))
+    }
+    getLot()
+  }, [])
+
+  useEffect(() => {
+    async function getMyNotificationsByLot() {
+      const {payload} = await client.query(
+        getUserNotifications({lot_id: lotId})
+      )
+      console.log("payload", payload)
+      const sortedNotifications = payload?.sort(function (a, b) {
+        if (a.event_time && b.event_time && a.event_time < b.event_time) {
+          return 1
+        }
+        if (a.event_time && b.event_time && a.event_time > b.event_time) {
+          return -1
+        }
+        return 0
+      })
+      payload &&
+        setNotificationsByLot(sortedNotifications as SchemaUserNotifications[])
+    }
+    getMyNotificationsByLot()
+  }, [])
+
   return (
-    <QueryContainer action={getUserNotificationsByNotificationsId(props.id)}>
-      {payload => (
-        <SubjectLog subject={subject}>
-
-          <Details date={new Date} summary={
-            <>Продавец разместил новый лот в категории <Link to="/catalog">Мебель</Link></>
-          }>
-            {/* <SellerPreview {...{
+    <>
+      <Backward />
+      <div className="lot-notification">
+        {lotById && <LotPreview {...lotById} />}
+        <div className="lot-notification--column">
+          {notificationsByLot[0] &&
+            notificationsByLot.map(notification => (
+              <Details
+                key={notification.id}
+                date={new Date(notification.event_time)}
+                summary={notification.text}>
+                {/* <SellerPreview {...{
               id: 1,
               avatar: IMAGE_MOCKS[0],
               name: "ИП ПОВЕЛИТЕЛЬ МЕБЕЛИ и мира в целом",
               city: "Москва",
               likes: 5,
               dislikes: 1
-            }} /> */}
-          </Details>
-        </SubjectLog>
-      )}
-    </QueryContainer>
+         }} /> */}
+              </Details>
+            ))}
+        </div>
+      </div>
+    </>
   )
 }
 

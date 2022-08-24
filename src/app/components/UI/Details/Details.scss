@@ -1,6 +1,8 @@
 @import "~app/assets/scss/bundle.scss";
 
-.details {}
+.details {
+	margin-bottom: 2em;
+}
 
 .details__header {
 	display: flex;
@@ -26,7 +28,7 @@
 .details__right {
 	display: grid;
 	gap: 0.5em;
-
+	margin-left: 3em;
 	cursor: pointer;
 }
 
@@ -60,7 +62,7 @@
 	padding: 1.25em 0;
 	transition: 250ms ease opacity, 250ms ease transform;
 
-	:not(.details__body--expanded)>& {
+	:not(.details__body--expanded) > & {
 		opacity: 0;
 		transform: translateY(-5%);
 		pointer-events: none;
