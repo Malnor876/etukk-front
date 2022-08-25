@@ -1,12 +1,12 @@
 import useHeight from "hooks/useHeight"
-import { ReactNode, useState } from "react"
-import { classWithModifiers } from "utils/common"
+import {ReactNode, useState} from "react"
+import {classWithModifiers} from "utils/common"
 
 import Icon from "../Icon/Icon"
 
 export interface DropperProps extends DropperGroupProps {
-  name: string;
-  children?: ReactNode;
+  name: string
+  children?: ReactNode
 }
 
 function Dropper(props: DropperProps) {
@@ -14,9 +14,19 @@ function Dropper(props: DropperProps) {
   const [scrollHeight, innerRef] = useHeight<HTMLDivElement>("scrollHeight")
   return (
     <div className="dropper">
-      <DropperGroup label={props.label} amount={props.amount} active={props.active || expanded} onClick={() => setExpanded(!expanded)} />
+      <DropperGroup
+        label={props.label}
+        amount={props.amount}
+        active={props.active || expanded}
+        onClick={() => setExpanded(!expanded)}
+      />
       {props.children && (
-        <div className={classWithModifiers("dropper__container", expanded && "expanded")} style={{ "--dropper-height": scrollHeight }}>
+        <div
+          className={classWithModifiers(
+            "dropper__container",
+            expanded && "expanded"
+          )}
+          style={{"--dropper-height": scrollHeight}}>
           <div className="dropper__inner" ref={innerRef}>
             {props.children}
           </div>
@@ -26,16 +36,18 @@ function Dropper(props: DropperProps) {
   )
 }
 
-
 interface DropperGroupProps {
-  active?: boolean;
-  amount: string | number;
-  label: string;
-  onClick?(): void;
+  active?: boolean
+  amount: string | number
+  label: string
+  onClick?(): void
 }
 export function DropperGroup(props: DropperGroupProps) {
   return (
-    <button className={classWithModifiers("dropper-group", props.active && "active")} type="button" onClick={props.onClick}>
+    <button
+      className={classWithModifiers("dropper-group", props.active && "active")}
+      type="button"
+      onClick={props.onClick}>
       <div className="dropper-group__text">{props.label}</div>
       <div className="dropper-group__side">
         <div className="dropper-group__amount">{props.amount}</div>

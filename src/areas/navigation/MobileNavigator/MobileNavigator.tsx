@@ -18,7 +18,9 @@ function MobileNavigator() {
 
   return (
     <nav className="mobile-navigator">
-      <MobileNavigatorLink iconName="search-filled" to="/">
+      <MobileNavigatorLink
+        iconName="search-filled"
+        to={pathname.includes("hot") ? pathname : "/"}>
         Главная
       </MobileNavigatorLink>
       <MobileNavigatorLink

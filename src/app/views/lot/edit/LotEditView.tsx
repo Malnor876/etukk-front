@@ -125,7 +125,7 @@ function LotEditView() {
 
     if (error) return
 
-    navigate(`/lots/${lotId}/drafted`)
+    navigate(`/lots/${lotId}`)
   }
 
   function addSpecification(key: string, value: string) {

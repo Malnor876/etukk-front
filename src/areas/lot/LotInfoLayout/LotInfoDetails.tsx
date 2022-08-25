@@ -63,7 +63,7 @@ function LotInfoDetails(props: LotInfoDetailsProps) {
         </Entry>
       </Entries>
 
-      {user.auth && props.buyerId === user.id && (
+      {user.auth && props.buyerId === user.id && props.status !== "sold" && (
         <div>
           <ButtonLink to={`/profile/purchases/checkout/${props.id}`}>
             Перейти к оплате

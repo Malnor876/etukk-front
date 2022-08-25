@@ -425,8 +425,8 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
 function LotPreviewTradeStatusDetails(props: LotProps) {
   const AUTHOR =
     props.merchant === "seller"
-      ? props.buyer && <Author {...props.buyer} />
-      : props.seller && <Author {...props.seller} />
+      ? props.buyer && <Author {...props.buyer} city={props.city} />
+      : props.seller && <Author {...props.seller} city={props.city} />
   return (
     <div className="lot-preview__details">
       {AUTHOR}
