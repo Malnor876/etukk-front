@@ -3,6 +3,7 @@
  */
 import "app/layouts/Modal/FullscreenLayout/FullscreenLayout.scss"
 
+import {eventUpdate} from "infrastructure/persistence/redux/reducers/event"
 import {userFetch} from "infrastructure/persistence/redux/reducers/user"
 // import { Modal } from "react-modal-global"
 import {useEffect} from "react"
@@ -28,6 +29,40 @@ function AppEffects() {
     dispatch(userFetch({access_token: token}))
   }, [])
 
+  useEffect(() => {
+    subscribe()
+  }, [])
+
+  const subscribe = async () => {
+    const eventSource = new EventSource(
+      process.env.REACT_APP_API_HOST + "/events"
+      // {
+      //   headers: {
+      //     Authorization: "Bearer " + localStorage.getItem("token") || "",
+      //     // "Content-Type": "application/json",
+      //     accept: "application/json",
+      //   },
+      // }
+    )
+    // const eventSource = new EventSource('url', { headers: { Authorization: 'plz' } })
+
+    // eventSource.addEventListener("open", listener)
+    eventSource.addEventListener("updated", listener)
+    // eventSource.addEventListener("personal", listener)
+    // eventSource.addEventListener("error", listener)
+  }
+
+  const listener = function (event: any) {
+    if (event.type === "updated") {
+      // const newPrice = JSON.parse(event.data).data.now_price
+      // setCurrentPrice(new Price(newPrice))
+    }
+    // if (type === "updated" || type === "personal") {
+    //   eventSource.close()
+    // }
+
+    dispatch(eventUpdate(JSON.parse(event.data)))
+  }
   return null
 }
 

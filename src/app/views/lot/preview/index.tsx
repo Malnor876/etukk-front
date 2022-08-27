@@ -37,7 +37,7 @@ function LotPreviewView() {
     const response = await client.query(postLotDraftByLotIdModerate(+lotId))
     if (!isValidResponse(response)) return
 
-    navigate(`/lots/${lotId}/${status}`)
+    navigate(`/lots/${lotId}`)
   }
   async function saveDraft(payload: LotPreviewType) {
     if (lotId == null) return

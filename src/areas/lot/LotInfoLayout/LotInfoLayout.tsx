@@ -58,7 +58,8 @@ function LotInfoLayout(props: LotInfoProps) {
         "status",
         "delivery",
         "buyerId",
-        "user_id"
+        "user_id",
+        "tradeStatus"
       )}
     />
   )

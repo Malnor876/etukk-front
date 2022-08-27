@@ -8,10 +8,11 @@ import {isValidResponse} from "infrastructure/persistence/api/client"
 import {getUser, patchUser} from "infrastructure/persistence/api/data/actions"
 import {mapCabinetUsersSettings} from "infrastructure/persistence/api/mappings/cabinet"
 import {mapUser} from "infrastructure/persistence/api/mappings/user"
+import {userUpdate} from "infrastructure/persistence/redux/reducers/user"
 import {UserSigned} from "infrastructure/persistence/redux/reducers/user/types"
 import {useEffect, useState} from "react"
 import {useClient, useMutation} from "react-fetching-library"
-import {useSelector} from "react-redux"
+import {useDispatch, useSelector} from "react-redux"
 
 enum FormInputs {
   bidUpConfirm = "increase",
@@ -21,26 +22,25 @@ enum FormInputs {
 
 function ProfilePersonalSettings() {
   const user = useSelector(state => state.user) as UserSigned
-  console.log("user", user.bet_confirmation)
-
   const [confirm, setConfirm] = useState(user.bet_confirmation)
-  console.log("confirm", confirm)
-  const {mutate} = useMutation(patchUser)
-  const [pending, setPending] = useState(false)
+  // const {mutate} = useMutation(patchUser)
+  // const [pending, setPending] = useState(false)
   const client = useClient()
-
+  const dispatch = useDispatch()
   // async function onSubmit() {
   //   setPending(true)
-  //   console.log("confirm", confirm)
-
   //   const {error} = await mutate({bet_confirmation: confirm})
   //   setPending(false)
   //   if (error) return
   // }
   async function settingBetConfirm() {
-    const response = await client.query(patchUser({bet_confirmation: confirm}))
+    const {error, payload} = await client.query(
+      patchUser({bet_confirmation: confirm})
+    )
+    if (error) return
+    if (payload == null) return
 
-    if (!isValidResponse(response)) return
+    dispatch(userUpdate(mapUser(payload)))
   }
   return (
     <>

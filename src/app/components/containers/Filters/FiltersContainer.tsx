@@ -45,6 +45,7 @@ function FiltersContainer(props: FiltersContainerProps) {
   const [state, setState] = useState<FiltersState>()
   const reducer = useState<FiltersType>({})
   const [filters] = reducer
+
   async function onSubmit() {
     await props.onSubmit?.(filters)
     setState(undefined)
@@ -196,7 +197,7 @@ function FiltersTreeContainer() {
         </FilterRadios>
       </Filter>
       <Filter label="СТОИМОСТЬ ЛОТА">
-        <FilterPriceRange name="price" defaultValue={[1, 2]} />
+        <FilterPriceRange name="price" defaultValue={[0, 0]} />
       </Filter>
       <Filter label="ПРОДАВЕЦ">
         <FilterRadios name="seller">

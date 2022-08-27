@@ -7,8 +7,9 @@ import DialogBidAccepted, {
 import DialogConfirmBidUp from "app/views/lot/modals/DialogConfirmBidUp"
 import {isValidResponse} from "infrastructure/persistence/api/client"
 import {postLotByLotIdBet} from "infrastructure/persistence/api/data/actions"
+import {Event} from "infrastructure/persistence/redux/reducers/event/types"
 import {UserSigned} from "infrastructure/persistence/redux/reducers/user/types"
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {useClient} from "react-fetching-library"
 import {Modal} from "react-modal-global"
 import {useSelector} from "react-redux"
@@ -17,11 +18,14 @@ import {Price} from "utils/extensions"
 
 import {LotInfoType} from "../types"
 
+// import EventSource from 'event-source'
+
 interface LotInfoBidProps
   extends Pick<LotInfoType, "id" | "currentPrice" | "betStep"> {}
 
 function LotInfoBid(props: LotInfoBidProps) {
   const user = useSelector(state => state.user) as UserSigned
+  const event = useSelector(state => state.event) as Event
   const [bidMultiplier, setBidMultiplier] = useState(1)
   const [prevPrice, setPrevPrice] = useState(props.currentPrice)
   const [currentPrice, setCurrentPrice] = useState(props.currentPrice)
@@ -29,6 +33,41 @@ function LotInfoBid(props: LotInfoBidProps) {
     "default"
   )
   const client = useClient()
+  useEffect(() => {
+    if (event && event.data?.now_price) {
+      setCurrentPrice(new Price(event.data?.now_price))
+    }
+  }, [event])
+
+  // const subscribe = async () => {
+  //   const eventSource = new EventSource(
+  //     process.env.REACT_APP_API_HOST + "/events"
+  //     // {
+  //     //   headers: {
+  //     //     Authorization: "Bearer " + localStorage.getItem("token") || "",
+  //     //     // "Content-Type": "application/json",
+  //     //     accept: "application/json",
+  //     //   },
+  //     // }
+  //   )
+  //   // const eventSource = new EventSource('url', { headers: { Authorization: 'plz' } })
+
+  //   // eventSource.addEventListener("open", listener)
+  //   eventSource.addEventListener("updated", listener)
+  //   // eventSource.addEventListener("personal", listener)
+  //   // eventSource.addEventListener("error", listener)
+  // }
+
+  const listener = function (event: any) {
+    if (event.type === "updated") {
+      const newPrice = JSON.parse(event.data).data.now_price
+      setCurrentPrice(new Price(newPrice))
+    }
+    // if (type === "updated" || type === "personal") {
+    //   eventSource.close()
+    // }
+  }
+
   function bidUp(on: number) {
     setBidMultiplier(on)
     setCurrentPrice(currentPrice.add(props.betStep.multiply(on)))
@@ -39,6 +78,7 @@ function LotInfoBid(props: LotInfoBidProps) {
     setCurrentPrice(prevPrice)
   }
   async function confirmBidUp() {
+    console.log("user.bet_confirmation", user.bet_confirmation)
     if (user.bet_confirmation) {
       await confirmBidUpDialog()
     }
@@ -79,7 +119,8 @@ function LotInfoBid(props: LotInfoBidProps) {
           </div>
           <p className="lot-info-bid__text">
             *Нажимая “поднять ставку” вы соглашаетесь с{" "}
-            <Link to="terms">политикой предоставления услуг</Link>.
+            <Link to="/terms/serviceOffer">политикой предоставления услуг</Link>
+            .
             <br />
             Минимальная стоимость услуг площадки по организации доставки и
             безопасной сделки для данного лота составит от{" "}

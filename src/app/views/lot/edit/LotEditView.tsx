@@ -9,6 +9,7 @@ import CloseButton from "app/components/UI/CloseButton/CloseButton"
 import ErrorCover from "app/components/UI/ErrorCover/ErrorCover"
 import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"
+import InputAddress from "app/components/UI/Input/InputAddress"
 import Radio from "app/components/UI/Radio/Radio"
 import Selector from "app/components/UI/Selector/Selector"
 import Textarea from "app/components/UI/Textarea/Textarea"
@@ -31,6 +32,7 @@ import {useClient} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 import {useSelector} from "react-redux"
 import {useNavigate, useParams} from "react-router"
+import {inputValue} from "utils/common"
 import {humanizeDate} from "utils/date"
 import {FileToURLDataBase64} from "utils/file"
 
@@ -210,11 +212,11 @@ function LotEditView() {
                     name={FormInputs.startPrice}
                     defaultValue={+payload.startPrice}
                   />
-                  <InputResetButton
+                  {/* <InputResetButton
                     name={FormInputs.startPrice}
                     in={formRef}
                     defaultValue={+payload.startPrice}
-                  />
+                  /> */}
                 </LotEditSetting>
                 <LotEditSetting
                   label="Период публикации лота и проведения торгов"
@@ -247,18 +249,12 @@ function LotEditView() {
                     )}
                   </QueryContainer>
                 </LotEditSetting>
-                <LotEditSetting label="Укажите ваш город">
-                  <Input
+                <LotEditSetting label="Укажите полный адрес отправки...">
+                  <InputAddress
                     width="16em"
-                    placeholder="Укажите город..."
+                    placeholder="Укажите полный адрес отправки..."
                     name={FormInputs.city}
-                    defaultValue={payload.city}
-                  />
-                  {/* <InputResetButton
-                    name={FormInputs.city}
-                    in={formRef}
-                    defaultValue={payload.city}
-                  /> */}
+                    defaultValue={payload.city}></InputAddress>
                 </LotEditSetting>
                 <LotEditSetting label="Вариант доставки">
                   <Selector

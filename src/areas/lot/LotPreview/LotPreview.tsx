@@ -6,11 +6,12 @@ import ButtonLink from "app/components/UI/Button/ButtonLink"
 import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
 import Icon, {IconName} from "app/components/UI/Icon/Icon"
 import {LotInfoType, LotStatus, LotTradeStatus} from "areas/lot/types"
-import {ReactNode, useState} from "react"
+import {ReactNode, useEffect, useState} from "react"
 import {useSelector} from "react-redux"
 import {Link} from "react-router-dom"
 import {humanizeDate} from "utils/date"
 import {offsetDateDay, offsetDateMinutes} from "utils/date.helpers"
+import {Price} from "utils/extensions"
 
 import useDeliveryTimers from "../hooks/useDeliveryTimers"
 
@@ -90,7 +91,15 @@ function LotPreviewSwitchableContent(props: LotProps) {
 
 function LotPreviewStatusLookALike(props: LotProps) {
   const [ended, setEnded] = useState(Date.now() > props.tradeEndTime.getTime())
+  const event = useSelector(state => state.event)
   const started = Date.now() > props.tradeStartTime.getTime()
+  const [currentPrice, setCurrentPrice] = useState(props.currentPrice)
+
+  useEffect(() => {
+    if (event && event.data?.now_price) {
+      setCurrentPrice(new Price(event.data?.now_price))
+    }
+  }, [event])
 
   if (ended) {
     return (
@@ -102,7 +111,7 @@ function LotPreviewStatusLookALike(props: LotProps) {
         <div className="lot-preview__details lot-preview__details--short">
           <div className="lot-preview__entry">
             <small>Текущая ставка</small>
-            <strong>{props.currentPrice.format()}</strong>
+            <strong>{currentPrice.format()}</strong>
           </div>
           <div className="lot-preview__entry">
             <small>Окончания торгов</small>
@@ -122,7 +131,7 @@ function LotPreviewStatusLookALike(props: LotProps) {
         <div className="lot-preview__details lot-preview__details--short">
           <div className="lot-preview__entry">
             <small>Текущая ставка</small>
-            <strong>{props.currentPrice.format()}</strong>
+            <strong>{currentPrice.format()}</strong>
           </div>
           <div className="lot-preview__entry">
             <small>До окончания торгов</small>
@@ -158,8 +167,15 @@ function LotPreviewStatusLookALike(props: LotProps) {
 }
 
 function LotPreviewStatusContent(props: LotProps) {
+  const event = useSelector(state => state.event)
   const started = Date.now() > props.tradeStartTime.getTime()
+  const [currentPrice, setCurrentPrice] = useState(props.currentPrice)
 
+  useEffect(() => {
+    if (event && event.data?.now_price) {
+      setCurrentPrice(new Price(event.data?.now_price))
+    }
+  }, [event])
   switch (props.status) {
     case LotStatus.CLOSED:
       return (
@@ -235,7 +251,7 @@ function LotPreviewStatusContent(props: LotProps) {
             </div>
             <div className="lot-preview__entry">
               <small>Текущая ставка</small>
-              <strong>{props.currentPrice.format()}</strong>
+              <strong>{currentPrice.format()}</strong>
             </div>
           </div>
           <LotPreviewStatus iconName="check-circle">

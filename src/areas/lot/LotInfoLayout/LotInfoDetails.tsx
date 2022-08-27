@@ -21,6 +21,7 @@ interface LotInfoDetailsProps
     | "delivery"
     | "buyerId"
     | "user_id"
+    | "tradeStatus"
   > {}
 
 function LotInfoDetails(props: LotInfoDetailsProps) {
@@ -63,13 +64,16 @@ function LotInfoDetails(props: LotInfoDetailsProps) {
         </Entry>
       </Entries>
 
-      {user.auth && props.buyerId === user.id && props.status !== "sold" && (
-        <div>
-          <ButtonLink to={`/profile/purchases/checkout/${props.id}`}>
-            Перейти к оплате
-          </ButtonLink>
-        </div>
-      )}
+      {user.auth &&
+        props.buyerId === user.id &&
+        props.status === "sold" &&
+        props.tradeStatus === "awaiting_payment" && (
+          <div>
+            <ButtonLink to={`/profile/purchases/checkout/${props.id}`}>
+              Перейти к оплате
+            </ButtonLink>
+          </div>
+        )}
     </div>
   )
 }

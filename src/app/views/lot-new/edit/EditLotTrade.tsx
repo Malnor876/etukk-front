@@ -60,7 +60,7 @@ function EditLotTrade() {
           Укажите начальную стоимость лота
         </Input>
         <InputAddress
-          placeholder="Укажите адрес..."
+          placeholder="Укажите полный адрес отправки..."
           defaultValue={city}
           onChange={inputValue(setCity)}>
           Укажите ваш адрес

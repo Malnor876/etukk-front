@@ -200,7 +200,9 @@ interface FilterRadiosProps {
 
 export function FilterRadios(props: FilterRadiosProps) {
   const [filters, setFilters] = useContext(filtersContext)
+
   const filterValue = filters[props.name]
+
   function onChange(value: unknown) {
     setFilters({...filters, [props.name]: value})
   }
@@ -279,14 +281,14 @@ export function FilterPriceRange(props: FilterPriceRangeProps) {
     <Row>
       <Input
         type="number"
-        placeholder="Стоимость от"
+        placeholder="от"
         iconName="rub"
         value={min || ""}
         onChange={onChangeFactory(setMin)}
       />
       <Input
         type="number"
-        placeholder="Стоимость до"
+        placeholder="до"
         iconName="rub"
         value={max || ""}
         onChange={onChangeFactory(setMax)}

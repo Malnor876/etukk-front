@@ -8,6 +8,7 @@ import Container from "app/layouts/Container/Container"
 import useDeviceWidth from "hooks/useDeviceWidth"
 import {DeviceWidths} from "hooks/useResizeObserverEntry"
 import {getSearch} from "infrastructure/persistence/api/data/actions"
+import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
 import {useEffect, useState} from "react"
 import {useQuery} from "react-fetching-library"
 import {Helmet} from "react-helmet"
@@ -22,6 +23,7 @@ function HomeView() {
   // const matchHot = useMatch("hot")
   const [search, setSearch] = useState("")
   const [filterSearch, setFilterSearch] = useState("")
+
   const [filters, setFilters] = useState<any>({
     categories: params.categoryId,
   })
@@ -32,6 +34,7 @@ function HomeView() {
   }, [params.categoryId])
 
   const response = useQuery(getSearch(search || "!@#*("))
+
   const options = response.payload || []
   return (
     <>

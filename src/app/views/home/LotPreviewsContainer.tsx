@@ -7,6 +7,7 @@ import useScrollReach from "hooks/useScrollReach"
 import {isValidResponse} from "infrastructure/persistence/api/client"
 import {getLot} from "infrastructure/persistence/api/data/actions"
 import {mapLotsLists} from "infrastructure/persistence/api/mappings/lots"
+import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
 import {FilteringField} from "interfaces/Nodejs"
 import {useEffect, useState} from "react"
 import {QueryError, useQuery} from "react-fetching-library"
@@ -25,6 +26,7 @@ interface LotPreviewsContainerProps {
 }
 
 function LotPreviewsContainer(props: LotPreviewsContainerProps) {
+  console.log("LotPreviewsContainer", props)
   const [page, setPage] = useState(1)
   const [pageSize] = useState(12)
 
@@ -59,9 +61,13 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
     // bidding_start_time__gte: new Date().toISOString(),
     bidding_end_time__gte: endTime,
-
-    bidding_start_time__gte:
-      props.tradeStart && new Date(props.tradeStart).toISOString(),
+    bidding_start_time__lte:
+      props.started && props.started === "started" ? endTime : undefined,
+    bidding_start_time__gte: props.tradeStart
+      ? new Date(props.tradeStart).toISOString()
+      : props.started && props.started === "waiting"
+      ? endTime
+      : undefined,
     bidding_end_time__lte:
       props.tradeEnd && new Date(props.tradeEnd).toISOString(),
 
@@ -72,6 +78,9 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
     // user_id__not: user.auth ? user.id : -1,  // исключает свои лоты
   }
+  console.log("filters", filters)
+  // const filterStorage = new TemporaryStorage("filters")
+  // const [filter, setFilter] = filterStorage.state<any>("filters", {})
 
   const [lots, setLots] = useState<LotPreviewType[]>([])
   const response = useQuery(getLot(pageSize, (page - 1) * pageSize, filters))
