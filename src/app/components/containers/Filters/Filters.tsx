@@ -1,6 +1,6 @@
 import "./Filters.scss"
 
-import Checkbox, {CheckboxProps} from "app/components/UI/Checkbox/Checkbox"
+import {CheckboxProps} from "app/components/UI/Checkbox/Checkbox"
 import Icon from "app/components/UI/Icon/Icon"
 import Input, {InputProps} from "app/components/UI/Input/Input"
 import Radio, {RadioProps} from "app/components/UI/Radio/Radio"
@@ -20,11 +20,10 @@ import {
   useRef,
   useState,
 } from "react"
-import {compose} from "redux"
 import {classWithModifiers} from "utils/common"
 
 import {ReactError} from "../ErrorBoundary/ErrorBoundary.errors"
-import {FilterKey, FiltersState} from "./Filters.types"
+import {FilterKey, FiltersState, FiltersType} from "./Filters.types"
 import filtersContext from "./filtersContext"
 
 interface FilterProps {
@@ -89,13 +88,17 @@ export function Filter(props: FilterProps) {
 
 interface FiltersToolboxProps {
   state: FiltersState
+  clear?: Dispatch<FiltersType>
   onChange: Dispatch<FiltersState>
 }
 
 export function FiltersToolbox(props: FiltersToolboxProps) {
   const [filters, setFilters] = useContext(filtersContext)
 
-  const reset = () => setFilters({})
+  function clear() {
+    props.clear?.({})
+    setFilters({})
+  }
   const onExpand = () =>
     props.onChange(props.state === "expanded" ? undefined : "expanded")
   const onShrink = () => props.onChange("shrunken")
@@ -105,7 +108,7 @@ export function FiltersToolbox(props: FiltersToolboxProps) {
         className="filters-toolbox__reset"
         disabled={Object.keys(filters).length === 0}
         type="reset"
-        onClick={reset}>
+        onClick={clear}>
         Сбросить
       </button>
       <button

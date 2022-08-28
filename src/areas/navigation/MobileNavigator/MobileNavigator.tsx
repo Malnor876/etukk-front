@@ -4,6 +4,7 @@ import Icon, {IconName} from "app/components/UI/Icon/Icon"
 import useDeviceWidth from "hooks/useDeviceWidth"
 import {DeviceWidths} from "hooks/useResizeObserverEntry"
 import {ReactNode} from "react"
+import {useSelector} from "react-redux"
 import {NavLink, useLocation} from "react-router-dom"
 import {classWithModifiers} from "utils/common"
 
@@ -12,32 +13,39 @@ import {classWithModifiers} from "utils/common"
  * This component is mobile oriented
  */
 function MobileNavigator() {
+  const isAuth = useSelector(state => state.user.auth)
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
   if (!isMobile) return null
   const {pathname} = useLocation()
 
   return (
-    <nav className="mobile-navigator">
-      <MobileNavigatorLink
-        iconName="search-filled"
-        to={pathname.includes("hot") ? pathname : "/"}>
-        Главная
-      </MobileNavigatorLink>
-      <MobileNavigatorLink
-        iconName="bookmark"
-        to={pathname.includes("favourites") ? pathname : "/favourites/lots"}>
-        Избранное
-      </MobileNavigatorLink>
-      <MobileNavigatorLink iconName="hammer" to="/lots/draft">
-        Разместить лот
-      </MobileNavigatorLink>
-      <MobileNavigatorLink iconName="bell" to="/notifications/lots">
-        Уведомления
-      </MobileNavigatorLink>
-      <MobileNavigatorLink iconName="user" to="/profile/personal">
-        Профиль
-      </MobileNavigatorLink>
-    </nav>
+    <>
+      {isAuth && (
+        <nav className="mobile-navigator">
+          <MobileNavigatorLink
+            iconName="search-filled"
+            to={pathname.includes("hot") ? pathname : "/"}>
+            Главная
+          </MobileNavigatorLink>
+          <MobileNavigatorLink
+            iconName="bookmark"
+            to={
+              pathname.includes("favourites") ? pathname : "/favourites/lots"
+            }>
+            Избранное
+          </MobileNavigatorLink>
+          <MobileNavigatorLink iconName="hammer" to="/lots/draft">
+            Разместить лот
+          </MobileNavigatorLink>
+          <MobileNavigatorLink iconName="bell" to="/notifications/lots">
+            Уведомления
+          </MobileNavigatorLink>
+          <MobileNavigatorLink iconName="user" to="/profile/personal">
+            Профиль
+          </MobileNavigatorLink>
+        </nav>
+      )}
+    </>
   )
 }
 

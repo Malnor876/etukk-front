@@ -44,7 +44,7 @@ function LotPreviewView() {
     const response = await client.query(patchLotDraftByDraftId(+lotId, payload))
     if (!isValidResponse(response)) return
 
-    navigate(`/lots/${lotId}/${payload.status}`)
+    navigate(`/lots/${lotId}`)
   }
 
   return (

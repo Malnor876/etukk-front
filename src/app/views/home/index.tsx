@@ -14,25 +14,29 @@ import {useQuery} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 // import { useMatch } from "react-router"
 import {Route, Routes} from "react-router"
-import {NavLink, useParams} from "react-router-dom"
+import {NavLink} from "react-router-dom"
 
 import LotPreviewsContainer from "./LotPreviewsContainer"
-function HomeView() {
-  const params = useParams<"categoryId">()
 
+export const filterStorage = new TemporaryStorage("filters")
+
+function HomeView() {
   // const matchHot = useMatch("hot")
   const [search, setSearch] = useState("")
   const [filterSearch, setFilterSearch] = useState("")
 
-  const [filters, setFilters] = useState<any>({
-    categories: params.categoryId,
-  })
+  const [filtersStorage, setFiltersStorage] = filterStorage.state<any>(
+    "filters",
+    {}
+  )
+  console.log("filtersHome", filterStorage.get("filters"))
+  const [filters, setFilters] = useState<any>(filtersStorage || {})
   // const isHot = !!matchHot
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
-  useEffect(() => {
-    setFilters({...filters, categories: params.categoryId})
-  }, [params.categoryId])
 
+  useEffect(() => {
+    setFiltersStorage({...filters})
+  }, [filters])
   const response = useQuery(getSearch(search || "!@#*("))
 
   const options = response.payload || []
@@ -52,7 +56,12 @@ function HomeView() {
           </option>
         ))}
       </SearchSuggest>
-      {isMobile && <FiltersContainerMobile onSubmit={setFilters} />}
+      {isMobile && (
+        <FiltersContainerMobile
+          clear={setFiltersStorage}
+          onSubmit={setFilters}
+        />
+      )}
       <Switcher>
         <NavLink to="/">Все торги</NavLink>
         <NavLink to="/hot">Горячие торги</NavLink>
@@ -68,7 +77,12 @@ function HomeView() {
                   <QueryErrorCoverBoundary>
                     <LotPreviewsContainer search={filterSearch} {...filters} />
                   </QueryErrorCoverBoundary>
-                  {!isMobile && <FiltersContainer onSubmit={setFilters} />}
+                  {!isMobile && (
+                    <FiltersContainer
+                      clear={setFiltersStorage}
+                      onSubmit={setFilters}
+                    />
+                  )}
                 </Container>
               </Container>
             </div>

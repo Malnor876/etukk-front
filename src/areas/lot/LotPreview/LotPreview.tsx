@@ -77,7 +77,7 @@ function LotPreviewSwitchableContent(props: LotProps) {
       </div>
       <div className="lot-preview__details">
         <div className="lot-preview__entry">
-          <small>Начальная ставка</small>
+          <small>Начальная стоимость</small>
           <strong>{props.currentPrice.format()}</strong>
         </div>
         <div className="lot-preview__entry">
@@ -154,7 +154,7 @@ function LotPreviewStatusLookALike(props: LotProps) {
       </div>
       <div className="lot-preview__details lot-preview__details--short">
         <div className="lot-preview__entry">
-          <small>Начальная ставка</small>
+          <small>Начальная стоимость</small>
           <strong>{props.startPrice.format()}</strong>
         </div>
         <div className="lot-preview__entry">
@@ -246,7 +246,7 @@ function LotPreviewStatusContent(props: LotProps) {
               </div>
             )}
             <div className="lot-preview__entry">
-              <small>Начальная ставка</small>
+              <small>Начальная стоимость</small>
               <strong>{props.startPrice.format()}</strong>
             </div>
             <div className="lot-preview__entry">

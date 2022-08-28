@@ -14,6 +14,8 @@ import {QueryError, useQuery} from "react-fetching-library"
 import {useSelector} from "react-redux"
 import {toBase64} from "utils/common"
 
+import {filterStorage} from "."
+
 interface LotPreviewsContainerProps {
   search?: string
   price?: [number, number] // [min, max]
@@ -26,7 +28,6 @@ interface LotPreviewsContainerProps {
 }
 
 function LotPreviewsContainer(props: LotPreviewsContainerProps) {
-  console.log("LotPreviewsContainer", props)
   const [page, setPage] = useState(1)
   const [pageSize] = useState(12)
 
@@ -78,9 +79,6 @@ function LotPreviewsContainer(props: LotPreviewsContainerProps) {
 
     // user_id__not: user.auth ? user.id : -1,  // исключает свои лоты
   }
-  console.log("filters", filters)
-  // const filterStorage = new TemporaryStorage("filters")
-  // const [filter, setFilter] = filterStorage.state<any>("filters", {})
 
   const [lots, setLots] = useState<LotPreviewType[]>([])
   const response = useQuery(getLot(pageSize, (page - 1) * pageSize, filters))

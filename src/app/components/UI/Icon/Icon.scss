@@ -11,7 +11,9 @@
 	&[color="red"] {
 		color: $color-raspberry-1;
 	}
-
+	&[color="white"] {
+		color: white;
+	}
 	use {
 		pointer-events: none;
 	}

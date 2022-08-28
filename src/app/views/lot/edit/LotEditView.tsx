@@ -203,7 +203,7 @@ function LotEditView() {
                     name={FormInputs.video}
                   />
                 </LotEditSetting>
-                <LotEditSetting label="Начальная ставка">
+                <LotEditSetting label="Начальная стоимость">
                   <Input
                     width="16em"
                     type="number"

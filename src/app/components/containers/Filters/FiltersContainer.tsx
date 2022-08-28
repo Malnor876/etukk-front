@@ -11,6 +11,7 @@ import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"
 import Radio from "app/components/UI/Radio/Radio"
 import ToolTip from "app/components/UI/ToolTip/ToolTip"
+import {filterStorage} from "app/views/home"
 import {breakDownCategories} from "app/views/lot-new/edit/EditLotCategory"
 import {LotDelivery} from "areas/lot/types"
 import {getCategory} from "infrastructure/persistence/api/data/actions"
@@ -27,6 +28,7 @@ import filtersContext from "./filtersContext"
 
 interface FiltersContainerProps {
   pending?: boolean
+  clear?: Dispatch<FiltersType>
   onSubmit?: Dispatch<FiltersType>
 }
 
@@ -43,10 +45,12 @@ function turnBigMinHeight(onOff: boolean) {
 
 function FiltersContainer(props: FiltersContainerProps) {
   const [state, setState] = useState<FiltersState>()
-  const reducer = useState<FiltersType>({})
+  const reducer = useState<FiltersType>(filterStorage.get("filters") || {})
   const [filters] = reducer
 
   async function onSubmit() {
+    console.log("onSubmit", filters)
+
     await props.onSubmit?.(filters)
     setState(undefined)
   }
@@ -70,7 +74,11 @@ function FiltersContainer(props: FiltersContainerProps) {
         <div className="filters__inner">
           <div className="filters__header">
             <div className="filters__title">Фильтр</div>
-            <FiltersToolbox state={state} onChange={setState} />
+            <FiltersToolbox
+              state={state}
+              onChange={setState}
+              clear={props.clear}
+            />
           </div>
           <div className="filters__container">
             <FiltersTreeContainer />
@@ -105,6 +113,7 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
   }
 
   function clear() {
+    props.clear?.({})
     setFilters({})
   }
   return (
@@ -242,7 +251,7 @@ interface FilterRecursionProps {
 
 function FilterRecursion(props: FilterRecursionProps) {
   if (props.elements.length === 0) return null
-  // console.log(props.elements)
+  console.log("FilterRecursionp", props.elements)
   return (
     <>
       {props.elements.map(element => (

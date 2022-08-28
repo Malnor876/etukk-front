@@ -1,9 +1,10 @@
 import LotNotification from "areas/lot/LotNotification"
 import {Route, Routes} from "react-router"
 
-import FullscreenSignIn from "./components/modals/auth/FullscreenSignIn"
-import FullscreenSignUpEntity from "./components/modals/auth/FullscreenSignUpEntity"
-import FullscreenSignUpPerson from "./components/modals/auth/FullscreenSignUpPerson"
+import FullscreenSignIn from "./components/containers/Auth/FullscreenSignIn"
+import FullscreenSignUp from "./components/containers/Auth/FullscreenSignUp"
+import FullscreenSignUpEntity from "./components/containers/Auth/FullscreenSignUpEntity"
+import FullscreenSignUpPerson from "./components/containers/Auth/FullscreenSignUpPerson"
 import ViewLayout from "./layouts/ViewLayout/ViewLayout"
 import AboutView from "./views/about/AboutView"
 import ContactsView from "./views/contacts"
@@ -26,6 +27,7 @@ function AppRouter() {
       <Route path="/">
         <Route path="*" element={<ErrorView />} />
         <Route path="login" element={<FullscreenSignIn />} />
+        <Route path="register" element={<FullscreenSignUp />} />
         <Route path="registerPerson" element={<FullscreenSignUpPerson />} />
         <Route path="registerEntity" element={<FullscreenSignUpEntity />} />
         <Route element={<ViewLayout />}>

@@ -49,7 +49,7 @@ export function mapLotsLists(
 }
 
 export function mapLot(lot: SchemaLot): LotInfoType {
-  console.log("mapLot", lot)
+  // console.log("mapLot", lot)
   return {
     id: lot.id,
     delivery: lot.delivery_options as LotDelivery,
@@ -124,7 +124,7 @@ export function mapLot(lot: SchemaLot): LotInfoType {
 // export function map
 
 export function mapFiltersCategory(asd: any) {
-  // return {}
+  console.log("category", asd)
   return recurseCollapsedTree(asd)
 }
 
