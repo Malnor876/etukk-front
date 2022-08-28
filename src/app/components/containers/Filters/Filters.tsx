@@ -1,11 +1,13 @@
 import "./Filters.scss"
 
-import {CheckboxProps} from "app/components/UI/Checkbox/Checkbox"
+import Checkbox, {CheckboxProps} from "app/components/UI/Checkbox/Checkbox"
 import Icon from "app/components/UI/Icon/Icon"
 import Input, {InputProps} from "app/components/UI/Input/Input"
 import Radio, {RadioProps} from "app/components/UI/Radio/Radio"
 import ToolTip from "app/components/UI/ToolTip/ToolTip"
 import {Row} from "app/layouts/BaseLayouts/BaseLayouts"
+import {filterStorage} from "app/views/home"
+import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
 import _ from "lodash"
 import {
   ChangeEvent,
@@ -27,28 +29,41 @@ import {FilterKey, FiltersState, FiltersType} from "./Filters.types"
 import filtersContext from "./filtersContext"
 
 interface FilterProps {
+  name?: string
+  id?: number
   group?: boolean
   label: ReactNode
   children: ReactNode
 }
 
+export const filterCategoryStorage = new TemporaryStorage("filter-category")
+
 export function Filter(props: FilterProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [expanded, setExpanded] = useState(false)
-  const [contentHeight, setContentHeight] = useState<number>()
+  const [category, setCategory] = filterCategoryStorage.state<any>(
+    "filter-category",
+    ""
+  )
+  // console.log("Filter", category)
 
-  useEffect(() => {
-    // console.log(containerRef.current, containerRef.current?.scrollHeight)
-    const interval = setInterval(() => {
-      if (!expanded) return
-      if (containerRef.current === null) return
-      setContentHeight(containerRef.current.scrollHeight - 169)
-    }, 150)
+  // const [contentHeight, setContentHeight] = useState<number>()
 
-    return () => {
-      clearInterval(interval)
-    }
-  }, [])
+  // useEffect(() => {
+  //   // console.log(containerRef.current, containerRef.current?.scrollHeight)
+  //   const interval = setInterval(() => {
+  //     if (!expanded) return
+  //     if (containerRef.current === null) return
+  //     setContentHeight(containerRef.current.scrollHeight - 169)
+  //   }, 150)
+
+  //   return () => {
+  //     clearInterval(interval)
+  //   }
+  // }, [])
+
+  // console.log("category", category)
+  // console.log("props.id", props.id)
 
   return (
     <div
@@ -56,6 +71,16 @@ export function Filter(props: FilterProps) {
       aria-label="filter"
       aria-details="toggle filter">
       <div className="filter__header" onClick={() => setExpanded(!expanded)}>
+        {/* {props.id ? (
+          <Checkbox
+            name={props.name}
+            value={props.id?.toString()}
+            onChange={setCategory}>
+            <div className="filter__title">{props.label}</div>
+          </Checkbox>
+        ) : (
+          <div className="filter__title">{props.label}</div>
+        )} */}
         <div className="filter__title">{props.label}</div>
         <Icon
           className={classWithModifiers(
@@ -70,7 +95,7 @@ export function Filter(props: FilterProps) {
           "filter__container",
           expanded && "expanded"
         )}
-        style={{"--height": contentHeight}}
+        // style={{"--height": contentHeight}}
         ref={containerRef}
         role="group"
         aria-expanded={expanded}>
@@ -94,7 +119,6 @@ interface FiltersToolboxProps {
 
 export function FiltersToolbox(props: FiltersToolboxProps) {
   const [filters, setFilters] = useContext(filtersContext)
-
   function clear() {
     props.clear?.({})
     setFilters({})

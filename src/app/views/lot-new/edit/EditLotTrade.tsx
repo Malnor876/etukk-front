@@ -63,7 +63,7 @@ function EditLotTrade() {
           placeholder="Укажите полный адрес отправки..."
           defaultValue={city}
           onChange={inputValue(setCity)}>
-          Укажите ваш адрес
+          Укажите полный адрес отправки
         </InputAddress>
       </Row>
       <br />

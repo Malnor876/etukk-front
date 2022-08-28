@@ -19,7 +19,7 @@ import {
   mapFiltersCategory,
   RecursiveTreeElement,
 } from "infrastructure/persistence/api/mappings/lots"
-import {Dispatch, useEffect, useState} from "react"
+import {Dispatch, useEffect, useRef, useState} from "react"
 import {classWithModifiers, inputValue} from "utils/common"
 
 import QueryContainer from "../QueryContainer/QueryContainer"
@@ -251,11 +251,16 @@ interface FilterRecursionProps {
 
 function FilterRecursion(props: FilterRecursionProps) {
   if (props.elements.length === 0) return null
-  console.log("FilterRecursionp", props.elements)
+
   return (
     <>
       {props.elements.map(element => (
-        <Filter group={props.group} label={element.name} key={element.id}>
+        <Filter
+          group={props.group}
+          id={element.id}
+          name={element.name}
+          label={element.name}
+          key={element.id}>
           <FilterRecursion
             name={props.name}
             elements={element.children.filter(

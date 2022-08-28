@@ -233,7 +233,9 @@ $toggleSize: 1.5em;
 	height: auto;
 	height: calc(var(--height) * 1px);
 	transition: 250ms ease opacity, 250ms ease height;
-
+	// &--expanded {
+	// 	margin-left: 2em;
+	// }
 	&:not(&--expanded) {
 		opacity: 0;
 		height: 0px;
