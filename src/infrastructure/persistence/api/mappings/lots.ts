@@ -61,6 +61,7 @@ export function mapLot(lot: SchemaLot): LotInfoType {
     bookmarked: lot.in_user_favorites ?? false,
     archived: lot.archived ?? false,
     description: lot.description ?? "unknown",
+    video: lot.video_url ?? "",
     slides: lot.lotphotos?.map(l => mapImageUrl(l.filename)) ?? [],
     slidesWithId:
       lot.lotphotos?.map(l => ({

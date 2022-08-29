@@ -43,12 +43,8 @@ function UserProfile(props: UserProfileProps) {
 
   const getUserLotsAction = (status: string) =>
     getLot<
-      FilteringField<
-        "user_id",
-        "iexact",
-        number
-      > & // | FilteringField<"bidding_end_time", "gte", string>
-      {
+      FilteringField<"user_id", "iexact", number> & {
+        // | FilteringField<"bidding_end_time", "gte", string>
         status: string
       }
     >(10, 0, {
@@ -59,7 +55,7 @@ function UserProfile(props: UserProfileProps) {
 
   const getUserLotsPublished = getUserLotsAction(LotStatus.PUBLISHED)
   // const getUserLotsCompletedAction = getUserLotsAction(new Date()) // Now
-  const getUserLotsClosed = getUserLotsAction(LotStatus.CLOSED)
+  const getUserLotsSold = getUserLotsAction(LotStatus.SOLD)
 
   return (
     <div className="user-profile">
@@ -72,7 +68,7 @@ function UserProfile(props: UserProfileProps) {
             Отзывы
           </NavLink>
           <NavLink to="placed">Размещенные лоты</NavLink>
-          <NavLink to="completed">Завершенные лоты</NavLink>
+          <NavLink to="sold">Проданные лоты</NavLink>
         </Switcher>
         <Routes>
           <Route
@@ -118,12 +114,12 @@ function UserProfile(props: UserProfileProps) {
             }
           />
           <Route
-            path="completed"
+            path="sold"
             element={
               <QueryContainer
-                action={getUserLotsClosed}
+                action={getUserLotsSold}
                 mapping={mapLotsLists}
-                key="completed lots">
+                key="sold lots">
                 {payload => (
                   <Previews>
                     {payload.items.map(lot => (

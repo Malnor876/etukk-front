@@ -8,6 +8,7 @@ import {Modal} from "react-modal-global"
 import {YouTubeVideo} from "utils/business"
 
 interface SliderProps {
+  video?: string
   slides: string[]
   initSlideIndex?: number
   allowFullscreen?: boolean

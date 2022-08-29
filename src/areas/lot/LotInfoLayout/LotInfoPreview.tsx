@@ -5,14 +5,20 @@ import {useSelector} from "react-redux"
 import {LotInfoType} from "../types"
 
 interface LotInfoPreviewProps
-  extends Pick<LotInfoType, "id" | "slides" | "bookmarked" | "user_id"> {}
+  extends Pick<
+    LotInfoType,
+    "id" | "slides" | "bookmarked" | "user_id" | "video"
+  > {}
 
 function LotInfoPreview(props: LotInfoPreviewProps) {
   const myId = useSelector(state => state.user).id
   const isMyLot = Number(myId) === Number(props.user_id)
   return (
     <div className="lot-info-preview">
-      <Slider slides={props.slides} allowFullscreen />
+      <Slider
+        slides={props.video ? [props.video, ...props.slides] : props.slides}
+        allowFullscreen
+      />
       {!isMyLot && (
         <Bookmark
           className="lot-info-preview__bookmark"

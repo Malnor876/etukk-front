@@ -124,7 +124,7 @@ function LotDraftView() {
             return false
           if (
             Number(item.id) === 3 &&
-            (Number(item.value) > 100 || Number(item.value) < 0.001)
+            (Number(item.value) > 1400 || Number(item.value) < 0.001)
           )
             return false
           return true

@@ -1,16 +1,12 @@
 import "./Lot.scss"
 
-import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Backward from "app/components/UI/Backward/Backward"
-import Button from "app/components/UI/Button/Button"
 import Details from "app/components/UI/Details/Details"
-import SubjectLog from "app/layouts/SubjectLog/SubjectLog"
 import useParam from "hooks/useParam"
 import {
   getLotByLotId,
   getLotDraftByDraftId,
   getUserNotifications,
-  getUserNotificationsByNotificationsId,
 } from "infrastructure/persistence/api/data/actions"
 import {
   SchemaLot,
@@ -19,10 +15,9 @@ import {
 import {mapLot} from "infrastructure/persistence/api/mappings/lots"
 import {useEffect, useState} from "react"
 import {useClient} from "react-fetching-library"
-import {Link} from "react-router-dom"
 
 import LotPreview from "./LotPreview/LotPreview"
-import {LotInfoType, LotPreviewType} from "./types"
+import {LotInfoType} from "./types"
 
 // interface LotNotificationProps {
 //   id: number

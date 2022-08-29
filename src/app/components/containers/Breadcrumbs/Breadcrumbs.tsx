@@ -1,14 +1,10 @@
 import "./Breadcrumbs.scss"
 
 // import { getGetBreadcrumbsByPagesId, getGetPagesUrlByUrl } from "infrastructure/persistence/api/data/actions"
-import { useQuery } from "react-fetching-library"
-import { useLocation } from "react-router"
-
-import QueryContainer from "../QueryContainer/QueryContainer"
-
+// import { useLocation } from "react-router"
 
 function Breadcrumbs() {
-  const location = useLocation()
+  // const location = useLocation()
   return null
   // return (
   //   <QueryContainer action={getGetPagesUrlByUrl(encodeURIComponent(location.pathname))}>
