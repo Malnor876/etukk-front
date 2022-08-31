@@ -1,24 +1,35 @@
 import "./Author.scss"
 
-import {UserSigned} from "infrastructure/persistence/redux/reducers/user/types"
-import {Price} from "utils/extensions"
+import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
+import {getUserByUserId} from "infrastructure/persistence/api/data/actions"
+import {mapImageUrl} from "infrastructure/persistence/api/mappings/helpers"
 
-export interface AuthorProps
-  extends Pick<UserSigned, "avatar" | "firstName" | "city"> {}
+export interface AuthorProps {
+  buyerId?: number
+  avatar?: string
+  firstName?: string
+  city?: string
+}
 
 function Author(props: AuthorProps) {
   return (
-    <div className="author">
-      <img src={props.avatar} alt="avatar" className="author__avatar" />
-      <div className="author__info">
-        <div className="author__name">{props.firstName}</div>
-        <div className="author__city">{props.city}</div>
-      </div>
-      {/* <div className="author__info">
-        <div className="author__name">Сумма выкупа </div>
-        <div className="author__city">{props.price}</div>
-      </div> */}
-    </div>
+    <QueryContainer action={getUserByUserId(props.buyerId)}>
+      {user => (
+        <div className="author">
+          <img
+            src={props.avatar ?? mapImageUrl(user?.user_pic?.filename)}
+            alt="avatar"
+            className="author__avatar"
+          />
+          <div className="author__info">
+            <div className="author__name">
+              {props.firstName ?? user?.fullname.split(" ")[0]}
+            </div>
+            <div className="author__city">{user.city}</div>
+          </div>
+        </div>
+      )}
+    </QueryContainer>
   )
 }
 

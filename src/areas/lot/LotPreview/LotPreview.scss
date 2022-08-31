@@ -26,7 +26,10 @@
 	}
 
 	@include Mobile {
-		max-width: unset;
+		max-width: 47%;
+		min-width: 45%;
+		flex: 1;
+		// max-width: unset;
 		// font-size: 0.75em;
 	}
 }
@@ -65,6 +68,9 @@
 			overflow: hidden;
 		}
 	}
+	@include Mobile {
+		max-width: unset;
+	}
 }
 
 .lot-preview__title {
@@ -73,6 +79,7 @@
 	text-transform: uppercase;
 
 	@include Mobile {
+		max-width: 10em;
 		font-size: $font-size-6;
 	}
 }

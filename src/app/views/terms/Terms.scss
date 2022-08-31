@@ -15,7 +15,12 @@
 	p {
 		margin-block: 0.5em;
 		line-height: 1.5;
-		max-width: 90ch;
+		max-width: 65%;
+		font-size: 16px;
+		text-align: justify;
 		font-family: "Arial Narrow", Arial, sans-serif;
+		@include Mobile {
+			max-width: 100%;
+		}
 	}
 }

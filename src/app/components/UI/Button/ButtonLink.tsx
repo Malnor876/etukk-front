@@ -8,6 +8,7 @@ import {ButtonBaseProps} from "./Button.types"
 
 interface ButtonLinkProps extends ButtonBaseProps {
   to: string
+  state?: any
   nav?: boolean
   end?: boolean
   disabled?: boolean
@@ -39,6 +40,7 @@ function ButtonLink(props: ButtonLinkProps) {
       }
       replace={props.replace}
       to={props.disabled ? location : props.to}
+      state={props.state}
       onClick={props.onClick}
       end={props.end}>
       {props.iconLeft && <div className="button__icon">{props.iconLeft}</div>}

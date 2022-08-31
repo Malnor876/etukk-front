@@ -35,9 +35,9 @@ function LotView() {
 
   useEffect(() => {
     async function getLot() {
-      const responseFromDraft = await client.query(getLotDraftByDraftId(lotId))
-      const responseFormPublish = await client.query(getLotByLotId(lotId))
-      const response = responseFromDraft ?? responseFormPublish
+      const response =
+        (await client.query(getLotDraftByDraftId(lotId))) ??
+        (await client.query(getLotByLotId(lotId)))
       setLotById(mapLot(response.payload as SchemaLot))
     }
     getLot()
@@ -60,14 +60,15 @@ function LotView() {
     setLotById(mapLot(response.payload as SchemaLot))
     navigate("/lots/" + lotId)
   }
-  async function goToEditWithUnpublish() {
-    if (lotId == null) return
+  // async function goToEditWithUnpublish() {
+  //   if (lotId == null) return
 
-    const response = await client.query(patchLotByLotIdUnpublish(+lotId))
-    if (!isValidResponse(response)) return
+  //   const response = await client.query(patchLotByLotIdUnpublish(+lotId))
+  //   if (!isValidResponse(response)) return
 
-    navigate(`/lots/${lotId}/edit`)
-  }
+  //   navigate(`/lots/${lotId}/edit`)
+  // }
+
   return (
     <div className="lot-view">
       <Helmet>
@@ -89,9 +90,14 @@ function LotView() {
                 {payload.status === "published" &&
                   isEditTime(payload.startEndInterval.date1) && (
                     <Buttons spaceBetween>
-                      <Button onClick={goToEditWithUnpublish}>
+                      {/* <Button onClick={goToEditWithUnpublish}>
                         Редактировать
-                      </Button>
+                      </Button> */}
+                      <ButtonLink
+                        to={`/lots/${lotId}/edit`}
+                        state={{status: payload.status}}>
+                        Редактировать
+                      </ButtonLink>
                       <Button outline await onClick={unpublishNewLot}>
                         Снять с публикации
                       </Button>
@@ -102,7 +108,9 @@ function LotView() {
                   payload.archived) &&
                   (isEditTime(payload.startEndInterval.date1) ? (
                     <Buttons spaceBetween>
-                      <ButtonLink to={`/lots/${lotId}/edit`}>
+                      <ButtonLink
+                        to={`/lots/${lotId}/edit`}
+                        state={{status: payload.status}}>
                         Редактировать
                       </ButtonLink>
                       <Button outline await onClick={publishNewLot}>
@@ -111,7 +119,9 @@ function LotView() {
                     </Buttons>
                   ) : (
                     <Buttons spaceBetween>
-                      <ButtonLink to={`/lots/${lotId}/edit`}>
+                      <ButtonLink
+                        to={`/lots/${lotId}/edit`}
+                        state={{status: payload.status}}>
                         Редактировать
                       </ButtonLink>
                     </Buttons>

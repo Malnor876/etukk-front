@@ -32,7 +32,7 @@ import {useClient} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 import {useSelector} from "react-redux"
 import {useNavigate, useParams} from "react-router"
-import {inputValue} from "utils/common"
+import {useLocation} from "react-router-dom"
 import {humanizeDate} from "utils/date"
 import {FileToURLDataBase64} from "utils/file"
 
@@ -42,7 +42,7 @@ enum FormInputs {
   video = "video_url",
   startPrice = "start_price",
   // publicationPeriod = "trading_start",
-  city = "city",
+  shipment_address = "shipment_address",
   date = "date",
   delivery = "delivery_options",
   description = "description",
@@ -58,7 +58,7 @@ interface FormValues {
   description: string
   start_price: number
   categories: number[] | number
-  city: string
+  shipment_address: string
   date: string
   delivery_options: SchemaLotDeliveryOptions
   bidding_start_time: string
@@ -68,6 +68,8 @@ interface FormValues {
   specifications: [{id?: string; name: string; value: string}]
 }
 
+export type LocationState = {status: string}
+
 function LotEditView() {
   const {lotId} = useParams()
   if (lotId == null) {
@@ -76,11 +78,11 @@ function LotEditView() {
   if (isNaN(+lotId)) {
     throw new ReactError(LotEditView, "lotId is not number")
   }
-
   const [newSpecifications, setNewSpecifications] = useState<
     SpecificationType[]
   >([])
-
+  const {state} = useLocation()
+  const {status} = state as LocationState
   const [files, setFiles] = useState<File[]>([])
   const navigate = useNavigate()
   const client = useClient()
@@ -90,7 +92,10 @@ function LotEditView() {
 
   useEffect(() => {
     async function getLotSpecifications() {
-      const {payload} = await client.query(getLotDraftByDraftId(Number(lotId)))
+      const {payload} =
+        status === "drafted"
+          ? await client.query(getLotDraftByDraftId(Number(lotId)))
+          : await client.query(getLotByLotId(Number(lotId)))
       const lotspecifications = payload?.lotspecifications
         ?.map(spec => ({
           id: spec.id,
@@ -253,8 +258,10 @@ function LotEditView() {
                   <InputAddress
                     width="16em"
                     placeholder="Укажите полный адрес отправки..."
-                    name={FormInputs.city}
-                    defaultValue={payload.city}></InputAddress>
+                    name={FormInputs.shipment_address}
+                    defaultValue={
+                      payload.shipment_address ?? payload.city
+                    }></InputAddress>
                 </LotEditSetting>
                 <LotEditSetting label="Вариант доставки">
                   <Selector

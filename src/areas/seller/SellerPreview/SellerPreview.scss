@@ -21,10 +21,13 @@
 	}
 
 	@include Mobile {
-		align-items: center;
-		justify-items: unset;
-		gap: unset;
-		max-width: unset;
+		// align-items: center;
+		// justify-items: unset;
+		// gap: unset;
+		// max-width: unset;
+		max-width: 47%;
+		min-width: 45%;
+		flex: 1;
 	}
 }
 
@@ -57,7 +60,7 @@
 }
 
 .seller-preview__name {
-	max-width: 75%;
+	max-width: 90%;
 	@include Typography($font-size-5, 600);
 
 	text-align: center;
@@ -65,6 +68,7 @@
 	padding-bottom: 0.5em;
 
 	@include Mobile {
+		overflow: hidden;
 		text-align: unset;
 		padding-top: 1em;
 	}

@@ -29,6 +29,7 @@ interface LotProps extends LotInfoType {
 function LotPreview(props: LotProps) {
   const myId = useSelector(state => state.user).id
   const isMyLot = Number(myId) === Number(props.user_id)
+  console.log("LotPreview", props)
 
   return (
     <div className="lot-preview" onClick={props.onClick}>
@@ -191,7 +192,7 @@ function LotPreviewStatusContent(props: LotProps) {
           {props.archived ? (
             <LotPreviewStatus>Снят с публикации</LotPreviewStatus>
           ) : (
-            <ButtonLink publish to={`/lots/${props.id}/preview`}>
+            <ButtonLink publish to={`/lots/${props.id}/edit`}>
               Опубликовать черновик
             </ButtonLink>
           )}
@@ -441,7 +442,7 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
 function LotPreviewTradeStatusDetails(props: LotProps) {
   const AUTHOR =
     props.merchant === "seller"
-      ? props.buyer && <Author {...props.buyer} city={props.city} />
+      ? props.buyer && <Author buyerId={props.buyerId} />
       : props.seller && <Author {...props.seller} city={props.city} />
   return (
     <div className="lot-preview__details">

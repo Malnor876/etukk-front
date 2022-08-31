@@ -33,6 +33,7 @@ function QueryContainer<P, M>(props: QueryContainerProps<P, M>) {
 
   const [payload, setPayload] = useState<unknown>()
   const response = useQuery(props.action, shouldInitQuery)
+  console.log("response", response)
   useEffect(() => {
     if (shouldInitQuery) {
       response.query()

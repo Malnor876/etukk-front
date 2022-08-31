@@ -51,6 +51,7 @@ export interface LotInfoType {
 
   title: string
   city: string
+  shipment_address?: string
   startEndInterval: DateInterval
 
   delivery: LotDelivery
