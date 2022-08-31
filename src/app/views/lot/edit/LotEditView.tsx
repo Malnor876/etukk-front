@@ -125,14 +125,14 @@ function LotEditView() {
 
     if (lotId == null) return
 
-    const {error} =
+    const {error, payload} =
       status === "published"
         ? await client.query(patchLotById(+lotId, state.values))
         : await client.query(patchLotDraftByDraftId(+lotId, state.values))
 
     if (error) return
 
-    navigate(`/lots/${lotId}`)
+    navigate(`/lots/${lotId}`, {state: {status: payload?.status}})
   }
 
   function addSpecification(key: string, value: string) {
@@ -247,6 +247,7 @@ function LotEditView() {
                                 minute: "2-digit",
                               })}
                             </Radio>
+
                             <br />
                           </div>
                         ))}

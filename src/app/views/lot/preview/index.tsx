@@ -37,14 +37,14 @@ function LotPreviewView() {
     const response = await client.query(postLotDraftByLotIdModerate(+lotId))
     if (!isValidResponse(response)) return
 
-    navigate(`/lots/${lotId}`)
+    navigate(`/lots/${lotId}`, {state: {status: response.payload.status}})
   }
   async function saveDraft(payload: LotPreviewType) {
     if (lotId == null) return
     const response = await client.query(patchLotDraftByDraftId(+lotId, payload))
     if (!isValidResponse(response)) return
 
-    navigate(`/lots/${lotId}`)
+    navigate(`/lots/${lotId}`, {state: {status: response.payload.status}})
   }
 
   return (

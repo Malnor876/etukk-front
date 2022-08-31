@@ -39,7 +39,13 @@ function LotPreview(props: LotProps) {
           <div className="lot-preview__title">{props.title}</div>
           <LotPreviewSwitchableContent {...props} />
         </div>
-        {props.onClick ?? <Link className="ghost" to={`/lots/${props.id}`} />}
+        {props.onClick ?? (
+          <Link
+            className="ghost"
+            to={`/lots/${props.id}`}
+            state={{status: props.status}}
+          />
+        )}
         {!isMyLot && (
           <Bookmark
             className="lot-preview__bookmark"
@@ -192,7 +198,10 @@ function LotPreviewStatusContent(props: LotProps) {
           {props.archived ? (
             <LotPreviewStatus>Снят с публикации</LotPreviewStatus>
           ) : (
-            <ButtonLink publish to={`/lots/${props.id}/edit`}>
+            <ButtonLink
+              publish
+              to={`/lots/${props.id}/edit`}
+              state={{status: props.status}}>
               Опубликовать черновик
             </ButtonLink>
           )}

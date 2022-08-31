@@ -4,7 +4,6 @@ import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import Buttons from "app/layouts/Buttons/Buttons"
 import LotInfoLayout from "areas/lot/LotInfoLayout/LotInfoLayout"
-import {LotInfoType} from "areas/lot/types"
 import useParam from "hooks/useParam"
 import {isValidResponse} from "infrastructure/persistence/api/client"
 import {
@@ -13,18 +12,20 @@ import {
   patchLotByLotIdUnpublish,
   postLotDraftByLotIdModerate,
 } from "infrastructure/persistence/api/data/actions"
-import {SchemaLot} from "infrastructure/persistence/api/data/schemas"
 import {mapLot} from "infrastructure/persistence/api/mappings/lots"
-import {useEffect, useState} from "react"
+import {useState} from "react"
 import {useClient} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 import {useSelector} from "react-redux"
-import {useNavigate} from "react-router-dom"
+import {useLocation, useNavigate} from "react-router-dom"
+
+import {LocationState} from "./edit/LotEditView"
 
 function LotView() {
   const lotId = useParam("lotId", true)
-  const [lotById, setLotById] = useState<LotInfoType>()
-  const lotStatus = lotById?.status
+  const {state} = useLocation()
+  const {status} = state as LocationState
+  const [lotStatus, setLotStatus] = useState<string>(status)
   const myId = useSelector(state => state.user).id
   const isEditTime = (date: Date) => {
     return Date.now() < date.getTime() - 3600000 // one hour before start
@@ -33,41 +34,21 @@ function LotView() {
   const client = useClient()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    async function getLot() {
-      const response =
-        (await client.query(getLotDraftByDraftId(lotId))) ??
-        (await client.query(getLotByLotId(lotId)))
-      setLotById(mapLot(response.payload as SchemaLot))
-    }
-    getLot()
-  }, [])
-
   async function publishNewLot() {
     if (lotId == null) return
-
     const response = await client.query(postLotDraftByLotIdModerate(+lotId))
     if (!isValidResponse(response)) return
-    setLotById(mapLot(response.payload as SchemaLot))
-    navigate("/lots/" + lotId)
+    setLotStatus(response.payload.status ?? "")
+    navigate(`/lots/${lotId}`, {state: {status: response.payload.status}})
   }
 
   async function unpublishNewLot() {
     if (lotId == null) return
-
     const response = await client.query(patchLotByLotIdUnpublish(+lotId))
     if (!isValidResponse(response)) return
-    setLotById(mapLot(response.payload as SchemaLot))
-    navigate("/lots/" + lotId)
+    setLotStatus(response.payload.status ?? "")
+    navigate(`/lots/${lotId}`, {state: {status: response.payload.status}})
   }
-  // async function goToEditWithUnpublish() {
-  //   if (lotId == null) return
-
-  //   const response = await client.query(patchLotByLotIdUnpublish(+lotId))
-  //   if (!isValidResponse(response)) return
-
-  //   navigate(`/lots/${lotId}/edit`)
-  // }
 
   return (
     <div className="lot-view">
@@ -90,9 +71,6 @@ function LotView() {
                 {payload.status === "published" &&
                   isEditTime(payload.startEndInterval.date1) && (
                     <Buttons spaceBetween>
-                      {/* <Button onClick={goToEditWithUnpublish}>
-                        Редактировать
-                      </Button> */}
                       <ButtonLink
                         to={`/lots/${lotId}/edit`}
                         state={{status: payload.status}}>
