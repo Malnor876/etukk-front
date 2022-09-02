@@ -71,6 +71,7 @@ export interface SchemaLot {
   description?: string | null
   start_price?: number | null
   city?: string | null
+  shipment_address?: string | null
   bet_step?: number | null
   delivery_options?: string | null
   video_url?: string | null

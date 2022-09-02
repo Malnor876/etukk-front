@@ -126,6 +126,7 @@ function Specifications(props: SpecificationsProps) {
                 disabled={specification.disabledKey}
                 defaultValue={specification.key}
                 onChange={inputValue(editSpecificationKey(index))}
+                validity
               />
               <Input
                 placeholder="Значение..."
@@ -137,6 +138,7 @@ function Specifications(props: SpecificationsProps) {
                 min={specification.min}
                 width="225px"
                 defaultValue={specification.value}
+                validity
                 onChange={inputValue(editSpecificationValue(index))}
               />
 

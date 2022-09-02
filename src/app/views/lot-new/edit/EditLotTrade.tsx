@@ -25,6 +25,7 @@ function EditLotTrade() {
             {payload.map((time, index) => (
               <>
                 <Radio
+                  key={index}
                   name="date"
                   value={index.toString()}
                   defaultChecked={date === index.toString()}
@@ -55,12 +56,16 @@ function EditLotTrade() {
           placeholder="Введите  сумму..."
           maxLength={7}
           min="1000"
+          validity
+          labelHeight="2em"
           defaultValue={price}
           onChange={inputValue(setPrice)}>
-          Укажите начальную стоимость лота
+          Укажите начальную стоимость лота *не менее 1000
         </Input>
         <InputAddress
           placeholder="Укажите полный адрес отправки..."
+          validity
+          labelHeight="2em"
           defaultValue={city}
           onChange={inputValue(setCity)}>
           Укажите полный адрес отправки

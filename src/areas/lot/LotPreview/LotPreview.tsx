@@ -68,7 +68,7 @@ function LotPreviewSwitchableContent(props: LotProps) {
     return <LotPreviewStatusLookALike {...props} />
   }
 
-  if (props.tradeStatus !== LotTradeStatus.UNKNOWN) {
+  if (props.tradeStatus !== LotTradeStatus.UNKNOWN && props.merchant) {
     return <LotPreviewTypeTradeStatusContent {...props} />
   }
 
@@ -183,6 +183,7 @@ function LotPreviewStatusContent(props: LotProps) {
       setCurrentPrice(new Price(event.data?.now_price))
     }
   }, [event])
+
   switch (props.status) {
     case LotStatus.CLOSED:
       return (
@@ -451,7 +452,7 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
 function LotPreviewTradeStatusDetails(props: LotProps) {
   const AUTHOR =
     props.merchant === "seller"
-      ? props.buyer && <Author buyerId={props.buyerId} />
+      ? props.buyer && <Author buyerId={props.buyerId} city={props.city} />
       : props.seller && <Author {...props.seller} city={props.city} />
   return (
     <div className="lot-preview__details">

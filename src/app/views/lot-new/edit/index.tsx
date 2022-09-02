@@ -144,11 +144,18 @@ function LotDraftView() {
 
         return value instanceof Array && value.length >= 4
       }
+      case "city": {
+        if (typeof value !== "string") return false
+        if (!/^[^,]*,[^,]*,[^,]*$/.test(value)) return false
+        if (!/^(?=.*[0-9])/g.test(value)) return false
+        return true
+      }
 
       default:
         return String(value).length > 0
     }
   }
+  console.log("city", validate("city"))
   function validateAll(...keys: Fields[]) {
     const isVal = keys.every(key => validate(key))
     return isVal

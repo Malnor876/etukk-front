@@ -1339,6 +1339,7 @@ export const patchLotDraftByDraftId = (
   description?: string | null
   start_price?: number | null
   city?: string | null
+  shipment_address?: string | null
   delivery_options?: string | null
   video_url?: string | null
   archived?: boolean
@@ -1387,6 +1388,7 @@ export const patchLotById = (
   description?: string | null
   start_price?: number | null
   city?: string | null
+  shipment_address?: string | null
   delivery_options?: string | null
   video_url?: string | null
   archived?: boolean
@@ -1423,6 +1425,7 @@ export const getLotDraftByDraftId = (
   description?: string | null
   start_price?: number | null
   city?: string | null
+  shipment_address?: string | null
   delivery_options?: string | null
   video_url?: string | null
   lotphotos?: {
@@ -1442,7 +1445,7 @@ export const getLotDraftByDraftId = (
   bidding_end_time?: string | null
   reject_reason?: string | null
   now_price?: number | null
-  status?: string
+  status: string
   trade_status?: string | null
   views?: number
   favorites?: number
@@ -1483,6 +1486,7 @@ export const getLotByLotId = (
   description?: string | null
   start_price?: number | null
   city?: string | null
+  shipment_address?: string | null
   delivery_options?: string | null
   video_url?: string | null
   lotphotos?: {
@@ -1771,6 +1775,7 @@ export const postLotByLotCalcDelivery = (
 ): Action<{
   delivery_address: string
   delivery_price: number
+  service_commission: number
   eta: number
 }> => ({
   method: "POST",

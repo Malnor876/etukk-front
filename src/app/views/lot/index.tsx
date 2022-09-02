@@ -13,7 +13,7 @@ import {
   postLotDraftByLotIdModerate,
 } from "infrastructure/persistence/api/data/actions"
 import {mapLot} from "infrastructure/persistence/api/mappings/lots"
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {useClient} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 import {useSelector} from "react-redux"
@@ -23,16 +23,34 @@ import {LocationState} from "./edit/LotEditView"
 
 function LotView() {
   const lotId = useParam("lotId", true)
+  const client = useClient()
+  const navigate = useNavigate()
+
   const {state} = useLocation()
-  const {status} = state as LocationState
-  const [lotStatus, setLotStatus] = useState<string>(status)
+  const [lotStatus, setLotStatus] = useState<string>("")
+
+  if (!state) {
+    useEffect(() => {
+      async function getLotStatus() {
+        const response =
+          (await client.query(getLotDraftByDraftId(lotId))) ??
+          (await client.query(getLotByLotId(lotId)))
+        if (!isValidResponse(response)) return
+        setLotStatus(response.payload.status)
+      }
+      getLotStatus()
+    }, [])
+  } else {
+    useEffect(() => {
+      const {status} = state as LocationState
+      setLotStatus(status)
+    }, [])
+  }
+
   const myId = useSelector(state => state.user).id
   const isEditTime = (date: Date) => {
     return Date.now() < date.getTime() - 3600000 // one hour before start
   }
-
-  const client = useClient()
-  const navigate = useNavigate()
 
   async function publishNewLot() {
     if (lotId == null) return

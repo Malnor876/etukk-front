@@ -77,6 +77,7 @@ export function mapLot(lot: SchemaLot): LotInfoType {
       })) ?? [],
 
     city: lot.city ?? "unknown",
+    shipment_address: lot.shipment_address ?? "unknown",
     startEndInterval: new DateInterval(
       lot.bidding_start_time,
       lot.bidding_end_time

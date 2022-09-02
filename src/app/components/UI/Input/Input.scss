@@ -29,7 +29,8 @@
 	font-size: $font-size-5;
 	transition: 200ms ease color;
 
-	&:invalid {
+	&:invalid,
+	&--invalid {
 		color: $color-raspberry-1;
 	}
 
@@ -68,7 +69,7 @@
 	font-size: $font-size-6;
 	line-height: 1.25;
 	text-align: left;
-
+	height: var(--label-height, fit-content);
 	@include Mobile {
 		font-size: $font-size-5;
 	}

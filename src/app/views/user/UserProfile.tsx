@@ -20,11 +20,12 @@ import {
   getUserByUserId,
   postUserFavoriteUser,
 } from "infrastructure/persistence/api/data/actions"
+import {SchemaLot} from "infrastructure/persistence/api/data/schemas"
 import {mapImageUrl} from "infrastructure/persistence/api/mappings/helpers"
 import {mapLotsLists} from "infrastructure/persistence/api/mappings/lots"
 import {FilteringField} from "interfaces/Nodejs"
 import {useState} from "react"
-import {useClient} from "react-fetching-library"
+import {useClient, useQuery} from "react-fetching-library"
 import {useSelector} from "react-redux"
 import {Route, Routes} from "react-router"
 import {NavLink} from "react-router-dom"
@@ -54,8 +55,32 @@ function UserProfile(props: UserProfileProps) {
     })
 
   const getUserLotsPublished = getUserLotsAction(LotStatus.PUBLISHED)
-  // const getUserLotsCompletedAction = getUserLotsAction(new Date()) // Now
-  const getUserLotsSold = getUserLotsAction(LotStatus.SOLD)
+
+  const userLotsClosed = useQuery(
+    getUserLotsAction(LotStatus.CLOSED),
+    true
+  ).payload
+  const userLotsSold = useQuery(getUserLotsAction(LotStatus.SOLD), true).payload
+
+  let userLotsCompleted: SchemaLot[] = []
+  if (userLotsClosed && userLotsSold) {
+    userLotsCompleted = [...userLotsClosed, ...userLotsSold].sort(function (
+      a,
+      b
+    ) {
+      if (a.id && b.id && a.id > b.id) {
+        return 1
+      }
+      if (a.id && b.id && a.id < b.id) {
+        return -1
+      }
+      return 0
+    })
+  } else if (!userLotsClosed && userLotsSold) {
+    userLotsCompleted = [...userLotsSold]
+  } else if (userLotsClosed && !userLotsSold) {
+    userLotsCompleted = [...userLotsClosed]
+  }
 
   return (
     <div className="user-profile">
@@ -68,7 +93,7 @@ function UserProfile(props: UserProfileProps) {
             Отзывы
           </NavLink>
           <NavLink to="placed">Размещенные лоты</NavLink>
-          <NavLink to="sold">Проданные лоты</NavLink>
+          <NavLink to="sold">Завершенные лоты</NavLink>
         </Switcher>
         <Routes>
           <Route
@@ -116,18 +141,11 @@ function UserProfile(props: UserProfileProps) {
           <Route
             path="sold"
             element={
-              <QueryContainer
-                action={getUserLotsSold}
-                mapping={mapLotsLists}
-                key="sold lots">
-                {payload => (
-                  <Previews>
-                    {payload.items.map(lot => (
-                      <LotPreview {...lot} key={lot.id} />
-                    ))}
-                  </Previews>
-                )}
-              </QueryContainer>
+              <Previews>
+                {mapLotsLists(userLotsCompleted).items.map(lot => (
+                  <LotPreview {...lot} key={lot.id} />
+                ))}
+              </Previews>
             }
           />
         </Routes>

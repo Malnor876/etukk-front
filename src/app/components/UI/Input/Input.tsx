@@ -23,6 +23,7 @@ export interface InputProps
     HTMLInputElement
   > {
   width?: string
+  labelHeight?: string
   iconName?: IconName
   validity?: boolean
   customValidity?: string
@@ -36,6 +37,7 @@ function Input(props: InputProps) {
   const id = useId()
 
   const [invalid, setInvalid] = useState(false)
+  const [error, setError] = useState(false)
   const prevValue = useRef<string>("")
   function onChange(event: ChangeEvent<HTMLInputElement>) {
     const target = event.currentTarget
@@ -49,6 +51,15 @@ function Input(props: InputProps) {
         .split(" ")
         .map(word => word.slice(0, 19))
         .join(" ")
+    }
+
+    if (props.type === "address-text") {
+      if (
+        !/^[^,]*,[^,]*,[^,]*$/.test(target.value) ||
+        !/^(?=.*[0-9])/g.test(target.value)
+      ) {
+        setError(true)
+      } else setError(false)
     }
 
     if (props.type === "tel") {
@@ -87,9 +98,9 @@ function Input(props: InputProps) {
       target.setCustomValidity(props.customValidity || "")
     }
     setInvalid(invalid)
-
     props.onChange?.(event)
   }
+  console.log("setError", error)
 
   const pattern =
     props.pattern ||
@@ -99,8 +110,11 @@ function Input(props: InputProps) {
   const dataListId = `${id}-datalist`
   return (
     <label
-      className={classWithModifiers("input", invalid && "invalid")}
-      style={{"--input-width": props.width}}>
+      className={classWithModifiers("input", (invalid || error) && "invalid")}
+      style={{
+        "--input-width": props.width,
+        "--label-height": props.labelHeight,
+      }}>
       {props.children && <div className="input__label">{props.children}</div>}
       <div className="input__appearance">
         <input
@@ -119,7 +133,10 @@ function Input(props: InputProps) {
           max={props.max}
           min={props.min}
           pattern={pattern}
-          className="input__input"
+          className={classWithModifiers(
+            "input__input",
+            (invalid || error) && "invalid"
+          )}
           onChange={onChange}
           placeholder={
             props.placeholder && props.placeholder + (props.required ? "*" : "")
@@ -138,8 +155,11 @@ function Input(props: InputProps) {
       </div>
       {props.validity && (
         <span
-          className={classWithModifiers("input__validity", invalid && "active")}
-          aria-hidden={!invalid}>
+          className={classWithModifiers(
+            "input__validity",
+            (invalid || error) && "active"
+          )}
+          aria-hidden={!invalid || !error}>
           {props.customValidity || "Данные введены неверно"}
         </span>
       )}

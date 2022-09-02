@@ -23,6 +23,7 @@ function EditLotName() {
         value={title}
         maxLength={40}
         onChange={inputValue(updateTitle)}
+        validity
       />
     </section>
   )
