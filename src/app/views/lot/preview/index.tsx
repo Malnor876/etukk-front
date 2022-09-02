@@ -2,6 +2,7 @@ import {ReactError} from "app/components/containers/ErrorBoundary/ErrorBoundary.
 import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Button from "app/components/UI/Button/Button"
 import Buttons from "app/layouts/Buttons/Buttons"
+import {lotDraftStorage} from "app/views/lot-new/edit"
 import LotInfoLayout from "areas/lot/LotInfoLayout/LotInfoLayout"
 import {LotPreviewType} from "areas/lot/types"
 import {isValidResponse} from "infrastructure/persistence/api/client"
@@ -38,6 +39,7 @@ function LotPreviewView() {
     if (!isValidResponse(response)) return
 
     navigate(`/lots/${lotId}`, {state: {status: response.payload.status}})
+    lotDraftStorage.clear()
   }
   async function saveDraft(payload: LotPreviewType) {
     if (lotId == null) return
@@ -45,6 +47,7 @@ function LotPreviewView() {
     if (!isValidResponse(response)) return
 
     navigate(`/lots/${lotId}`, {state: {status: response.payload.status}})
+    lotDraftStorage.clear()
   }
 
   return (

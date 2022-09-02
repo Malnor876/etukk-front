@@ -61,7 +61,6 @@ export function useDraftNewLot() {
     if (responsePayload == null) return
 
     navigate(`/lots/${responsePayload.id}/preview`)
-    lotDraftStorage.clear()
   }
 
   return draft

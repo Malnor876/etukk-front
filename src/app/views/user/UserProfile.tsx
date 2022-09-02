@@ -181,11 +181,15 @@ function UserProfileInfo(props: UserProfileInfoProps) {
       return
     }
   }
+
   return (
     <>
       <div className="user-profile__row">
         <h2 className="heading">{props.user.fullname}</h2>
-        <Copy value={"id" + props.user.id} />
+        <Copy
+          value={"id" + props.user.id}
+          link={"https://etukk.ru/user/" + props.user.id}
+        />
       </div>
       <div className="user-profile__row">
         <div className="user-profile__entry">

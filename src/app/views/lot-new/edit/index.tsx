@@ -155,7 +155,6 @@ function LotDraftView() {
         return String(value).length > 0
     }
   }
-  console.log("city", validate("city"))
   function validateAll(...keys: Fields[]) {
     const isVal = keys.every(key => validate(key))
     return isVal
