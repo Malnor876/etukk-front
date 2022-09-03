@@ -106,7 +106,7 @@ function UserProfile(props: UserProfileProps) {
                       <Review
                         date={new Date(review.created_at)}
                         product={"none"}
-                        attachments={IMAGE_MOCKS}
+                        // attachments={IMAGE_MOCKS}
                         comment={review.text ?? "unknown"}
                         user={{
                           id: review.user_id,

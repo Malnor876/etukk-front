@@ -8,6 +8,9 @@
 .specifications__container {
 	display: grid;
 	gap: 1.5em;
+	div > p {
+		color: $color-gray-3;
+	}
 }
 
 .specifications__specification {
@@ -34,7 +37,7 @@
 	justify-content: center;
 	width: 1.75em;
 	height: 1.75em;
-	background: #BCC2C7;
+	background: #bcc2c7;
 	border-radius: 50%;
 }
 

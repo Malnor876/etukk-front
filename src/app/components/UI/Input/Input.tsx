@@ -100,7 +100,6 @@ function Input(props: InputProps) {
     setInvalid(invalid)
     props.onChange?.(event)
   }
-  console.log("setError", error)
 
   const pattern =
     props.pattern ||
@@ -153,7 +152,7 @@ function Input(props: InputProps) {
           />
         )}
       </div>
-      {props.validity && (
+      {props.validity && error && (
         <span
           className={classWithModifiers(
             "input__validity",

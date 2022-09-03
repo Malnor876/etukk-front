@@ -2,8 +2,8 @@ import "./SliderPopup.scss"
 
 import Slider from "app/components/containers/Slider/Slider"
 import Icon from "app/components/UI/Icon/Icon"
-import { useModalContext } from "react-modal-global"
-import { stopPropagation } from "utils/common"
+import {useModalContext} from "react-modal-global"
+import {stopPropagation} from "utils/common"
 
 interface SliderPopupProps {
   slides: string[]
@@ -11,7 +11,7 @@ interface SliderPopupProps {
 }
 
 function SliderPopup(props: SliderPopupProps) {
-  const { close } = useModalContext()
+  const {close} = useModalContext()
   return (
     <div className="slider-popup" onClick={stopPropagation(close)}>
       <div className="slider-popup__container">

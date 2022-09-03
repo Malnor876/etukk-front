@@ -68,10 +68,19 @@ function OrderDelivery(props: OrderDeliveryProps) {
     })()
   }, [deliveryAddress])
 
+  // const nowDate = new Date()
+  // const nowDateYear = nowDate.getFullYear()
+  // const nowDateMonth = nowDate.toLocaleString("ru", {month: "2-digit"})
+  // const nowDateDay = nowDate.toLocaleString("ru", {day: "2-digit"})
+
   const nowDate = new Date()
-  const nowDateYear = nowDate.getFullYear()
-  const nowDateMonth = nowDate.toLocaleString("ru", {month: "2-digit"})
-  const nowDateDay = nowDate.toLocaleString("ru", {day: "2-digit"})
+  const tomorrow = nowDate.setDate(nowDate.getDate() + 1)
+  const nowDateYear = new Date(tomorrow).getFullYear()
+  const nowDateMonth = new Date(tomorrow).toLocaleString("ru", {
+    month: "2-digit",
+  })
+  const nowDateDay = new Date(tomorrow).toLocaleString("ru", {day: "2-digit"})
+  console.log("tomorrow", `${nowDateYear}-${nowDateMonth}-${nowDateDay}`)
 
   const totalPrice =
     props.lot.currentPrice.valueOf() + commission + deliveryPrice

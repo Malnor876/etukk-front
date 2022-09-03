@@ -139,10 +139,18 @@ export interface SchemaLotReview {
   id: number
   text?: string | null
   score: number
+  video_url?: string
+  lotreviewphotos?: SchemaLotReviewPhotos[]
   created_at: string
   banned?: boolean
   to_lot_id: number
   user_id: number
+}
+
+export interface SchemaLotReviewPhotos {
+  id: number
+  filename: string
+  lot_review_id: number
 }
 
 export interface SchemaCategory {

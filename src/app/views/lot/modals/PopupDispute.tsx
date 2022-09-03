@@ -5,13 +5,16 @@ import TextareaAttachments from "app/components/UI/Textarea/TextareaAttachments"
 import ToolTipBadge from "app/components/UI/ToolTipBadge/ToolTipBadge"
 import You from "app/components/UI/You/You"
 import Buttons from "app/layouts/Buttons/Buttons"
-import Form, { FormState } from "app/layouts/Form/Form"
+import Form, {FormState} from "app/layouts/Form/Form"
 import PopupLayout from "app/layouts/Modal/PopupLayout/PopupLayout"
-import { isValidResponse } from "infrastructure/persistence/api/client"
-import { postLotClaim, postLotClaimReasons } from "infrastructure/persistence/api/data/actions"
-import { useState } from "react"
-import { useClient } from "react-fetching-library"
-import { Modal } from "react-modal-global"
+import {isValidResponse} from "infrastructure/persistence/api/client"
+import {
+  postLotClaim,
+  postLotClaimReasons,
+} from "infrastructure/persistence/api/data/actions"
+import {useState} from "react"
+import {useClient} from "react-fetching-library"
+import {Modal} from "react-modal-global"
 
 import DialogDisputeAccepted from "./DialogDisputeAccepted"
 
@@ -36,20 +39,25 @@ interface PopupDisputeProps {
 function PopupDispute(props: PopupDisputeProps) {
   const [pending, setPending] = useState(false)
   const client = useClient()
+  const [files, setFiles] = useState<string[]>([])
+
   async function onSubmit(state: FormState<FormInputs, FormValues>) {
     setPending(true)
-    const response = await client.query(postLotClaim({
-      to_lot_id: props.lotId,
-      text: state.values.feedback,
-      reason: state.values.reason,
-      lot_claim_photos: state.values["feedback-attachments"]
-    }))
+    const response = await client.query(
+      postLotClaim({
+        to_lot_id: props.lotId,
+        text: state.values.feedback,
+        reason: state.values.reason,
+        lot_claim_photos: files,
+      })
+    )
     setPending(false)
 
     if (!isValidResponse(response)) return
 
-    Modal.replace(DialogDisputeAccepted, { closable: false })
+    Modal.replace(DialogDisputeAccepted, {closable: false})
   }
+
   return (
     <PopupLayout width="46.25em">
       <Form onSubmit={onSubmit}>
@@ -59,7 +67,9 @@ function PopupDispute(props: PopupDisputeProps) {
           {payload => (
             <Selector name={FormInputs.reason}>
               {payload.map(reason => (
-                <option value={reason.name} key={reason.id}>{reason.name}</option>
+                <option value={reason.name} key={reason.id}>
+                  {reason.name}
+                </option>
               ))}
             </Selector>
           )}
@@ -69,16 +79,27 @@ function PopupDispute(props: PopupDisputeProps) {
           <option>Не соответствует заявленным характеристикам</option>
           <option>Иная причина</option>
         </Selector> */}
-        <TextareaAttachments maxFiles={4} name={FormInputs.feedback} rows={5} placeholder="Введите комментарий ..." />
+        <TextareaAttachments
+          maxFiles={4}
+          name={FormInputs.feedback}
+          rows={5}
+          placeholder="Введите комментарий ..."
+          onChange={files => setFiles(files)}
+        />
         <Buttons>
-          <Button type="submit" pending={pending}>Открыть спор</Button>
+          <Button type="submit" pending={pending}>
+            Открыть спор
+          </Button>
         </Buttons>
         <ToolTipBadge>
-          Для закрытия сделки Вам необходимо оставить отзыв и прикрепить фото полученного лота.
+          Для закрытия сделки Вам необходимо оставить отзыв и прикрепить фото
+          полученного лота.
           {"\n\n"}
           Если у Вас есть претензии по качеству товара, откройте спор.
           {"\n"}
-          Для этого необходимо выбрать причину открытия, описать проблему и прикрепить фото и видео подтверждающие дефект или несоответствие товара заявленным характеристикам.
+          Для этого необходимо выбрать причину открытия, описать проблему и
+          прикрепить фото и видео подтверждающие дефект или несоответствие
+          товара заявленным характеристикам.
           {"\n\n"}
           ВНИМАНИЕ! Открытие спора после остановки счетчиков - невозможно!
         </ToolTipBadge>

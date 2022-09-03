@@ -8,7 +8,12 @@
  */
 
 import {Action} from "../client.types"
-import {SchemaLot, SchemaLotDeliveryOptions, SchemaUser} from "./schemas"
+import {
+  SchemaLot,
+  SchemaLotDeliveryOptions,
+  SchemaLotReviewPhotos,
+  SchemaUser,
+} from "./schemas"
 
 /**
  * of the given arguments and keywords.
@@ -399,6 +404,7 @@ export const getUserReview = <Filters extends object>(
     to_user_id: number
     user: SchemaUser
     user_id: number
+    lot: SchemaLot
   }[]
 > => ({
   method: "GET",
@@ -580,14 +586,18 @@ export const postLotReview = (body: {
   to_lot_id: number
   text?: string
   score: number
+  video_url?: string
   lot_review_photos?: string[]
 }): Action<{
   id: number
   text?: string | null
   score: number
+  video_url?: string
+  lotreviewphotos?: SchemaLotReviewPhotos[]
   created_at: string
   banned?: boolean
   to_lot_id: number
+  to_user_id: number
   user_id: number
 }> => ({
   method: "POST",
@@ -637,10 +647,14 @@ export const getLotReview = <Filters = unknown>(
     text?: string | null
     score: number
     created_at: string
+    to_lot: SchemaLot
     banned?: boolean
+    video_url?: string
+    lotreviewphotos?: SchemaLotReviewPhotos[]
     to_lot_id: number
     user: SchemaUser
     user_id: number
+    to_user_id: number
   }[]
 > => ({
   method: "GET",

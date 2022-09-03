@@ -25,7 +25,7 @@ function InputAddress(props: InputProps) {
     <Input
       {...props}
       type="address-text"
-      width={"40em"}
+      width={"30em"}
       dataList={response.payload?.addresses ?? []}
       // value={value}
       validity

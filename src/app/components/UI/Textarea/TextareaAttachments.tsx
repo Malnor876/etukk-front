@@ -2,27 +2,29 @@ import "./Textarea.scss"
 
 import {FILE_TYPES} from "consts"
 import _ from "lodash"
-import {
-  ChangeEvent,
-  DetailedHTMLProps,
-  TextareaHTMLAttributes,
-  useEffect,
-  useRef,
-  useState,
-} from "react"
-import {classMerge} from "utils/common"
-import {amendInputFiles} from "utils/file"
+import {ChangeEvent, useRef, useState} from "react"
+import {FileToURLDataBase64} from "utils/file"
 
 import CloseButton from "../CloseButton/CloseButton"
 import Icon from "../Icon/Icon"
 
-interface TextareaAttachmentsProps
-  extends DetailedHTMLProps<
-    TextareaHTMLAttributes<HTMLTextAreaElement>,
-    HTMLTextAreaElement
-  > {
+// interface TextareaAttachmentsProps
+//   extends DetailedHTMLProps<
+//     TextareaHTMLAttributes<HTMLTextAreaElement>,
+//     HTMLTextAreaElement
+//   > {
+//   width?: string
+//   maxFiles?: number
+// }
+
+interface TextareaAttachmentsProps {
+  name: string
+  rows?: number
+  placeholder: string
+  children?: React.ReactNode
   width?: string
   maxFiles?: number
+  onChange?(files: string[]): void | Promise<unknown>
 }
 
 /**
@@ -30,23 +32,30 @@ interface TextareaAttachmentsProps
  */
 function TextareaAttachments(props: TextareaAttachmentsProps) {
   const [files, setFiles] = useState<File[]>([])
+  console.log("files", files)
+
   const attachmentsRef = useRef<HTMLInputElement>(null)
   function removeFile(file: File): void {
     setFiles(files => files.filter(temp => temp !== file))
   }
-  function onFileInputChange(event: ChangeEvent<HTMLInputElement>): void {
+
+  async function onFileInputChange(event: ChangeEvent<HTMLInputElement>) {
     const target = event.currentTarget
 
     const nextFiles = [...files, ...(target.files ?? [])]
     if (nextFiles.length > (props.maxFiles ?? Infinity)) return
 
     setFiles(nextFiles)
+    props.onChange &&
+      props.onChange(
+        await Promise.all([...(nextFiles as File[])].map(FileToURLDataBase64))
+      )
   }
-  useEffect(() => {
-    if (attachmentsRef.current === null) return
+  // useEffect(() => {
+  //   if (attachmentsRef.current === null) return
 
-    amendInputFiles(attachmentsRef.current, files)
-  }, [files])
+  //   amendInputFiles(attachmentsRef.current, files)
+  // }, [files])
   return (
     <div className="textarea">
       {props.children && (
@@ -56,9 +65,11 @@ function TextareaAttachments(props: TextareaAttachmentsProps) {
         className="textarea-attachments"
         aria-label="textarea with attachments">
         <textarea
-          {..._.omit(props, "children", "width", "maxFiles")}
+          // {..._.omit(props, "children", "width", "maxFiles")}
           style={{"--textarea-width": props.width}}
-          className={classMerge("textarea__appearance", props.className)}
+          className={"textarea__appearance"}
+          rows={props.rows}
+          name={props.name}
         />
         <label
           className="textarea-attachments__attach"

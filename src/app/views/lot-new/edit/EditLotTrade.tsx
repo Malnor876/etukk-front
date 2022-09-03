@@ -57,15 +57,15 @@ function EditLotTrade() {
           maxLength={7}
           min="1000"
           validity
-          labelHeight="2em"
+          width="18em"
           defaultValue={price}
           onChange={inputValue(setPrice)}>
-          Укажите начальную стоимость лота *не менее 1000
+          Укажите начальную стоимость лота{" "}
+          <span style={{color: "#bcc2c7"}}>(от 1000р)</span>
         </Input>
         <InputAddress
           placeholder="Укажите полный адрес отправки..."
           validity
-          labelHeight="2em"
           defaultValue={city}
           onChange={inputValue(setCity)}>
           Укажите полный адрес отправки
