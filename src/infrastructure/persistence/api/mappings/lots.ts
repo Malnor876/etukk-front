@@ -126,10 +126,8 @@ export function mapLot(lot: SchemaLot): LotInfoType {
 // export function map
 
 export function mapFiltersCategory(asd: any) {
-  console.log("category", asd)
   const filtersCategory = recurseCollapsedTree(asd)
   // return recurseCollapsedTree(asd)
-  console.log("filtersCategory", filtersCategory)
 
   return filtersCategory
 }

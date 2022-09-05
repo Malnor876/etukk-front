@@ -37,7 +37,8 @@ function Topbar() {
                         link.isActive && "active"
                       )
                     }
-                    to={"/search/" + category.id}
+                    to={"/"}
+                    state={{categories: category.id}}
                     key={category.id}>
                     <span>{category.name}</span>
                   </NavLink>

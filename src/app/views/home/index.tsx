@@ -14,7 +14,7 @@ import {useQuery} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 // import { useMatch } from "react-router"
 import {Route, Routes} from "react-router"
-import {NavLink} from "react-router-dom"
+import {NavLink, useLocation} from "react-router-dom"
 
 import LotPreviewsContainer from "./LotPreviewsContainer"
 
@@ -22,6 +22,8 @@ export const filterStorage = new TemporaryStorage("filters")
 
 function HomeView() {
   // const matchHot = useMatch("hot")
+  const {state} = useLocation()
+
   const [search, setSearch] = useState("")
   const [filterSearch, setFilterSearch] = useState("")
 
@@ -29,14 +31,18 @@ function HomeView() {
     "filters",
     {}
   )
-  console.log("filtersHome", filterStorage.get("filters"))
+  // if (categoryId) {
+  //   filterStorage.set("filters", {categories: categoryId})
+  // }
   const [filters, setFilters] = useState<any>(filtersStorage || {})
+
   // const isHot = !!matchHot
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
 
   useEffect(() => {
+    setFilters(state)
     setFiltersStorage({...filters})
-  }, [filters])
+  }, [filters, state])
   const response = useQuery(getSearch(search || "!@#*("))
 
   const options = response.payload || []
