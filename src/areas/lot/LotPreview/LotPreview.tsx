@@ -29,7 +29,7 @@ interface LotProps extends LotInfoType {
 function LotPreview(props: LotProps) {
   const myId = useSelector(state => state.user).id
   const isMyLot = Number(myId) === Number(props.user_id)
-  console.log("LotPreview", props)
+  // console.log("LotPreview", props)
 
   return (
     <div className="lot-preview" onClick={props.onClick}>

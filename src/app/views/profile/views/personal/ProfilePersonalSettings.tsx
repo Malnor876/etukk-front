@@ -39,7 +39,6 @@ function ProfilePersonalSettings() {
     )
     if (error) return
     if (payload == null) return
-    console.log("payload", payload)
     dispatch(userUpdate(mapUser(payload)))
   }
   return (

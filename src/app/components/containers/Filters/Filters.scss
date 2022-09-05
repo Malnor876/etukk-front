@@ -172,6 +172,11 @@ $toggleSize: 1.5em;
 /* Filter */
 
 .filter {
+	&--choosed {
+		& .filter .filter__title {
+			color: $color-raspberry-2;
+		}
+	}
 	&--group {
 		& .filter .filter__title {
 			font-weight: 500;
@@ -215,6 +220,12 @@ $toggleSize: 1.5em;
 	font-size: $font-size-5;
 	font-weight: 600;
 	text-transform: uppercase;
+	&--choosed {
+		color: $color-raspberry-2;
+	}
+	&:not(&--choosed) {
+		color: grey;
+	}
 }
 
 .filter__icon {
@@ -234,8 +245,11 @@ $toggleSize: 1.5em;
 	height: calc(var(--height) * 1px);
 	transition: 250ms ease opacity, 250ms ease height;
 	// &--expanded {
-	// 	margin-left: 2em;
+	// 	margin-left: 1em;
 	// }
+	&--choosed {
+		color: $color-raspberry-2;
+	}
 	&:not(&--expanded) {
 		opacity: 0;
 		height: 0px;

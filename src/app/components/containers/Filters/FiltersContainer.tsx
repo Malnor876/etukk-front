@@ -1,12 +1,15 @@
 import {
   Filter,
+  filterCategoryStorage,
   FilterInputs,
+  FilterMobile,
   FilterPriceRange,
   FilterRadios,
   FiltersToolbox,
 } from "app/components/containers/Filters/Filters"
 import Button from "app/components/UI/Button/Button"
 import Checkbox from "app/components/UI/Checkbox/Checkbox"
+import CheckboxCategory from "app/components/UI/Checkbox/CheckboxCategory"
 import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"
 import Radio from "app/components/UI/Radio/Radio"
@@ -19,6 +22,7 @@ import {
   mapFiltersCategory,
   RecursiveTreeElement,
 } from "infrastructure/persistence/api/mappings/lots"
+import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
 import {Dispatch, useEffect, useRef, useState} from "react"
 import {classWithModifiers, inputValue} from "utils/common"
 
@@ -29,7 +33,7 @@ import filtersContext from "./filtersContext"
 interface FiltersContainerProps {
   pending?: boolean
   clear?: Dispatch<FiltersType>
-  onSubmit?: Dispatch<FiltersType>
+  onSubmit: Dispatch<FiltersType>
 }
 
 function turnBigMinHeight(onOff: boolean) {
@@ -47,11 +51,10 @@ function FiltersContainer(props: FiltersContainerProps) {
   const [state, setState] = useState<FiltersState>()
   const reducer = useState<FiltersType>(filterStorage.get("filters") || {})
   const [filters] = reducer
-
+  const [currentCategoryId, setCurrentCategoryId] = useState<number>()
   async function onSubmit() {
-    console.log("onSubmit", filters)
-
-    await props.onSubmit?.(filters)
+    const newFilters = {...filters, categories: currentCategoryId}
+    await props.onSubmit?.(newFilters)
     setState(undefined)
   }
   useEffect(() => {
@@ -78,10 +81,16 @@ function FiltersContainer(props: FiltersContainerProps) {
               state={state}
               onChange={setState}
               clear={props.clear}
+              currentCategoryId={currentCategoryId}
+              onChangeCategory={setCurrentCategoryId}
+              onSubmit={props.onSubmit}
             />
           </div>
           <div className="filters__container">
-            <FiltersTreeContainer />
+            <FiltersTreeContainer
+              currentCategoryId={currentCategoryId}
+              onChange={setCurrentCategoryId}
+            />
           </div>
           <Button
             className="filters__submit"
@@ -173,7 +182,7 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
             </button>
           </div>
           <div className="mobile-filters__tree">
-            <FiltersTreeContainer />
+            <FiltersTreeContainer isMobile />
           </div>
           <Button
             className="filters__submit"
@@ -188,14 +197,80 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
   )
 }
 
-function FiltersTreeContainer() {
+interface FiltersTreeContainerProps {
+  currentCategoryId?: number | null
+  onChange?: Dispatch<number>
+  isMobile?: boolean
+}
+function FiltersTreeContainer(props: FiltersTreeContainerProps) {
   const dateNow = new Date(new Date().setUTCHours(0)).toISOString().slice(0, 16)
   const [tradeStart, setTradeStart] = useState(dateNow)
+  if (props.isMobile) {
+    return (
+      <>
+        <FilterMobile group label="КАТЕГОРИИ">
+          <QueryContainer action={getCategory()} mapping={mapFiltersCategory}>
+            {payload => (
+              <FilterRecursion name="categories" elements={payload} isMobile />
+            )}
+          </QueryContainer>
+        </FilterMobile>
+        <FilterMobile label="СТАТУС ТОРГОВ">
+          <FilterRadios name="started">
+            <Radio value="started">Торги начаты</Radio>
+            {/* <Radio value="ended">Торги окончены</Radio> */}
+            <Radio value="waiting">Торги ожидают начала</Radio>
+          </FilterRadios>
+        </FilterMobile>
+        <FilterMobile label="СТОИМОСТЬ ЛОТА">
+          <FilterPriceRange name="price" defaultValue={[0, 0]} />
+        </FilterMobile>
+        <FilterMobile label="ПРОДАВЕЦ">
+          <FilterRadios name="seller">
+            <Radio value="user">Частное лицо</Radio>
+            <Radio value="organization">Юридическое лицо</Radio>
+          </FilterRadios>
+        </FilterMobile>
+        <FilterMobile label="ДОСТАВКА">
+          <FilterRadios name="delivery">
+            <Radio value={LotDelivery.all}>В другие регионы</Radio>
+            <Radio value={LotDelivery.local}>Только по городу продажи</Radio>
+          </FilterRadios>
+        </FilterMobile>
+        <FilterMobile label="ПЕРИОД ПРОВЕДЕНИЯ">
+          <FilterInputs>
+            <Input
+              name="tradeStart"
+              type="datetime-local"
+              min={dateNow}
+              max="9999-06-14T00:00"
+              onChange={inputValue(setTradeStart)}>
+              Если необходимо, уточните период начала торгов
+            </Input>
+            <Input
+              name="tradeEnd"
+              type="datetime-local"
+              min={tradeStart}
+              max="9999-06-14T00:00">
+              Если необходимо, уточните период окончания торгов FilterMobile
+            </Input>
+          </FilterInputs>
+        </FilterMobile>
+      </>
+    )
+  }
   return (
     <>
       <Filter group label="КАТЕГОРИИ">
         <QueryContainer action={getCategory()} mapping={mapFiltersCategory}>
-          {payload => <FilterRecursion name="categories" elements={payload} />}
+          {payload => (
+            <FilterRecursion
+              name="categories"
+              elements={payload}
+              currentCategoryId={props.currentCategoryId}
+              onChange={props.onChange}
+            />
+          )}
         </QueryContainer>
       </Filter>
       <Filter label="СТАТУС ТОРГОВ">
@@ -245,46 +320,84 @@ function FiltersTreeContainer() {
 
 interface FilterRecursionProps {
   name: string
-  group?: boolean
+  currentCategoryId?: number | null
   elements: RecursiveTreeElement[]
+  onChange?: Dispatch<number>
+  isMobile?: boolean
 }
 
 function FilterRecursion(props: FilterRecursionProps) {
   if (props.elements.length === 0) return null
 
+  if (props.isMobile) {
+    return (
+      <>
+        {props.elements.map(element => (
+          <FilterMobile
+            id={element.id}
+            name={element.name}
+            label={element.name}
+            key={element.id}>
+            <FilterRecursion
+              name={props.name}
+              elements={element.children.filter(
+                child => child.children.length > 0
+              )}
+            />
+            <div className="filter__inputs">
+              <FilterRadios name={props.name} removeAll>
+                {element.children
+                  .filter(child => child.children.length === 0)
+                  .map(child => (
+                    <Checkbox
+                      name={props.name}
+                      value={child.id.toString()}
+                      key={child.id}>
+                      {child.name}
+                    </Checkbox>
+                  ))}
+              </FilterRadios>
+            </div>
+          </FilterMobile>
+        ))}
+      </>
+    )
+  }
+
   return (
     <>
       {props.elements.map(element => (
         <Filter
-          group={props.group}
           id={element.id}
           name={element.name}
           label={element.name}
-          key={element.id}>
+          key={element.id}
+          current={props.currentCategoryId}
+          onChange={props.onChange}>
           <FilterRecursion
             name={props.name}
+            currentCategoryId={props.currentCategoryId}
             elements={element.children.filter(
               child => child.children.length > 0
             )}
+            onChange={props.onChange}
           />
           <div className="filter__inputs">
-            <FilterRadios name={props.name} removeAll>
-              {element.children
-                .filter(child => child.children.length === 0)
-                .map(child => (
-                  <Checkbox
-                    name={props.name}
-                    value={child.id.toString()}
-                    key={child.id}>
-                    {child.name}
-                  </Checkbox>
-                ))}
-            </FilterRadios>
+            {element.children
+              .filter(child => child.children.length === 0)
+              .map(child => (
+                <CheckboxCategory
+                  name={props.name}
+                  child={child}
+                  currentCategoryId={props.currentCategoryId}
+                  key={child.id}
+                  onChange={props.onChange}
+                />
+              ))}
           </div>
         </Filter>
       ))}
     </>
   )
 }
-
 export default FiltersContainer

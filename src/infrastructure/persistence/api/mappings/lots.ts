@@ -40,7 +40,7 @@ export function mapLotPreview(lot: SchemaLot): LotPreviewType {
 export function mapLotsLists(
   lots: SchemaLot[]
 ): PaginationType<LotPreviewType> {
-  console.log("lots", lots)
+  // console.log("lots", lots)
   return {
     current: 1,
     limit: 100,
@@ -49,7 +49,7 @@ export function mapLotsLists(
 }
 
 export function mapLot(lot: SchemaLot): LotInfoType {
-  console.log("mapLot", lot)
+  // console.log("mapLot", lot)
   return {
     id: lot.id,
     delivery: lot.delivery_options as LotDelivery,
@@ -127,7 +127,11 @@ export function mapLot(lot: SchemaLot): LotInfoType {
 
 export function mapFiltersCategory(asd: any) {
   console.log("category", asd)
-  return recurseCollapsedTree(asd)
+  const filtersCategory = recurseCollapsedTree(asd)
+  // return recurseCollapsedTree(asd)
+  console.log("filtersCategory", filtersCategory)
+
+  return filtersCategory
 }
 
 export interface CollapsedTreeElement {

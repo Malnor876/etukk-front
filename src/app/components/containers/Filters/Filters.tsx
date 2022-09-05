@@ -31,22 +31,25 @@ import filtersContext from "./filtersContext"
 interface FilterProps {
   name?: string
   id?: number
+  current?: number | null
   group?: boolean
   label: ReactNode
   children: ReactNode
+  onChange?: Dispatch<number>
 }
-
 export const filterCategoryStorage = new TemporaryStorage("filter-category")
 
 export function Filter(props: FilterProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [expanded, setExpanded] = useState(false)
-  const [category, setCategory] = filterCategoryStorage.state<any>(
-    "filter-category",
-    ""
-  )
-  // console.log("Filter", category)
 
+  const [currentCategoryId, setCurrentCategoryId] =
+    filterCategoryStorage.state<any>("filter-category", "")
+
+  const chooseCategory = (id: any) => {
+    setCurrentCategoryId(id)
+    props.onChange && props.onChange(id)
+  }
   // const [contentHeight, setContentHeight] = useState<number>()
 
   // useEffect(() => {
@@ -62,38 +65,38 @@ export function Filter(props: FilterProps) {
   //   }
   // }, [])
 
-  // console.log("category", category)
-  // console.log("props.id", props.id)
-
   return (
     <div
-      className={classWithModifiers("filter", props.group && "group")}
+      className={classWithModifiers(
+        "filter",
+        props.group && "group",
+        props.current && props.id && props.current === props.id && "choosed"
+      )}
       aria-label="filter"
       aria-details="toggle filter">
-      <div className="filter__header" onClick={() => setExpanded(!expanded)}>
-        {/* {props.id ? (
-          <Checkbox
-            name={props.name}
-            value={props.id?.toString()}
-            onChange={setCategory}>
-            <div className="filter__title">{props.label}</div>
-          </Checkbox>
-        ) : (
-          <div className="filter__title">{props.label}</div>
-        )} */}
-        <div className="filter__title">{props.label}</div>
+      <div className="filter__header">
+        <div
+          className={classWithModifiers(
+            "filter__title",
+            props.current && props.id && props.current === props.id && "choosed"
+          )}
+          onClick={() => chooseCategory(props.id)}>
+          {props.label}
+        </div>
         <Icon
           className={classWithModifiers(
             "filter__icon",
             expanded && (props.group ? "rotate" : "up")
           )}
           name={props.group ? "plus" : "chevron"}
+          onClick={() => setExpanded(!expanded)}
         />
       </div>
       <div
         className={classWithModifiers(
           "filter__container",
-          expanded && "expanded"
+          expanded && "expanded",
+          props.current && props.id && props.current === props.id && "choosed"
         )}
         // style={{"--height": contentHeight}}
         ref={containerRef}
@@ -111,26 +114,80 @@ export function Filter(props: FilterProps) {
   )
 }
 
+interface FilterMobileProps {
+  name?: string
+  id?: number
+  group?: boolean
+  label: ReactNode
+  children: ReactNode
+}
+
+export function FilterMobile(props: FilterMobileProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [expanded, setExpanded] = useState(false)
+
+  return (
+    <div
+      className={classWithModifiers("filter", props.group && "group")}
+      aria-label="filter"
+      aria-details="toggle filter">
+      <div className="filter__header" onClick={() => setExpanded(!expanded)}>
+        <div className="filter__title">{props.label}</div>
+        <Icon
+          className={classWithModifiers(
+            "filter__icon",
+            expanded && (props.group ? "rotate" : "up")
+          )}
+          name={props.group ? "plus" : "chevron"}
+        />
+      </div>
+      <div
+        className={classWithModifiers(
+          "filter__container",
+          expanded && "expanded"
+        )}
+        ref={containerRef}
+        role="group"
+        aria-expanded={expanded}>
+        <div
+          className={classWithModifiers(
+            "filter__inner",
+            props.group && "group"
+          )}>
+          {props.children}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 interface FiltersToolboxProps {
   state: FiltersState
+  currentCategoryId?: number
   clear?: Dispatch<FiltersType>
   onChange: Dispatch<FiltersState>
+  onChangeCategory: Dispatch<number>
+  onSubmit: Dispatch<FiltersType>
 }
 
 export function FiltersToolbox(props: FiltersToolboxProps) {
   const [filters, setFilters] = useContext(filtersContext)
   function clear() {
-    props.clear?.({})
     setFilters({})
+    props.clear?.({})
+    props.onChangeCategory(0)
+    props.onSubmit({})
+    filterCategoryStorage.clear()
   }
   const onExpand = () =>
     props.onChange(props.state === "expanded" ? undefined : "expanded")
   const onShrink = () => props.onChange("shrunken")
+
   return (
     <div className="filters-toolbox" role="toolbar">
       <button
         className="filters-toolbox__reset"
-        disabled={Object.keys(filters).length === 0}
+        disabled={Object.keys(filters).length === 0 && !props.currentCategoryId}
         type="reset"
         onClick={clear}>
         Сбросить
