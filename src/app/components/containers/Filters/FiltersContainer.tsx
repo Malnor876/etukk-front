@@ -52,6 +52,7 @@ function FiltersContainer(props: FiltersContainerProps) {
   const reducer = useState<FiltersType>(filterStorage.get("filters") || {})
   const [filters] = reducer
   const [currentCategoryId, setCurrentCategoryId] = useState<number>()
+
   async function onSubmit() {
     const newFilters = {...filters, categories: currentCategoryId}
     await props.onSubmit?.(newFilters)
@@ -259,6 +260,7 @@ function FiltersTreeContainer(props: FiltersTreeContainerProps) {
       </>
     )
   }
+
   return (
     <>
       <Filter group label="КАТЕГОРИИ">

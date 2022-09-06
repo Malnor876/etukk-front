@@ -31,20 +31,19 @@ function HomeView() {
     "filters",
     {}
   )
-  // if (categoryId) {
-  //   filterStorage.set("filters", {categories: categoryId})
-  // }
+
   const [filters, setFilters] = useState<any>(filtersStorage || {})
 
   // const isHot = !!matchHot
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
 
   useEffect(() => {
-    setFilters(state)
+    if (state) {
+      setFilters(state)
+    }
     setFiltersStorage({...filters})
   }, [filters, state])
   const response = useQuery(getSearch(search || "!@#*("))
-
   const options = response.payload || []
   return (
     <>
