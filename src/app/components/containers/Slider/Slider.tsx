@@ -3,6 +3,8 @@ import "./Slider.scss"
 import PopupYoutubeVideo from "app/components/modals/PopupYoutubeVideo/PopupYoutubeVideo"
 import SliderPopup from "app/components/modals/SliderPopup/SliderPopup"
 import Icon from "app/components/UI/Icon/Icon"
+import useDeviceWidth from "hooks/useDeviceWidth"
+import {DeviceWidths} from "hooks/useResizeObserverEntry"
 import {useState} from "react"
 import {Modal} from "react-modal-global"
 import {YouTubeVideo} from "utils/business"
@@ -15,6 +17,8 @@ interface SliderProps {
 }
 
 function Slider(props: SliderProps) {
+  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
+  console.log("isMobile", isMobile)
   const [index, setIndex] = useState(props.initSlideIndex || 0)
   function updateIndex(value: number) {
     if (value < 0) {
@@ -66,7 +70,7 @@ function Slider(props: SliderProps) {
             )}
           </div>
         </button>
-        {props.slides.length > 1 && (
+        {props.slides.length > 1 && !isMobile && (
           <div className="slider__arrows">
             <button className="slider__arrow" type="button" onClick={prev}>
               <Icon name="chevron" />
@@ -78,16 +82,25 @@ function Slider(props: SliderProps) {
         )}
         {props.slides.length > 1 && (
           <div className="slider__slides">
-            {props.slides.map((slide, index) => (
-              <button
-                type="button"
-                onClick={() => (openSliderPopup(index), setIndex(index))}
-                key={index}>
+            {props.slides.map((slide, index) =>
+              isMobile ? (
                 <img className="slider__slide" src={slide} alt="slide" />
-              </button>
-            ))}
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => (openSliderPopup(index), setIndex(index))}
+                  key={index}>
+                  <img className="slider__slide" src={slide} alt="slide" />
+                </button>
+              )
+            )}
           </div>
         )}
+      </div>
+      <div className="container">
+        <section className="child"></section>
+        <section className="child"></section>
+        <section className="child"></section>
       </div>
     </div>
   )
