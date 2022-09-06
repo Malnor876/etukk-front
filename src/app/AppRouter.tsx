@@ -1,60 +1,62 @@
 import LotNotification from "areas/lot/LotNotification"
+import React, { lazy, Suspense } from "react"
 import {Route, Routes} from "react-router"
 
-import FullscreenSignIn from "./components/containers/Auth/FullscreenSignIn"
-import FullscreenSignUp from "./components/containers/Auth/FullscreenSignUp"
-import FullscreenSignUpEntity from "./components/containers/Auth/FullscreenSignUpEntity"
-import FullscreenSignUpPerson from "./components/containers/Auth/FullscreenSignUpPerson"
-import ViewLayout from "./layouts/ViewLayout/ViewLayout"
-import AboutView from "./views/about/AboutView"
-import ContactsView from "./views/contacts"
-import ErrorView from "./views/error"
-import FavouritesView from "./views/favourites"
-import HomeView from "./views/home"
-import LotView from "./views/lot"
-import LotEditView from "./views/lot/edit/LotEditView"
-import LotPreviewView from "./views/lot/preview"
-import LotDraftView from "./views/lot-new/edit"
-import NotificationsView from "./views/notifications"
-import ProfileView from "./views/profile/ProfileView"
-import SupportView from "./views/support"
-import TermsView from "./views/terms"
-import UserView from "./views/user/UserView"
+const HomeView = lazy(() => import("./views/home"))
+const ViewLayout = lazy(() => import("./layouts/ViewLayout/ViewLayout"))
+const ContactsView = lazy(() => import("./views/contacts"))
+const ErrorView = lazy(() => import("./views/error"))
+const FavouritesView = lazy(() => import("./views/favourites"))
+const LotView = lazy(() => import("./views/lot"))
+const LotEditView = lazy(() => import("./views/lot/edit/LotEditView"))
+const LotPreviewView = lazy(() => import("./views/lot/preview"))
+const LotDraftView = lazy(() => import("./views/lot-new/edit"))
+const NotificationsView = lazy(() => import("./views/notifications"))
+const ProfileView = lazy(() => import("./views/profile/ProfileView"))
+const SupportView = lazy(() => import("./views/support"))
+const TermsView = lazy(() => import("./views/terms"))
+const UserView = lazy(() => import("./views/user/UserView"))
+const AboutView = lazy(() => import("./views/about/AboutView"))
+const FullscreenSignIn = lazy(() => import("./components/containers/Auth/FullscreenSignIn"))
+const FullscreenSignUp = lazy(() => import("./components/containers/Auth/FullscreenSignUp"))
+const FullscreenSignUpEntity = lazy(() => import("./components/containers/Auth/FullscreenSignUpEntity"))
+const FullscreenSignUpPerson = lazy(() => import("./components/containers/Auth/FullscreenSignUpPerson"))
 
 function AppRouter() {
   return (
-    <Routes>
-      <Route path="/">
-        <Route path="*" element={<ErrorView />} />
-        <Route path="login" element={<FullscreenSignIn />} />
-        <Route path="register" element={<FullscreenSignUp />} />
-        <Route path="registerPerson" element={<FullscreenSignUpPerson />} />
-        <Route path="registerEntity" element={<FullscreenSignUpEntity />} />
-        <Route element={<ViewLayout />}>
-          <Route index element={<HomeView />} />
-          <Route path="hot" element={<HomeView />} />
+    <Suspense fallback={<div>Загрузка...</div>}>
+      <Routes>
+          <Route path="/">
+            <Route path="*" element={<ErrorView />} />
+            <Route path="login" element={<FullscreenSignIn />} />
+            <Route path="register" element={<FullscreenSignUp />} />
+            <Route path="registerPerson" element={<FullscreenSignUpPerson />} />
+            <Route path="registerEntity" element={<FullscreenSignUpEntity />} />
+            <Route element={<ViewLayout />}>
+              <Route index element={<HomeView />} />
+              <Route path="hot" element={<HomeView />} />
+              <Route path="lots/:lotId" element={<LotView />} />
+              <Route path="lots/:lotId/edit" element={<LotEditView />} />
+              <Route path="lots/:lotId/preview" element={<LotPreviewView />} />
+              <Route
+                path="lots/:lotId/notifications"
+                element={<LotNotification />}
+              />
+              <Route path="lots/draft/*" element={<LotDraftView />} />
 
-          <Route path="lots/:lotId" element={<LotView />} />
-          <Route path="lots/:lotId/edit" element={<LotEditView />} />
-          <Route path="lots/:lotId/preview" element={<LotPreviewView />} />
-          <Route
-            path="lots/:lotId/notifications"
-            element={<LotNotification />}
-          />
-          <Route path="lots/draft/*" element={<LotDraftView />} />
+              <Route path="favourites/*" element={<FavouritesView />} />
+              <Route path="notifications/*" element={<NotificationsView />} />
+              <Route path="support/*" element={<SupportView />} />
+              <Route path="profile/*" element={<ProfileView />} />
+              <Route path="user/:userId/*" element={<UserView />} />
 
-          <Route path="favourites/*" element={<FavouritesView />} />
-          <Route path="notifications/*" element={<NotificationsView />} />
-          <Route path="support/*" element={<SupportView />} />
-          <Route path="profile/*" element={<ProfileView />} />
-          <Route path="user/:userId/*" element={<UserView />} />
-
-          <Route path="terms/*" element={<TermsView />} />
-          <Route path="contacts/*" element={<ContactsView />} />
-          <Route path="about" element={<AboutView />} />
-        </Route>
-      </Route>
-    </Routes>
+              <Route path="terms/*" element={<TermsView />} />
+              <Route path="contacts/*" element={<ContactsView />} />
+              <Route path="about" element={<AboutView />} />
+            </Route>
+          </Route>
+      </Routes>
+    </Suspense>
   )
 }
 
