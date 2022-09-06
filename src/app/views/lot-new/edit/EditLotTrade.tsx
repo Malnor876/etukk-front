@@ -23,9 +23,8 @@ function EditLotTrade() {
         {payload => (
           <>
             {payload.map((time, index) => (
-              <>
+              <div key={index}>
                 <Radio
-                  key={index}
                   name="date"
                   value={index.toString()}
                   defaultChecked={date === index.toString()}
@@ -43,7 +42,7 @@ function EditLotTrade() {
                   })}
                 </Radio>
                 <br />
-              </>
+              </div>
             ))}
           </>
         )}

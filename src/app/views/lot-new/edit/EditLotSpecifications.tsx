@@ -10,20 +10,6 @@ function EditLotSpecifications() {
   const [specifications, setSpecifications] =
     lotDraftStorage.state<LotInfoType["specifications"]>("specifications")
 
-  const updateSpecifications = (specifications: SpecificationType[]) => {
-    const uniqArr = [...DEFAULT_SPECIFICATIONS]
-    if (Array.isArray(DEFAULT_SPECIFICATIONS)) {
-      DEFAULT_SPECIFICATIONS?.forEach((item, index) => {
-        specifications?.forEach(s => {
-          if (item.id === s.id) {
-            uniqArr[index] = s
-          }
-        })
-      })
-    }
-    return uniqArr
-  }
-
   return (
     <section>
       <h4>Укажите характеристики</h4>
@@ -35,7 +21,7 @@ function EditLotSpecifications() {
       <p>*не более 10 характеристик</p>
       <Specifications
         max={10}
-        defaultValue={updateSpecifications(specifications)}
+        defaultValue={specifications}
         onChange={setSpecifications}
       />
     </section>

@@ -34,13 +34,23 @@ function MobileNavigator() {
             }>
             Избранное
           </MobileNavigatorLink>
-          <MobileNavigatorLink iconName="hammer" to="/lots/draft">
+          <MobileNavigatorLink
+            iconName="hammer"
+            to={pathname.includes("lots/draft") ? pathname : "/lots/draft"}>
             Разместить лот
           </MobileNavigatorLink>
-          <MobileNavigatorLink iconName="bell" to="/notifications/lots">
+          <MobileNavigatorLink
+            iconName="bell"
+            to={
+              pathname.includes("notifications")
+                ? pathname
+                : "/notifications/lots"
+            }>
             Уведомления
           </MobileNavigatorLink>
-          <MobileNavigatorLink iconName="user" to="/profile/personal">
+          <MobileNavigatorLink
+            iconName="user"
+            to={pathname.includes("profile") ? pathname : "/profile/personal"}>
             Профиль
           </MobileNavigatorLink>
         </nav>

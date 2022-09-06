@@ -18,7 +18,7 @@ import EditLotFiles from "./EditLotFiles"
 import EditLotName from "./EditLotName"
 import EditLotSpecifications from "./EditLotSpecifications"
 import EditLotTrade from "./EditLotTrade"
-import {useDraftNewLot} from "./helpers"
+import {ScrollToTop, useDraftNewLot} from "./helpers"
 
 export const lotDraftStorage = new TemporaryStorage("lot-new")
 const lotDraftEditSectionsOrder = [
@@ -201,6 +201,7 @@ function LotDraftView() {
           <Route path="files" element={<EditLotFiles />} />
           <Route path="trade" element={<EditLotTrade />} />
         </Routes>
+        <ScrollToTop />
       </div>
       <Buttons spaceBetween>
         {isCurrentRouteBase && <div />}

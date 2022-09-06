@@ -4,8 +4,9 @@ import {
   getTimes,
   postLotDraft,
 } from "infrastructure/persistence/api/data/actions"
+import {useEffect} from "react"
 import {useMutation} from "react-fetching-library"
-import {useNavigate} from "react-router-dom"
+import {useLocation, useNavigate} from "react-router-dom"
 import {offsetDateDay} from "utils/date.helpers"
 import {FileToURLDataBase64} from "utils/file"
 
@@ -73,4 +74,14 @@ export async function getBiddingTime(index: number): Promise<[Date, Date]> {
   const time = response.payload[index]
 
   return [new Date(time.begin), new Date(time.end)]
+}
+
+export function ScrollToTop() {
+  const {pathname} = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
+  return null
 }
