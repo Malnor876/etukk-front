@@ -26,7 +26,7 @@ function Topbar() {
           {payload => (
             <>
               {_.shuffle(
-                payload.filter(item => item.parent_category_id == null)
+                payload.filter(item => item.parent_category_id === null)
               )
                 .slice(0, 3)
                 .map(category => (
@@ -37,8 +37,7 @@ function Topbar() {
                         link.isActive && "active"
                       )
                     }
-                    to={"/"}
-                    state={{categories: category.id}}
+                    to={"/search/" + category.id}
                     key={category.id}>
                     <span>{category.name}</span>
                   </NavLink>
@@ -46,11 +45,7 @@ function Topbar() {
             </>
           )}
         </QueryContainer>
-        <NavLink
-          className={link =>
-            classWithModifiers("topbar-menu__link", link.isActive && "active")
-          }
-          to="/">
+        <NavLink className={"topbar-menu__link"} to="/">
           <span>Еще</span>
         </NavLink>
       </nav>

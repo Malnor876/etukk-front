@@ -1,3 +1,4 @@
+import {filterCategoryStorage} from "app/components/containers/Filters/Filters"
 import FiltersContainer, {
   FiltersContainerMobile,
 } from "app/components/containers/Filters/FiltersContainer"
@@ -14,35 +15,39 @@ import {useQuery} from "react-fetching-library"
 import {Helmet} from "react-helmet"
 // import { useMatch } from "react-router"
 import {Route, Routes} from "react-router"
-import {NavLink, useLocation} from "react-router-dom"
+import {NavLink, useLocation, useParams} from "react-router-dom"
 
 import LotPreviewsContainer from "./LotPreviewsContainer"
 
 export const filterStorage = new TemporaryStorage("filters")
+export type CategoryState = {categories: number}
 
 function HomeView() {
   // const matchHot = useMatch("hot")
-  const {state} = useLocation()
-
+  const categoryId = useParams().categoryId
   const [search, setSearch] = useState("")
   const [filterSearch, setFilterSearch] = useState("")
-
   const [filtersStorage, setFiltersStorage] = filterStorage.state<any>(
     "filters",
     {}
   )
-
   const [filters, setFilters] = useState<any>(filtersStorage || {})
 
   // const isHot = !!matchHot
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
 
   useEffect(() => {
-    if (state) {
-      setFilters(state)
+    if (categoryId) {
+      setFilters({categories: Number(categoryId)})
+      setFiltersStorage({categories: Number(categoryId)})
+      filterCategoryStorage.set("filter-category", Number(categoryId))
     }
+  }, [categoryId])
+
+  useEffect(() => {
     setFiltersStorage({...filters})
-  }, [filters, state])
+  }, [filters])
+
   const response = useQuery(getSearch(search || "!@#*("))
   const options = response.payload || []
   return (
@@ -75,7 +80,6 @@ function HomeView() {
         <Route
           index
           element={
-            // Sorry for jj
             <div id="jj" style={{minHeight: "18em"}}>
               <Container row>
                 <Container>
@@ -86,6 +90,7 @@ function HomeView() {
                     <FiltersContainer
                       clear={setFiltersStorage}
                       onSubmit={setFilters}
+                      currentId={Number(categoryId)}
                     />
                   )}
                 </Container>
