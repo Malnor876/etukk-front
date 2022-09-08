@@ -34,39 +34,10 @@ function LotInfoBid(props: LotInfoBidProps) {
   )
   const client = useClient()
   useEffect(() => {
-    if (event && event.data?.now_price) {
+    if (event && event.data?.now_price && props.id === event.data.id) {
       setCurrentPrice(new Price(event.data?.now_price))
     }
   }, [event])
-
-  // const subscribe = async () => {
-  //   const eventSource = new EventSource(
-  //     process.env.REACT_APP_API_HOST + "/events"
-  //     // {
-  //     //   headers: {
-  //     //     Authorization: "Bearer " + localStorage.getItem("token") || "",
-  //     //     // "Content-Type": "application/json",
-  //     //     accept: "application/json",
-  //     //   },
-  //     // }
-  //   )
-  //   // const eventSource = new EventSource('url', { headers: { Authorization: 'plz' } })
-
-  //   // eventSource.addEventListener("open", listener)
-  //   eventSource.addEventListener("updated", listener)
-  //   // eventSource.addEventListener("personal", listener)
-  //   // eventSource.addEventListener("error", listener)
-  // }
-
-  const listener = function (event: any) {
-    if (event.type === "updated") {
-      const newPrice = JSON.parse(event.data).data.now_price
-      setCurrentPrice(new Price(newPrice))
-    }
-    // if (type === "updated" || type === "personal") {
-    //   eventSource.close()
-    // }
-  }
 
   function bidUp(on: number) {
     setBidMultiplier(on)
@@ -116,6 +87,10 @@ function LotInfoBid(props: LotInfoBidProps) {
           <div className="lot-info-bid__entry">
             <span>Текущая ставка</span>
             <span>{currentPrice.format()}</span>
+          </div>
+          <div className="lot-info-bid__step">
+            <span>Шаг ставки</span>
+            <span>{props.betStep.format()}</span>
           </div>
           <p className="lot-info-bid__text">
             *Нажимая “поднять ставку” вы соглашаетесь с{" "}

@@ -121,14 +121,17 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
   const [state, setState] = useState<FiltersState>()
   const reducer = useState<FiltersType>({})
   const [filters, setFilters] = reducer
+  const [categoryId, setCategoryId] = useState<number>()
+  console.log("categoryId", categoryId)
   async function onSubmit() {
     await props.onSubmit?.(filters)
     setState(undefined)
   }
 
   function chooseCategory(id: number) {
-    const nextFilters = {...filters, categories: id.toString()}
+    setCategoryId(id)
 
+    const nextFilters = {...filters, categories: id.toString()}
     setFilters(nextFilters)
     props.onSubmit?.(nextFilters)
   }
@@ -137,9 +140,17 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
     props.clear?.({})
     setFilters({})
   }
+  type Category = {
+    id: number
+    name: string
+    parent_category_id?: number | null
+  }
+
   return (
     <filtersContext.Provider value={reducer}>
       <div className={classWithModifiers("mobile-filters", state)}>
+        {categoryId && <p>{categoryId}</p>}
+
         <div className="mobile-filters__container">
           <button
             className="mobile-filters__toggle"

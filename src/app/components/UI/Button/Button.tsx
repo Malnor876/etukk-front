@@ -1,14 +1,15 @@
 import "./Button.scss"
 
-import { MouseEvent, MouseEventHandler, useState } from "react"
+import {MouseEvent, MouseEventHandler, useState} from "react"
 // import ReactGA from "react-ga"
-import { classMerge, classWithModifiers } from "utils/common"
+import {classMerge, classWithModifiers} from "utils/common"
 
 import Loader from "../Loader/Loader"
-import { ButtonBaseProps } from "./Button.types"
+import {ButtonBaseProps} from "./Button.types"
 
 interface ButtonProps extends ButtonBaseProps {
   type?: "reset" | "submit"
+  marginTop?: number
   eventLabel?: string
   disabled?: boolean
   await?: boolean
@@ -43,14 +44,18 @@ function Button(props: ButtonProps) {
   if (pending || props.pending) modifiers.push("pending")
 
   return (
-    <button className={classMerge(classWithModifiers("button", ...modifiers), props.className)} type={props.type || "button"} disabled={props.disabled || pending} onClick={onClick}>
-      {props.iconLeft && (
-        <div className="button__icon">{props.iconLeft}</div>
+    <button
+      className={classMerge(
+        classWithModifiers("button", ...modifiers),
+        props.className
       )}
+      style={{marginTop: props.marginTop}}
+      type={props.type || "button"}
+      disabled={props.disabled || pending}
+      onClick={onClick}>
+      {props.iconLeft && <div className="button__icon">{props.iconLeft}</div>}
       <div className="button__text">{props.children}</div>
-      {props.iconRight && (
-        <div className="button__icon">{props.iconRight}</div>
-      )}
+      {props.iconRight && <div className="button__icon">{props.iconRight}</div>}
       <Loader className="button__loader" />
     </button>
   )

@@ -4,7 +4,7 @@ import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
 import Icon from "app/components/UI/Icon/Icon"
 import Entries from "app/layouts/Entries/Entries"
 import Entry from "app/layouts/Entries/Entry"
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {useSelector} from "react-redux"
 
 import {LotDelivery, LotInfoType, LotStatus} from "../types"
@@ -26,10 +26,22 @@ interface LotInfoDetailsProps
 
 function LotInfoDetails(props: LotInfoDetailsProps) {
   const user = useSelector(state => state.user)
-  const myId = user.id
   const [tradable, setTradable] = useState(
     props.startEndInterval.isInInterval(new Date())
   )
+  const [isWin, setIsWin] = useState(false)
+
+  const event = useSelector(state => state.event)
+
+  useEffect(() => {
+    if (
+      event.user_id === user.id &&
+      props.id === event?.data?.id &&
+      event?.data?.trade_status === "awaiting_payment"
+    ) {
+      setIsWin(true)
+    }
+  }, [event])
 
   return (
     <div className="lot-info-details">
@@ -64,16 +76,13 @@ function LotInfoDetails(props: LotInfoDetailsProps) {
         </Entry>
       </Entries>
 
-      {user.auth &&
-        props.buyerId === user.id &&
-        props.status === "sold" &&
-        props.tradeStatus === "awaiting_payment" && (
-          <div>
-            <ButtonLink to={`/profile/purchases/checkout/${props.id}`}>
-              Перейти к оплате
-            </ButtonLink>
-          </div>
-        )}
+      {isWin && (
+        <div>
+          <ButtonLink to={`/profile/purchases/checkout/${props.id}`}>
+            Перейти к оплате
+          </ButtonLink>
+        </div>
+      )}
     </div>
   )
 }

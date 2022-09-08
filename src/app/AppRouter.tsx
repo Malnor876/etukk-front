@@ -45,7 +45,7 @@ function AppRouter() {
           <Route element={<ViewLayout />}>
             <Route index element={<HomeView />} />
             <Route path="hot" element={<HomeView />} />
-            <Route path="search/:categoryId" element={<HomeView />} />
+            <Route path="search/:categoryId/*" element={<HomeView />} />
             <Route path="lots/:lotId" element={<LotView />} />
             <Route path="lots/:lotId/edit" element={<LotEditView />} />
             <Route path="lots/:lotId/preview" element={<LotPreviewView />} />

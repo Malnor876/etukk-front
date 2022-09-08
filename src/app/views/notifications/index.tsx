@@ -70,8 +70,8 @@ function NotificationsLotsContainer() {
     getMyNotifications()
   }, [])
 
-  const LotPreviewClick = (lotId: number) => {
-    navigate(`/lots/${lotId}/notifications`)
+  const LotPreviewClick = (lot: SchemaLot) => {
+    navigate(`/lots/${lot.id}/notifications`, {state: {lot: lot}})
   }
   if (!notificationsLots[0]) {
     return <h3>Идет загрузка ...</h3>
@@ -82,7 +82,7 @@ function NotificationsLotsContainer() {
         <LotPreview
           key={lot.id}
           {...mapLotPreview(lot)}
-          onClick={() => LotPreviewClick(lot.id)}
+          onClick={() => LotPreviewClick(lot)}
         />
       ))}
     </Previews>

@@ -103,7 +103,7 @@ function LotPreviewStatusLookALike(props: LotProps) {
   const [currentPrice, setCurrentPrice] = useState(props.currentPrice)
 
   useEffect(() => {
-    if (event && event.data?.now_price) {
+    if (event && event.data?.now_price && props.id === event.data.id) {
       setCurrentPrice(new Price(event.data?.now_price))
     }
   }, [event])
@@ -179,7 +179,7 @@ function LotPreviewStatusContent(props: LotProps) {
   const [currentPrice, setCurrentPrice] = useState(props.currentPrice)
 
   useEffect(() => {
-    if (event && event.data?.now_price) {
+    if (event && event.data?.now_price && props.id === event.data.id) {
       setCurrentPrice(new Price(event.data?.now_price))
     }
   }, [event])

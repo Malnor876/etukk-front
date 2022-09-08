@@ -33,10 +33,12 @@ function ProfilePersonalSettings() {
   //   setPending(false)
   //   if (error) return
   // }
+
   async function settingBetConfirm() {
     const {error, payload} = await client.query(
       patchUser({bet_confirmation: confirm})
     )
+
     if (error) return
     if (payload == null) return
     dispatch(userUpdate(mapUser(payload)))
@@ -47,21 +49,21 @@ function ProfilePersonalSettings() {
       {/* <Form onSubmit={onSubmit}> */}
       {/* <QueryContainer action={getCabinetUsersSettings()} mapping={mapCabinetUsersSettings}>
                 {payload => ( */}
-      <QueryContainer action={getUser()} mapping={mapUser}>
-        {payload => (
-          <Column>
-            <Checkbox
-              name={FormInputs.bidUpConfirm}
-              defaultChecked={!payload.bet_confirmation}
-              onChange={() => setConfirm(!confirm)}>
-              Не запрашивать подтверждение о повышении ставки
-            </Checkbox>
-            {/* <Checkbox name={FormInputs.smsOnSubscriptionsChange} defaultChecked={payload.smsOnSubscriptionsChange}>Получать смс-уведомления о изменениях в моих подписках</Checkbox>
+      {/* <QueryContainer action={getUser()} mapping={mapUser}>
+        {payload => ( */}
+      <Column>
+        <Checkbox
+          name={FormInputs.bidUpConfirm}
+          defaultChecked={!confirm}
+          onChange={() => setConfirm(!confirm)}>
+          Не запрашивать подтверждение о повышении ставки
+        </Checkbox>
+        {/* <Checkbox name={FormInputs.smsOnSubscriptionsChange} defaultChecked={payload.smsOnSubscriptionsChange}>Получать смс-уведомления о изменениях в моих подписках</Checkbox>
           <Checkbox name={FormInputs.smsOnBidChange} defaultChecked={payload.smsOnBidChange}>Получать смс-уведомления о изменениях в торгах в которых я принял участие</Checkbox> 
       <div><Button pending={pending} type="submit">Сохранить</Button></div>  */}
-          </Column>
-        )}
-      </QueryContainer>
+      </Column>
+      {/* )} */}
+      {/* </QueryContainer> */}
       <div>
         <Button onClick={settingBetConfirm}>Сохранить</Button>
       </div>
