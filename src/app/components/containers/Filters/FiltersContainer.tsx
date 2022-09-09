@@ -195,15 +195,11 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
         {parentCategory && (
           <div
             className="mobile-filters__container"
-            style={{height: "2.5em"}}
             onClick={() => goToUp(parentCategory)}>
             <p className="filters__title">{parentCategory.name}</p>
             <CloseButton />
           </div>
-          // ) : (
-          //   <div style={{height: "2.5em"}}></div>
         )}
-
         <div className="mobile-filters__container">
           <button
             className="mobile-filters__toggle"
