@@ -5,4 +5,5 @@ export interface Event {
   event_name: string
   text: string
   data: SchemaLot | null
+  user_id: number | null
 }

@@ -9,6 +9,8 @@ import {useState} from "react"
 import {Modal} from "react-modal-global"
 import {YouTubeVideo} from "utils/business"
 
+import SliderMobile from "./SliderMobile"
+
 interface SliderProps {
   video?: string
   slides: string[]
@@ -18,7 +20,6 @@ interface SliderProps {
 
 function Slider(props: SliderProps) {
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
-  console.log("isMobile", isMobile)
   const [index, setIndex] = useState(props.initSlideIndex || 0)
   function updateIndex(value: number) {
     if (value < 0) {
@@ -96,11 +97,6 @@ function Slider(props: SliderProps) {
             )}
           </div>
         )}
-      </div>
-      <div className="container">
-        <section className="child"></section>
-        <section className="child"></section>
-        <section className="child"></section>
       </div>
     </div>
   )

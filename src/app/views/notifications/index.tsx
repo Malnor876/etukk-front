@@ -21,6 +21,7 @@ import {UserSigned} from "infrastructure/persistence/redux/reducers/user/types"
 import {useEffect, useState} from "react"
 import {useClient} from "react-fetching-library"
 import {Helmet} from "react-helmet"
+import {useSelector} from "react-redux"
 import {Route, Routes} from "react-router"
 import {useNavigate} from "react-router-dom"
 
@@ -51,12 +52,25 @@ function NotificationsView() {
 function NotificationsLotsContainer() {
   const client = useClient()
   const navigate = useNavigate()
+  const event = useSelector(state => state.event)
   const [notificationsLots, setNotificationsLots] = useState<SchemaLot[]>([])
 
   useEffect(() => {
     async function getMyNotifications() {
-      const {payload} = await client.query(getUserNotifications())
+      const {payload} = await client.query(
+        getUserNotifications({order_by: "-event_time"})
+      )
+      payload?.sort(function (a, b) {
+        if (a.event_time && b.event_time && a.event_time < b.event_time) {
+          return 1
+        }
+        if (a.event_time && b.event_time && a.event_time > b.event_time) {
+          return -1
+        }
+        return 0
+      })
       const notificationsWithLot = payload?.filter(item => item.lot != null)
+
       const notificationsLots: SchemaLot[] = []
 
       notificationsWithLot?.forEach(notification => {
@@ -68,21 +82,19 @@ function NotificationsLotsContainer() {
       setNotificationsLots(notificationsLots)
     }
     getMyNotifications()
-  }, [])
+  }, [event])
 
-  const LotPreviewClick = (lotId: number) => {
-    navigate(`/lots/${lotId}/notifications`)
+  const LotPreviewClick = (lot: SchemaLot) => {
+    navigate(`/lots/${lot.id}/notifications`, {state: {lot: lot}})
   }
-  if (!notificationsLots[0]) {
-    return <h3>Идет загрузка ...</h3>
-  }
+
   return (
     <Previews>
       {notificationsLots.map(lot => (
         <LotPreview
           key={lot.id}
           {...mapLotPreview(lot)}
-          onClick={() => LotPreviewClick(lot.id)}
+          onClick={() => LotPreviewClick(lot)}
         />
       ))}
     </Previews>

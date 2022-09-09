@@ -7,6 +7,7 @@
     "@types/react": "^18.0.2",
     "buffer": "^6.0.3",
     "emojis-list": "^3.0.0",
+    "event-source-polyfill": "^1.0.31",
     "html-react-parser": "^1.4.8",
     "jest": "^28.0.3",
     "lodash": "^4.17.21",
@@ -23,9 +24,11 @@
     "react-use": "^17.4.0",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
-    "resize-observer-polyfill": "^1.5.1"
+    "resize-observer-polyfill": "^1.5.1",
+    "swiper": "8.2.2"
   },
   "devDependencies": {
+    "@types/event-source-polyfill": "^1.0.0",
     "@types/jest": "^27.4.1",
     "@types/lodash": "^4.14.178",
     "@types/node": "^16.11.25",

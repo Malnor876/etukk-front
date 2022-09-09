@@ -6,7 +6,7 @@ import Input, {InputProps} from "app/components/UI/Input/Input"
 import Radio, {RadioProps} from "app/components/UI/Radio/Radio"
 import ToolTip from "app/components/UI/ToolTip/ToolTip"
 import {Row} from "app/layouts/BaseLayouts/BaseLayouts"
-import {filterStorage} from "app/views/home"
+import {CategoryState, filterStorage} from "app/views/home"
 import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
 import _ from "lodash"
 import {
@@ -22,6 +22,7 @@ import {
   useRef,
   useState,
 } from "react"
+import {Navigate, NavLink, useNavigate} from "react-router-dom"
 import {classWithModifiers} from "utils/common"
 
 import {ReactError} from "../ErrorBoundary/ErrorBoundary.errors"
@@ -31,11 +32,11 @@ import filtersContext from "./filtersContext"
 interface FilterProps {
   name?: string
   id?: number
-  current?: number | null
   group?: boolean
   label: ReactNode
-  children: ReactNode
+  children?: ReactNode
   onChange?: Dispatch<number>
+  onSubmit?: Dispatch<FiltersType>
 }
 export const filterCategoryStorage = new TemporaryStorage("filter-category")
 
@@ -44,33 +45,23 @@ export function Filter(props: FilterProps) {
   const [expanded, setExpanded] = useState(false)
 
   const [currentCategoryId, setCurrentCategoryId] =
-    filterCategoryStorage.state<any>("filter-category", "")
+    filterCategoryStorage.state<number>("filter-category", 0)
 
   const chooseCategory = (id: any) => {
     setCurrentCategoryId(id)
     props.onChange && props.onChange(id)
+    props.onSubmit && props.onSubmit({categories: id})
   }
-  // const [contentHeight, setContentHeight] = useState<number>()
-
-  // useEffect(() => {
-  //   // console.log(containerRef.current, containerRef.current?.scrollHeight)
-  //   const interval = setInterval(() => {
-  //     if (!expanded) return
-  //     if (containerRef.current === null) return
-  //     setContentHeight(containerRef.current.scrollHeight - 169)
-  //   }, 150)
-
-  //   return () => {
-  //     clearInterval(interval)
-  //   }
-  // }, [])
 
   return (
     <div
       className={classWithModifiers(
         "filter",
         props.group && "group",
-        props.current && props.id && props.current === props.id && "choosed"
+        currentCategoryId &&
+          props.id &&
+          currentCategoryId === props.id &&
+          "choosed"
       )}
       aria-label="filter"
       aria-details="toggle filter">
@@ -78,7 +69,10 @@ export function Filter(props: FilterProps) {
         <div
           className={classWithModifiers(
             "filter__title",
-            props.current && props.id && props.current === props.id && "choosed"
+            currentCategoryId &&
+              props.id &&
+              currentCategoryId === props.id &&
+              "choosed"
           )}
           onClick={() => chooseCategory(props.id)}>
           {props.label}
@@ -96,9 +90,11 @@ export function Filter(props: FilterProps) {
         className={classWithModifiers(
           "filter__container",
           expanded && "expanded",
-          props.current && props.id && props.current === props.id && "choosed"
+          currentCategoryId &&
+            props.id &&
+            currentCategoryId === props.id &&
+            "choosed"
         )}
-        // style={{"--height": contentHeight}}
         ref={containerRef}
         role="group"
         aria-expanded={expanded}>
@@ -172,12 +168,15 @@ interface FiltersToolboxProps {
 
 export function FiltersToolbox(props: FiltersToolboxProps) {
   const [filters, setFilters] = useContext(filtersContext)
+  const navigate = useNavigate()
   function clear() {
     setFilters({})
     props.clear?.({})
     props.onChangeCategory(0)
     props.onSubmit({})
     filterCategoryStorage.clear()
+    filterStorage.clear()
+    navigate("/")
   }
   const onExpand = () =>
     props.onChange(props.state === "expanded" ? undefined : "expanded")
@@ -187,7 +186,9 @@ export function FiltersToolbox(props: FiltersToolboxProps) {
     <div className="filters-toolbox" role="toolbar">
       <button
         className="filters-toolbox__reset"
-        disabled={Object.keys(filters).length === 0 && !props.currentCategoryId}
+        disabled={
+          Object.keys(filters).length === 0 && props.currentCategoryId === 0
+        }
         type="reset"
         onClick={clear}>
         Сбросить

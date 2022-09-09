@@ -8,6 +8,7 @@ const initialState: Event = {
   event_name: "",
   text: "",
   data: null,
+  user_id: null,
 }
 
 interface Actions {

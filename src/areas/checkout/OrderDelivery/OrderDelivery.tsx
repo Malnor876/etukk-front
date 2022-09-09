@@ -80,7 +80,6 @@ function OrderDelivery(props: OrderDeliveryProps) {
     month: "2-digit",
   })
   const nowDateDay = new Date(tomorrow).toLocaleString("ru", {day: "2-digit"})
-  console.log("tomorrow", `${nowDateYear}-${nowDateMonth}-${nowDateDay}`)
 
   const totalPrice =
     props.lot.currentPrice.valueOf() + commission + deliveryPrice

@@ -3,6 +3,7 @@
  */
 import "app/layouts/Modal/FullscreenLayout/FullscreenLayout.scss"
 
+import {EventSourcePolyfill} from "event-source-polyfill"
 import {eventUpdate} from "infrastructure/persistence/redux/reducers/event"
 import {userFetch} from "infrastructure/persistence/redux/reducers/user"
 // import { Modal } from "react-modal-global"
@@ -34,34 +35,49 @@ function AppEffects() {
   }, [])
 
   const subscribe = async () => {
-    const eventSource = new EventSource(
-      process.env.REACT_APP_API_HOST + "/events"
-      // {
-      //   headers: {
-      //     Authorization: "Bearer " + localStorage.getItem("token") || "",
-      //     // "Content-Type": "application/json",
-      //     accept: "application/json",
-      //   },
-      // }
+    // const eventSource = new EventSource(
+    //   process.env.REACT_APP_API_HOST + "/events"
+    // )
+    const eventSource = new EventSourcePolyfill(
+      process.env.REACT_APP_API_HOST + "/events",
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token") || "",
+          // "Content-Type": "application/json",
+          accept: "application/json",
+        },
+      }
     )
     // const eventSource = new EventSource('url', { headers: { Authorization: 'plz' } })
+    // with polyfill
+    // new EventSourcePolyfill(`/api/liveUpdate`, {
+    //   headers: {
+    //     Authorization: `Bearer 12345`,
+    //     'x-csrf-token': `xxx-xxx-xxx`,
+    //   },
+    // });
 
     // eventSource.addEventListener("open", listener)
     eventSource.addEventListener("updated", listener)
-    // eventSource.addEventListener("personal", listener)
+    eventSource.addEventListener("personal", listener)
     // eventSource.addEventListener("error", listener)
   }
 
   const listener = function (event: any) {
-    if (event.type === "updated") {
+    console.log("event.type", event.type)
+
+    if (event.type === "updated" || event.type === "personal") {
+      console.log("JSON.parse(event.data)", JSON.parse(event.data))
+
+      dispatch(eventUpdate(JSON.parse(event.data)))
       // const newPrice = JSON.parse(event.data).data.now_price
       // setCurrentPrice(new Price(newPrice))
     }
     // if (type === "updated" || type === "personal") {
     //   eventSource.close()
     // }
-
-    dispatch(eventUpdate(JSON.parse(event.data)))
+    //
+    // dispatch(eventUpdate(JSON.parse(event.data)))
   }
   return null
 }

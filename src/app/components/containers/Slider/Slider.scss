@@ -93,3 +93,46 @@ $arrow-icon-size: 1em;
 .slider-video__icon {
 	--icon-size: 2.5em;
 }
+
+// Swiper
+.swiper-main {
+	width: 90vw;
+	height: 50vh;
+	border: 1px solid $color-gray-3;
+	border-radius: 10px;
+	.swiper-slide {
+		overflow: hidden;
+		object-fit: contain;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		img {
+			pointer-events: none;
+			width: 100%;
+		}
+	}
+}
+
+.swiper-thumbs {
+	width: 90vw;
+	height: 10vh;
+	margin-top: 1em;
+	.swiper-slide {
+		cursor: pointer;
+		&-thumv-active {
+			border-color: white;
+		}
+	}
+	&-wrapper {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		border: 1px solid $color-gray-3;
+		display: flex;
+		align-items: center;
+		border-radius: 10px;
+		img {
+			width: 100%;
+		}
+	}
+}

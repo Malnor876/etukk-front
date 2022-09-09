@@ -20,7 +20,7 @@
 	transition: 150ms ease border-color, 150ms ease color;
 	cursor: pointer;
 
-	:checked+& {
+	:checked + & {
 		color: $color-raspberry-1;
 
 		.checkbox__icon {
@@ -40,4 +40,15 @@
 .checkbox__label {
 	font-size: $font-size-5;
 	line-height: 1.35;
+}
+
+.checkbox__title {
+	font-size: $font-size-6;
+	margin-left: 1em;
+	&--checked {
+		color: $color-raspberry-1;
+	}
+	&:not(&--checked) {
+		color: #1c1c27;
+	}
 }

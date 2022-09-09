@@ -1,3 +1,5 @@
+import "./Filters.scss"
+
 import {
   Filter,
   filterCategoryStorage,
@@ -10,6 +12,7 @@ import {
 import Button from "app/components/UI/Button/Button"
 import Checkbox from "app/components/UI/Checkbox/Checkbox"
 import CheckboxCategory from "app/components/UI/Checkbox/CheckboxCategory"
+import CloseButton from "app/components/UI/CloseButton/CloseButton"
 import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"
 import Radio from "app/components/UI/Radio/Radio"
@@ -17,13 +20,17 @@ import ToolTip from "app/components/UI/ToolTip/ToolTip"
 import {filterStorage} from "app/views/home"
 import {breakDownCategories} from "app/views/lot-new/edit/EditLotCategory"
 import {LotDelivery} from "areas/lot/types"
-import {getCategory} from "infrastructure/persistence/api/data/actions"
+import {isValidResponse} from "infrastructure/persistence/api/client"
+import {
+  getCategory,
+  getCategoryByCategoryId,
+} from "infrastructure/persistence/api/data/actions"
 import {
   mapFiltersCategory,
   RecursiveTreeElement,
 } from "infrastructure/persistence/api/mappings/lots"
-import TemporaryStorage from "infrastructure/persistence/TemporaryStorage"
-import {Dispatch, useEffect, useRef, useState} from "react"
+import {Dispatch, useEffect, useState} from "react"
+import {useClient} from "react-fetching-library"
 import {classWithModifiers, inputValue} from "utils/common"
 
 import QueryContainer from "../QueryContainer/QueryContainer"
@@ -32,6 +39,7 @@ import filtersContext from "./filtersContext"
 
 interface FiltersContainerProps {
   pending?: boolean
+  currentId?: number
   clear?: Dispatch<FiltersType>
   onSubmit: Dispatch<FiltersType>
 }
@@ -51,13 +59,21 @@ function FiltersContainer(props: FiltersContainerProps) {
   const [state, setState] = useState<FiltersState>()
   const reducer = useState<FiltersType>(filterStorage.get("filters") || {})
   const [filters] = reducer
-  const [currentCategoryId, setCurrentCategoryId] = useState<number>()
+  const [currentCategoryId, setCurrentCategoryId] = useState<number>(
+    filterCategoryStorage.get("filter-category") || 0
+  )
 
   async function onSubmit() {
     const newFilters = {...filters, categories: currentCategoryId}
     await props.onSubmit?.(newFilters)
     setState(undefined)
   }
+  useEffect(() => {
+    if (props.currentId) {
+      setCurrentCategoryId(props.currentId)
+    }
+  }, [props.currentId])
+
   useEffect(() => {
     if (state === "expanded") {
       turnBigMinHeight(true)
@@ -91,6 +107,7 @@ function FiltersContainer(props: FiltersContainerProps) {
             <FiltersTreeContainer
               currentCategoryId={currentCategoryId}
               onChange={setCurrentCategoryId}
+              onSubmit={props.onSubmit}
             />
           </div>
           <Button
@@ -105,30 +122,84 @@ function FiltersContainer(props: FiltersContainerProps) {
     </filtersContext.Provider>
   )
 }
-
+type Category = {
+  id: number
+  name: string
+  parent_category_id?: number | null
+}
 export function FiltersContainerMobile(props: FiltersContainerProps) {
+  const client = useClient()
   const [state, setState] = useState<FiltersState>()
   const reducer = useState<FiltersType>({})
   const [filters, setFilters] = reducer
+  const [parentCategory, setParentCategory] = useState<Category | null>()
+  const [currentCategory, setCurrentCategory] = useState<Category | null>()
+  const [categories, setCategories] = useState<Category[]>()
+
+  useEffect(() => {
+    async function getCategories() {
+      const response = await client.query(getCategory())
+      if (!isValidResponse(response)) return
+      const {options} = breakDownCategories(
+        response.payload,
+        currentCategory?.id
+      )
+      setCategories(options)
+      if (options[0].parent_category_id) {
+        const {payload} = await client.query(
+          getCategoryByCategoryId(options[0].parent_category_id)
+        )
+        setParentCategory(payload)
+      }
+    }
+    getCategories()
+  }, [currentCategory])
+
   async function onSubmit() {
     await props.onSubmit?.(filters)
     setState(undefined)
   }
 
-  function chooseCategory(id: number) {
-    const nextFilters = {...filters, categories: id.toString()}
-
+  function chooseCategory(category: Category) {
+    setCurrentCategory(category)
+    const nextFilters = {...filters, categories: category.id.toString()}
     setFilters(nextFilters)
     props.onSubmit?.(nextFilters)
+  }
+
+  async function goToUp(category: Category) {
+    if (category.parent_category_id) {
+      const {payload} = await client.query(
+        getCategoryByCategoryId(category.parent_category_id)
+      )
+      setCurrentCategory(payload)
+      const nextFilters = {...filters, categories: payload?.id.toString()}
+      setFilters(nextFilters)
+      props.onSubmit?.(nextFilters)
+    } else {
+      setCurrentCategory(null)
+      setParentCategory(null)
+      setFilters({})
+      props.onSubmit?.({})
+    }
   }
 
   function clear() {
     props.clear?.({})
     setFilters({})
   }
+
   return (
     <filtersContext.Provider value={reducer}>
       <div className={classWithModifiers("mobile-filters", state)}>
+        {parentCategory && (
+          <div
+            className="mobile-filters__container"
+            onClick={() => goToUp(parentCategory)}>
+            <p className="filters__title">{parentCategory.name}</p>
+            <CloseButton />
+          </div>
+        )}
         <div className="mobile-filters__container">
           <button
             className="mobile-filters__toggle"
@@ -137,31 +208,21 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
             <Icon name="filter" />
             <ToolTip>Развернуть фильтр</ToolTip>
           </button>
-          <QueryContainer action={getCategory()}>
-            {payload => {
-              const currentCategoryId = Number(filters.categories)
-              const {options} = breakDownCategories(
-                payload,
-                Number(filters.categories)
-              )
-              return (
-                <div className="mobile-filters__categories">
-                  {options?.map(category => (
-                    <Button
-                      color={
-                        category.id === currentCategoryId ? undefined : "gray"
-                      }
-                      small
-                      outline
-                      onClick={() => chooseCategory(category.id)}
-                      key={category.id}>
-                      {category.name}
-                    </Button>
-                  ))}
-                </div>
-              )
-            }}
-          </QueryContainer>
+          <div className="mobile-filters__categories">
+            {categories &&
+              categories?.map(category => (
+                <Button
+                  color={
+                    category.id === currentCategory?.id ? undefined : "gray"
+                  }
+                  small
+                  outline
+                  onClick={() => chooseCategory(category)}
+                  key={category.id}>
+                  {category.name}
+                </Button>
+              ))}
+          </div>
         </div>
         <div className="mobile-filters__window">
           <button
@@ -201,6 +262,7 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
 interface FiltersTreeContainerProps {
   currentCategoryId?: number | null
   onChange?: Dispatch<number>
+  onSubmit?: Dispatch<FiltersType>
   isMobile?: boolean
 }
 function FiltersTreeContainer(props: FiltersTreeContainerProps) {
@@ -271,6 +333,7 @@ function FiltersTreeContainer(props: FiltersTreeContainerProps) {
               elements={payload}
               currentCategoryId={props.currentCategoryId}
               onChange={props.onChange}
+              onSubmit={props.onSubmit}
             />
           )}
         </QueryContainer>
@@ -325,6 +388,7 @@ interface FilterRecursionProps {
   currentCategoryId?: number | null
   elements: RecursiveTreeElement[]
   onChange?: Dispatch<number>
+  onSubmit?: Dispatch<FiltersType>
   isMobile?: boolean
 }
 
@@ -374,15 +438,16 @@ function FilterRecursion(props: FilterRecursionProps) {
           name={element.name}
           label={element.name}
           key={element.id}
-          current={props.currentCategoryId}
-          onChange={props.onChange}>
+          onChange={props.onChange}
+          onSubmit={props.onSubmit}>
           <FilterRecursion
             name={props.name}
-            currentCategoryId={props.currentCategoryId}
             elements={element.children.filter(
               child => child.children.length > 0
             )}
+            currentCategoryId={props.currentCategoryId}
             onChange={props.onChange}
+            onSubmit={props.onSubmit}
           />
           <div className="filter__inputs">
             {element.children
@@ -394,6 +459,7 @@ function FilterRecursion(props: FilterRecursionProps) {
                   currentCategoryId={props.currentCategoryId}
                   key={child.id}
                   onChange={props.onChange}
+                  onSubmit={props.onSubmit}
                 />
               ))}
           </div>

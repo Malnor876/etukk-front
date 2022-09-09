@@ -22,7 +22,6 @@
 	@include Mobile {
 		display: grid;
 		justify-content: unset;
-		gap: 5em;
 
 		& > :nth-child(1),
 		& > :nth-child(2) {
@@ -74,6 +73,7 @@
 	&--active {
 		color: $color-raspberry-1;
 	}
+	z-index: 1;
 }
 
 /* Info Summary */
@@ -173,6 +173,30 @@
 	}
 }
 
+.lot-info-bid__step {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 1em;
+	padding-bottom: 0.5em;
+	border-bottom: 2px solid #2d9cdb;
+
+	& > :nth-child(1) {
+		color: $color-gray-2;
+		font-size: $font-size-5;
+	}
+
+	& > :nth-child(2) {
+		font-size: $font-size-3;
+		font-weight: 600;
+	}
+
+	&--column {
+		display: grid;
+		justify-content: unset;
+		gap: 0.5em;
+	}
+}
+
 .lot-info-bid__text {
 	font-size: $font-size-6;
 }
@@ -212,6 +236,7 @@
 .lot-notification {
 	display: flex;
 	align-items: flex-start;
+
 	&--column {
 		display: flex;
 		flex-direction: column;

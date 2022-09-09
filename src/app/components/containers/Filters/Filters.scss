@@ -221,10 +221,10 @@ $toggleSize: 1.5em;
 	font-weight: 600;
 	text-transform: uppercase;
 	&--choosed {
-		color: $color-raspberry-2;
+		color: $color-raspberry-1;
 	}
 	&:not(&--choosed) {
-		color: grey;
+		color: #1c1c27;
 	}
 }
 
@@ -248,7 +248,7 @@ $toggleSize: 1.5em;
 	// 	margin-left: 1em;
 	// }
 	&--choosed {
-		color: $color-raspberry-2;
+		color: $color-raspberry-1;
 	}
 	&:not(&--expanded) {
 		opacity: 0;
@@ -268,10 +268,11 @@ $toggleSize: 1.5em;
 		// margin-left: 1em;
 		.filter__title {
 			font-size: $font-size-6;
+			margin-left: 1em;
 		}
 
 		.filter__inputs {
-			// margin-left: 1em;
+			margin-left: 2em;
 		}
 	}
 }
@@ -313,6 +314,9 @@ $toggleSize: 1.5em;
 	align-items: center;
 
 	@include column-gap(1em);
+	p {
+		text-transform: uppercase;
+	}
 
 	.mobile-filters--expanded & {
 		display: none;

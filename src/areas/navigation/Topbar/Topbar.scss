@@ -24,7 +24,10 @@
 
 	// max-width: 10em;
 
-	span {}
+	&--active {
+		color: $color-raspberry-1;
+		text-decoration: underline;
+	}
 
 	@include Mobile {
 		&:not(:first-child) {
@@ -38,7 +41,7 @@
 	align-items: center;
 	@include column-gap(1em);
 
-	&>:first-child {
+	& > :first-child {
 		margin-right: 1.5em;
 	}
 
