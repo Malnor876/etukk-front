@@ -1,15 +1,13 @@
 // import "./RequiredAuthCover.scss"
 
-import FullscreenSignIn from "app/components/containers/Auth/FullscreenSignIn"
-import Button from "app/components/UI/Button/Button"
+import ButtonLink from "app/components/UI/Button/ButtonLink"
 import ErrorCover from "app/components/UI/ErrorCover/ErrorCover"
-import {Modal} from "react-modal-global"
 
 function RequiredAuthCover() {
   return (
     <ErrorCover>
       <p>Пока ничего нет, пожалуйста, авторизуйтесь</p>
-      <Button onClick={() => Modal.open(FullscreenSignIn)}>Войти</Button>
+      <ButtonLink to="/login">Войти</ButtonLink>
     </ErrorCover>
   )
 }
