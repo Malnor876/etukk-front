@@ -314,6 +314,9 @@ $toggleSize: 1.5em;
 	align-items: center;
 
 	@include column-gap(1em);
+	p {
+		text-transform: uppercase;
+	}
 
 	.mobile-filters--expanded & {
 		display: none;

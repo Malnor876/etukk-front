@@ -12,6 +12,7 @@ import {
 import Button from "app/components/UI/Button/Button"
 import Checkbox from "app/components/UI/Checkbox/Checkbox"
 import CheckboxCategory from "app/components/UI/Checkbox/CheckboxCategory"
+import CloseButton from "app/components/UI/CloseButton/CloseButton"
 import Icon from "app/components/UI/Icon/Icon"
 import Input from "app/components/UI/Input/Input"
 import Radio from "app/components/UI/Radio/Radio"
@@ -19,12 +20,17 @@ import ToolTip from "app/components/UI/ToolTip/ToolTip"
 import {filterStorage} from "app/views/home"
 import {breakDownCategories} from "app/views/lot-new/edit/EditLotCategory"
 import {LotDelivery} from "areas/lot/types"
-import {getCategory} from "infrastructure/persistence/api/data/actions"
+import {isValidResponse} from "infrastructure/persistence/api/client"
+import {
+  getCategory,
+  getCategoryByCategoryId,
+} from "infrastructure/persistence/api/data/actions"
 import {
   mapFiltersCategory,
   RecursiveTreeElement,
 } from "infrastructure/persistence/api/mappings/lots"
 import {Dispatch, useEffect, useState} from "react"
+import {useClient} from "react-fetching-library"
 import {classWithModifiers, inputValue} from "utils/common"
 
 import QueryContainer from "../QueryContainer/QueryContainer"
@@ -116,40 +122,87 @@ function FiltersContainer(props: FiltersContainerProps) {
     </filtersContext.Provider>
   )
 }
-
+type Category = {
+  id: number
+  name: string
+  parent_category_id?: number | null
+}
 export function FiltersContainerMobile(props: FiltersContainerProps) {
+  const client = useClient()
   const [state, setState] = useState<FiltersState>()
   const reducer = useState<FiltersType>({})
   const [filters, setFilters] = reducer
-  const [categoryId, setCategoryId] = useState<number>()
-  console.log("categoryId", categoryId)
+  const [parentCategory, setParentCategory] = useState<Category | null>()
+  const [currentCategory, setCurrentCategory] = useState<Category | null>()
+  const [categories, setCategories] = useState<Category[]>()
+
+  useEffect(() => {
+    async function getCategories() {
+      const response = await client.query(getCategory())
+      if (!isValidResponse(response)) return
+      const {options} = breakDownCategories(
+        response.payload,
+        currentCategory?.id
+      )
+      setCategories(options)
+      if (options[0].parent_category_id) {
+        const {payload} = await client.query(
+          getCategoryByCategoryId(options[0].parent_category_id)
+        )
+        setParentCategory(payload)
+      }
+    }
+    getCategories()
+  }, [currentCategory])
+
   async function onSubmit() {
     await props.onSubmit?.(filters)
     setState(undefined)
   }
 
-  function chooseCategory(id: number) {
-    setCategoryId(id)
-
-    const nextFilters = {...filters, categories: id.toString()}
+  function chooseCategory(category: Category) {
+    setCurrentCategory(category)
+    const nextFilters = {...filters, categories: category.id.toString()}
     setFilters(nextFilters)
     props.onSubmit?.(nextFilters)
+  }
+
+  async function goToUp(category: Category) {
+    if (category.parent_category_id) {
+      const {payload} = await client.query(
+        getCategoryByCategoryId(category.parent_category_id)
+      )
+      setCurrentCategory(payload)
+      const nextFilters = {...filters, categories: payload?.id.toString()}
+      setFilters(nextFilters)
+      props.onSubmit?.(nextFilters)
+    } else {
+      setCurrentCategory(null)
+      setParentCategory(null)
+      setFilters({})
+      props.onSubmit?.({})
+    }
   }
 
   function clear() {
     props.clear?.({})
     setFilters({})
   }
-  type Category = {
-    id: number
-    name: string
-    parent_category_id?: number | null
-  }
 
   return (
     <filtersContext.Provider value={reducer}>
       <div className={classWithModifiers("mobile-filters", state)}>
-        {categoryId && <p>{categoryId}</p>}
+        {parentCategory && (
+          <div
+            className="mobile-filters__container"
+            style={{height: "2.5em"}}
+            onClick={() => goToUp(parentCategory)}>
+            <p className="filters__title">{parentCategory.name}</p>
+            <CloseButton />
+          </div>
+          // ) : (
+          //   <div style={{height: "2.5em"}}></div>
+        )}
 
         <div className="mobile-filters__container">
           <button
@@ -159,31 +212,21 @@ export function FiltersContainerMobile(props: FiltersContainerProps) {
             <Icon name="filter" />
             <ToolTip>Развернуть фильтр</ToolTip>
           </button>
-          <QueryContainer action={getCategory()}>
-            {payload => {
-              const currentCategoryId = Number(filters.categories)
-              const {options} = breakDownCategories(
-                payload,
-                Number(filters.categories)
-              )
-              return (
-                <div className="mobile-filters__categories">
-                  {options?.map(category => (
-                    <Button
-                      color={
-                        category.id === currentCategoryId ? undefined : "gray"
-                      }
-                      small
-                      outline
-                      onClick={() => chooseCategory(category.id)}
-                      key={category.id}>
-                      {category.name}
-                    </Button>
-                  ))}
-                </div>
-              )
-            }}
-          </QueryContainer>
+          <div className="mobile-filters__categories">
+            {categories &&
+              categories?.map(category => (
+                <Button
+                  color={
+                    category.id === currentCategory?.id ? undefined : "gray"
+                  }
+                  small
+                  outline
+                  onClick={() => chooseCategory(category)}
+                  key={category.id}>
+                  {category.name}
+                </Button>
+              ))}
+          </div>
         </div>
         <div className="mobile-filters__window">
           <button

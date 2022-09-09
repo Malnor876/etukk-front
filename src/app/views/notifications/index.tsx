@@ -56,8 +56,29 @@ function NotificationsLotsContainer() {
   useEffect(() => {
     async function getMyNotifications() {
       const {payload} = await client.query(getUserNotifications())
+      payload?.sort(function (a, b) {
+        if (a.event_time && b.event_time && a.event_time < b.event_time) {
+          return 1
+        }
+        if (a.event_time && b.event_time && a.event_time > b.event_time) {
+          return -1
+        }
+        return 0
+      })
+      console.log("payload", payload)
+
       const notificationsWithLot = payload?.filter(item => item.lot != null)
+      // notificationsWithLot?.sort(function (a, b) {
+      //   if (a.event_time && b.event_time && a.event_time < b.event_time) {
+      //     return 1
+      //   }
+      //   if (a.event_time && b.event_time && a.event_time > b.event_time) {
+      //     return -1
+      //   }
+      //   return 0
+      // })
       const notificationsLots: SchemaLot[] = []
+      console.log("notificationsWithLot", notificationsWithLot)
 
       notificationsWithLot?.forEach(notification => {
         if (notificationsLots.find(note => note.id === notification.lot_id))
@@ -73,9 +94,7 @@ function NotificationsLotsContainer() {
   const LotPreviewClick = (lot: SchemaLot) => {
     navigate(`/lots/${lot.id}/notifications`, {state: {lot: lot}})
   }
-  if (!notificationsLots[0]) {
-    return <h3>Идет загрузка ...</h3>
-  }
+
   return (
     <Previews>
       {notificationsLots.map(lot => (
