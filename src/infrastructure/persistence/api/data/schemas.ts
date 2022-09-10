@@ -83,6 +83,7 @@ export interface SchemaLot {
   now_price?: number | null
   status?: string
   trade_status?: string | null
+  notifications?: boolean
   views?: number
   favorites?: number
   created_at: string

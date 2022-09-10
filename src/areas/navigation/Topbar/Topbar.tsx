@@ -45,9 +45,9 @@ function Topbar() {
             </>
           )}
         </QueryContainer>
-        <NavLink className={"topbar-menu__link"} to="/">
+        {/* <NavLink className={"topbar-menu__link"} to="/">
           <span>Еще</span>
-        </NavLink>
+        </NavLink> */}
       </nav>
       <TopbarActions />
       <button type="button" onClick={() => Modal.open(SidebarNavDrawer)}>

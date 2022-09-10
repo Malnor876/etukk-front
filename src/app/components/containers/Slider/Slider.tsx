@@ -91,7 +91,23 @@ function Slider(props: SliderProps) {
                   type="button"
                   onClick={() => (openSliderPopup(index), setIndex(index))}
                   key={index}>
-                  <img className="slider__slide" src={slide} alt="slide" />
+                  {slide.includes("youtu") ? (
+                    <div className="slider-video">
+                      <img
+                        className="slider__slide"
+                        src={new YouTubeVideo(currentSlide).thumbnail}
+                        alt="youtube thumbnail"
+                      />
+                      <div className="slider__slide-video__play">
+                        <Icon
+                          className="slider__slide-video__icon"
+                          name="play"
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <img className="slider__slide" src={slide} alt="slide" />
+                  )}
                 </button>
               )
             )}

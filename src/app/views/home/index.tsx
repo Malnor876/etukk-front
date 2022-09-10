@@ -60,11 +60,12 @@ function HomeView() {
         placeholder="Поиск по Москве..."
         onChange={setSearch}
         onSubmit={setFilterSearch}>
-        {options?.map((option, index) => (
-          <option value={option.name || "unknown"} key={index}>
-            {option.name || "unknown"}
-          </option>
-        ))}
+        {options &&
+          options.map((option, index) => (
+            <option value={option.name || "unknown"} key={index}>
+              {option.name || "unknown"}
+            </option>
+          ))}
       </SearchSuggest>
       {isMobile && (
         <FiltersContainerMobile

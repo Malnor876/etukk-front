@@ -19,7 +19,6 @@ function FullscreenLayout(props: FullscreenLayoutProps) {
   if (!props.isPage) {
     modal = useModalContext()
   }
-  console.log("modal", modal)
   const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
 
   useEffect(() => {

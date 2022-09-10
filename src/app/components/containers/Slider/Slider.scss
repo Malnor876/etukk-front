@@ -94,6 +94,21 @@ $arrow-icon-size: 1em;
 	--icon-size: 2.5em;
 }
 
+.slider__slide-video__play {
+	position: absolute;
+
+	padding: 0.5em 0.4em 0.6em 0.8em;
+	background: rgba($color-dark, 0.25);
+	border: 1px solid rgba($color-white, 0.75);
+	border-radius: 50%;
+
+	cursor: pointer;
+}
+
+.slider__slide-video__icon {
+	--icon-size: 1em;
+}
+
 // Swiper
 .swiper-main {
 	width: 90vw;

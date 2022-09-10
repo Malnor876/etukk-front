@@ -3,10 +3,9 @@ import "./Lot.scss"
 import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
 import Details from "app/components/UI/Details/Details"
-import useParam from "hooks/useParam"
+import {isValidResponse} from "infrastructure/persistence/api/client"
 import {
-  getLotByLotId,
-  getLotDraftByDraftId,
+  deleteLotByLotIdNotifications,
   getUserNotifications,
 } from "infrastructure/persistence/api/data/actions"
 import {
@@ -28,6 +27,7 @@ function LotNotification() {
   const state = useLocation().state as LotState
   const client = useClient()
   const [lotById, setLotById] = useState<LotInfoType>()
+  const [subscribe, setSubscribe] = useState<boolean>()
   const [notificationsByLot, setNotificationsByLot] = useState<
     SchemaUserNotifications[]
   >([])
@@ -35,6 +35,7 @@ function LotNotification() {
   useEffect(() => {
     if (state) {
       setLotById(mapLot(state.lot))
+      setSubscribe(state.lot.notifications)
     }
   }, [])
 
@@ -44,8 +45,6 @@ function LotNotification() {
         const {payload} = await client.query(
           getUserNotifications({lot_id: lotById?.id})
         )
-        console.log("payload", payload)
-
         const sortedNotifications = payload?.sort(function (a, b) {
           if (a.event_time && b.event_time && a.event_time < b.event_time) {
             return 1
@@ -63,8 +62,15 @@ function LotNotification() {
     }
     getMyNotificationsByLot()
   }, [lotById])
-  const notificationsUnsubscribe = () => {
-    console.log("click")
+
+  const notificationsUnsubscribe = async () => {
+    if (lotById == null) return
+    const response = await client.query(
+      deleteLotByLotIdNotifications(+lotById?.id)
+    )
+
+    if (!isValidResponse(response)) return
+    setSubscribe(false)
   }
 
   return (
@@ -73,10 +79,12 @@ function LotNotification() {
       <div className="lot-notification">
         <div>
           {lotById && <LotPreview {...lotById} />}
-          {notificationsByLot[0] && (
+          {notificationsByLot[0] && subscribe ? (
             <Button marginTop={15} onClick={notificationsUnsubscribe}>
               Отписаться
             </Button>
+          ) : (
+            <p>Вы отписаны от уведомлений</p>
           )}
         </div>
         <div className="lot-notification--column">

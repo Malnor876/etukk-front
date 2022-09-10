@@ -74,7 +74,7 @@ export interface LotInfoType {
 
   status: LotStatus
   tradeStatus: LotTradeStatus
-
+  notifications?: boolean
   editedAt: Date
 
   image: string

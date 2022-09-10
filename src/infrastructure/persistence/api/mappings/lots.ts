@@ -82,7 +82,7 @@ export function mapLot(lot: SchemaLot): LotInfoType {
       lot.bidding_start_time,
       lot.bidding_end_time
     ),
-
+    notifications: lot.notifications ?? true,
     betStep: new Price(lot.bet_step ?? -1),
     startPrice: new Price(lot.start_price ?? -1),
     currentPrice: new Price(lot.now_price ?? -1),

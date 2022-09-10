@@ -758,6 +758,41 @@ export const patchLotByLotIdUnpublish = (
 /**
  * OK
  */
+export const deleteLotByLotIdNotifications = (
+  lot_id: number
+): Action<{
+  id: number
+  name?: string | null
+  description?: string | null
+  start_price?: number | null
+  city?: string | null
+  delivery_options?: string | null
+  video_url?: string | null
+  archived?: boolean
+  banned?: boolean
+  bidding_start_time?: string | null
+  bidding_end_time?: string | null
+  reject_reason?: string | null
+  now_price?: number | null
+  status?: string
+  trade_status?: string | null
+  views?: number
+  favorites?: number
+  created_at: string
+  edited_at: string
+  buyer_id?: number | null
+  user_id: number
+}> => ({
+  method: "DELETE",
+  endpoint: `/lot/${lot_id}/notifications`,
+  config: {
+    requireAuth: true,
+  },
+})
+
+/**
+ * OK
+ */
 export const patchLotDraftByLotIdArchive = (
   lot_id: number
 ): Action<{
