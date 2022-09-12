@@ -10,9 +10,9 @@
 	flex: 1;
 
 	@include Mobile {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
+		// display: flex;
+		// flex-wrap: wrap;
+		// justify-content: space-between;
 		gap: 1em;
 		grid-template-columns: repeat(2, 1fr);
 

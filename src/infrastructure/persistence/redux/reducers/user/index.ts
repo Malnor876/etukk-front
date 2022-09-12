@@ -34,8 +34,13 @@ type Action = ValuesOf<MapActions<Actions>>
 export default (state = initialState, action: Action): User => {
   switch (action.type) {
     case "USER_UPDATE": {
-      const nextState = {...state, ...action.payload}
-      localStorage.setItem("user", JSON.stringify(nextState))
+      let nextState = {...state}
+      if (action.payload.auth) {
+        nextState = {...state, ...action.payload}
+        localStorage.setItem("user", JSON.stringify(nextState))
+      } else {
+        nextState = {...action.payload}
+      }
       return nextState
     }
 

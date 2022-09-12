@@ -22,7 +22,6 @@ export function setDateMinutes(date: Date, minutes: number) {
   return dateInstance
 }
 
-
 export function offsetDateYear(date: Date, offset = 0) {
   return setDateMonth(date, date.getFullYear() + offset)
 }
@@ -38,9 +37,6 @@ export function offsetDateDay(date: Date, offset = 0) {
 export function offsetDateMinutes(date: Date, offset = 0) {
   return setDateMinutes(date, date.getMinutes() + offset)
 }
-
-
-
 
 export function getFirstWeekday(date: Date) {
   const dateInstance = setDateDay(date, 1)

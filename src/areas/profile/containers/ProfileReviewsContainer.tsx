@@ -10,16 +10,20 @@ import {useSelector} from "react-redux"
 
 interface ProfileReviewsContainerProps {
   type: "sales" | "purchases"
+  sellerId?: number
 }
 
 function ProfileReviewsContainer(props: ProfileReviewsContainerProps) {
   const user = useSelector(state => state.user)
   if (!user.auth) return null
-
   const action = getLotReview<{
     user_id?: number
     to_user_id?: number
-  }>(props.type === "purchases" ? {user_id: user.id} : {to_user_id: user.id})
+  }>(
+    props.type === "purchases"
+      ? {user_id: user.id}
+      : {to_user_id: props.sellerId ?? user.id}
+  )
 
   return (
     <QueryContainer action={action}>

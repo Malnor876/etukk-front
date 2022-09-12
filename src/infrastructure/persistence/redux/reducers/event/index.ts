@@ -11,11 +11,11 @@ const initialState: Event = {
   user_id: null,
 }
 
-interface Actions {
+interface EventActions {
   EVENT_UPDATE: Event
 }
 
-type Action = ValuesOf<MapActions<Actions>>
+type Action = ValuesOf<MapActions<EventActions>>
 
 export default (state = initialState, action: Action): Event => {
   switch (action.type) {
@@ -29,7 +29,7 @@ export default (state = initialState, action: Action): Event => {
   }
 }
 
-export const eventUpdate = (payload: Actions["EVENT_UPDATE"]) =>
+export const eventUpdate = (payload: EventActions["EVENT_UPDATE"]) =>
   ({
     type: "EVENT_UPDATE",
     payload,

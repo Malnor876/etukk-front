@@ -5,18 +5,15 @@ import Backward from "app/components/UI/Backward/Backward"
 import Button from "app/components/UI/Button/Button"
 import Copy from "app/components/UI/Copy/Copy"
 import CustomerRating from "app/components/UI/CustomerRating/CustomerRating"
-import Review from "app/components/UI/Review/Review"
 import Switcher from "app/components/UI/Switcher/Switcher"
 import Previews from "app/layouts/Previews/Previews"
-import Reviews from "app/layouts/Reviews/Reviews"
 import LotPreview from "areas/lot/LotPreview/LotPreview"
 import {LotStatus} from "areas/lot/types"
-import {IMAGE_MOCKS} from "constants/mocks"
+import ProfileReviewsContainer from "areas/profile/containers/ProfileReviewsContainer"
 import {isValidResponse} from "infrastructure/persistence/api/client"
 import {ExtractActionPayload} from "infrastructure/persistence/api/client.types"
 import {
   getLot,
-  getLotReview,
   getUserByUserId,
   postUserFavoriteUser,
 } from "infrastructure/persistence/api/data/actions"
@@ -36,12 +33,6 @@ interface UserProfileProps {
 }
 
 function UserProfile(props: UserProfileProps) {
-  const getUserReviewsAction = getLotReview<
-    FilteringField<"user_id", "iexact", number>
-  >({
-    user_id__iexact: props.userId,
-  })
-
   const getUserLotsAction = (status: string) =>
     getLot<
       FilteringField<"user_id", "iexact", number> & {
@@ -97,28 +88,9 @@ function UserProfile(props: UserProfileProps) {
         </Switcher>
         <Routes>
           <Route
-            index
+            path=""
             element={
-              <QueryContainer action={getUserReviewsAction} key="reviews">
-                {payload => (
-                  <Reviews>
-                    {payload.map(review => (
-                      <Review
-                        date={new Date(review.created_at)}
-                        product={"none"}
-                        // attachments={IMAGE_MOCKS}
-                        comment={review.text ?? "unknown"}
-                        user={{
-                          id: review.user_id,
-                          avatar: IMAGE_MOCKS[1],
-                          firstName: "Сергей",
-                        }}
-                        key={review.id}
-                      />
-                    ))}
-                  </Reviews>
-                )}
-              </QueryContainer>
+              <ProfileReviewsContainer type="sales" sellerId={props.userId} />
             }
           />
           <Route
