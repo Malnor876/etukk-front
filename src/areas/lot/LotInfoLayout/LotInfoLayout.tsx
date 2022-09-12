@@ -55,6 +55,7 @@ function LotInfoLayout(props: LotInfoProps) {
         "title",
         "city",
         "startPrice",
+        "currentPrice",
         "startEndInterval",
         "status",
         "delivery",

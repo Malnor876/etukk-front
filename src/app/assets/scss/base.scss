@@ -10,6 +10,17 @@ body {
 	color: $color-main-text;
 	overflow-y: scroll;
 	margin: unset;
+
+	@include Mobile {
+		min-height: 100vh;
+		min-height: -webkit-fill-available;
+	}
+}
+
+html {
+	@include Mobile {
+		height: -webkit-fill-available;
+	}
 }
 
 /* Typography */
@@ -132,8 +143,6 @@ hr {
 	background: $color-gray-4;
 	border: unset;
 }
-
-
 
 .center {
 	text-align: center;

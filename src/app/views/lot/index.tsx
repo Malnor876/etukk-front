@@ -113,7 +113,9 @@ function LotView() {
                         Опубликовать
                       </Button>
                     </Buttons>
-                  ) : (
+                  ) : payload.status !== "sold" &&
+                    payload.status !== "closed" &&
+                    !payload.archived ? (
                     <Buttons spaceBetween>
                       <ButtonLink
                         to={`/lots/${lotId}/edit`}
@@ -121,7 +123,7 @@ function LotView() {
                         Редактировать
                       </ButtonLink>
                     </Buttons>
-                  ))}
+                  ) : null)}
               </LotInfoLayout>
             )
           }

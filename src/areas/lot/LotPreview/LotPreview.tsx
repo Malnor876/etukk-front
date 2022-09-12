@@ -473,7 +473,15 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
           </LotPreviewTimerButton>
         </>
       )
-
+    case LotTradeStatus.DELIVERY_REJECTED:
+      return (
+        <>
+          <LotPreviewTradeStatusDetails {...props} />
+          <LotPreviewStatus iconName="pending">
+            Претензия на рассмотрении
+          </LotPreviewStatus>
+        </>
+      )
     case LotTradeStatus.DELIVERED:
       return (
         <>

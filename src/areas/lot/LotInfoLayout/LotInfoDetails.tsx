@@ -16,6 +16,7 @@ interface LotInfoDetailsProps
     | "title"
     | "city"
     | "startPrice"
+    | "currentPrice"
     | "startEndInterval"
     | "status"
     | "delivery"
@@ -57,6 +58,12 @@ function LotInfoDetails(props: LotInfoDetailsProps) {
           <span>Начальная стоимость</span>
           <big>{props.startPrice.format()}</big>
         </Entry>
+        {props.currentPrice && props.status === "sold" && (
+          <Entry>
+            <span>Сумма выкупа</span>
+            <big>{props.currentPrice.format()}</big>
+          </Entry>
+        )}
         <Entry>
           <span>Начало торгов</span>
           <span>{props.startEndInterval.humanizedDate1}</span>

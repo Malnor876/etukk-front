@@ -1527,8 +1527,8 @@ export const deleteLotByLotIdPhotoByPhotoId = (
 /**
  * OK
  */
-export const getLotByLotId = (
-  lot_id?: number
+export const getLotByLotId = <Filters extends object>(
+  lot_id?: number,
 ): Action<{
   id: number
   name?: string | null
