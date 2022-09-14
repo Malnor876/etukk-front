@@ -415,6 +415,62 @@ export const getUserReview = <Filters extends object>(
   },
 })
 
+export const getUserCards = (): Action<
+  {
+    id: number
+    pan: string
+    user_id: number
+    exp_date: string
+    status: string
+    created_at: string
+    default: boolean
+  }[]
+> => ({
+  method: "GET",
+  endpoint: `/user/cards`,
+  config: {
+    requireAuth: true,
+  },
+})
+
+export const patchUserCard = (
+  card_id: number,
+  body: {default: boolean}
+): Action<{
+  id: number
+  pan: string
+  user_id: number
+  exp_date: string
+  status: string
+  created_at: string
+  default: boolean
+}> => ({
+  method: "PATCH",
+  endpoint: `/user/cards/${card_id}`,
+  body,
+  config: {
+    requireAuth: true,
+  },
+})
+
+export const deleteUserCard = (
+  card_id: number
+): Action<{
+  id: number
+  pan: string
+  user_id: number
+  exp_date: string
+  status: string
+  created_at: string
+  default: boolean
+}> => ({
+  method: "DELETE",
+  endpoint: `/user/cards/${card_id}`,
+  config: {
+    requireAuth: true,
+  },
+})
+
 /**
  * OK
  */
@@ -861,6 +917,23 @@ export const getLotByLotIdBet = (
 }> => ({
   method: "GET",
   endpoint: `/lot/${lot_id}/bet`,
+  config: {
+    requireAuth: true,
+  },
+})
+
+/**
+ * OK
+ */
+export const postLotByLotIdPayout = (
+  lot_id: number,
+  body: {card_id: number}
+): Action<{
+  payout: boolean
+}> => ({
+  method: "POST",
+  endpoint: `/lot/${lot_id}/payout`,
+  body,
   config: {
     requireAuth: true,
   },
@@ -1528,7 +1601,7 @@ export const deleteLotByLotIdPhotoByPhotoId = (
  * OK
  */
 export const getLotByLotId = <Filters extends object>(
-  lot_id?: number,
+  lot_id?: number
 ): Action<{
   id: number
   name?: string | null
@@ -1756,6 +1829,16 @@ export const getUserBets = (): Action<{
 }> => ({
   method: "GET",
   endpoint: "/user/bets",
+  config: {
+    requireAuth: true,
+  },
+})
+
+export const getUrlTinkoff = (): Action<{
+  redirect_url: string
+}> => ({
+  method: "GET",
+  endpoint: "/user/add_card",
   config: {
     requireAuth: true,
   },

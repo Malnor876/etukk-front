@@ -12,6 +12,8 @@ body {
 	margin: unset;
 
 	@include Mobile {
+		// font: "Inter", "Arial", sans-serif;
+
 		min-height: 100vh;
 		min-height: -webkit-fill-available;
 	}

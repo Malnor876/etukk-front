@@ -1,17 +1,33 @@
 import _ from "lodash"
 
 export function humanizeDate(date: Date, lang = "ru") {
-  const localeString = date.toLocaleString(lang, { timeStyle: "short", dateStyle: "short" })
+  const localeString = date.toLocaleString(lang, {
+    timeStyle: "short",
+    dateStyle: "short",
+  })
   return localeString.replace(", ", " в ").replace(".20", ".")
 }
 
-
 /**
- * 
+ *
  * @returns Пн 13.06.22
  */
 export function humanizeDate2(date: Date, lang = "ru") {
-  const localeString = date.toLocaleString(lang, { weekday: "short", year: "2-digit", month: "2-digit", day: "2-digit" })
+  const localeString = date.toLocaleString(lang, {
+    weekday: "short",
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
+  })
+  return _.capitalize(localeString.replace(" г.", "").replace(",", ""))
+}
+
+export function humanizeDate3(date: Date, lang = "ru") {
+  const localeString = date.toLocaleString(lang, {
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
+  })
   return _.capitalize(localeString.replace(" г.", "").replace(",", ""))
 }
 
@@ -19,9 +35,12 @@ export class DateInterval {
   public date1: Date
   public date2: Date
 
-  constructor(date1?: string | number | Date | null, date2?: string | number | Date | null) {
+  constructor(
+    date1?: string | number | Date | null,
+    date2?: string | number | Date | null
+  ) {
     if (date1 == null) {
-      date1 = new Date
+      date1 = new Date()
 
       if (process.env.NODE_ENV !== "production") {
         console.warn("`date1` was null, replaced with `new Date`")
@@ -29,7 +48,7 @@ export class DateInterval {
     }
 
     if (date2 == null) {
-      date2 = new Date
+      date2 = new Date()
 
       if (process.env.NODE_ENV !== "production") {
         console.warn("`date2` was null, replaced with `new Date`")
@@ -41,7 +60,9 @@ export class DateInterval {
   }
 
   get difference(): Date {
-    return new Date(this.date1.getUTCMilliseconds() - this.date2.getUTCMilliseconds())
+    return new Date(
+      this.date1.getUTCMilliseconds() - this.date2.getUTCMilliseconds()
+    )
   }
 
   get humanizedDate1(): string {

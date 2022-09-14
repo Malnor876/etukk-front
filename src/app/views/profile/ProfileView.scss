@@ -1,6 +1,7 @@
 @import "~app/assets/scss/bundle.scss";
 
-.profile-view {}
+.profile-view {
+}
 
 .profile-view__container {
 	display: grid;
@@ -49,5 +50,47 @@
 	@include Mobile {
 		margin-right: unset;
 		order: -1;
+	}
+}
+
+// finance
+
+.profile-view__finance-settings {
+	font-weight: 400;
+	h2,
+	p {
+		font-size: 14px;
+		line-height: 21px;
+		color: $color-gray-2;
+	}
+	span {
+		font-size: 10px;
+		line-height: 11px;
+		color: $color-gray-2;
+	}
+	p {
+		color: $color-dark;
+		span {
+			font-size: 14px;
+			line-height: 21px;
+			color: $color-blue;
+			cursor: pointer;
+		}
+	}
+	.profile-view__token {
+		span:first-child {
+			cursor: default;
+		}
+		span:last-child {
+			color: $color-dark;
+			margin-left: 10px;
+		}
+		.profile-view__token-default {
+			margin-left: 10px;
+			color: $color-dark;
+			&--choosed {
+				color: $color-blue;
+			}
+		}
 	}
 }

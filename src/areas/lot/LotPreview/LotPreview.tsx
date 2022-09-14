@@ -2,15 +2,24 @@ import "./LotPreview.scss"
 
 import Author from "app/components/UI/Author/Author"
 import Bookmark from "app/components/UI/Bookmark/Bookmark"
+import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
 import Icon, {IconName} from "app/components/UI/Icon/Icon"
+import {Card} from "app/views/profile/views/personal/ProfilePersonalSettings"
+import DialogPayoutSuccessful from "areas/checkout/DialogPayoutSuccessful"
 import {LotInfoType, LotStatus, LotTradeStatus} from "areas/lot/types"
 import useDeviceWidth from "hooks/useDeviceWidth"
 import {DeviceWidths} from "hooks/useResizeObserverEntry"
+import {
+  getUserCards,
+  postLotByLotIdPayout,
+} from "infrastructure/persistence/api/data/actions"
 import {ReactNode, useEffect, useState} from "react"
+import {useClient} from "react-fetching-library"
+import {Modal} from "react-modal-global"
 import {useSelector} from "react-redux"
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import {humanizeDate} from "utils/date"
 import {offsetDateDay, offsetDateMinutes} from "utils/date.helpers"
 import {Price} from "utils/extensions"
@@ -344,6 +353,44 @@ function LotPreviewTypeTradeStatusContent(props: LotProps) {
 }
 
 function LotPreviewSellerTradeStatusContent(props: LotProps) {
+  const client = useClient()
+  const navigate = useNavigate()
+  const [cards, setCards] = useState<Card[]>([])
+
+  useEffect(() => {
+    async function getCards() {
+      const {error, payload} = await client.query(getUserCards())
+      console.log("payload", payload)
+      if (error) return
+      if (payload == null) return
+      setCards(payload)
+    }
+    getCards()
+  }, [])
+
+  async function getPayout() {
+    if (cards.length === 1) {
+      const {error, payload} = await client.query(
+        postLotByLotIdPayout(props.id, {card_id: cards[0].id})
+      )
+      if (error) return
+      if (payload == null) return
+      Modal.open(DialogPayoutSuccessful, {closable: false})
+    }
+    if (cards.length > 1) {
+      const defaultCard = cards.find(card => card.default)
+      if (defaultCard) {
+        const {error, payload} = await client.query(
+          postLotByLotIdPayout(props.id, {card_id: defaultCard?.id})
+        )
+        if (error) return
+        if (payload == null) return
+        Modal.open(DialogPayoutSuccessful, {closable: false})
+      } else {
+        navigate("/profile/personal/settings")
+      }
+    }
+  }
   switch (props.tradeStatus) {
     case LotTradeStatus.AWAITING_PAYMENT:
       return (
@@ -393,6 +440,15 @@ function LotPreviewSellerTradeStatusContent(props: LotProps) {
         <>
           <LotPreviewTradeStatusDetails {...props} />
           <LotPreviewStatus iconName="check">Получен</LotPreviewStatus>
+          {cards[0] ? (
+            <ButtonLink to={"/profile/sales"} onClick={getPayout}>
+              Получить выплату
+            </ButtonLink>
+          ) : (
+            <ButtonLink to={"/profile/personal/settings"}>
+              Получить выплату
+            </ButtonLink>
+          )}
         </>
       )
 
