@@ -26,10 +26,9 @@
 	}
 
 	@include Mobile {
-		// max-width: unset;
 		// min-width: 45%;
 		// flex: 1;
-		max-width: unset;
+		max-width: 44vw;
 		// font-size: 0.75em;
 	}
 }
@@ -69,7 +68,7 @@
 		}
 	}
 	@include Mobile {
-		max-width: unset;
+		max-width: 44vw;
 	}
 }
 

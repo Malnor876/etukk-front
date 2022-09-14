@@ -48,7 +48,7 @@
 .dropper__inner {
 	transition: 250ms ease opacity, 250ms ease transform;
 
-	:not(.dropper__container--expanded)>& {
+	:not(.dropper__container--expanded) > & {
 		opacity: 0;
 		transform: translateY(-5%);
 		pointer-events: none;

@@ -1,26 +1,19 @@
-import QueryContainer from "app/components/containers/QueryContainer/QueryContainer"
 import Button from "app/components/UI/Button/Button"
 import Checkbox from "app/components/UI/Checkbox/Checkbox"
 import {Column} from "app/layouts/BaseLayouts/BaseLayouts"
-import Form, {FormState} from "app/layouts/Form/Form"
-import useLocalStorage from "hooks/useLocalStorage"
-import {isValidResponse} from "infrastructure/persistence/api/client"
 import {
   deleteUserCard,
   getUrlTinkoff,
-  getUser,
   getUserCards,
   patchUser,
   patchUserCard,
 } from "infrastructure/persistence/api/data/actions"
-import {mapCabinetUsersSettings} from "infrastructure/persistence/api/mappings/cabinet"
 import {mapUser} from "infrastructure/persistence/api/mappings/user"
 import {userUpdate} from "infrastructure/persistence/redux/reducers/user"
 import {UserSigned} from "infrastructure/persistence/redux/reducers/user/types"
 import {useEffect, useState} from "react"
-import {useClient, useMutation} from "react-fetching-library"
+import {useClient} from "react-fetching-library"
 import {useDispatch, useSelector} from "react-redux"
-import {Navigate, NavLink, useNavigate} from "react-router-dom"
 import {classWithModifiers} from "utils/common"
 import {humanizeDate3} from "utils/date"
 
@@ -33,35 +26,25 @@ enum FormInputs {
 function ProfilePersonalSettings() {
   const user = useSelector(state => state.user) as UserSigned
   const [confirm, setConfirm] = useState(user.bet_confirmation)
-  // const {mutate} = useMutation(patchUser)
-  // const [pending, setPending] = useState(false)
+
   const client = useClient()
   const dispatch = useDispatch()
-  // async function onSubmit() {
-  //   setPending(true)
-  //   const {error} = await mutate({bet_confirmation: confirm})
-  //   setPending(false)
-  //   if (error) return
-  // }
 
-  async function settingBetConfirm() {
-    const {error, payload} = await client.query(
-      patchUser({bet_confirmation: confirm})
-    )
-
-    if (error) return
-    if (payload == null) return
-    dispatch(userUpdate(mapUser(payload)))
-  }
+  useEffect(() => {
+    async function settingBetConfirm() {
+      const {error, payload} = await client.query(
+        patchUser({bet_confirmation: confirm})
+      )
+      if (error) return
+      if (payload == null) return
+      dispatch(userUpdate(mapUser(payload)))
+    }
+    settingBetConfirm()
+  }, [confirm])
 
   return (
     <>
       <h5 className="heading">Настройки</h5>
-      {/* <Form onSubmit={onSubmit}> */}
-      {/* <QueryContainer action={getCabinetUsersSettings()} mapping={mapCabinetUsersSettings}>
-                {payload => ( */}
-      {/* <QueryContainer action={getUser()} mapping={mapUser}>
-        {payload => ( */}
       <Column>
         <Checkbox
           name={FormInputs.bidUpConfirm}
@@ -70,13 +53,10 @@ function ProfilePersonalSettings() {
           Не запрашивать подтверждение о повышении ставки
         </Checkbox>
       </Column>
-      {/* )} */}
-      {/* </QueryContainer> */}
-      <div>
+      {/* <div>
         <Button onClick={settingBetConfirm}>Сохранить</Button>
-      </div>
+      </div> */}
       <FinanceSettings />
-      {/* </Form> */}
     </>
   )
 }
