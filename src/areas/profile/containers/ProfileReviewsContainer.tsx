@@ -24,21 +24,28 @@ function ProfileReviewsContainer(props: ProfileReviewsContainerProps) {
       ? {user_id: user.id}
       : {to_user_id: props.sellerId ?? user.id}
   )
-
+  console.log(new Date("2022-09-14T11:51:57.698Z").getTime())
   return (
     <QueryContainer action={action}>
       {payload => (
         <Reviews>
-          {payload.map(review => (
-            <Review
-              user={mapUser(review.user)}
-              attachments={review.lotreviewphotos ?? []}
-              comment={review.text ?? "..."}
-              date={new Date(review.created_at)}
-              product={review.to_lot?.name}
-              key={review.id}
-            />
-          ))}
+          {payload
+            ?.sort(function (a, b) {
+              return (
+                new Date(a.created_at).getTime() -
+                new Date(b.created_at).getTime()
+              )
+            })
+            .map(review => (
+              <Review
+                user={mapUser(review.user)}
+                attachments={review.lotreviewphotos ?? []}
+                comment={review.text ?? "..."}
+                date={new Date(review.created_at)}
+                product={review.to_lot?.name}
+                key={review.id}
+              />
+            ))}
         </Reviews>
       )}
     </QueryContainer>

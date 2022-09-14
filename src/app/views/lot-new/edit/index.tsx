@@ -146,7 +146,7 @@ function LotDraftView() {
       }
       case "city": {
         if (typeof value !== "string") return false
-        if (!/^[^,]*,[^,]*,[^,]*$/.test(value)) return false
+        if (!/^([^,]*,){2,5}[^,]*$/.test(value)) return false
         if (!/^(?=.*[0-9])/g.test(value)) return false
         return true
       }

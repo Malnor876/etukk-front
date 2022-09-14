@@ -55,7 +55,7 @@ function Input(props: InputProps) {
 
     if (props.type === "address-text") {
       if (
-        !/^[^,]*,[^,]*,[^,]*$/.test(target.value) ||
+        !/^([^,]*,){2,5}[^,]*$/.test(target.value) ||
         !/^(?=.*[0-9])/g.test(target.value)
       ) {
         setError(true)
