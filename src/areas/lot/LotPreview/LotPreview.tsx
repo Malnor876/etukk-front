@@ -46,7 +46,7 @@ function LotPreview(props: LotProps) {
   return (
     <>
       {isMobile ? (
-        <div className="lot-preview" onMouseDown={props.onClick}>
+        <div className="lot-preview" onTouchStart={props.onClick}>
           <>
             <img
               src={props.image}
@@ -62,7 +62,7 @@ function LotPreview(props: LotProps) {
                 className="ghost"
                 to={`/lots/${props.id}`}
                 state={{status: props.status}}
-                onMouseDown={props.onClick}
+                onTouchStart={props.onClick}
               />
             )}
             {!isMyLot && (
