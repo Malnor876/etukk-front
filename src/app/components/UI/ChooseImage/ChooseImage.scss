@@ -44,14 +44,19 @@ $image-height: 8.75em;
 	justify-content: center;
 	align-items: center;
 	max-width: 41vw;
+	height: $image-height;
 }
 
 .choose-image__image {
 	height: $image-height;
 	aspect-ratio: 1.2;
-
 	border-radius: $border-radius-1;
 	object-fit: cover;
+	@include Mobile {
+		width: 100%;
+		min-height: 100%;
+		object-fit: cover;
+	}
 }
 
 .choose-image__remove {
