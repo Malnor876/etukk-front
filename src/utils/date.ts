@@ -5,6 +5,7 @@ export function humanizeDate(date: Date, lang = "ru") {
     timeStyle: "short",
     dateStyle: "short",
   })
+  console.log(localeString.replace(", ", " в ").replace(".20", "."))
   return localeString.replace(", ", " в ").replace(".20", ".")
 }
 

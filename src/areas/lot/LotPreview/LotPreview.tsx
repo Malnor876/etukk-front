@@ -62,6 +62,7 @@ function LotPreview(props: LotProps) {
                 className="ghost"
                 to={`/lots/${props.id}`}
                 state={{status: props.status}}
+                onMouseDown={props.onClick}
               />
             )}
             {!isMyLot && (

@@ -1,6 +1,6 @@
 import "./Button.scss"
 
-import {MouseEvent, MouseEventHandler, useState} from "react"
+import {MouseEvent, MouseEventHandler, TouchEventHandler, useState} from "react"
 // import ReactGA from "react-ga"
 import {classMerge, classWithModifiers} from "utils/common"
 
@@ -15,6 +15,7 @@ interface ButtonProps extends ButtonBaseProps {
   await?: boolean
   pending?: boolean
   onClick?: MouseEventHandler<HTMLButtonElement>
+  onTouchStart?: TouchEventHandler<HTMLButtonElement>
 }
 
 function Button(props: ButtonProps) {

@@ -140,7 +140,11 @@ function LotInfoBid(props: LotInfoBidProps) {
             <span>Текущая ставка</span>
             <span>{currentPrice.format()}</span>
           </div>
-          <Button onClick={() => setStage("choice")}>Поднять ставку</Button>
+          <Button
+            onClick={() => setStage("choice")}
+            onTouchStart={() => setStage("choice")}>
+            Поднять ставку
+          </Button>
         </div>
       )
   }

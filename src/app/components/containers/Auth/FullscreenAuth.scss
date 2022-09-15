@@ -41,10 +41,13 @@
 
 			.button[type="submit"],
 			.button--outline {
-				color: #ed1d4a;
+				--button-color: #ed1d4a;
 				--hover-button-color: rgba(237, 29, 74, 0.75);
 				--button-background-color: white;
 				--hover-button-background-color: rgba(255, 255, 255, 0.75);
+				.button__text {
+					color: #ed1d4a;
+				}
 			}
 
 			.button[type="submit"]:disabled {
