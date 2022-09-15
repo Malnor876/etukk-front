@@ -5,6 +5,8 @@ import DialogBidAccepted, {
   DialogError,
 } from "app/views/lot/modals/DialogBidAccepted"
 import DialogConfirmBidUp from "app/views/lot/modals/DialogConfirmBidUp"
+import useDeviceWidth from "hooks/useDeviceWidth"
+import {DeviceWidths} from "hooks/useResizeObserverEntry"
 import {isValidResponse} from "infrastructure/persistence/api/client"
 import {postLotByLotIdBet} from "infrastructure/persistence/api/data/actions"
 import {Event} from "infrastructure/persistence/redux/reducers/event/types"
@@ -32,6 +34,7 @@ function LotInfoBid(props: LotInfoBidProps) {
   const [stage, setStage] = useState<"default" | "choice" | "confirm">(
     "default"
   )
+  const [isMobile] = useDeviceWidth(DeviceWidths.Mobile)
   const client = useClient()
   useEffect(() => {
     if (event && event.data?.now_price && props.id === event.data.id) {
@@ -140,11 +143,13 @@ function LotInfoBid(props: LotInfoBidProps) {
             <span>Текущая ставка</span>
             <span>{currentPrice.format()}</span>
           </div>
-          <Button
-            onClick={() => setStage("choice")}
-            onTouchStart={() => setStage("choice")}>
-            Поднять ставку
-          </Button>
+          {isMobile ? (
+            <Button onTouchStart={() => setStage("choice")}>
+              Поднять ставку
+            </Button>
+          ) : (
+            <Button onClick={() => setStage("choice")}>Поднять ставку</Button>
+          )}
         </div>
       )
   }
