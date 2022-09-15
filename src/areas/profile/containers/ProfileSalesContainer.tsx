@@ -16,7 +16,6 @@ function ProfileSalesContainer() {
 
   const action = getLotByUser<{
     user_id?: number
-
     buyer_id?: number
   }>(0, 0, {user_id: user.id})
 

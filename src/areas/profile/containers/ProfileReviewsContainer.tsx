@@ -32,8 +32,8 @@ function ProfileReviewsContainer(props: ProfileReviewsContainerProps) {
           {payload
             ?.sort(function (a, b) {
               return (
-                new Date(a.created_at).getTime() -
-                new Date(b.created_at).getTime()
+                new Date(b.created_at).getTime() -
+                new Date(a.created_at).getTime()
               )
             })
             .map(review => (

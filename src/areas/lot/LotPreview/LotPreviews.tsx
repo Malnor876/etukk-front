@@ -10,9 +10,17 @@ interface LotPreviewsProps {
 }
 
 function LotPreviews(props: LotPreviewsProps) {
+  const sortedLotPreviews: LotPreviewType[] = []
+  props.previews.forEach(lot => {
+    if (lot.tradeStatus === "paid") {
+      sortedLotPreviews.unshift(lot)
+    } else {
+      sortedLotPreviews.push(lot)
+    }
+  })
   return (
     <Previews>
-      {props.previews.map(lotPreview => (
+      {sortedLotPreviews.map(lotPreview => (
         <LotPreview
           {...lotPreview}
           lookalike={props.lookalike}

@@ -4,15 +4,13 @@
 	@include Mobile {
 		background: url("./bg.png") no-repeat;
 		background-size: cover;
+		width: 100vw;
 		.fullscreen-layout__container {
 			padding: 3vh 0;
 		}
 		.fullscreen-layout__inner {
 			width: 100%;
-
-			width: 360px;
 			margin: 0 auto;
-
 			color: rgba($color-white, 0.6);
 
 			.heading {

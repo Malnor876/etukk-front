@@ -6,6 +6,12 @@ $image-height: 8.75em;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1em;
+	@include Mobile {
+		display: grid;
+		flex: 1 1;
+		gap: 1em;
+		grid-template-columns: repeat(2, 1fr);
+	}
 }
 
 .choose-image__chooser {
