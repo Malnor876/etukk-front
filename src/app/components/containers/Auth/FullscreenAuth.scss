@@ -63,7 +63,8 @@
 
 			.form--centered {
 				justify-items: unset;
-				padding-inline: 4vw;
+				max-width: 92vw;
+				padding: 0 4vw;
 			}
 
 			.checkbox {

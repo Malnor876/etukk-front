@@ -11,6 +11,7 @@ $image-height: 8.75em;
 		flex: 1 1;
 		gap: 1em;
 		grid-template-columns: repeat(2, 1fr);
+		align-content: flex-start;
 	}
 }
 
@@ -40,6 +41,9 @@ $image-height: 8.75em;
 
 .choose-image__file {
 	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: 41vw;
 }
 
 .choose-image__image {
