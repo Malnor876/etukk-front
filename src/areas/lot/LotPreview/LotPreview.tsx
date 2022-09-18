@@ -485,7 +485,6 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
           </LotPreviewTimerButton>
         </>
       )
-
     case LotTradeStatus.PAID:
       return (
         <>
@@ -496,7 +495,6 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
           </LotPreviewTimerButton>
         </>
       )
-
     case LotTradeStatus.AWAITING_SHIPMENT:
       return (
         <>
@@ -514,7 +512,6 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
           <LotPreviewStatus iconName="truck">В пути</LotPreviewStatus>
         </>
       )
-
     case LotTradeStatus.CONFIRMATION:
       return (
         <>
@@ -546,7 +543,6 @@ function LotPreviewBuyerTradeStatusContent(props: LotProps) {
           <LotPreviewStatus iconName="check">Получен</LotPreviewStatus>
         </>
       )
-
     default:
       return null
   }

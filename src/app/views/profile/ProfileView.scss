@@ -82,7 +82,9 @@
 			cursor: default;
 		}
 		span:last-child {
-			color: $color-dark;
+			font-size: 12px;
+			line-height: 16px;
+			color: $color-gray-2;
 			margin-left: 10px;
 		}
 		.profile-view__token-default {

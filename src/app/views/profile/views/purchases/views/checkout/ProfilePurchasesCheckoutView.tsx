@@ -27,15 +27,19 @@ function ProfilePurchasesCheckoutView() {
   async function onSubmit(
     values: FormState<OrderDeliveryFormInputs, string>["values"]
   ) {
+    const timeZone = new Date().toString().slice(-7, -1)
     const responseBuyerApprove = await client.query(
       postLotByLotBuyerApprove(lotId, {
         contact_phone: values.phone,
         // contact_phone: values.phone.replace(/\s|\+/g, ""),
         delivery_address: values.address,
         shipment_dates: [values.date],
-        shipment_times: [values.timeStart + "-" + values.timeEnd],
+        shipment_times: [
+          values.timeStart + timeZone + "-" + values.timeEnd + timeZone,
+        ],
       })
     )
+
     if (!isValidResponse(responseBuyerApprove)) return
 
     const responsePay = await client.query(postLotByLotPay(lotId))

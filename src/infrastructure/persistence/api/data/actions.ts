@@ -1922,7 +1922,8 @@ export const postLotByLotSellerApprove = (
   lot_id: number,
   body: {
     contact_phone: string
-    shipment_datetime: string
+    shipment_datetime_start: string
+    shipment_datetime_end: string
     comment: string
   }
 ): Action<{
