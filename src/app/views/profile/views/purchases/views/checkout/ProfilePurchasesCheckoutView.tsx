@@ -28,6 +28,9 @@ function ProfilePurchasesCheckoutView() {
     values: FormState<OrderDeliveryFormInputs, string>["values"]
   ) {
     const timeZone = new Date().toString().slice(-7, -1)
+    console.log("shipment_times", [
+      `${values.timeStart}${timeZone}-${values.timeEnd}${timeZone}`,
+    ])
     const responseBuyerApprove = await client.query(
       postLotByLotBuyerApprove(lotId, {
         contact_phone: values.phone,
@@ -35,7 +38,7 @@ function ProfilePurchasesCheckoutView() {
         delivery_address: values.address,
         shipment_dates: [values.date],
         shipment_times: [
-          values.timeStart + timeZone + "-" + values.timeEnd + timeZone,
+          `${values.timeStart}${timeZone}-${values.timeEnd}${timeZone}`,
         ],
       })
     )

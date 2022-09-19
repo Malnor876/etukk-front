@@ -2,7 +2,6 @@ import "./LotPreview.scss"
 
 import Author from "app/components/UI/Author/Author"
 import Bookmark from "app/components/UI/Bookmark/Bookmark"
-import Button from "app/components/UI/Button/Button"
 import ButtonLink from "app/components/UI/Button/ButtonLink"
 import CountableTimer from "app/components/UI/CountableTimer/CountableTimer"
 import Icon, {IconName} from "app/components/UI/Icon/Icon"
