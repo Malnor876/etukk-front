@@ -28,7 +28,7 @@ function ProfilePurchasesCheckoutView() {
   async function onSubmit(
     values: FormState<OrderDeliveryFormInputs, string>["values"]
   ) {
-    const timeZone = moment().format().slice(-5)
+    const timeZone = moment().format().slice(-6)
     console.log("shipment_times", [
       `${values.timeStart}${timeZone}-${values.timeEnd}${timeZone}`,
     ])
