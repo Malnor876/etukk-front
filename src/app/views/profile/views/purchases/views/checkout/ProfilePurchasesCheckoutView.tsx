@@ -15,6 +15,7 @@ import {
   postLotByLotPay,
 } from "infrastructure/persistence/api/data/actions"
 import {mapLot} from "infrastructure/persistence/api/mappings/lots"
+import moment from "moment"
 import {useClient, useQuery} from "react-fetching-library"
 import {Modal} from "react-modal-global"
 
@@ -27,7 +28,7 @@ function ProfilePurchasesCheckoutView() {
   async function onSubmit(
     values: FormState<OrderDeliveryFormInputs, string>["values"]
   ) {
-    const timeZone = new Date().toString().slice(-7, -1)
+    const timeZone = moment().format().slice(-5)
     console.log("shipment_times", [
       `${values.timeStart}${timeZone}-${values.timeEnd}${timeZone}`,
     ])
