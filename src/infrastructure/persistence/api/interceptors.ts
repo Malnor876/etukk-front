@@ -148,11 +148,11 @@ function responseErrorHandling(action: Action, response: Response) {
 
   const payloadAny = response.payload as any
 
-  // toast.error(
-  //   transformPayloadErrorMessage(
-  //     payloadAny?.message || payloadAny?.error?.comment
-  //   )
-  // );
+  toast.error(
+    transformPayloadErrorMessage(
+      payloadAny?.message || payloadAny?.error?.comment
+    )
+  )
   if (response.status === 404) {
     return // Should be handled by initializer
   }

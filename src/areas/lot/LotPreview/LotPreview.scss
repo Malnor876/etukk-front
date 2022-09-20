@@ -31,6 +31,10 @@
 		max-width: 44vw;
 		// font-size: 0.75em;
 		cursor: pointer;
+		a {
+			text-decoration: none;
+			color: $color-dark;
+		}
 	}
 }
 
@@ -144,6 +148,12 @@
 
 	strong {
 		white-space: nowrap;
+	}
+	@include Mobile {
+		strong {
+			white-space: normal;
+			text-align: right;
+		}
 	}
 }
 

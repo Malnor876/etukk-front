@@ -18,7 +18,7 @@ import {ReactNode, useEffect, useState} from "react"
 import {useClient} from "react-fetching-library"
 import {Modal} from "react-modal-global"
 import {useSelector} from "react-redux"
-import {Link, useNavigate} from "react-router-dom"
+import {Link, NavLink, useNavigate} from "react-router-dom"
 import {humanizeDate} from "utils/date"
 import {offsetDateMinutes} from "utils/date.helpers"
 import {Price} from "utils/extensions"
@@ -46,7 +46,11 @@ function LotPreview(props: LotProps) {
     <>
       {isMobile ? (
         <div className="lot-preview" onTouchStart={props.onClick}>
-          <>
+          <NavLink
+            className="link"
+            to={`/lots/${props.id}`}
+            state={{status: props.status}}
+            onTouchStart={props.onClick}>
             <img
               src={props.image}
               alt="preview"
@@ -56,14 +60,6 @@ function LotPreview(props: LotProps) {
               <div className="lot-preview__title">{props.title}</div>
               <LotPreviewSwitchableContent {...props} />
             </div>
-            {props.onClick ?? (
-              <Link
-                className="ghost"
-                to={`/lots/${props.id}`}
-                state={{status: props.status}}
-                onTouchStart={props.onClick}
-              />
-            )}
             {!isMyLot && (
               <Bookmark
                 className="lot-preview__bookmark"
@@ -72,7 +68,7 @@ function LotPreview(props: LotProps) {
                 defaultValue={props.bookmarked}
               />
             )}
-          </>
+          </NavLink>
         </div>
       ) : (
         <div className="lot-preview" onClick={props.onClick}>
