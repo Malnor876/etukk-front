@@ -13,6 +13,7 @@ import {
   postLotByLotSellerApprove,
 } from "infrastructure/persistence/api/data/actions"
 import {mapLot} from "infrastructure/persistence/api/mappings/lots"
+import moment from "moment"
 import {useClient} from "react-fetching-library"
 import {Modal} from "react-modal-global"
 
@@ -22,7 +23,11 @@ function ProfileSalesCallACourierView() {
   async function onSubmit(
     values: FormState<CallACourierFormInputs, string>["values"]
   ) {
-    const timeZone = new Date().toString().slice(-7, -1)
+    const timeZone = moment().format().slice(-6)
+    console.log(
+      "shipment_datetime_start:",
+      values.date + "T" + values.timeStart + timeZone
+    )
     const responseSellerApprove = await client.query(
       postLotByLotSellerApprove(lotId, {
         contact_phone: values.phone,

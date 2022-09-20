@@ -29,9 +29,7 @@ function ProfilePurchasesCheckoutView() {
     values: FormState<OrderDeliveryFormInputs, string>["values"]
   ) {
     const timeZone = moment().format().slice(-6)
-    console.log("shipment_times", [
-      `${values.timeStart}${timeZone}-${values.timeEnd}${timeZone}`,
-    ])
+
     const responseBuyerApprove = await client.query(
       postLotByLotBuyerApprove(lotId, {
         contact_phone: values.phone,
