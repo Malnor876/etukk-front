@@ -155,3 +155,10 @@ input::-webkit-calendar-picker-indicator {
 	padding: unset;
 	margin: unset;
 }
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	align-content: flex-start;
+	min-height: 100vh;
+	width: 100vw;
+}
