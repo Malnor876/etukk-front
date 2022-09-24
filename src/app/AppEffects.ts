@@ -48,14 +48,6 @@ function AppEffects() {
         },
       }
     )
-    // const eventSource = new EventSource('url', { headers: { Authorization: 'plz' } })
-    // with polyfill
-    // new EventSourcePolyfill(`/api/liveUpdate`, {
-    //   headers: {
-    //     Authorization: `Bearer 12345`,
-    //     'x-csrf-token': `xxx-xxx-xxx`,
-    //   },
-    // });
 
     // eventSource.addEventListener("open", listener)
     eventSource.addEventListener("updated", listener)
@@ -76,8 +68,6 @@ function AppEffects() {
     // if (type === "updated" || type === "personal") {
     //   eventSource.close()
     // }
-    //
-    // dispatch(eventUpdate(JSON.parse(event.data)))
   }
   return null
 }

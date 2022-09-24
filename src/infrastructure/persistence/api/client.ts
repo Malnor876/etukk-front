@@ -1,9 +1,7 @@
-import { createClient, QueryResponse } from "react-fetching-library"
+import {createClient, QueryResponse} from "react-fetching-library"
 
-import { cacheProvider } from "./cache"
-import { requestInterceptor, responseInterceptor } from "./interceptors"
-
-
+import {cacheProvider} from "./cache"
+import {requestInterceptor, responseInterceptor} from "./interceptors"
 
 export const ClientAPI = createClient({
   requestInterceptors: [requestInterceptor],
@@ -12,6 +10,7 @@ export const ClientAPI = createClient({
   fetch: async (input, init) => {
     const response = fetch(input, init)
     // Error displaying
+
     if (process.env.NODE_ENV === "development") {
       response.catch(error => {
         if (error.message.includes("The user aborted a request.")) return
@@ -21,7 +20,7 @@ export const ClientAPI = createClient({
     }
     // ...
     return response
-  }
+  },
 })
 
 if (process.env.NODE_ENV === "development") {
@@ -33,7 +32,10 @@ if (process.env.NODE_ENV === "development") {
   window.ActionsAPI = require("./data/actions")
 }
 
-export function isValidResponse<T>(response: QueryResponse<T>, throwError = false): response is Required<typeof response> {
+export function isValidResponse<T>(
+  response: QueryResponse<T>,
+  throwError = false
+): response is Required<typeof response> {
   if (response.error) {
     if (throwError) {
       throw response.errorObject
@@ -50,4 +52,3 @@ export function isValidResponse<T>(response: QueryResponse<T>, throwError = fals
 }
 
 export default ClientAPI
-

@@ -4,7 +4,7 @@ import {QueryError, QueryResponse} from "react-fetching-library"
 import {toast} from "react-toastify"
 import {createQuery, isDictionary} from "utils/common"
 
-import {Action, APIResponseError} from "./client.types"
+import {Action} from "./client.types"
 
 type Response<T = unknown> = QueryResponse<T>
 
@@ -145,9 +145,10 @@ function responseErrorHandling(action: Action, response: Response) {
       return
     }
   }
+  console.log("response.error", response.error)
 
   const payloadAny = response.payload as any
-
+  console.log("toast.error======", payloadAny)
   toast.error(
     transformPayloadErrorMessage(
       payloadAny?.message || payloadAny?.error?.comment

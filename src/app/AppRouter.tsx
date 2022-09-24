@@ -2,7 +2,6 @@ import LotNotification from "areas/lot/LotNotification"
 import React, {lazy, Suspense} from "react"
 import {Route, Routes} from "react-router"
 
-import SiteRepair from "./components/containers/SiteRepair/SiteRepair"
 import {ScrollToTop} from "./views/lot-new/edit/helpers"
 
 const HomeView = lazy(() => import("./views/home"))
@@ -31,6 +30,9 @@ const FullscreenSignUpEntity = lazy(
 )
 const FullscreenSignUpPerson = lazy(
   () => import("./components/containers/Auth/FullscreenSignUpPerson")
+)
+const SiteRepair = lazy(
+  () => import("./components/containers/SiteRepair/SiteRepair")
 )
 
 function AppRouter() {
